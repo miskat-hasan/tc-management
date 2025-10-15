@@ -1,0 +1,195 @@
+"use client";
+import { DashboardIcon, Logo } from "@/svg/SvgContainer";
+import { FaChevronRight } from "react-icons/fa";
+import React, { useEffect, useState } from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+
+const menuItems = [
+  {
+    label: "Classes and Students",
+    href: "#",
+    submenu: [
+      {
+        label: "Upcoming Classes",
+        href: "/admin/class_and_students/upcoming_classes",
+      },
+      {
+        label: "Schedule a Class",
+        href: "/admin/class_and_students/schedule_class",
+      },
+      { label: "Past Classes", href: "/admin/class_and_students/past_class" },
+      {
+        label: "Instructor Bidding",
+        href: "/admin/class_and_students/instructor_bidding",
+      },
+      {
+        label: "Keycode Sales",
+        href: "/admin/class_and_students/keycode_sales",
+      },
+      {
+        label: "Student Search",
+        href: "/admin/class_and_students/student_search",
+      },
+      {
+        label: "Unscheduled Students",
+        href: "/admin/class_and_students/unscheduled_students",
+      },
+      { label: "Shipping", href: "/admin/class_and_students/shipping" },
+    ],
+  },
+  {
+    label: "Clients",
+    href: "#",
+    submenu: [
+      { label: "Manage Clients", href: "/admin/clients/manage_clients" },
+      {
+        label: "Client Activity Reports",
+        href: "/admin/clients/client_activity_reports",
+      },
+    ],
+  },
+  {
+    label: "Instructors",
+    href: "#",
+    submenu: [
+      {
+        label: "Instructor Records",
+        href: "/admin/instructors/instructor_records",
+      },
+      { label: "Add Instructor", href: "/admin/instructors/add_instructor" },
+      {
+        label: "Expiring Certifications",
+        href: "/admin/instructors/expiring_certifications",
+      },
+    ],
+  },
+  {
+    label: "Asset Tracking",
+    href: "#",
+    submenu: [
+      {
+        label: "Manage Asset Installations",
+        href: "/admin/asset_tracking/manage_asset_installations",
+      },
+      {
+        label: "Service Due Report",
+        href: "/admin/asset_tracking/service_due_report",
+      },
+      { label: "Parts Setup", href: "/admin/asset_tracking/parts_setup" },
+      { label: "Search Assets", href: "/admin/asset_tracking/search_assets" },
+    ],
+  },
+  { label: "Reports", href: "#" },
+  { label: "Enrollware Pay", href: "#" },
+  { label: "Help", href: "#" },
+  { label: "Settings", href: "#" },
+];
+
+const DashboardSidebar = () => {
+  const pathname = usePathname();
+  const [openMenu, setOpenMenu] = useState(null);
+
+  useEffect(() => {
+    for (const item of menuItems) {
+      if (
+        item.submenu &&
+        item.submenu.some((sub) => pathname.startsWith(sub.href))
+      ) {
+        setOpenMenu(item.label);
+        return;
+      }
+    }
+    setOpenMenu(null);
+  }, [pathname]);
+
+  const toggleMenu = (label) => {
+    setOpenMenu((prev) => (prev === label ? null : label));
+  };
+
+  return (
+    <div className="w-[345px] px-[17px] pt-[22.5px] h-screen bg-white text-black flex flex-col gap-[31.5px]">
+      {/* Logo */}
+      <div className="flex items-center gap-1.5 justify-center">
+        <Logo />
+        <h5 className="font-black text-[14px]">ENROLL NATIONWIDE</h5>
+      </div>
+
+      {/* Dashboard Header */}
+      <div className="flex flex-col">
+        <div className="flex items-center gap-[12px] px-[20px] py-[10px]">
+          <DashboardIcon />
+          <h6>Dashboard</h6>
+        </div>
+
+        {/* Menu List */}
+        <nav className="flex-grow py-4">
+          <ul>
+            {menuItems.map((item) => {
+              const hasSubmenu = item.submenu && item.submenu.length > 0;
+              const isMenuOpen = openMenu === item.label;
+              const isActive = hasSubmenu && isMenuOpen;
+
+              return (
+                <li key={item.label} className="text-sm font-semibold">
+                  {/* Top-level menu button */}
+                  <button
+                    onClick={() => hasSubmenu && toggleMenu(item.label)}
+                    className={`w-full flex items-center justify-between px-5 py-3 rounded-[10px] transition-colors ${
+                      isActive ? "bg-brown text-white" : "hover:bg-gray-100"
+                    }`}
+                  >
+                    <span>{item.label}</span>
+                    {hasSubmenu && (
+                      <FaChevronRight
+                        className={`h-3 w-3 transition-transform ${
+                          isMenuOpen ? "rotate-90" : ""
+                        }`}
+                      />
+                    )}
+                  </button>
+
+                  {/* Submenu */}
+                  {hasSubmenu && (
+                    <div
+                      className={`overflow-hidden transition-all duration-300 ease-in-out ${
+                        isMenuOpen ? "max-h-96" : "max-h-0"
+                      }`}
+                    >
+                      <ul className="bg-gray-50 rounded-[10px] pt-1">
+                        {item.submenu.map((subItem) => {
+                          const active = pathname === subItem.href;
+                          return (
+                            <li key={subItem.label}>
+                              <Link
+                                href={subItem.href}
+                                className={`flex items-center pl-16 pr-6 py-2.5 text-xs relative transition-colors ${
+                                  active
+                                    ? "text-gray-900 font-semibold"
+                                    : "text-gray-600 hover:text-brown"
+                                }`}
+                              >
+                                {active ? (
+                                  <span className="absolute left-6 h-5 w-1 bg-brown rounded-full"></span>
+                                ) : (
+                                  <span className="absolute left-6 h-5 w-1 bg-gray-200 rounded-full"></span>
+                                )}
+                                {subItem.label}
+                              </Link>
+                            </li>
+                          );
+                        })}
+                      </ul>
+                    </div>
+                  )}
+                </li>
+              );
+            })}
+          </ul>
+        </nav>
+      </div>
+    </div>
+  );
+};
+
+export default DashboardSidebar;
