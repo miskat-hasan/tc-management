@@ -5,10 +5,10 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/shared/ui/form';
-import { Textarea } from '@/components/shared/ui/textarea';
-import { cn } from '@/lib/utils';
-import { useFormContext } from 'react-hook-form';
+} from "@/components/ui/form";
+import { Textarea } from "@/components/ui/textarea";
+import { cn } from "@/lib/utils";
+import { useFormContext } from "react-hook-form";
 
 const FormTextarea = ({ name, label, description, placeholder, ...props }) => {
   const form = useFormContext();
@@ -27,12 +27,12 @@ const FormTextarea = ({ name, label, description, placeholder, ...props }) => {
           <FormControl>
             <Textarea
               className={cn(
-                'h-[88px] p-4 gap-2.5 rounded-2xl resize-none',
-                'bg-muted',
-                'font-normal leading-[1.45]',
-                'placeholder:text-base placeholder:text-muted-foreground hover:placeholder:text-foreground',
-                'aria-invalid:text-destructive aria-invalid:placeholder:text-destructive',
-                'border-border-secondary hover:border-[#2F2F2F] focus-visible:border-[#686868]'
+                "h-[88px] p-4 gap-2.5 rounded-2xl resize-none",
+                "bg-transparent",
+                "font-normal leading-[1.45]",
+                "placeholder:text-base placeholder:text-muted-foreground hover:placeholder:text-foreground",
+                "aria-invalid:text-destructive aria-invalid:placeholder:text-destructive",
+                "border-border-secondary hover:border-[#2F2F2F] focus-visible:border-[#686868]"
               )}
               placeholder={placeholder}
               {...field}

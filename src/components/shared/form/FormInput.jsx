@@ -5,10 +5,10 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/shared/ui/form';
-import { Input } from '@/components/shared/ui/input';
-import { cn } from '@/lib/utils';
-import { useFormContext } from 'react-hook-form';
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { cn } from "@/lib/utils";
+import { useFormContext } from "react-hook-form";
 
 const FormInput = ({ name, label, description, placeholder, ...props }) => {
   const form = useFormContext();
@@ -27,12 +27,12 @@ const FormInput = ({ name, label, description, placeholder, ...props }) => {
           <FormControl>
             <Input
               className={cn(
-                'h-auto p-4 gap-2.5 rounded-2xl ',
-                'bg-muted',
-                'font-normal leading-[1.45]',
-                'placeholder:text-base placeholder:text-muted-foreground hover:placeholder:text-foreground',
-                'aria-invalid:text-destructive aria-invalid:placeholder:text-destructive',
-                'border-border-secondary hover:border-[#2F2F2F] focus-visible:border-[#686868]'
+                "h-auto p-4 gap-2.5 rounded-2xl ",
+                "bg-transparent",
+                "font-normal leading-[1.45]",
+                "placeholder:text-base placeholder:text-muted-foreground hover:placeholder:text-foreground",
+                "aria-invalid:text-destructive aria-invalid:placeholder:text-destructive",
+                "border-border-secondary hover:border-[#2F2F2F] focus-visible:border-[#686868]"
               )}
               placeholder={placeholder}
               {...field}

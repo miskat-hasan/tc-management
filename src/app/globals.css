@@ -42,6 +42,7 @@
 
   --secondary-white: #f5f5f5;
   --primary-red: #b70000;
+  --primary-hover: #ae3d3d;
   --primary-white: #fff;
   --primary-gray: #1d1e21;
 }
@@ -51,6 +52,7 @@
   --color-light: var(--secondary-white);
   --color-black: var(--primary-gray);
   --color-brown: var(--primary-red);
+  --color-brown-hover: var(--primary-hover);
 }
 
 @theme inline {
