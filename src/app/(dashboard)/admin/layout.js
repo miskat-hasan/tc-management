@@ -8,6 +8,11 @@ const poppins = Poppins({
   weight: ["400", "500", "600", "700"],
 });
 
+export const metadata = {
+  title: "Admin Dashboard",
+  description: "Enroll Nation Wide",
+};
+
 export default function DashboardLayout({ children }) {
   return (
     <section className={`${poppins.variable} flex`}>
