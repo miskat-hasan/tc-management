@@ -17,7 +17,7 @@ export default function DashboardLayout({ children }) {
   return (
     <section className={`${poppins.variable} flex`}>
       <DashboardSidebar />
-      <div className="grow px-[24px] py-[22.5px] flex flex-col gap-[34px]">
+      <div className="grow px-[24px] py-[22.5px] flex flex-col gap-[34px] h-screen overflow-y-auto">
         <DashboardTopbar />
         {children}
       </div>
