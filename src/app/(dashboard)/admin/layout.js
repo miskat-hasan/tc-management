@@ -1,14 +1,16 @@
 import DashboardSidebar from "@/components/dashboard/DashboardSidebar";
 import DashboardTopbar from "@/components/dashboard/DashboardTopbar";
-import "../../globals.css";
-export const metadata = {
-  title: "Admin Dashboard",
-  description: "Enroll Nation Wide",
-};
+import { Poppins } from "next/font/google";
 
-const DashboardLayout = ({ children }) => {
+const poppins = Poppins({
+  subsets: ["latin"],
+  variable: "--font-poppins",
+  weight: ["400", "500", "600", "700"],
+});
+
+export default function DashboardLayout({ children }) {
   return (
-    <section className="flex ">
+    <section className={`${poppins.variable} flex`}>
       <DashboardSidebar />
       <div className="grow px-[24px] py-[22.5px] flex flex-col gap-[34px]">
         <DashboardTopbar />
@@ -16,6 +18,4 @@ const DashboardLayout = ({ children }) => {
       </div>
     </section>
   );
-};
-
-export default DashboardLayout;
+}
