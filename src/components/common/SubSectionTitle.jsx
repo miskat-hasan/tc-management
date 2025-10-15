@@ -1,6 +1,6 @@
 import React from "react";
 
-const SubSectionTitle = (subtitle) => {
+const SubSectionTitle = ({ subtitle, className }) => {
   return (
     <div
       className={`text-black text-[16px] font-semibold leading-[20.8px] ${className}`}

@@ -1,0 +1,42 @@
+export const courseSchedule = [
+  {
+    id: 1,
+    instructor: "C. Myers",
+    dateTime: "Mon 9/29/25 3:00p",
+    course: "(American Heart Association) AHA Basic Life Support",
+    location: "Nashville, TN 640 Spence Lane",
+    enrolled: "1/6",
+  },
+  {
+    id: 2,
+    instructor: "C. Myers",
+    dateTime: "Tue 9/30/25 3:00p",
+    course: "(American Heart Association) AHA Basic Life Support",
+    location: "Nashville, TN 640 Spence Lane",
+    enrolled: "0/6",
+  },
+  {
+    id: 3,
+    instructor: "M. Clark",
+    dateTime: "Thu 10/02/25 3:00p",
+    course: "(American Heart Association) AHA Basic Life Support",
+    location: "Nashville, TN 640 Spence Lane",
+    enrolled: "0/9",
+  },
+  {
+    id: 4,
+    instructor: "C. Myers",
+    dateTime: "Fri 10/03/25 9:00a",
+    course: "(American Heart Association) AHA Basic Life Support",
+    location: "640 Spence Lane Ste 125",
+    enrolled: "0/12",
+  },
+  {
+    id: 5,
+    instructor: "M. Clark",
+    dateTime: "Fri 10/03/25 3:00p",
+    course: "(American Heart Association) AHA Basic Life Support",
+    location: "Nashville, TN 640 Spence Lane",
+    enrolled: "4/12",
+  },
+];
