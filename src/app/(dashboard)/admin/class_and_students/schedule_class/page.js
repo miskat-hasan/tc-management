@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import React from "react";
 import { useForm } from "react-hook-form";
 
-const page = () => {
+const Page = () => {
   const form = useForm({
     defaultValues: {
       agent: "",
@@ -162,4 +162,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;
