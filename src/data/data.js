@@ -40,3 +40,51 @@ export const courseSchedule = [
     enrolled: "4/12",
   },
 ];
+
+export const keycodeSales = [
+  {
+    name: "Hardwick, Leah",
+    email: "leahrhodes84@yahoo.com",
+    purchased: "09/26/25",
+    phone: "615 710 0172",
+    class: "(American Heart Association) Adult and Pediatric First Aid/CPR/AED",
+    keycode: "54 https://www.redcross.org",
+    status: "Pending",
+  },
+  {
+    name: "Jordan, Kelsey",
+    email: "kjordan@thewellnessway.com",
+    purchased: "09/26/25",
+    phone: "615 710 0172",
+    class: "(American Heart Association) Basic Life Support Provider",
+    keycode: "54 https://www.redcross.org",
+    status: "Complete",
+  },
+  {
+    name: "Gay, Cayli",
+    email: "cayligay@gmail.com",
+    purchased: "09/26/25",
+    phone: "615 710 0172",
+    class: "(American Heart Association) BLS INSTRUCTOR COURSE",
+    keycode: "54 https://www.redcross.org",
+    status: "Pending",
+  },
+  {
+    name: "Holcombe, Andrew",
+    email: "andrewholcombe8@gmail.com",
+    purchased: "09/26/25",
+    phone: "615 710 0172",
+    class: "(American Heart Association) Adult CPR/AED-BL-r.21",
+    keycode: "54 https://www.redcross.org",
+    status: "Complete",
+  },
+  {
+    name: "Voss, Andi",
+    email: "andivoss12@gmail.com",
+    purchased: "09/26/25",
+    phone: "615 710 0172",
+    class: "(American Heart Association) Basic Life Support",
+    keycode: "54 https://www.redcross.org",
+    status: "Pending",
+  },
+];
