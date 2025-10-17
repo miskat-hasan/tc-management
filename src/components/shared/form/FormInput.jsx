@@ -15,8 +15,6 @@ const FormInput = ({ name, label, description, placeholder, ...props }) => {
   const form = useFormContext();
   const location = usePathname();
 
-  console.log();
-
   return (
     <FormField
       control={form.control}
