@@ -31,7 +31,8 @@ const FormInput = ({ name, label, description, placeholder, ...props }) => {
               className={cn(
                 "h-auto p-4 gap-2.5 rounded-2xl ",
                 `${
-                  location === "/admin/clients/add_client"
+                  location === "/admin/clients/add_client" ||
+                  "/admin/instructors/add_instructor"
                     ? "bg-light"
                     : "bg-transparent"
                 }`,

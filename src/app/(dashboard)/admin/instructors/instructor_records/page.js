@@ -58,10 +58,10 @@ const page = () => {
       <div className="p-[26px] bg-white rounded-[14px] flex flex-col gap-[24px]">
         <div className="flex items-center justify-between">
           <SubSectionTitle subtitle="All list" />
-          <Button className="py-[22px] cursor-pointer bg-brown flex items-center gap-2">
+          {/* <Button className="py-[22px] cursor-pointer bg-brown flex items-center gap-2">
             Add Instructor
             <PlusIcon />
-          </Button>
+          </Button> */}
         </div>
 
         <div className="overflow-x-auto">

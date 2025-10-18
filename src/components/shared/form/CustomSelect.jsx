@@ -36,7 +36,7 @@ const CustomSelect = ({
         </label>
       )}
       <Select value={value} onValueChange={setValue} id={id}>
-        <SelectTrigger className="w-full border border-gray-300 rounded-md px-3 !py-2 !h-[48px] text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
+        <SelectTrigger className="w-full border border-gray-300 bg-light rounded-md px-3 !py-2 !h-[48px] text-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-300">
           <SelectValue placeholder={placeholder} />
         </SelectTrigger>
         <SelectContent>
