@@ -43,6 +43,7 @@ const menuItems = [
     href: "#",
     submenu: [
       { label: "Manage Clients", href: "/admin/clients/manage_clients" },
+      { label: "Add Clients", href: "/admin/clients/add_client" },
       {
         label: "Client Activity Reports",
         href: "/admin/clients/client_activity_reports",
@@ -80,8 +81,26 @@ const menuItems = [
       { label: "Search Assets", href: "/admin/asset_tracking/search_assets" },
     ],
   },
+  {
+    label: "Training Center",
+    href: "#",
+    submenu: [
+      {
+        label: "Training Sites",
+        href: "/admin/training_center/training_sites",
+      },
+      {
+        label: "Training Site Rosters",
+        href: "/admin/training_center/training_site_rosters",
+      },
+      {
+        label: "TC Product Orders",
+        href: "/admin/training_center/tc_product_orders",
+      },
+    ],
+  },
   { label: "Reports", href: "#" },
-  { label: "Enrollware Pay", href: "#" },
+  { label: "Credit Card Services", href: "#" },
   { label: "Help", href: "#" },
   { label: "Settings", href: "#" },
 ];

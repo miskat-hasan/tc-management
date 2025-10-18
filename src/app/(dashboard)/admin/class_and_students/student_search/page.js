@@ -9,7 +9,6 @@ import { Button } from "@/components/ui/button";
 import { SearchIcon } from "@/svg/SvgContainer";
 import { CiEdit } from "react-icons/ci";
 
-// ✅ Student data
 export const StudentSearchResults = [
   {
     name: "Hardwick, Leah",
@@ -64,9 +63,10 @@ const Page = () => {
 
   const [filteredData, setFilteredData] = useState(StudentSearchResults);
 
-  // Search logic
   const handleSearch = () => {
     const filtered = StudentSearchResults.filter((item) => {
+      let match = true; // ✅ define match at the start
+
       // Name search
       if (searchBy === "name") {
         const fullName = item.name.toLowerCase();
@@ -85,6 +85,8 @@ const Page = () => {
       if (searchBy === "phone" && singleInput) {
         match = item.phone.toLowerCase().includes(singleInput.toLowerCase());
       }
+
+      return match; // ✅ return the match result
     });
 
     setFilteredData(filtered);
