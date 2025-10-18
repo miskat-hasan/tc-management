@@ -260,3 +260,41 @@ export const instructorData = [
     expires: "03/31/25",
   },
 ];
+
+export const certificationData = [
+  {
+    name: "Hardwick, Leah",
+    email: "leahofhardwick84@yahoo.com",
+    trainingSite: "CODE BLUE CPR SERVICES, LLC",
+    discipline: "BLS",
+    expires: "03/31/25",
+  },
+  {
+    name: "Jordan, Kelsey",
+    email: "kjordan@thewellnessway.com",
+    trainingSite: "CODE BLUE CPR SERVICES, LLC",
+    discipline: "Other",
+    expires: "03/31/25",
+  },
+  {
+    name: "Gay, Cayli",
+    email: "cayligay@gmail.com",
+    trainingSite: "CODE BLUE CPR SERVICES, LLC",
+    discipline: "BLS",
+    expires: "03/331/25",
+  },
+  {
+    name: "Holcombe, Andrew",
+    email: "andrewholcombe@gmail.com",
+    trainingSite: "CODE BLUE CPR SERVICES, LLC",
+    discipline: "BLS",
+    expires: "03/31/25",
+  },
+  {
+    name: "Voss, Andi",
+    email: "andivoss0@gmail.com",
+    trainingSite: "CODE BLUE CPR SERVICES, LLC",
+    discipline: "BLS",
+    expires: "03/31/25",
+  },
+];
