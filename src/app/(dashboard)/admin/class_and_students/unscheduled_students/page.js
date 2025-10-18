@@ -6,7 +6,7 @@ import SubSectionTitle from "@/components/common/SubSectionTitle";
 
 import { CiEdit } from "react-icons/ci";
 import { UnscheduleStudents } from "@/data/data";
-const page = () => {
+const Page = () => {
   const [selectedShow, setSelectedShow] = useState(50);
   return (
     <div className="flex flex-col gap-[25px]">
@@ -120,4 +120,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

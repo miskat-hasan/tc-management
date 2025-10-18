@@ -5,7 +5,7 @@ import { certificationData } from "@/data/data";
 import React, { useState } from "react";
 import { CiEdit } from "react-icons/ci";
 
-const page = () => {
+const Page = () => {
   const [selectedShow, setSelectedShow] = useState(50);
   return (
     <section className="flex flex-col gap-[25px] ">
@@ -108,4 +108,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

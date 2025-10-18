@@ -8,7 +8,7 @@ import { PlusIcon, SearchIcon } from "@/svg/SvgContainer";
 import React, { useState } from "react";
 import { CiEdit } from "react-icons/ci";
 
-const page = () => {
+const Page = () => {
   const [selectedShow, setSelectedShow] = useState(50);
   return (
     <section className="flex flex-col gap-[25px] ">
@@ -154,4 +154,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

@@ -13,7 +13,7 @@ const RichTextEditor = dynamic(() => import("@/components/shared/RichEditor"), {
 });
 import { useForm } from "react-hook-form";
 
-const page = () => {
+const Page = () => {
   const sharedNotesRef = useRef(null);
   const internalNotesRef = useRef(null);
   const form = useForm({
@@ -152,4 +152,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;
