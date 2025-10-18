@@ -175,7 +175,6 @@ export const UnscheduleStudents = [
   },
 ];
 
-
 export const ClientLists = [
   {
     name: "ALL PRO SOLUTIONS",
@@ -221,5 +220,43 @@ export const ClientLists = [
     email: "andivoss12@gmail.com",
     contactDate: "01/03/20",
     status: "Pending",
+  },
+];
+
+export const instructorData = [
+  {
+    name: "Hardwick, Loch",
+    email: "kevinhardwick@yahhoo.com",
+    ahaId: "24128422108",
+    certification: "BLS",
+    expires: "03/31/25",
+  },
+  {
+    name: "Jordan, Kelsey",
+    email: "kjordan@redlineemsagency.com",
+    ahaId: "04221071302",
+    certification: "BLS",
+    expires: "03/31/25",
+  },
+  {
+    name: "Coy, Cayli",
+    email: "coyc@nyps.org",
+    ahaId: "03221054768",
+    certification: "BLS",
+    expires: "03/31/25",
+  },
+  {
+    name: "Holcombe, Andrew",
+    email: "andrew.holcombe88@gmail.com",
+    ahaId: "25013224477",
+    certification: "BLS",
+    expires: "03/31/25",
+  },
+  {
+    name: "Voss, Andi",
+    email: "andivoss@gmail.com",
+    ahaId: "02231310743",
+    certification: "BLS",
+    expires: "03/31/25",
   },
 ];
