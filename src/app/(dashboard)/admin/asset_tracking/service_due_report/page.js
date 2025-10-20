@@ -7,7 +7,7 @@ const page = () => {
     <div className="flex flex-col gap-[25px]">
       <SectionTitle title={"Service Due Report"} />
       <div className="px-[24px] py-[24px] bg-white rounded-[16px] flex gap-[24px] w-full">
-        <NotFound title={"No classes are current open for bidding"} />
+        <NotFound />
       </div>
     </div>
   );
