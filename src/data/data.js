@@ -298,3 +298,5 @@ export const certificationData = [
     expires: "03/31/25",
   },
 ];
+
+export const assestsInstallation = [];
