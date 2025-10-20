@@ -81,7 +81,7 @@ const Page = () => {
               placeholder="Postal code"
             />
             <CustomSelect
-              id="trainingsite"
+              id="country"
               label="Country"
               placeholder="Country"
               options={[

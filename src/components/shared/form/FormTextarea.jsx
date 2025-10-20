@@ -28,7 +28,7 @@ const FormTextarea = ({ name, label, description, placeholder, ...props }) => {
             <Textarea
               className={cn(
                 "h-[88px] p-4 gap-2.5 rounded-2xl resize-none",
-                "bg-transparent",
+                "bg-light",
                 "font-normal leading-[1.45]",
                 "placeholder:text-base placeholder:text-muted-foreground hover:placeholder:text-foreground",
                 "aria-invalid:text-destructive aria-invalid:placeholder:text-destructive",

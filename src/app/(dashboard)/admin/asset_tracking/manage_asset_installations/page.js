@@ -2,13 +2,19 @@
 import SectionTitle from "@/components/common/SectionTitle";
 import SubSectionTitle from "@/components/common/SubSectionTitle";
 import NotFound from "@/components/shared/NotFound";
+import { Button } from "@/components/ui/button";
 import { assestsInstallation } from "@/data/data";
+import { PlusIcon } from "@/svg/SvgContainer";
 import React, { useState } from "react";
 import { CiEdit } from "react-icons/ci";
+import { useRouter } from "next/navigation";
 
 const Page = () => {
   const [selectedShow, setSelectedShow] = useState(50);
-
+  const router = useRouter();
+  const handleNavigation = () => {
+    router.push("/admin/asset_tracking/add_location");
+  };
   return (
     <div className="flex flex-col gap-[25px]">
       {/* Header */}
@@ -18,7 +24,16 @@ const Page = () => {
 
       {/* Table */}
       <div className="p-[26px] bg-white rounded-[14px] flex flex-col gap-[24px]">
-        <SubSectionTitle subtitle="All Lists" />
+        <div className="flex items-center justify-between">
+          <SubSectionTitle subtitle="All Lists" />
+          <Button
+            onClick={handleNavigation}
+            className="py-[22px] cursor-pointer bg-brown flex items-center gap-2"
+          >
+            Add Location <PlusIcon />
+          </Button>
+        </div>
+
         <div className="overflow-x-auto">
           <table className="w-full text-sm text-left text-gray-700">
             <thead className="bg-gray-50 text-black capitalize text-[20px] font-semibold">
