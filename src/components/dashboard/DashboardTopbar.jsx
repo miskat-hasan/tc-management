@@ -24,7 +24,7 @@ const DashboardTopbar = () => {
           <NotificationIcon />
         </Link>
         <Link
-          href={"#"}
+          href={"/admin/manage_profile"}
           className="h-[60px] bg-white rounded-[14px] flex p-1 w-auto gap-[11px] "
         >
           <div className="w-[50px] h-[50px] overflow-hidden rounded-[11px]">
