@@ -18,7 +18,7 @@ const DashboardTopbar = () => {
 
       <div className="flex items-center gap-2.5">
         <Link
-          href={"#"}
+          href={"/admin/notifications"}
           className="w-[60px] h-[60px] bg-white rounded-[14px] flex items-center justify-center "
         >
           <NotificationIcon />

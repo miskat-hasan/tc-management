@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import SectionTitle from "@/components/common/SectionTitle";
 import SubSectionTitle from "@/components/common/SubSectionTitle";
 import { CiEdit } from "react-icons/ci";
-import { ClientLists } from "@/data/data";
+import { notifications } from "@/data/data";
 
 const Page = () => {
   const [selectedShow, setSelectedShow] = useState(50);
@@ -19,42 +19,31 @@ const Page = () => {
       {/* Table */}
       <div className="p-[26px] bg-white rounded-[14px] flex flex-col gap-[24px]">
         <div>
-          <SubSectionTitle subtitle="Total Notifications : 102" />
+          <SubSectionTitle subtitle="Total Notifications : 5" />
         </div>
 
         <div className="overflow-x-auto">
           <table className="w-full text-sm text-left text-gray-700">
             <thead className="bg-gray-50 text-black capitalize text-[20px] font-semibold">
               <tr>
-                <th className="px-6 py-3">Company</th>
-                <th className="px-6 py-3">Abbrev</th>
-                <th className="px-6 py-3">Contact</th>
-                <th className="px-6 py-3">Phone</th>
-                <th className="px-6 py-3">Email</th>
-                <th className="px-6 py-3">Contact Date</th>
-                <th className="px-6 py-3 text-center">Action</th>
+                <th className="px-6 py-3">Unread</th>
+                <th className="px-6 py-3">Message</th>
+                <th className="px-6 py-3">Notification Date</th>
               </tr>
             </thead>
             <tbody>
-              {ClientLists?.length > 0 ? (
-                ClientLists.map((item, index) => (
+              {notifications?.length > 0 ? (
+                notifications.map((item, index) => (
                   <tr
                     key={index}
                     className="border-b hover:bg-gray-50 transition-all"
                   >
-                    <td className="px-6 py-4 text-gray-800">{item.name}</td>
-                    <td className="px-6 py-4">{item.abbrev}</td>
-                    <td className="px-6 py-4">{item.contact}</td>
-                    <td className="px-6 py-4">{item.phone}</td>
-                    <td className="px-6 py-4 truncate max-w-[220px]">
-                      {item.email}
+                    <td className="px-6 py-4 text-gray-800 flex flex-col ">
+                      <p>{item.name}</p>
+                      <p>{item.email}</p>
                     </td>
-                    <td className="px-6 py-4">{item.contactDate}</td>
-                    <td className="px-6 py-4 text-center">
-                      <button className="p-2 bg-gray-100 rounded-lg hover:bg-gray-200 transition">
-                        <CiEdit className="text-gray-600 text-[16px]" />
-                      </button>
-                    </td>
+                    <td className="px-6 py-4">{item.message}</td>
+                    <td className="px-6 py-4">{item.date}</td>
                   </tr>
                 ))
               ) : (

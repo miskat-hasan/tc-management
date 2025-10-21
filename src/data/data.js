@@ -300,3 +300,36 @@ export const certificationData = [
 ];
 
 export const assestsInstallation = [];
+
+export const notifications = [
+  {
+    name: "Hardwick, Leah",
+    email: "leahrhodes84@yahoo.com",
+    message: "I didn’t believe in fate until I met you. Now...",
+    date: "10/1/2025 9:09 AM",
+  },
+  {
+    name: "Johon doe",
+    email: "leahrhodes84@yahoo.com",
+    message: "I didn’t believe in fate until I met you. Now...",
+    date: "10/1/2025 9:09 AM",
+  },
+  {
+    name: "Samilla jon",
+    email: "leahrhodes84@yahoo.com",
+    message: "I didn’t believe in fate until I met you. Now...",
+    date: "10/1/2025 9:09 AM",
+  },
+  {
+    name: "Hardwik,johon",
+    email: "leahrhodes84@yahoo.com",
+    message: "I didn’t believe in fate until I met you. Now...",
+    date: "10/1/2025 9:09 AM",
+  },
+  {
+    name: "johon jenin",
+    email: "leahrhodes84@yahoo.com",
+    message: "I didn’t believe in fate until I met you. Now...",
+    date: "10/1/2025 9:09 AM",
+  },
+];
