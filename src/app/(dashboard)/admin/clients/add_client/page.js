@@ -29,8 +29,6 @@ const Page = () => {
       sharedNotes,
       internalNotes,
     };
-
-    console.log(finalData);
   };
   return (
     <section className="flex flex-col gap-4">
