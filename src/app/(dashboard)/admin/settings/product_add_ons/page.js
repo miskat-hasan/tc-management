@@ -11,9 +11,11 @@ import FormContainer from "@/components/shared/form/FormContainer";
 import FormInput from "@/components/shared/form/FormInput";
 
 import { useForm } from "react-hook-form";
-import CustomSelect from "@/components/shared/form/CustomSelect";
+import { useRouter } from "next/navigation";
+
 const Page = () => {
   const [selectedShow, setSelectedShow] = useState(50);
+  const router = useRouter();
   const form = useForm({
     defaultValues: {},
   });
@@ -21,11 +23,18 @@ const Page = () => {
   const onSubmit = (values) => {
     console.log(values);
   };
+
+  const handleNavigate = () => {
+    router.push("/admin/settings/add_product_ons");
+  };
   return (
     <section className="flex flex-col gap-[25px] ">
       <div className="flex justify-between">
         <SectionTitle title={"Product Add-ons"} />
-        <Button className="py-[22px] cursor-pointer bg-brown flex items-center gap-2">
+        <Button
+          onClick={handleNavigate}
+          className="py-[22px] cursor-pointer bg-brown flex items-center gap-2"
+        >
           New Add on
           <PlusIcon />
         </Button>
