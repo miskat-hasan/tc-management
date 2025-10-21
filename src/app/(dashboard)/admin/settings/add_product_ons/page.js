@@ -57,7 +57,7 @@ const page = () => {
           </div>
           <FormInput name="Price" label="Price" placeholder="Price" />
 
-          <div className="flex flex-col gap-2 mt-5">
+          <div className="flex flex-col gap-2 mt-2">
             <p className="font-semibold text-[15px] text-gray-700">Type</p>
             <div>
               <label className="flex items-center gap-2 text-sm">
@@ -75,7 +75,7 @@ const page = () => {
             </div>
           </div>
 
-          <div className="flex flex-col gap-2 mt-5">
+          <div className="flex flex-col gap-2 mt-2">
             <p className="font-semibold text-[15px] text-gray-700">Options</p>
 
             <label className="flex items-center gap-2 text-sm">
