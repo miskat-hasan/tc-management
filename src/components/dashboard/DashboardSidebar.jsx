@@ -102,7 +102,68 @@ const menuItems = [
   { label: "Reports", href: "#" },
   { label: "Credit Card Services", href: "#" },
   { label: "Help", href: "#" },
-  { label: "Settings", href: "#" },
+  {
+    label: "Settings",
+    href: "#",
+    submenu: [
+      {
+        label: "Course Type",
+        href: "/admin/settings/course_type",
+      },
+      {
+        label: "Product Add-ons",
+        href: "/admin/settings/product_add_ons",
+      },
+      {
+        label: "Online Keycodes",
+        href: "/admin/settings/online_keycodes",
+      },
+      {
+        label: "Promo Codes",
+        href: "/admin/settings/promo_codes",
+      },
+      {
+        label: "Locations",
+        href: "/admin/settings/location",
+      },
+      {
+        label: "File Manager",
+        href: "/admin/settings/file_manager",
+      },
+      {
+        label: "Site Manager",
+        href: "/admin/settings/site_manager",
+      },
+      {
+        label: "Card Settings",
+        href: "/admin/settings/cards_settings",
+      },
+      {
+        label: "Certificates",
+        href: "/admin/settings/certificates",
+      },
+      {
+        label: "External Skills",
+        href: "/admin/settings/external_skills",
+      },
+      {
+        label: "Custom Forms",
+        href: "/admin/settings/custom_forms",
+      },
+      {
+        label: "Email Campaigns",
+        href: "/admin/settings/emails_campaigns",
+      },
+      {
+        label: "Text Messaging",
+        href: "/admin/settings/text_messaging",
+      },
+      {
+        label: "Users",
+        href: "/admin/settings/users",
+      },
+    ],
+  },
 ];
 
 const DashboardSidebar = () => {
@@ -127,7 +188,7 @@ const DashboardSidebar = () => {
   };
 
   return (
-    <div className="w-[345px] px-[17px] pt-[22.5px] h-screen bg-white text-black flex flex-col gap-[31.5px]">
+    <div className="w-[345px] px-[17px] pt-[22.5px] h-screen overflow-y-auto scroll-bar bg-white text-black flex flex-col gap-[31.5px]">
       {/* Logo */}
       <div className="flex items-center gap-1.5 justify-center">
         <Logo />
@@ -171,7 +232,7 @@ const DashboardSidebar = () => {
                   {/* Submenu */}
                   {hasSubmenu && (
                     <div
-                      className={`overflow-hidden transition-all duration-300 ease-in-out ${
+                      className={`overflow-y-auto no-scroll-bar transition-all duration-300 ease-in-out ${
                         isMenuOpen ? "max-h-96" : "max-h-0"
                       }`}
                     >

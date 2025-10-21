@@ -148,3 +148,15 @@ body {
     font-family: var(--font-poppins), sans-serif;
   }
 }
+
+.scroll-bar::-webkit-scrollbar {
+  width: 2px;
+}
+
+.scroll-bar::-webkit-scrollbar-thumb {
+  @apply bg-brown;
+}
+
+.no-scroll-bar::-webkit-scrollbar {
+  display: none;
+}
