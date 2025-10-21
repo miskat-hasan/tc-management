@@ -240,7 +240,7 @@ const Page = () => {
                 </label>
                 <label className="flex items-center gap-2 text-sm">
                   <input type="checkbox" className="accent-brown" />
-                  Allow students to select "will call to schedule"
+                  Allow students to select will call to schedule
                 </label>
                 <label className="flex items-center gap-2 text-sm">
                   <input type="checkbox" className="accent-brown" />

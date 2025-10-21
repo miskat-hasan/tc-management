@@ -6,7 +6,7 @@ import { PlusIcon } from "@/svg/SvgContainer";
 import { useRouter } from "next/navigation";
 import React from "react";
 
-const page = () => {
+const Page = () => {
   const router = useRouter();
   const handleNavigation = () => {
     router.push("/admin/asset_tracking/add_part");
@@ -30,4 +30,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

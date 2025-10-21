@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import React from "react";
 import { useForm } from "react-hook-form";
 
-const page = () => {
+const Page = () => {
   const form = useForm({
     defaultValues: {},
   });
@@ -80,7 +80,7 @@ const page = () => {
 
             <label className="flex items-center gap-2 text-sm">
               <input type="checkbox" className="accent-brown" />
-              Default the selection to "yes" for all registrations
+              Default the selection to yes for all registrations
             </label>
           </div>
           {/* Footer Buttons */}
@@ -104,4 +104,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

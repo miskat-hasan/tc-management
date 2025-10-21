@@ -167,11 +167,11 @@ const Page = () => {
               <p className="font-semibold text-[15px] text-gray-700">Options</p>
               <label className="flex items-center gap-2 text-sm">
                 <input type="checkbox" className="accent-brown" />
-                Send me an email when I'm assigned to a class
+                Send me an email when I am assigned to a class
               </label>
               <label className="flex items-center gap-2 text-sm">
                 <input type="checkbox" className="accent-brown" />
-                Send me an email when there are updates to a class I'm assigned
+                Send me an email when there are updates to a class I am assigned
                 to
               </label>
               <label className="flex items-center gap-2 text-sm">
@@ -188,7 +188,7 @@ const Page = () => {
               </label>
               <label className="flex items-center gap-2 text-sm">
                 <input type="checkbox" className="accent-brown" />
-                Default upcoming class list page size to "Show All"
+                Default upcoming class list page size to Show All
               </label>
             </div>
           </div>
