@@ -18,7 +18,7 @@ const Page = () => {
   };
 
   const handleNavigate = () => {
-    router.push("/admin/settings/add_keycodes_bank");
+    router.push("/admin/settings/add_promo_code");
   };
   return (
     <section className="flex flex-col gap-[25px] ">
