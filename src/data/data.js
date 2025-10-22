@@ -470,3 +470,19 @@ export const coursesType = [
     Action: "Edit Icon",
   },
 ];
+
+export const keycodeData = [
+  { name: "ACLS Precourse", total: 33, unused: 0 },
+  { name: "Blended Learning - Adult First Aid CPR AED", total: 80, unused: 80 },
+  {
+    name: "Blended Learning Basic Life Support Online Session",
+    total: 80,
+    unused: 6,
+  },
+  { name: "BLS PROVIDER MANUAL EBOOK 20-3102", total: 1251, unused: 0 },
+  { name: "EXAM KEYCODES", total: 205, unused: 205 },
+  { name: "HEARTCODE BLS ONLINE COURSE", total: 24, unused: 1 },
+  { name: "Heartsaver", total: 7, unused: 0 },
+  { name: "Heartsaver CPR AED First AID Ebooks", total: 0, unused: 0 },
+  { name: "HS CPR AED FIRST AID ONLINE COURSE", total: 0, unused: 0 },
+];
