@@ -13,10 +13,6 @@ const Page = () => {
   const [selectedShow, setSelectedShow] = useState(50);
   const router = useRouter();
 
-  const onSubmit = (values) => {
-    console.log(values);
-  };
-
   const handleNavigate = () => {
     router.push("/admin/settings/add_promo_code");
   };

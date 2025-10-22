@@ -561,3 +561,38 @@ export const promocodeData = [
     remaining: 49,
   },
 ];
+
+export const locationData = [
+  {
+    name: "Abbrev Directions Default Action",
+    abbrev: "640 Spence Lane Ste 125 Nashville, TN 37217",
+    directions: "640 Spence Lane Ste 125 Nashville, TN 37217",
+    default: false,
+  },
+  {
+    name: "Brentwood TN 9005 Overlook Blvd.",
+    abbrev: "Brentwood TN 9005 Overlook Blvd.",
+    directions: "Brentwood TN 9005 Overlook Blvd.",
+    default: false,
+  },
+  {
+    name: "BrightView – South Florida Region 701 Codisco Way Sanford, FL 32771",
+    abbrev:
+      "BrightView – South Florida Region 701 Codisco Way Sanford, FL 32771",
+    directions:
+      "Mary Jane (MJ) Sykora EH&S Manager BrightView – South Florida Region...",
+    default: false,
+  },
+  {
+    name: "Nashville, TN 640 Spence Lane Ste 125 Nashville, TN 37217",
+    abbrev: "Ste 125 Nashville, TN 37217",
+    directions: "640 Spence Lane Ste 125 Nashville, TN 37217",
+    default: true,
+  },
+  {
+    name: "Orlando, FL – 1800 Pembrook Dr. Ste 300 Orlando, FL 32810",
+    abbrev: "Orlando, FL",
+    directions: "",
+    default: false,
+  },
+];
