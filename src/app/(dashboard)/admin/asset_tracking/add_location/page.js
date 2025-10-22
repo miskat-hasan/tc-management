@@ -79,11 +79,6 @@ const Page = () => {
               label="Address 1"
               placeholder="Address here"
             />
-            <FormInput
-              name="address2"
-              label="Address 2"
-              placeholder="Address here"
-            />
 
             <FormInput name="city" label="City" placeholder="City" />
             <FormInput
