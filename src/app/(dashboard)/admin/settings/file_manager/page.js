@@ -1,9 +1,7 @@
 "use client";
-
 import { useState } from "react";
 import { FileManager } from "@cubone/react-file-manager";
 import "@cubone/react-file-manager/dist/style.css";
-// import { IFile } from "@cubone/react-file-manager/dist/types/interfaces"; // Type import
 
 const Page = () => {
   const [files, setFiles] = useState([
@@ -11,212 +9,182 @@ const Page = () => {
       name: "Documents",
       isDirectory: true,
       path: "/Documents",
-      updatedAt: "2024-09-09T10:30:00Z",
+      updatedAt: "2025-10-22T10:30:00Z",
     },
     {
       name: "Pictures",
       isDirectory: true,
       path: "/Pictures",
-      updatedAt: "2024-09-09T11:00:00Z",
-    },
-    {
-      name: "Old pictures",
-      isDirectory: true,
-      path: "/Pictures/Old pictures",
-      updatedAt: "2024-09-09T11:00:00Z",
-    },
-    {
-      name: "Pic.png",
-      isDirectory: false,
-      path: "/Pictures/Pic.png",
-      updatedAt: "2024-09-08T16:45:00Z",
-      size: 2048,
-    },
-    {
-      name: "report.pdf",
-      isDirectory: false,
-      path: "/Documents/report.pdf",
-      updatedAt: "2024-09-07T14:20:00Z",
-      size: 102400,
+      updatedAt: "2025-10-22T11:00:00Z",
     },
   ]);
 
-  // State to control the currently viewed path
   const [currentPath, setCurrentPath] = useState("/");
 
-  // --- Create ---
+  // Debug: Log current files and state
+  console.log("Current files:", files);
+  console.log("Current path:", currentPath);
+
+  // --- Create Folder ---
   const handleCreate = (name) => {
-    // <-- CHANGED: from 'item' to 'name'
-    console.log("Creating folder with name:", name);
-
-    // Manually construct the new path based on the current path
     const newPath = currentPath === "/" ? `/${name}` : `${currentPath}/${name}`;
-
-    const newItem = {
-      name: name,
-      isDirectory: true, // We know it's a folder because 'onCreateFolder' was called
+    const newFolder = {
+      name,
+      isDirectory: true,
       path: newPath,
       updatedAt: new Date().toISOString(),
-      size: undefined, // Folders don't have a size
     };
-
-    console.log("Creating new item:", newItem);
-    setFiles((currentFiles) => [...currentFiles, newItem]);
-    // API call: await api.createFile(newItem)
+    setFiles((prev) => [...prev, newFolder]);
   };
 
   // --- Delete ---
   const handleDelete = (items) => {
-    console.log("Deleting:", items);
-    const pathsToDelete = new Set(items.map((item) => item.path));
-
-    setFiles((currentFiles) =>
-      currentFiles.filter((file) => {
-        if (pathsToDelete.has(file.path)) return false;
-        for (const deletedItem of items) {
-          if (
-            deletedItem.isDirectory &&
-            file.path.startsWith(deletedItem.path + "/")
-          ) {
-            return false;
-          }
-        }
-        return true;
-      })
+    const toDelete = new Set(items.map((i) => i.path));
+    setFiles((prev) =>
+      prev.filter(
+        (f) =>
+          !toDelete.has(f.path) &&
+          !Array.from(toDelete).some((p) => f.path.startsWith(p + "/"))
+      )
     );
-    // API call: await api.deleteFiles(items.map(item => item.path))
   };
 
   // --- Rename ---
   const handleRename = (item, newName) => {
-    console.log("Renaming:", item, "to", newName);
     const oldPath = item.path;
     const newPath =
       oldPath.substring(0, oldPath.lastIndexOf("/") + 1) + newName;
 
-    setFiles((currentFiles) =>
-      currentFiles.map((file) => {
+    setFiles((prev) =>
+      prev.map((file) => {
         if (file.path === oldPath) {
-          return {
-            ...file,
-            name: newName,
-            path: newPath,
-            updatedAt: new Date().toISOString(),
-          };
+          return { ...file, name: newName, path: newPath };
         }
         if (item.isDirectory && file.path.startsWith(oldPath + "/")) {
-          const childRelativePath = file.path.substring(oldPath.length);
-          return { ...file, path: newPath + childRelativePath };
+          const rest = file.path.substring(oldPath.length);
+          return { ...file, path: newPath + rest };
         }
         return file;
       })
     );
-    // API call: await api.renameFile(oldPath, newName)
   };
 
   // --- Move ---
-  const handleMove = (itemsToMove, targetDirectory) => {
-    console.log("Moving:", itemsToMove, "to", targetDirectory.path);
-    const targetPath = targetDirectory.path;
-
-    setFiles((currentFiles) =>
-      currentFiles.map((file) => {
-        // Find the item that needs to be moved
-        const itemToMove = itemsToMove.find((item) => item.path === file.path);
-
-        if (itemToMove) {
-          // This is the item itself, update its path
+  const handleMove = (items, target) => {
+    const targetPath = target.path;
+    setFiles((prev) =>
+      prev.map((file) => {
+        const moving = items.find((i) => i.path === file.path);
+        if (moving) {
           const newPath =
             targetPath === "/" ? `/${file.name}` : `${targetPath}/${file.name}`;
           return { ...file, path: newPath };
         }
-
-        // Check if this file is a child of a directory being moved
-        for (const movedItem of itemsToMove) {
-          if (
-            movedItem.isDirectory &&
-            file.path.startsWith(movedItem.path + "/")
-          ) {
-            const relativePath = file.path.substring(movedItem.path.length);
-            const newParentPath =
+        for (const moved of items) {
+          if (moved.isDirectory && file.path.startsWith(moved.path + "/")) {
+            const relative = file.path.substring(moved.path.length);
+            const newParent =
               targetPath === "/"
-                ? `/${movedItem.name}`
-                : `${targetPath}/${movedItem.name}`;
-            return { ...file, path: newParentPath + relativePath };
+                ? `/${moved.name}`
+                : `${targetPath}/${moved.name}`;
+            return { ...file, path: newParent + relative };
           }
         }
-
-        // Not affected
         return file;
       })
     );
-    // API call: await api.moveFiles(itemsToMove.map(i => i.path), targetPath)
   };
 
-  // --- Upload ---
-  const handleUpload = (browserFiles, targetDirectory) => {
-    console.log("Uploading:", browserFiles, "to", targetDirectory.path);
+  // --- FIXED Upload Function ---
+  const handleUpload = async (browserFiles, targetDir) => {
+    console.log("=== UPLOAD TRIGGERED ===");
+    console.log("Files to upload:", browserFiles);
+    console.log("Target directory:", targetDir);
+    console.log("Current path:", currentPath);
 
-    // Convert browser File objects to your state's file structure
-    const newFileEntries = browserFiles.map((file) => {
-      const newPath =
-        targetDirectory.path === "/"
+    if (!browserFiles || browserFiles.length === 0) {
+      console.error("No files provided for upload");
+      return [];
+    }
+
+    const uploadPath = targetDir?.path || currentPath;
+    console.log("Final upload path:", uploadPath);
+
+    // Create new file entries
+    const newEntries = Array.from(browserFiles).map((file) => {
+      const filePath =
+        uploadPath === "/"
           ? `/${file.name}`
-          : `${targetDirectory.path}/${file.name}`;
+          : `${uploadPath}/${file.name}`.replace(/\/+/g, "/");
 
       return {
+        id: Math.random().toString(36).substr(2, 9), // Add unique ID
         name: file.name,
         isDirectory: false,
-        path: newPath,
+        path: filePath,
         updatedAt: new Date().toISOString(),
         size: file.size,
+        type: file.type,
       };
     });
 
-    // Add the new files to state
-    setFiles((currentFiles) => [...currentFiles, ...newFileEntries]);
+    console.log("New entries to add:", newEntries);
 
-    // API call: You would typically loop and upload each file
-    // for (const file of browserFiles) {
-    //   await api.upload(file, targetDirectory.path)
-    // }
+    // Simulate upload delay
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+
+    // Update state
+    setFiles((prevFiles) => {
+      const existingPaths = new Set(prevFiles.map((f) => f.path));
+      const uniqueNewEntries = newEntries.filter(
+        (entry) => !existingPaths.has(entry.path)
+      );
+      const updatedFiles = [...prevFiles, ...uniqueNewEntries];
+
+      console.log("Previous files count:", prevFiles.length);
+      console.log("New files count:", updatedFiles.length);
+      console.log("All files after upload:", updatedFiles);
+
+      return updatedFiles;
+    });
+
+    return newEntries;
   };
 
   // --- Download ---
   const handleDownload = (file) => {
-    console.log("Downloading:", file);
-    // In a real app, you would trigger a download.
-    // This is just a simulation.
-    // e.g., window.location.href = `https://api.my-server.com/download?path=${file.path}`
-    alert(`Simulating download for: ${file.name}`);
+    console.log("Download triggered for:", file.name);
+    alert(`Simulated download for: ${file.name}`);
   };
 
   // --- Navigate ---
-  const handleNavigate = (newPath) => {
-    console.log("Navigating to:", newPath);
-    // This controls the component's internal breadcrumbs and file view
-    setCurrentPath(newPath);
-    // If you were lazy-loading, you would fetch files for newPath here
-    // e.g., api.getFiles(newPath).then(newFiles => setFiles(newFiles))
+  const handleNavigate = (path) => {
+    console.log("Navigation to:", path);
+    setCurrentPath(path);
   };
 
   return (
-    <>
+    <div style={{ height: "90vh", padding: "20px" }}>
+      <div
+        style={{ marginBottom: "10px", padding: "10px", background: "#f5f5f5" }}
+      >
+        <strong>Debug Info:</strong> Current Path: {currentPath} | Files Count:{" "}
+        {files.length}
+      </div>
       <FileManager
         files={files}
-        path={currentPath} // Control the current path
+        path={currentPath}
         onNavigate={handleNavigate}
-        // --- THIS IS THE FIX ---
-        // Changed back to "onCreateFolder" as required by the error
         onCreateFolder={handleCreate}
-        // -----------------------
-
         onDelete={handleDelete}
         onRename={handleRename}
         onMove={handleMove}
         onUpload={handleUpload}
         onDownload={handleDownload}
-        // This prop shows the "Upload" and "New Folder" buttons
+        // Try different approaches for uploadUrl:
+        uploadUrl={false} // Try this
+        // uploadUrl={null} // Or this
+        // uploadUrl="" // Or this
         capabilities={{
           canCreate: true,
           canDelete: true,
@@ -224,9 +192,13 @@ const Page = () => {
           canMove: true,
           canUpload: true,
           canDownload: true,
+          canSelect: true,
+        }}
+        selection={{
+          mode: "multiple",
         }}
       />
-    </>
+    </div>
   );
 };
 

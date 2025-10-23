@@ -160,3 +160,20 @@ body {
 .no-scroll-bar::-webkit-scrollbar {
   display: none;
 }
+
+.cubone-modal-wrapper {
+  position: absolute !important;
+  left: 50% !important;
+  top: 50% !important;
+  transform: translate(-50%, -50%) !important;
+  z-index: 100 !important; /* Ensure it's on top */
+}
+.cubone-modal-backdrop {
+  position: absolute !important;
+  top: 0;
+  left: 0;
+  width: 100% !important;
+  height: 100% !important;
+  background-color: rgba(0, 0, 0, 0.5) !important;
+  z-index: 99 !important; /* Below the modal, above the files */
+}
