@@ -14,7 +14,7 @@ const Page = () => {
   const [selectedShow, setSelectedShow] = useState(50);
   const router = useRouter();
   const handleNavigation = () => {
-    router.push("/admin/asset_tracking/add_part");
+    router.push("/admin/settings/upload_certificate");
   };
   return (
     <div className="flex flex-col gap-[25px]">
