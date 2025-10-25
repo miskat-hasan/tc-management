@@ -68,7 +68,7 @@ export default function Page() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-2 text-sm text-gray-600">
               <div>
                 <span className="font-semibold text-gray-800">[FIRSTNAME]</span>{" "}
-                - The student's first name.
+                - The students first name.
               </div>
               <div>
                 <span className="font-semibold text-gray-800">[CLASSNAME]</span>{" "}
@@ -91,13 +91,13 @@ export default function Page() {
                 <span className="font-semibold text-gray-800">
                   [CONFIRMATIONURL]
                 </span>{" "}
-                - A hyperlink to the registrant's confirmation information.
+                - A hyperlink to the registrants confirmation information.
               </div>
               <div>
                 <span className="font-semibold text-gray-800">
                   [PAYMENTORNURL]
                 </span>{" "}
-                - A hyperlink to the registrant's payment form - used to pay any
+                - A hyperlink to the registrants payment form - used to pay any
                 balance due.
               </div>
             </div>

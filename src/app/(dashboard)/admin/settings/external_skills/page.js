@@ -3,37 +3,37 @@ import CustomSelect from "@/components/shared/form/CustomSelect";
 import React, { useState, useEffect } from "react";
 import { HiOutlineTrash } from "react-icons/hi";
 
+const allData = {
+  "American Red Cross": [
+    {
+      date: "9/29/2025 8:05:23 PM",
+      name: "Redcross Basic Life Support",
+      code: "AP-HSSBSL101-r:21",
+    },
+    {
+      date: "9/8/2025 8:40:20 PM",
+      name: "Blended Learning Adult First Aid/CPR/AED Online Session",
+      code: "AP-HSSSFA514-BL-r:21",
+    },
+  ],
+  "National Safety Council": [
+    {
+      date: "9/18/2025 10:30:00 PM",
+      name: "First Aid & CPR NSC",
+      code: "NSC-CPR101",
+    },
+    {
+      date: "9/12/2025 5:45:00 PM",
+      name: "Workplace Safety Training",
+      code: "NSC-WST201",
+    },
+  ],
+};
+
 const ExternalSkillsPage = () => {
   const [selectedExternal, setSelectedExternal] =
     useState("American Red Cross");
   const [tableData, setTableData] = useState([]);
-
-  const allData = {
-    "American Red Cross": [
-      {
-        date: "9/29/2025 8:05:23 PM",
-        name: "Redcross Basic Life Support",
-        code: "AP-HSSBSL101-r:21",
-      },
-      {
-        date: "9/8/2025 8:40:20 PM",
-        name: "Blended Learning Adult First Aid/CPR/AED Online Session",
-        code: "AP-HSSSFA514-BL-r:21",
-      },
-    ],
-    "National Safety Council": [
-      {
-        date: "9/18/2025 10:30:00 PM",
-        name: "First Aid & CPR NSC",
-        code: "NSC-CPR101",
-      },
-      {
-        date: "9/12/2025 5:45:00 PM",
-        name: "Workplace Safety Training",
-        code: "NSC-WST201",
-      },
-    ],
-  };
 
   // update table when dropdown value changes
   useEffect(() => {
@@ -46,7 +46,7 @@ const ExternalSkillsPage = () => {
 
   return (
     <div className=" space-y-6">
-      <h2 className="text-lg font-semibold">External SKU's</h2>
+      <h2 className="text-lg font-semibold">External SKU</h2>
 
       <CustomSelect
         id="externalskill"
