@@ -164,9 +164,12 @@ export default function EmailCampaignsPage() {
                 )}
               </h2>
               <div className="flex gap-2">
-                <button className="rounded-md bg-brown px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-brown focus:outline-none focus:ring-2 focus:ring-brown focus:ring-offset-2">
+                <Link
+                  href={`/admin/settings/emails_campaigns/${campaign.type}/edit_email_campaign`}
+                  className="rounded-md bg-brown px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-brown focus:outline-none focus:ring-2 focus:ring-brown focus:ring-offset-2"
+                >
                   Edit Campaign
-                </button>
+                </Link>
                 <Link
                   href={`/admin/settings/emails_campaigns/${campaign.type}/add_new_email`}
                   className="rounded-md bg-brown px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-brown focus:outline-none focus:ring-2 focus:ring-brown focus:ring-offset-2"
