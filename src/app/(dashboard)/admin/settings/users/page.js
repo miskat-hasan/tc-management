@@ -2,6 +2,7 @@
 
 import CustomSelect from "@/components/shared/form/CustomSelect";
 import { Check, Download, FileText, Plus } from "lucide-react";
+import Link from "next/link";
 import React, { useState, useMemo } from "react";
 
 const dummyUsers = [
@@ -126,10 +127,13 @@ const UserManager = () => {
           <button className="p-2.5 border border-brown rounded-md text-brown hover:bg-red-50 transition-colors cursor-pointer">
             <Download size={20} />
           </button>
-          <button className="flex items-center gap-2 py-2.5 px-4 bg-brown text-white font-semibold rounded-md hover:bg-brown transition-colors cursor-pointer">
+          <Link
+            href="/admin/settings/users/add_user"
+            className="flex items-center gap-2 py-2.5 px-4 bg-brown text-white font-semibold rounded-md hover:bg-brown transition-colors cursor-pointer"
+          >
             <Plus size={20} />
             Add User
-          </button>
+          </Link>
         </div>
       </div>
 
