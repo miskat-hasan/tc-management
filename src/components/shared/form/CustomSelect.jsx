@@ -29,9 +29,9 @@ const CustomSelect = ({
   }, [controlledValue]);
 
   return (
-    <div className={`flex flex-col gap-4 ${className || ""}`}>
+    <div className={`flex flex-col gap-3 ${className || ""}`}>
       {label && (
-        <label htmlFor={id} className="text-sm font-medium text-gray-700">
+        <label htmlFor={id} className="text-base font-medium text-gray-700">
           {label}
         </label>
       )}

@@ -45,8 +45,8 @@ const ExternalSkillsPage = () => {
   };
 
   return (
-    <div className="p-6 space-y-6">
-      <h2 className="text-lg font-semibold">External Skills</h2>
+    <div className=" space-y-6">
+      <h2 className="text-lg font-semibold">External SKU's</h2>
 
       <CustomSelect
         id="externalskill"
@@ -62,7 +62,7 @@ const ExternalSkillsPage = () => {
         onChange={handleSelectChange}
       />
 
-      <div className="overflow-x-auto border rounded-lg">
+      <div className="overflow-x-auto bg-white border rounded-lg">
         <table className="w-full text-left text-gray-700">
           <thead className=" text-sm">
             <tr>

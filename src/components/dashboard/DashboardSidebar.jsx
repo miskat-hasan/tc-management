@@ -143,13 +143,10 @@ const menuItems = [
         href: "/admin/settings/certificates",
       },
       {
-        label: "External Skills",
+        label: "External SKu's",
         href: "/admin/settings/external_skills",
       },
-      {
-        label: "Custom Forms",
-        href: "/admin/settings/custom_forms",
-      },
+
       {
         label: "Email Campaigns",
         href: "/admin/settings/emails_campaigns",
