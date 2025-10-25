@@ -6,7 +6,6 @@ import FormInput from "@/components/shared/form/FormInput";
 import { Button } from "@/components/ui/button";
 import { useForm } from "react-hook-form";
 import React from "react";
-import CustomSelect from "@/components/shared/form/CustomSelect";
 
 const Page = () => {
   const form = useForm({

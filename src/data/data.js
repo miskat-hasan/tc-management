@@ -596,3 +596,30 @@ export const locationData = [
     default: false,
   },
 ];
+
+export const scheduledTextMessages = [
+  {
+    dayToSend: -5,
+    name: "5 days before class",
+    message: "Hi [FIRSTNAME], This is from Code Blue ...",
+    actions: "Yes",
+  },
+  {
+    dayToSend: -3,
+    name: "3 days before class",
+    message: "Hi [FIRSTNAME], This is from Shell CPR and Code ...",
+    actions: "Yes",
+  },
+  {
+    dayToSend: -1,
+    name: "Class Information",
+    message: "Hi [FIRSTNAME], This is from Code Blue CPR Services..",
+    actions: "Yes",
+  },
+  {
+    dayToSend: 1,
+    name: "Here's your fail...",
+    message: "Hi [FIRSTNAME], Code Blue CPR Services...",
+    actions: "Yes",
+  },
+];
