@@ -1,4 +1,5 @@
 "use client";
+import SectionTitle from "@/components/common/SectionTitle";
 import { XCircle } from "lucide-react";
 import Link from "next/link";
 
@@ -140,10 +141,13 @@ export default function EmailCampaignsPage() {
     <div className="min-h-screen bg-gray-100 ">
       {/* Page Header */}
       <div className="mb-6 flex items-center justify-between">
-        <h1 className="text-3xl font-bold text-gray-900">Email Campaigns</h1>
-        <button className="rounded-md bg-brown px-5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-brown-hover focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-brown">
+        <SectionTitle title={"Email Campaigns"} />
+        <Link
+          href={`/admin/settings/emails_campaigns/add_new_campaign`}
+          className="rounded-md bg-brown px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-brown focus:outline-none focus:ring-2 focus:ring-brown focus:ring-offset-2"
+        >
           New Campaign
-        </button>
+        </Link>
       </div>
 
       {/* Campaign List */}
