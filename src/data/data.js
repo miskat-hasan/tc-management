@@ -678,3 +678,52 @@ export const overviewData = [
     value: "28623022226",
   },
 ];
+
+
+export const paymentReport = [
+  {
+    dateTime: "Sat 10/18/25 09:00 am",
+    name: "Prendergast, Mitchel",
+    description: "(American Heart Association) Adult...",
+    user: "malt@waynehalfway.com",
+    type: "Credit Card",
+    txID: "28648295629",
+    amount: "$79.00",
+  },
+  {
+    dateTime: "Thu 10/02/25 09:00 am",
+    name: "ALT. MARY JANE",
+    description: "(American Heart Association) Adult...",
+    user: "jboldridge09@gmail.com",
+    type: "Credit Card",
+    txID: "28647461093",
+    amount: "$25.00",
+  },
+  {
+    dateTime: "Thu 10/02/25 09:00 am",
+    name: "Catalan, Jennifer",
+    description: "(American Heart Association) Adult...",
+    user: "acordvasili@waynehalfway.com",
+    type: "Credit Card",
+    txID: "28644751825",
+    amount: "$79.00",
+  },
+  {
+    dateTime: "Fri 10/02/25 09:00 am",
+    name: "Page-Fatzinger, Mary",
+    description: "(American Heart Association) Adult...",
+    user: "Caitlynn Myers",
+    type: "Credit Card",
+    txID: "28643894094",
+    amount: "($35.00)",
+  },
+  {
+    dateTime: "Wed 10/02/25 09:00 am",
+    name: "Baldridge, Jasmine",
+    description: "(American Heart Association) Adult...",
+    user: "anaramidgett",
+    type: "Credit Card",
+    txID: "28643698746",
+    amount: "$46.50",
+  },
+];
