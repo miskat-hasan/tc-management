@@ -99,66 +99,34 @@ const menuItems = [
       },
     ],
   },
-  { label: "Reports", href: "#" },
-  { label: "Credit Card Services", href: "#" },
-  { label: "Help", href: "#" },
+  { label: "Reports", href: "/admin/reports" },
+  { label: "Credit Card Services", href: "/admin/credit_card_services" },
+  {
+    label: "Help",
+    href: "#",
+    submenu: [
+      { label: "Search Help", href: "https://help.enrollware.com/" },
+      { label: "Support Request", href: "/admin/help/support_request" },
+      { label: "Whats New", href: "/admin/help/whats_new" },
+    ],
+  },
   {
     label: "Settings",
     href: "#",
     submenu: [
-      {
-        label: "Course Type",
-        href: "/admin/settings/course_type",
-      },
-      {
-        label: "Product Add-ons",
-        href: "/admin/settings/product_add_ons",
-      },
-      {
-        label: "Online Keycodes",
-        href: "/admin/settings/online_keycodes",
-      },
-      {
-        label: "Promo Codes",
-        href: "/admin/settings/promo_codes",
-      },
-      {
-        label: "Locations",
-        href: "/admin/settings/location",
-      },
-      {
-        label: "File Manager",
-        href: "/admin/settings/file_manager",
-      },
-      {
-        label: "Site Manager",
-        href: "/admin/settings/site_manager",
-      },
-      {
-        label: "Card Settings",
-        href: "/admin/settings/cards_settings",
-      },
-      {
-        label: "Certificates",
-        href: "/admin/settings/certificates",
-      },
-      {
-        label: "External SKu's",
-        href: "/admin/settings/external_skills",
-      },
-
-      {
-        label: "Email Campaigns",
-        href: "/admin/settings/emails_campaigns",
-      },
-      {
-        label: "Text Messaging",
-        href: "/admin/settings/text_messaging",
-      },
-      {
-        label: "Users",
-        href: "/admin/settings/users",
-      },
+      { label: "Course Type", href: "/admin/settings/course_type" },
+      { label: "Product Add-ons", href: "/admin/settings/product_add_ons" },
+      { label: "Online Keycodes", href: "/admin/settings/online_keycodes" },
+      { label: "Promo Codes", href: "/admin/settings/promo_codes" },
+      { label: "Locations", href: "/admin/settings/location" },
+      { label: "File Manager", href: "/admin/settings/file_manager" },
+      { label: "Site Manager", href: "/admin/settings/site_manager" },
+      { label: "Card Settings", href: "/admin/settings/cards_settings" },
+      { label: "Certificates", href: "/admin/settings/certificates" },
+      { label: "External SKu's", href: "/admin/settings/external_skills" },
+      { label: "Email Campaigns", href: "/admin/settings/emails_campaigns" },
+      { label: "Text Messaging", href: "/admin/settings/text_messaging" },
+      { label: "Users", href: "/admin/settings/users" },
     ],
   },
 ];
@@ -209,22 +177,33 @@ const DashboardSidebar = () => {
 
               return (
                 <li key={item.label} className="text-sm font-semibold">
-                  {/* Top-level menu button */}
-                  <button
-                    onClick={() => hasSubmenu && toggleMenu(item.label)}
-                    className={`w-full flex items-center justify-between px-5 py-3 rounded-[10px] transition-colors ${
-                      isActive ? "bg-brown text-white" : "hover:bg-gray-100"
-                    }`}
-                  >
-                    <span>{item.label}</span>
-                    {hasSubmenu && (
+                  {/* Top-level menu item */}
+                  {hasSubmenu ? (
+                    <button
+                      onClick={() => toggleMenu(item.label)}
+                      className={`w-full flex items-center justify-between px-5 py-3 rounded-[10px] transition-colors ${
+                        isActive ? "bg-brown text-white" : "hover:bg-gray-100"
+                      }`}
+                    >
+                      <span>{item.label}</span>
                       <FaChevronRight
                         className={`h-3 w-3 transition-transform ${
                           isMenuOpen ? "rotate-90" : ""
                         }`}
                       />
-                    )}
-                  </button>
+                    </button>
+                  ) : (
+                    <Link
+                      href={item.href}
+                      className={`w-full flex items-center justify-between px-5 py-3 rounded-[10px] transition-colors ${
+                        pathname === item.href
+                          ? "bg-brown text-white"
+                          : "hover:bg-gray-100 text-gray-700"
+                      }`}
+                    >
+                      <span>{item.label}</span>
+                    </Link>
+                  )}
 
                   {/* Submenu */}
                   {hasSubmenu && (
