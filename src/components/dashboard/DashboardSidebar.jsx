@@ -100,7 +100,24 @@ const menuItems = [
     ],
   },
   { label: "Reports", href: "/admin/reports" },
-  { label: "Credit Card Services", href: "/admin/credit_card_services" },
+  {
+    label: "Credit Card Services",
+    href: "#",
+    submenu: [
+      {
+        label: "Merchant Track",
+        href: "/admin/credit_card_services/merchant_track",
+      },
+      {
+        label: "Payment Report",
+        href: "/admin/credit_card_services/payment_report",
+      },
+      {
+        label: "Virtual Report",
+        href: "/admin/credit_card_services/virtual_terminal",
+      },
+    ],
+  },
   {
     label: "Help",
     href: "#",

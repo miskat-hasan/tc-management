@@ -624,7 +624,6 @@ export const scheduledTextMessages = [
   },
 ];
 
-
 export const whatsnewData = [
   {
     date: "Sat 10/18/25",
@@ -650,5 +649,32 @@ export const whatsnewData = [
     date: "Wed 10/02/25",
     update:
       "The QuickBooks integration can now show you previously ignored transactions, and you can see the full transaction history, whereas previously you could not.",
+  },
+];
+
+export const overviewData = [
+  {
+    label: "Total Transaction Count",
+    value: "3,700",
+  },
+  {
+    label: "Total Transaction Volume",
+    value: "$412,963.49",
+  },
+  {
+    label: "Last Transaction Date",
+    value: "10/5/2025 8:36:10 PM ET",
+  },
+  {
+    label: "Last Transaction Merchant",
+    value: "Code Blue CPR Services, LLC",
+  },
+  {
+    label: "Last Transaction Amount",
+    value: "$79.00",
+  },
+  {
+    label: "Last Transaction ID",
+    value: "28623022226",
   },
 ];
