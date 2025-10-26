@@ -623,3 +623,32 @@ export const scheduledTextMessages = [
     actions: "Yes",
   },
 ];
+
+
+export const whatsnewData = [
+  {
+    date: "Sat 10/18/25",
+    update:
+      "Updating registration for a student has been optimized. You can now select dates for a class when assigning a student to a new date rather than scrolling.",
+  },
+  {
+    date: "Thu 10/02/25",
+    update:
+      "Instructors can now opt into editing email notifications for class updates when the location, date, or time changes for a class they are the lead/assistant for.",
+  },
+  {
+    date: "Thu 10/02/25",
+    update:
+      "Courses can now include CC'd emails whenever a student is confirmed for a class.",
+  },
+  {
+    date: "Fri 10/02/25",
+    update:
+      "The QuickBooks integration can now show you previously ignored transactions, and you can see the full transaction history, whereas previously you could not.",
+  },
+  {
+    date: "Wed 10/02/25",
+    update:
+      "The QuickBooks integration can now show you previously ignored transactions, and you can see the full transaction history, whereas previously you could not.",
+  },
+];
