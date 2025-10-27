@@ -54,8 +54,8 @@ const page = () => {
         <div className="flex w-[500px] flex-col gap-5">
           <SectionTitle title={"Overview"} />
           <div className="w-full h-[450px] bg-white rounded-[20px] p-[20px] flex flex-col gap-[20px]">
-            {overviewData?.map((data) => (
-              <div className="flex items-center justify-between">
+            {overviewData?.map((data, i) => (
+              <div key={i} className="flex items-center justify-between">
                 <p className="text-[12px] font-bold">{data?.label}</p>
                 <span className="text-[#969688] text-[12px]">
                   {data?.value}

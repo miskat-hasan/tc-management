@@ -5,13 +5,15 @@ import CustomSelect from "@/components/shared/form/CustomSelect";
 import { Button } from "@/components/ui/button";
 import { keycodeSales, paymentReport } from "@/data/data";
 import { PlusIcon, SearchIcon } from "@/svg/SvgContainer";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { CiEdit } from "react-icons/ci";
 
 const Page = () => {
+  const router = useRouter();
   const [selectedShow, setSelectedShow] = useState(50);
   const handleNavigation = () => {
-    router.push("/admin/asset_tracking/add_location");
+    router.push("/admin/credit_card_services/funding_reports");
   };
   return (
     <div className="flex flex-col gap-[25px]">
