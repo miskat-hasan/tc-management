@@ -129,7 +129,7 @@ const menuItems = [
       },
       {
         label: "Event Log",
-        href: "/admin/reports/virtual_terminal",
+        href: "/admin/reports/event_log",
       },
     ],
   },
@@ -203,7 +203,7 @@ const DashboardSidebar = () => {
   };
 
   return (
-    <div className="w-[345px] px-[17px] pt-[22.5px] h-screen overflow-y-auto scroll-bar bg-white text-black flex flex-col gap-[31.5px]">
+    <div className="max-w-[345px] w-full px-[17px] pt-[22.5px] h-screen overflow-y-auto scroll-bar bg-white text-black flex flex-col gap-[31.5px]">
       {/* Logo */}
       <div className="flex items-center gap-1.5 justify-center">
         <Logo />
