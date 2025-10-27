@@ -731,3 +731,47 @@ export const paymentReport = [
     amount: "$46.50",
   },
 ];
+
+
+export const StudentSearchResultsdemo = [
+  {
+    name: "Hardwick, Leah",
+    email: "abiga@gmail.com",
+    reg_date: "05/04/25",
+    phone: "615 710 0172",
+    class: "(American Heart Association) Adult and Pediatric First...",
+    status: "Complete",
+  },
+  {
+    name: "Nathan, Jayashree",
+    email: "kjordan@thewellnessway.com",
+    reg_date: "09/26/25",
+    phone: "615 710 0172",
+    class: "(American Heart Association) Basic Life Support Provider...",
+    status: "Complete",
+  },
+  {
+    name: "Nathan, Melissa",
+    email: "corylgory@gmail.com",
+    reg_date: "09/26/25",
+    phone: "615 710 0172",
+    class: "(American Heart Association) BLS INSTRUCTOR COURSE",
+    status: "Complete",
+  },
+  {
+    name: "Nathan, Jayashree",
+    email: "andrewhalcombe8@gmail.com",
+    reg_date: "09/26/25",
+    phone: "615 710 0172",
+    class: "(American Heart Association) Adult CPR/AED-BL-r.21",
+    status: "Complete",
+  },
+  {
+    name: "Nathan, Tiffanie",
+    email: "dowens@dmsm.org",
+    reg_date: "11/05/22",
+    phone: "615 710 0172",
+    class: "(American Heart Association) Basic Life Support...",
+    status: "Complete",
+  },
+];
