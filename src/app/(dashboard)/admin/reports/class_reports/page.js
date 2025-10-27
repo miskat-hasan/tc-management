@@ -6,7 +6,6 @@ import { Button } from "@/components/ui/button";
 import { courseSchedule } from "@/data/data";
 import { SearchIcon } from "@/svg/SvgContainer";
 import React, { useState } from "react";
-import { CiEdit } from "react-icons/ci";
 
 const Page = () => {
   const [selectedShow, setSelectedShow] = useState(50);
@@ -52,7 +51,7 @@ const Page = () => {
     <div className="flex flex-col gap-[25px]">
       {/* Header */}
       <div className="flex justify-between">
-        <SectionTitle title={"Upcoming Classes"} />
+        <SectionTitle title={"Class Reports"} />
         <div className="flex items-center gap-2 text-[#8C8C8C]">
           <input
             type="checkbox"
