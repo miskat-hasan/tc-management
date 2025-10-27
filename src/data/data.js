@@ -2,42 +2,47 @@ export const courseSchedule = [
   {
     id: 1,
     instructor: "C. Myers",
-    dateTime: "Mon 9/29/25 3:00p",
+    dateTime: "Mon 9/29/25 3:00pm",
     course: "(American Heart Association) AHA Basic Life Support",
     location: "Nashville, TN 640 Spence Lane",
     enrolled: "1/6",
+    hour: 1,
   },
   {
     id: 2,
     instructor: "C. Myers",
-    dateTime: "Tue 9/30/25 3:00p",
+    dateTime: "Tue 9/30/25 3:00pm",
     course: "(American Heart Association) AHA Basic Life Support",
     location: "Nashville, TN 640 Spence Lane",
     enrolled: "0/6",
+    hour: 4,
   },
   {
     id: 3,
     instructor: "M. Clark",
-    dateTime: "Thu 10/02/25 3:00p",
+    dateTime: "Thu 10/02/25 3:00pm",
     course: "(American Heart Association) AHA Basic Life Support",
     location: "Nashville, TN 640 Spence Lane",
     enrolled: "0/9",
+    hour: 2,
   },
   {
     id: 4,
     instructor: "C. Myers",
-    dateTime: "Fri 10/03/25 9:00a",
+    dateTime: "Fri 10/03/25 9:00am",
     course: "(American Heart Association) AHA Basic Life Support",
     location: "640 Spence Lane Ste 125",
     enrolled: "0/12",
+    hour: 3,
   },
   {
     id: 5,
     instructor: "M. Clark",
-    dateTime: "Fri 10/03/25 3:00p",
+    dateTime: "Fri 10/03/25 3:00pm",
     course: "(American Heart Association) AHA Basic Life Support",
     location: "Nashville, TN 640 Spence Lane",
     enrolled: "4/12",
+    hour: 2,
   },
 ];
 
@@ -678,7 +683,6 @@ export const overviewData = [
     value: "28623022226",
   },
 ];
-
 
 export const paymentReport = [
   {

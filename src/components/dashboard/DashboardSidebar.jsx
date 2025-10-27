@@ -99,7 +99,40 @@ const menuItems = [
       },
     ],
   },
-  { label: "Reports", href: "/admin/reports" },
+  {
+    label: "Reports",
+    href: "#",
+    submenu: [
+      {
+        label: "Activity Reports",
+        href: "/admin/reports/activity_reports",
+      },
+      {
+        label: "Class Report",
+        href: "/admin/reports/class_reports",
+      },
+      {
+        label: "Product Add-on Report",
+        href: "/admin/reports/product_addon_report",
+      },
+      {
+        label: "Promo Code Report",
+        href: "/admin/reports/promo_code_report",
+      },
+      {
+        label: "Registration Report",
+        href: "/admin/reports/registration_report",
+      },
+      {
+        label: "Student Export",
+        href: "/admin/reports/student_export",
+      },
+      {
+        label: "Event Log",
+        href: "/admin/reports/virtual_terminal",
+      },
+    ],
+  },
   {
     label: "Credit Card Services",
     href: "#",
