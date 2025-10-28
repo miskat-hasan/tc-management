@@ -23,12 +23,12 @@ const Page = () => {
 
   const onSubmit = (values) => {};
   return (
-    <div className="flex flex-col gap-[20px]">
+    <div className="flex flex-col gap-[10px] lg:gap-[20px]">
       <SectionTitle title={"Schedule a Class"} />
       <FormContainer
         form={form}
         onSubmit={onSubmit}
-        className="bg-white p-6 rounded-lg shadow"
+        className="bg-white p-4 lg:p-6 rounded-lg shadow"
       >
         {/* Main form layout grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4">
