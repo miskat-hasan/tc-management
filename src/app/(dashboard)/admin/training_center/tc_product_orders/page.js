@@ -3,7 +3,7 @@ import SectionTitle from "@/components/common/SectionTitle";
 import SubSectionTitle from "@/components/common/SubSectionTitle";
 import CustomSelect from "@/components/shared/form/CustomSelect";
 import { Button } from "@/components/ui/button";
-import { courseSchedule } from "@/data/data";
+import { courseSchedule, productOrder } from "@/data/data";
 import { SearchIcon } from "@/svg/SvgContainer";
 import React, { useState } from "react";
 import { CiEdit } from "react-icons/ci";
