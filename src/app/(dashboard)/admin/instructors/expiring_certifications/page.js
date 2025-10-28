@@ -8,27 +8,28 @@ import { CiEdit } from "react-icons/ci";
 const Page = () => {
   const [selectedShow, setSelectedShow] = useState(50);
   return (
-    <section className="flex flex-col gap-[25px] ">
+    <section className="flex flex-col gap-[12.5px] lg:gap-[25px] ">
       <div className="flex justify-between">
         <SectionTitle title={"Expiring Certifications"} />
       </div>
 
-      <div className="p-[26px] bg-white rounded-[14px] flex flex-col gap-[24px]">
+      <div className="p-[13px] lg:p-[26px] bg-white rounded-[14px] flex flex-col gap-[12px] lg:gap-[24px]">
         <div className="flex items-center justify-between">
           <SubSectionTitle subtitle="All list" />
         </div>
 
         <div className="overflow-x-auto">
-          <table className="w-full text-sm text-left text-gray-700">
-            <thead className="bg-gray-50 text-black text-[16px] font-semibold">
+          <table className="min-w-[700px] w-full text-sm sm:text-base text-left text-gray-700">
+            <thead className="bg-gray-50 text-black text-[14px] sm:text-[16px] font-semibold">
               <tr>
-                <th className="px-6 py-3">Instructor</th>
-                <th className="px-6 py-3">Training Site</th>
-                <th className="px-6 py-3">Discipline</th>
-                <th className="px-6 py-3">Expires</th>
-                <th className="px-6 py-3 text-center">Action</th>
+                <th className="px-3 sm:px-6 py-3">Instructor</th>
+                <th className="px-3 sm:px-6 py-3">Training Site</th>
+                <th className="px-3 sm:px-6 py-3">Discipline</th>
+                <th className="px-3 sm:px-6 py-3">Expires</th>
+                <th className="px-3 sm:px-6 py-3 text-center">Action</th>
               </tr>
             </thead>
+
             <tbody>
               {certificationData.length > 0 ? (
                 certificationData.map((item, index) => (
@@ -36,22 +37,28 @@ const Page = () => {
                     key={index}
                     className="border-b hover:bg-gray-50 transition-all"
                   >
-                    <td className="px-6 py-4">
+                    <td className="px-3 sm:px-6 py-3">
                       <div className="flex flex-col">
                         <span className="font-medium text-gray-800">
                           {item.name}
                         </span>
-                        <span className="text-gray-500 text-xs">
+                        <span className="text-xs sm:text-sm text-gray-500 truncate max-w-[150px] sm:max-w-[200px]">
                           {item.email}
                         </span>
                       </div>
                     </td>
-                    <td className="px-6 py-4">{item.trainingSite}</td>
-                    <td className="px-6 py-4">{item.discipline}</td>
-                    <td className="px-6 py-4">{item.expires}</td>
-                    <td className="px-6 py-4 text-center">
-                      <button className="p-2 bg-gray-100 rounded-lg hover:bg-gray-200 transition">
-                        <CiEdit className="text-gray-600 text-[16px]" />
+                    <td className="px-3 sm:px-6 py-3 whitespace-nowrap">
+                      {item.trainingSite}
+                    </td>
+                    <td className="px-3 sm:px-6 py-3 whitespace-nowrap">
+                      {item.discipline}
+                    </td>
+                    <td className="px-3 sm:px-6 py-3 whitespace-nowrap">
+                      {item.expires}
+                    </td>
+                    <td className="px-3 sm:px-6 py-3 text-center">
+                      <button className="p-1.5 sm:p-2 bg-gray-100 rounded-lg hover:bg-gray-200 transition">
+                        <CiEdit className="text-gray-600 text-[14px] sm:text-[16px]" />
                       </button>
                     </td>
                   </tr>
