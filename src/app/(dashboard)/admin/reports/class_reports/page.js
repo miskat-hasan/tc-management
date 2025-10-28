@@ -140,14 +140,20 @@ const Page = () => {
         <SubSectionTitle subtitle="All Lists" />
         <div className="overflow-x-auto">
           <table className="min-w-[600px] w-full text-sm text-left text-gray-700">
-            <thead className="bg-gray-50 text-black capitalize text-[18px] sm:text-[20px] font-semibold">
+            <thead className="bg-gray-50 text-black capitalize text-[16px] sm:text-[18px] lg:text-[20px] font-semibold">
               <tr>
-                <th className="px-3 sm:px-6 py-3 w-[80px]">Date/Time</th>
-                <th className="px-3 sm:px-6 py-3">Instructor</th>
+                <th className="px-3 sm:px-6 py-3 w-[100px] whitespace-nowrap">
+                  Date/Time
+                </th>
+                <th className="px-3 sm:px-6 py-3 whitespace-nowrap">
+                  Instructor
+                </th>
                 <th className="px-3 sm:px-6 py-3">Course</th>
                 <th className="px-3 sm:px-6 py-3">Location</th>
-                <th className="px-3 sm:px-6 py-3">Enrolled</th>
-                <th className="px-3 sm:px-6 py-3">Hours</th>
+                <th className="px-3 sm:px-6 py-3 whitespace-nowrap">
+                  Enrolled
+                </th>
+                <th className="px-3 sm:px-6 py-3 whitespace-nowrap">Hours</th>
               </tr>
             </thead>
             <tbody>
@@ -163,10 +169,10 @@ const Page = () => {
                     <td className="px-3 sm:px-6 py-4 text-gray-800 whitespace-nowrap">
                       {item.instructor}
                     </td>
-                    <td className="px-3 sm:px-6 py-4 truncate max-w-[180px]">
+                    <td className="px-3 sm:px-6 py-4 truncate max-w-[200px]">
                       {item.course}
                     </td>
-                    <td className="px-3 sm:px-6 py-4 truncate max-w-[180px]">
+                    <td className="px-3 sm:px-6 py-4 truncate max-w-[200px]">
                       {item.location}
                     </td>
                     <td className="px-3 sm:px-6 py-4 text-gray-600 whitespace-nowrap">

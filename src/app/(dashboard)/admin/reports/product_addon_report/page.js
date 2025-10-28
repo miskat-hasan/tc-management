@@ -59,14 +59,14 @@ const Page = () => {
   };
 
   return (
-    <div className="flex flex-col gap-[25px]">
+    <div className="flex flex-col gap-[12.5px] lg:gap-[25px]">
       {/* Header */}
       <div className="flex justify-between">
         <SectionTitle title={"Products Add-on Reports"} />
       </div>
 
       {/* Search filters */}
-      <div className="px-[32px] py-[32px] bg-white rounded-[16px] flex gap-[24px]">
+      <div className="lg:px-[32px] px-[16px] py-[16px] lg:py-[32px] bg-white rounded-[16px] flex gap-[12px] flex-wrap  lg:gap-[24px]">
         <CustomSelect
           id="month"
           label="Month"
@@ -84,7 +84,7 @@ const Page = () => {
         <div className="flex justify-end items-end">
           <Button
             onClick={handleSearch}
-            className="py-[24px] cursor-pointer bg-brown flex items-center gap-2"
+            className="py-[12px] lg:py-[24px] cursor-pointer bg-brown flex items-center gap-2"
           >
             <SearchIcon />
             Search
@@ -93,16 +93,24 @@ const Page = () => {
       </div>
 
       {/* Table */}
-      <div className="p-[26px] bg-white rounded-[14px] flex flex-col gap-[24px]">
+      <div className="p-[13px] lg:p-[26px] bg-white rounded-[14px] flex flex-col gap-[12px] lg:gap-[24px]">
         <SubSectionTitle subtitle="All Lists" />
         <div className="overflow-x-auto">
-          <table className="w-full text-sm text-left text-gray-700">
-            <thead className="bg-gray-50  text-black capitalize text-[16px] font-semibold">
+          <table className="min-w-[600px] w-full text-sm text-left text-gray-700">
+            <thead className="bg-gray-50 text-black capitalize text-[14px] sm:text-[16px] font-semibold">
               <tr>
-                <th className="px-6 py-3 ">Product Code</th>
-                <th className="px-6 py-3">Product Name</th>
-                <th className="px-6 py-3">Quantity</th>
-                <th className="px-6 py-3">Total Sales</th>
+                <th className="px-3 sm:px-6 py-3 whitespace-nowrap">
+                  Product Code
+                </th>
+                <th className="px-3 sm:px-6 py-3 whitespace-nowrap">
+                  Product Name
+                </th>
+                <th className="px-3 sm:px-6 py-3 whitespace-nowrap">
+                  Quantity
+                </th>
+                <th className="px-3 sm:px-6 py-3 whitespace-nowrap">
+                  Total Sales
+                </th>
               </tr>
             </thead>
             <tbody>
@@ -112,20 +120,24 @@ const Page = () => {
                     key={index}
                     className="border-b hover:bg-gray-50 transition-all"
                   >
-                    <td className="px-6 py-4 text-gray-800">
+                    <td className="px-3 sm:px-6 py-4 text-gray-800 whitespace-nowrap">
                       {item.productCode}
                     </td>
-                    <td className="px-6 py-4 text-gray-800">
+                    <td className="px-3 sm:px-6 py-4 text-gray-800 truncate max-w-[220px]">
                       {item.productName}
                     </td>
-                    <td className="px-6 py-4">{item.quantity}</td>
-                    <td className="px-6 py-4">{item.totalSales}</td>
+                    <td className="px-3 sm:px-6 py-4 whitespace-nowrap">
+                      {item.quantity}
+                    </td>
+                    <td className="px-3 sm:px-6 py-4 whitespace-nowrap">
+                      {item.totalSales}
+                    </td>
                   </tr>
                 ))
               ) : (
                 <tr>
                   <td
-                    colSpan="10"
+                    colSpan="4"
                     className="text-center py-6 text-gray-500 italic"
                   >
                     No results found
