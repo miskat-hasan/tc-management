@@ -9,8 +9,8 @@ import React from "react";
 
 const page = () => {
   return (
-    <section className="flex flex-col gap-5">
-      <div className="flex flex-col gap-5">
+    <section className="flex flex-col gap-2.5 lg:gap-5">
+      <div className="flex flex-col gap-2.5 lg:gap-5">
         <SectionTitle title={"Shortcuts"} />
         {/* <div className="w-[384px] h-[136px] p-[20px] bg-white rounded-[20px] flex flex-col justify-between">
           <div className="flex gap-[20px] items-center">
@@ -30,7 +30,7 @@ const page = () => {
           </Link>
         </div> */}
 
-        <div className="flex gap-[30px]">
+        <div className="flex flex-col md:flex-row gap-[15px] lg:gap-[30px]">
           <InfoCard
             icon={<DollarIcon />}
             title="Recent Funding Activity"
@@ -46,14 +46,14 @@ const page = () => {
         </div>
       </div>
 
-      <div className="flex gap-5">
-        <div className="flex grow flex-col gap-5">
+      <div className="flex flex-col lg:flex-row gap-2.5 lg:gap-5">
+        <div className="flex grow flex-col gap-2.5 xl:gap-5">
           <SectionTitle title={"Daily Volumes"} />
           <SalesDashboard />
         </div>
-        <div className="flex w-[500px] flex-col gap-5">
+        <div className="flex w-full lg:w-[500px] flex-col gap-2.5 lg:gap-5">
           <SectionTitle title={"Overview"} />
-          <div className="w-full h-[450px] bg-white rounded-[20px] p-[20px] flex flex-col gap-[20px]">
+          <div className="w-full h-auto lg:h-[450px] bg-white rounded-[20px] p-[15px] lg:p-[20px] flex flex-col gap-[10px] lg:gap-[20px]">
             {overviewData?.map((data, i) => (
               <div key={i} className="flex items-center justify-between">
                 <p className="text-[12px] font-bold">{data?.label}</p>

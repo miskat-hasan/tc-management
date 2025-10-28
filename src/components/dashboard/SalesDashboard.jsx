@@ -11,7 +11,7 @@ import {
   Label,
 } from "recharts";
 
-// Mock data by month and year
+// Mock data
 const allChartData = {
   2025: {
     Sep: [
@@ -82,14 +82,14 @@ const allChartData = {
   },
 };
 
-// Simple Select component
+// Select component
 const Select = ({ label, value, onChange, children }) => (
-  <div className="flex items-center gap-2">
+  <div className="flex flex-col sm:flex-row sm:items-center gap-2">
     <label className="text-sm font-medium text-gray-700">{label}</label>
     <select
       value={value}
       onChange={onChange}
-      className="rounded-md border-gray-300 shadow-sm focus:border-red-500 focus:ring-red-500 text-sm"
+      className="rounded-md border-gray-300 shadow-sm focus:border-red-600 focus:ring-red-600 text-sm"
     >
       {children}
     </select>
@@ -100,19 +100,20 @@ export const SalesDashboard = () => {
   const [month, setMonth] = useState("Sep");
   const [year, setYear] = useState("2025");
 
-  // Memoize the correct data based on month/year
-  const chartData = useMemo(() => {
-    return allChartData[year]?.[month] || [];
-  }, [month, year]);
+  const chartData = useMemo(
+    () => allChartData[year]?.[month] || [],
+    [month, year]
+  );
 
   return (
-    <div className="bg-white rounded-2xl shadow-lg p-6 w-full max-w-5xl ">
+    <div className="bg-white rounded-2xl shadow-md p-4 sm:p-6 w-full max-w-6xl mx-auto">
       {/* Header */}
-      <div className="flex justify-between items-center mb-6">
-        <h2 className="text-xl font-bold text-red-800">
+      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-6 gap-4">
+        <h2 className="text-lg sm:text-xl font-semibold text-red-800">
           {month === "Sep" ? "September" : month} {year}
         </h2>
-        <div className="flex gap-4">
+
+        <div className="flex flex-wrap gap-3 sm:gap-4">
           <Select
             label="Year"
             value={year}
@@ -121,6 +122,7 @@ export const SalesDashboard = () => {
             <option value="2025">2025</option>
             <option value="2024">2024</option>
           </Select>
+
           <Select
             label="Month"
             value={month}
@@ -134,23 +136,21 @@ export const SalesDashboard = () => {
       </div>
 
       {/* Chart */}
-      <div className="h-[350px]">
+      <div className="h-[250px] sm:h-[350px]">
         <SalesChart data={chartData} />
       </div>
     </div>
   );
 };
 
-// Custom label
-const CustomLabel = (props) => {
-  const { x, y, value } = props;
+// Custom label for highlighted value
+const CustomLabel = ({ x, y, value }) => {
   if (value === 750) {
     return (
       <text
         x={x}
-        y={y}
-        dy={-15}
-        fill="#333"
+        y={y - 15}
+        fill="#B70000"
         fontSize={12}
         fontWeight="bold"
         textAnchor="middle"
@@ -162,9 +162,10 @@ const CustomLabel = (props) => {
   return null;
 };
 
+// Chart component
 const SalesChart = ({ data }) => (
   <ResponsiveContainer width="100%" height="100%">
-    <AreaChart data={data} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
+    <AreaChart data={data} margin={{ top: 10, right: 20, left: 0, bottom: 0 }}>
       <defs>
         <linearGradient id="chartGradient" x1="0" y1="0" x2="0" y2="1">
           <stop offset="5%" stopColor="#B70000" stopOpacity={0.4} />
@@ -172,13 +173,12 @@ const SalesChart = ({ data }) => (
         </linearGradient>
       </defs>
 
-      <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#eee" />
+      <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f1f1" />
       <XAxis
         dataKey="day"
         axisLine={false}
         tickLine={false}
         tick={{ fontSize: 12, fill: "#666" }}
-        padding={{ left: 10, right: 10 }}
       />
       <YAxis
         axisLine={false}
@@ -188,8 +188,8 @@ const SalesChart = ({ data }) => (
       <Tooltip
         contentStyle={{
           borderRadius: "8px",
-          borderColor: "#ddd",
-          boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
+          borderColor: "#eee",
+          boxShadow: "0 2px 8px rgba(0,0,0,0.08)",
         }}
         formatter={(value) => [`$${value.toLocaleString()}`, "Sales"]}
       />
