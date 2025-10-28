@@ -10,32 +10,32 @@ const Page = () => {
   const [selectedShow, setSelectedShow] = useState(50);
 
   return (
-    <div className="flex flex-col gap-[25px]">
+    <div className="flex flex-col gap-[12.5px] lg:gap-[25px]">
       {/* Header */}
       <div className="flex justify-between">
         <SectionTitle title={"Client List"} />
       </div>
 
       {/* Table */}
-      <div className="p-[26px] bg-white rounded-[14px] flex flex-col gap-[24px]">
+      <div className=" px-[16px] py-[16px] lg:px-[32px] lg:py-[32px] bg-white rounded-[16px] flex flex-wrap lg:flex-nowrap gap-[10px] xl:gap-[24px]">
         <div>
           <SubSectionTitle subtitle="All List" />
-          
         </div>
 
         <div className="overflow-x-auto">
-          <table className="w-full text-sm text-left text-gray-700">
-            <thead className="bg-gray-50 text-black capitalize text-[20px] font-semibold">
+          <table className="min-w-[900px] w-full text-sm sm:text-base text-left text-gray-700">
+            <thead className="bg-gray-50 text-black capitalize text-[16px] sm:text-[20px] font-semibold">
               <tr>
-                <th className="px-6 py-3">Company</th>
-                <th className="px-6 py-3">Abbrev</th>
-                <th className="px-6 py-3">Contact</th>
-                <th className="px-6 py-3">Phone</th>
-                <th className="px-6 py-3">Email</th>
-                <th className="px-6 py-3">Contact Date</th>
-                <th className="px-6 py-3 text-center">Action</th>
+                <th className="px-3 sm:px-6 md:py-3">Company</th>
+                <th className="px-3 sm:px-6 md:py-3">Abbrev</th>
+                <th className="px-3 sm:px-6 md:py-3">Contact</th>
+                <th className="px-3 sm:px-6 md:py-3">Phone</th>
+                <th className="px-3 sm:px-6 md:py-3">Email</th>
+                <th className="px-3 sm:px-6 md:py-3">Contact Date</th>
+                <th className="px-3 sm:px-6 md:py-3 text-center">Action</th>
               </tr>
             </thead>
+
             <tbody>
               {ClientLists?.length > 0 ? (
                 ClientLists.map((item, index) => (
@@ -43,17 +43,27 @@ const Page = () => {
                     key={index}
                     className="border-b hover:bg-gray-50 transition-all"
                   >
-                    <td className="px-6 py-4 text-gray-800">{item.name}</td>
-                    <td className="px-6 py-4">{item.abbrev}</td>
-                    <td className="px-6 py-4">{item.contact}</td>
-                    <td className="px-6 py-4">{item.phone}</td>
-                    <td className="px-6 py-4 truncate max-w-[220px]">
+                    <td className="px-3 sm:px-6 py-3 text-gray-800 whitespace-nowrap">
+                      {item.name}
+                    </td>
+                    <td className="px-3 sm:px-6 py-3 whitespace-nowrap">
+                      {item.abbrev}
+                    </td>
+                    <td className="px-3 sm:px-6 py-3 whitespace-nowrap">
+                      {item.contact}
+                    </td>
+                    <td className="px-3 sm:px-6 py-3 whitespace-nowrap">
+                      {item.phone}
+                    </td>
+                    <td className="px-3 sm:px-6 py-3 truncate max-w-[180px] sm:max-w-[220px]">
                       {item.email}
                     </td>
-                    <td className="px-6 py-4">{item.contactDate}</td>
-                    <td className="px-6 py-4 text-center">
-                      <button className="p-2 bg-gray-100 rounded-lg hover:bg-gray-200 transition">
-                        <CiEdit className="text-gray-600 text-[16px]" />
+                    <td className="px-3 sm:px-6 py-3 whitespace-nowrap">
+                      {item.contactDate}
+                    </td>
+                    <td className="px-3 sm:px-6 py-3 text-center">
+                      <button className="p-1.5 sm:p-2 bg-gray-100 rounded-lg hover:bg-gray-200 transition">
+                        <CiEdit className="text-gray-600 text-[14px] sm:text-[16px]" />
                       </button>
                     </td>
                   </tr>
@@ -61,7 +71,7 @@ const Page = () => {
               ) : (
                 <tr>
                   <td
-                    colSpan="9"
+                    colSpan="7"
                     className="text-center py-6 text-gray-500 italic"
                   >
                     No results found
@@ -73,7 +83,7 @@ const Page = () => {
         </div>
 
         {/* Footer controls */}
-        <div className="flex flex-col md:flex-row items-center justify-between mt-6 gap-3">
+        <div className="flex flex-col md:flex-row items-center justify-between mt-3 lg:mt-6 gap-3">
           <div className="flex items-center gap-2">
             <span className="text-gray-600 text-sm">Show:</span>
             <select
