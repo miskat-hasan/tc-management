@@ -31,11 +31,11 @@ const Page = () => {
     };
   };
   return (
-    <section className="flex flex-col gap-4">
+    <section className="flex flex-col gap-2 lg:gap-4">
       <SectionTitle title={"Add Client"} />
-      <div className="p-[26px] bg-white rounded-[14px] flex flex-col gap-[24px]">
+      <div className="p-[13px] lg:p-[26px] bg-white rounded-[14px] flex flex-col gap-[12px] lg:gap-[24px]">
         <FormContainer form={form} onSubmit={onSubmit}>
-          <div className="grid grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-6">
             <FormInput
               name="company"
               label="Company"
@@ -129,7 +129,7 @@ const Page = () => {
           </div>
 
           <div className="flex items-center justify-end">
-            <div className="flex justify-end gap-4 mt-8">
+            <div className="flex justify-end gap-4 mt-4 lg:mt-8">
               <Button
                 type="button"
                 className="px-6 py-2 bg-transparent border border-gray-300 rounded-md text-sm font-medium text-black hover:bg-gray-50 focus:outline-none"
