@@ -18,15 +18,15 @@ const Page = () => {
   };
 
   return (
-    <section className="flex flex-col gap-4">
+    <section className="flex flex-col gap-2 lg:gap-4">
       {/* Title */}
       <SectionTitle title="Add Instructor" />
 
       {/* White Form Card */}
-      <div className="bg-white rounded-[14px] p-8 shadow-sm">
+      <div className="bg-white rounded-[14px] p-4 lg:p-8 shadow-sm">
         <FormContainer form={form} onSubmit={onSubmit}>
           {/* Grid Layout */}
-          <div className="grid grid-cols-2 gap-x-6 gap-y-5">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-2.5 lg:gap-y-5">
             <FormInput
               name="username"
               label="User Name"
@@ -140,18 +140,18 @@ const Page = () => {
           </div>
 
           {/* Options + Roles */}
-          <div className="grid grid-cols-2 gap-10 mt-8">
-            <div className="flex flex-col gap-2">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-10 mt-4 md:mt-8">
+            <div className="flex flex-col gap-1 md:gap-2">
               <p className="font-semibold text-[15px] text-gray-700">Options</p>
-              <label className="flex items-center gap-2 text-sm">
+              <label className="flex items-center gap-1 md:gap-2 text-[10px] md:text-sm">
                 <input type="checkbox" className="accent-brown" />
                 Active User
               </label>
-              <label className="flex items-center gap-2 text-sm">
+              <label className="flex items-center gap-1 md:gap-2 text-[10px] md:text-sm">
                 <input type="checkbox" className="accent-brown" />
                 Archive Only User
               </label>
-              <label className="flex items-center gap-2 text-sm">
+              <label className="flex items-center gap-1 md:gap-2 text-[10px] md:text-sm">
                 <input type="checkbox" className="accent-brown" />
                 Allow this instructor to bid on open classes
               </label>
@@ -159,23 +159,23 @@ const Page = () => {
 
             <div className="flex flex-col gap-2">
               <p className="font-semibold text-[15px] text-gray-700">Roles</p>
-              <label className="flex items-center gap-2 text-sm">
+              <label className="flex items-center gap-1 md:gap-2 text-[10px] md:text-sm">
                 <input type="checkbox" className="accent-brown" />
                 Training Center Admin
               </label>
-              <label className="flex items-center gap-2 text-sm">
+              <label className="flex items-center gap-1 md:gap-2 text-[10px] md:text-sm">
                 <input type="checkbox" className="accent-brown" />
                 Training Site Admin
               </label>
-              <label className="flex items-center gap-2 text-sm">
+              <label className="flex items-center gap-1 md:gap-2 text-[10px] md:text-sm">
                 <input type="checkbox" className="accent-brown" />
                 Instructor
               </label>
-              <label className="flex items-center gap-2 text-sm">
+              <label className="flex items-center gap-1 md:gap-2 text-[10px] md:text-sm">
                 <input type="checkbox" className="accent-brown" />
                 Instructor Assistant
               </label>
-              <label className="flex items-center gap-2 text-sm">
+              <label className="flex items-center gap-1 md:gap-2 text-[10px] md:text-sm">
                 <input type="checkbox" className="accent-brown" />
                 Class Manager
               </label>
@@ -183,7 +183,7 @@ const Page = () => {
           </div>
 
           {/* Footer Buttons */}
-          <div className="flex justify-end gap-4 mt-10">
+          <div className="flex justify-end gap-2 lg:gap-4 mt-5 lg:mt-10">
             <Button
               type="button"
               className="px-6 py-2 bg-transparent border border-gray-300 rounded-md text-sm font-medium text-black hover:bg-gray-50"
