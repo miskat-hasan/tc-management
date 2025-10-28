@@ -39,14 +39,14 @@ const Page = () => {
   };
 
   return (
-    <div className="flex flex-col gap-[25px]">
+    <div className="flex flex-col gap-[12.5px] lg:gap-[25px]">
       {/* Header */}
       <div className="flex justify-between">
         <SectionTitle title={"Client Activity Report"} />
       </div>
 
       {/* Search filters */}
-      <div className="px-[32px] py-[32px] bg-white rounded-[16px] flex gap-[24px]">
+      <div className="lg:px-[32px] px-[16px] py-[16px] lg:py-[32px] bg-white rounded-[16px] flex gap-[12px] lg:gap-[24px]">
         <CustomSelect
           id="dates"
           label="Dates"
@@ -95,7 +95,7 @@ const Page = () => {
         <div className="flex justify-end items-end">
           <Button
             onClick={handleSearch}
-            className="py-[24px] cursor-pointer bg-brown flex items-center gap-2"
+            className="py-[12px] lg:py-[24px] cursor-pointer bg-brown flex items-center gap-2"
           >
             <SearchIcon />
             Search
@@ -104,21 +104,24 @@ const Page = () => {
       </div>
 
       {/* Table */}
-      <div className="p-[26px] bg-white rounded-[14px] flex flex-col gap-[24px]">
+      <div className="p-[13px] lg:p-[26px] bg-white rounded-[14px] flex flex-col gap-[12px] lg:gap-[24px]">
         <SubSectionTitle subtitle="Client Registrations" />
-        <div className="overflow-x-auto">
-          <table className="w-full text-sm text-left text-gray-700">
-            <thead className="bg-gray-50 text-black capitalize text-[20px] font-semibold">
+        <div className="overflow-x-auto ">
+          <table className="min-w-[900px] w-full text-sm sm:text-base text-left text-gray-700">
+            <thead className="bg-gray-50 text-black capitalize text-[16px] sm:text-[20px] font-semibold">
               <tr>
-                <th className="px-6 py-3 w-[200px] ">Name</th>
-                <th className="px-6 py-3">Client</th>
-                <th className="px-6 py-3">Class</th>
-                <th className="px-6 py-3">Price</th>
-                <th className="px-6 py-3">Due</th>
-                <th className="px-6 py-3">Status</th>
-                <th className="px-6 py-3 text-center">Action</th>
+                <th className="px-3 sm:px-6 py-3 w-[150px] sm:w-[200px]">
+                  Name
+                </th>
+                <th className="px-3 sm:px-6 py-3">Client</th>
+                <th className="px-3 sm:px-6 py-3">Class</th>
+                <th className="px-3 sm:px-6 py-3">Price</th>
+                <th className="px-3 sm:px-6 py-3">Due</th>
+                <th className="px-3 sm:px-6 py-3">Status</th>
+                <th className="px-3 sm:px-6 py-3 text-center">Action</th>
               </tr>
             </thead>
+
             <tbody>
               {filteredData.length > 0 ? (
                 filteredData.map((item) => (
@@ -126,19 +129,25 @@ const Page = () => {
                     key={item.id}
                     className="border-b hover:bg-gray-50 transition-all"
                   >
-                    <td className="px-6 py-4 text-gray-800">
-                      <p>{item.name}</p>
-                      <p>{item.email}</p>
+                    <td className="px-3 sm:px-6 py-3 text-gray-800 whitespace-nowrap">
+                      <p className="font-medium">{item.name}</p>
+                      <p className="text-xs sm:text-sm text-gray-500 truncate">
+                        {item.email}
+                      </p>
                     </td>
-                    <td className="px-6 py-4">{item.client}</td>
-                    <td className="px-6 py-4 truncate max-w-[220px]">
+                    <td className="px-3 sm:px-6 py-3 whitespace-nowrap">
+                      {item.client}
+                    </td>
+                    <td className="px-3 sm:px-6 py-3 truncate max-w-[150px] sm:max-w-[220px]">
                       {item.class}
                     </td>
-                    <td className="px-6 py-4 truncate max-w-[220px]">
+                    <td className="px-3 sm:px-6 py-3 truncate max-w-[150px] sm:max-w-[220px]">
                       {item.price}
                     </td>
-                    <td className="px-6 py-4 text-gray-600">{item.due}</td>
-                    <td className="px-6 py-4 text-gray-600">
+                    <td className="px-3 sm:px-6 py-3 text-gray-600 whitespace-nowrap">
+                      {item.due}
+                    </td>
+                    <td className="px-3 sm:px-6 py-3 text-gray-600 whitespace-nowrap">
                       <span
                         className={`px-3 py-1 rounded-full text-xs font-medium ${
                           item.status === "Complete"
@@ -149,9 +158,9 @@ const Page = () => {
                         {item.status}
                       </span>
                     </td>
-                    <td className="px-6 py-4 text-center">
-                      <button className="p-2 bg-gray-100 rounded-lg hover:bg-gray-200 transition">
-                        <CiEdit className="text-gray-600 text-[16px]" />
+                    <td className="px-3 sm:px-6 py-3 text-center">
+                      <button className="p-1.5 sm:p-2 bg-gray-100 rounded-lg hover:bg-gray-200 transition">
+                        <CiEdit className="text-gray-600 text-[14px] sm:text-[16px]" />
                       </button>
                     </td>
                   </tr>
@@ -171,7 +180,7 @@ const Page = () => {
         </div>
 
         {/* Footer controls */}
-        <div className="flex flex-col md:flex-row items-center justify-between mt-6 gap-3">
+        <div className="flex flex-col md:flex-row items-center justify-between mt-3 lg:mt-6 gap-3">
           <div className="flex items-center gap-2">
             <span className="text-gray-600 text-sm">Show:</span>
             <select

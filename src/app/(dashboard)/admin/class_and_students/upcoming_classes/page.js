@@ -140,7 +140,7 @@ const Page = () => {
       <div className="p-[13px] lg:p-[26px] bg-white rounded-[14px] flex flex-col gap-[12px] lg:gap-[24px]">
         <SubSectionTitle subtitle="All Lists" />
         <div className="overflow-x-auto">
-          <table className="w-full text-sm sm:text-base text-left text-gray-700 min-w-[800px]">
+          <table className="w-full  text-sm sm:text-base text-left text-gray-700 min-w-[800px]">
             <thead className="bg-gray-50 text-black capitalize text-[16px] sm:text-[18px] font-semibold">
               <tr>
                 <th className="px-3 sm:px-6 py-3 w-[40px]">SL</th>
