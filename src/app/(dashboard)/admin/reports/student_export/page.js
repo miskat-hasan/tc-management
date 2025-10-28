@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Papa from "papaparse";
 import CustomSelect from "@/components/shared/form/CustomSelect";
+import SectionTitle from "@/components/common/SectionTitle";
 
 const DUMMY_STUDENTS = [
   {
@@ -97,10 +98,10 @@ export default function StudentExport() {
 
   return (
     <div className=" max-w-full  ">
-      <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
-        <h2 className="text-xl font-semibold text-gray-900">Student Export</h2>
+      <div className="rounded-xl border border-gray-200 bg-white p-3 lg:p-6 shadow-sm">
+        <SectionTitle title={"Student Export"} />
 
-        <div className="mt-4 flex items-center gap-2.5 ">
+        <div className="mt-2 flex items-center gap-2.5 ">
           <CustomSelect
             id="date-range"
             label="Dates"
@@ -123,16 +124,16 @@ export default function StudentExport() {
             className={"flex-1"}
           />
 
-          <div className="pt-[38px]">
+          <div>
             <button
               onClick={handleExport}
               disabled={isDownloading}
               title="Export"
-              className="flex h-[48px] w-12 items-center justify-center rounded-md border border-brown bg-brown text-white hover:text-brown cursor-pointer transition-colors hover:bg-red-50 disabled:cursor-not-allowed disabled:opacity-50"
+              className="flex h-[40px] lg:h-[48px] w-12 items-center justify-center rounded-md border border-brown bg-brown text-white hover:text-brown cursor-pointer transition-colors hover:bg-red-50 disabled:cursor-not-allowed disabled:opacity-50"
             >
               {isDownloading ? (
                 <svg
-                  className="h-5 w-5 animate-spin"
+                  className="lg:h-5 h-3 w-3  lg:w-5 animate-spin"
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
                   viewBox="0 0 24 24"
@@ -172,7 +173,7 @@ export default function StudentExport() {
         </div>
       </div>
 
-      <div className="mt-5 rounded-xl border border-gray-200 bg-white p-5 text-sm leading-relaxed text-gray-600">
+      <div className="mt-2.5 lg:mt-5 rounded-xl border border-gray-200 bg-white p-2.5 lg:p-5 text-[12px] md:text-sm leading-relaxed text-gray-600">
         This page will produce an Excel Export of your students including all
         pertinent class and registration information. Select your desired date
         range below and click "Go" to generate the report. If you are using
