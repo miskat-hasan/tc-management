@@ -29,16 +29,17 @@ const Page = () => {
       {/* Table */}
       <div className="p-[13px] lg:p-[26px] bg-white rounded-[14px] flex flex-col gap-[12px] lg:gap-[24px]">
         <div className="overflow-x-auto">
-          <table className="w-full text-sm text-left text-gray-700">
-            <thead className="bg-gray-50 text-black capitalize text-[20px] font-semibold">
+          <table className="min-w-[600px] w-full text-sm sm:text-base text-left text-gray-700">
+            <thead className="bg-gray-50 text-black capitalize text-[14px] sm:text-[20px] font-semibold">
               <tr>
-                <th className="px-6 py-3 ">Company</th>
-                <th className="px-6 py-3">Contact</th>
-                <th className="px-6 py-3">Email</th>
-                <th className="px-6 py-3">Level</th>
-                <th className="px-6 py-3 text-center">Action</th>
+                <th className="px-3 sm:px-6 py-3">Company</th>
+                <th className="px-3 sm:px-6 py-3">Contact</th>
+                <th className="px-3 sm:px-6 py-3">Email</th>
+                <th className="px-3 sm:px-6 py-3">Level</th>
+                <th className="px-3 sm:px-6 py-3 text-center">Action</th>
               </tr>
             </thead>
+
             <tbody>
               {TrainingSiteData.length > 0 ? (
                 TrainingSiteData.map((item, index) => (
@@ -46,13 +47,21 @@ const Page = () => {
                     key={index}
                     className="border-b hover:bg-gray-50 transition-all"
                   >
-                    <td className="px-6 py-4 text-gray-800">{item?.company}</td>
-                    <td className="px-6 py-4 text-gray-800">{item.contact}</td>
-                    <td className="px-6 py-4">{item.email}</td>
-                    <td className="px-6 py-4">{item.level}</td>
-                    <td className="px-6 py-4 text-center">
-                      <button className="p-2 bg-gray-100 rounded-lg hover:bg-gray-200 transition">
-                        <CiEdit className="text-gray-600 text-[16px]" />
+                    <td className="px-3 sm:px-6 py-3 text-gray-800 whitespace-nowrap">
+                      {item?.company}
+                    </td>
+                    <td className="px-3 sm:px-6 py-3 whitespace-nowrap">
+                      {item.contact}
+                    </td>
+                    <td className="px-3 sm:px-6 py-3 truncate max-w-[150px] sm:max-w-[250px]">
+                      {item.email}
+                    </td>
+                    <td className="px-3 sm:px-6 py-3 whitespace-nowrap">
+                      {item.level}
+                    </td>
+                    <td className="px-3 sm:px-6 py-3 text-center">
+                      <button className="p-1.5 sm:p-2 bg-gray-100 rounded-lg hover:bg-gray-200 transition">
+                        <CiEdit className="text-gray-600 text-[14px] sm:text-[16px]" />
                       </button>
                     </td>
                   </tr>
@@ -60,8 +69,8 @@ const Page = () => {
               ) : (
                 <tr>
                   <td
-                    colSpan="8"
-                    className="text-center py-6 text-gray-500 italic"
+                    colSpan="5"
+                    className="text-center py-3 sm:py-6 text-gray-500 italic"
                   >
                     No results found
                   </td>
