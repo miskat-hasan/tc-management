@@ -222,7 +222,7 @@ const MobileSidebar = ({ onClose, isSidebarOpen }) => {
                   <>
                     <button
                       onClick={() => toggleMenu(item.label)}
-                      className={`flex justify-between items-center w-full px-4 py-2 rounded-lg text-left ${
+                      className={`flex justify-between items-center w-full px-2 py-2 rounded-lg text-left ${
                         isMenuOpen ? "bg-brown text-white" : "hover:bg-gray-100"
                       }`}
                     >
