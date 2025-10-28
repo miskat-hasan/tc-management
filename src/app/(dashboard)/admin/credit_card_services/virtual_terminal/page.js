@@ -18,15 +18,15 @@ const Page = () => {
   };
 
   return (
-    <section className="flex flex-col gap-4">
+    <section className="flex flex-col gap-2 lg:gap-4">
       {/* Title */}
       <SectionTitle title="Virtual Terminal" />
 
       {/* White Form Card */}
-      <div className="bg-white rounded-[14px] p-8 shadow-sm">
+      <div className="bg-white rounded-[14px] p-4 lg:p-8 shadow-sm">
         <FormContainer form={form} onSubmit={onSubmit}>
           {/* Grid Layout */}
-          <div className="grid grid-cols-2 gap-x-6 gap-y-5">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-5">
             <FormInput
               name="firstName"
               label="First Name"
@@ -98,7 +98,7 @@ const Page = () => {
           </div>
 
           {/* Footer Buttons */}
-          <div className="flex justify-end gap-4 mt-10">
+          <div className="flex justify-end gap-4 mt-5 lg:mt-10">
             <Button
               type="button"
               className="px-6 py-2 bg-transparent border border-gray-300 rounded-md text-sm font-medium text-black hover:bg-gray-50"
