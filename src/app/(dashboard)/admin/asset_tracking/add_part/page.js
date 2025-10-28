@@ -19,15 +19,15 @@ const Page = () => {
   };
 
   return (
-    <section className="flex flex-col gap-4">
+    <section className="flex flex-col gap-2 lg:gap-4">
       {/* Title */}
       <SectionTitle title="New Asset Tracking Part" />
 
       {/* White Form Card */}
-      <div className="bg-white rounded-[14px] p-8 shadow-sm">
+      <div className="bg-white rounded-[14px] p-4 lg:p-8 shadow-sm">
         <FormContainer form={form} onSubmit={onSubmit}>
           {/* Grid Layout */}
-          <div className="grid grid-cols-2 gap-x-6 gap-y-5">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-2 md:gap-y-5">
             <FormInput name="name" label="Name" placeholder="Name here" />
             <FormInput
               name="part"

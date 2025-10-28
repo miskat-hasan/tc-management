@@ -17,13 +17,13 @@ const Page = () => {
         <SectionTitle title={"Parts List"} />
         <Button
           onClick={handleNavigation}
-          className="py-[22px] cursor-pointer bg-brown flex items-center gap-2"
+          className="py-[11px] lg:py-[22px] cursor-pointer bg-brown flex items-center gap-2"
         >
           Add Part <PlusIcon />
         </Button>
       </div>
 
-      <div className="px-[24px] py-[24px] bg-white rounded-[16px] flex gap-[24px] w-full">
+      <div className="lg:px-[24px] px-[12px] py-[12px] lg:py-[24px] bg-white rounded-[16px] flex gap-[24px] w-full">
         <NotFound />
       </div>
     </div>
