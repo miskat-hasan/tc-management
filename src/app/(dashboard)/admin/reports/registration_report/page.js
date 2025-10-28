@@ -138,14 +138,14 @@ const Page = () => {
   };
 
   return (
-    <div className="flex flex-col gap-[25px]">
+    <div className="flex flex-col gap-[12.5px] lg:gap-[25px]">
       {/* Header */}
       <div className="flex justify-between">
-        <SectionTitle title={"Promo Code Reports"} />
+        <SectionTitle title={"Registration Reports"} />
       </div>
 
       {/* Filters */}
-      <div className="px-[32px] py-[32px] bg-white rounded-[16px] flex gap-[24px]">
+      <div className="lg:px-[32px] px-[16px] py-[16px] lg:py-[32px] bg-white rounded-[16px] flex gap-[12px] flex-wrap lg:gap-[24px]">
         <CustomSelect
           id="registration"
           label="Registration Date"
@@ -197,7 +197,7 @@ const Page = () => {
         <div className="flex justify-end items-end">
           <Button
             onClick={handleSearch}
-            className="py-[24px] cursor-pointer bg-brown flex items-center gap-2"
+            className="py-[12px] lg:py-[24px] cursor-pointer bg-brown flex items-center gap-2"
           >
             <SearchIcon />
             Search
@@ -206,17 +206,25 @@ const Page = () => {
       </div>
 
       {/* Table */}
-      <div className="p-[26px] bg-white rounded-[14px] flex flex-col gap-[24px]">
+      <div className="p-[13px] lg:p-[26px] bg-white rounded-[14px] flex flex-col gap-[24px]">
         <SubSectionTitle subtitle="All Lists" />
         <div className="overflow-x-auto">
-          <table className="w-full text-sm text-left text-gray-700">
-            <thead className="bg-gray-50 text-black capitalize text-[20px] font-semibold">
+          <table className="min-w-[650px] w-full text-sm text-left text-gray-700">
+            <thead className="bg-gray-50 text-black capitalize text-[16px] sm:text-[20px] font-semibold">
               <tr>
-                <th className="px-6 py-3">Student Name</th>
-                <th className="px-6 py-3">Reg Date</th>
-                <th className="px-6 py-3">Class Date</th>
-                <th className="px-6 py-3">Course</th>
-                <th className="px-6 py-3">Balance Due</th>
+                <th className="px-3 sm:px-6 py-3 whitespace-nowrap">
+                  Student Name
+                </th>
+                <th className="px-3 sm:px-6 py-3 whitespace-nowrap">
+                  Reg Date
+                </th>
+                <th className="px-3 sm:px-6 py-3 whitespace-nowrap">
+                  Class Date
+                </th>
+                <th className="px-3 sm:px-6 py-3 whitespace-nowrap">Course</th>
+                <th className="px-3 sm:px-6 py-3 whitespace-nowrap">
+                  Balance Due
+                </th>
               </tr>
             </thead>
             <tbody>
@@ -226,17 +234,27 @@ const Page = () => {
                     key={item.id}
                     className="border-b hover:bg-gray-50 transition-all"
                   >
-                    <td className="px-6 py-4 text-gray-800">{item.student}</td>
-                    <td className="px-6 py-4 text-gray-800">{item.dateTime}</td>
-                    <td className="px-6 py-4">{item.dateTime}</td>
-                    <td className="px-6 py-4">{item.course}</td>
-                    <td className="px-6 py-4 text-gray-600">0.00</td>
+                    <td className="px-3 sm:px-6 py-4 text-gray-800 whitespace-nowrap">
+                      {item.student}
+                    </td>
+                    <td className="px-3 sm:px-6 py-4 text-gray-800 whitespace-nowrap">
+                      {item.dateTime}
+                    </td>
+                    <td className="px-3 sm:px-6 py-4 text-gray-800 whitespace-nowrap">
+                      {item.dateTime}
+                    </td>
+                    <td className="px-3 sm:px-6 py-4 truncate max-w-[200px]">
+                      {item.course}
+                    </td>
+                    <td className="px-3 sm:px-6 py-4 text-gray-600 whitespace-nowrap">
+                      0.00
+                    </td>
                   </tr>
                 ))
               ) : (
                 <tr>
                   <td
-                    colSpan="7"
+                    colSpan="5"
                     className="text-center py-6 text-gray-500 italic"
                   >
                     No results found
