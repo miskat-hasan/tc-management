@@ -29,19 +29,38 @@ const CustomSelect = ({
   }, [controlledValue]);
 
   return (
-    <div className={`flex flex-col gap-3 ${className || ""}`}>
+    <div className={`flex flex-col gap-2 sm:gap-3 w-full ${className || ""}`}>
       {label && (
-        <label htmlFor={id} className="text-base font-medium text-gray-700">
+        <label
+          htmlFor={id}
+          className="text-sm sm:text-base font-medium text-gray-700"
+        >
           {label}
         </label>
       )}
+
       <Select value={value} onValueChange={setValue} id={id}>
-        <SelectTrigger className="w-full border border-gray-300 bg-light rounded-md px-3 !py-2 !h-[48px] text-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-300">
+        <SelectTrigger
+          className="
+            w-full
+            border border-gray-300 
+            bg-light rounded-md 
+            px-2 sm:px-3 py-2 sm:!py-2.5 
+            text-sm sm:text-base text-gray-700
+            focus:outline-none focus:ring-2 focus:ring-gray-300
+            transition-all duration-150
+          "
+        >
           <SelectValue placeholder={placeholder} />
         </SelectTrigger>
-        <SelectContent>
+
+        <SelectContent className="max-h-60 overflow-y-auto">
           {options.map((opt) => (
-            <SelectItem key={opt.value} value={opt.value}>
+            <SelectItem
+              key={opt.value}
+              value={opt.value}
+              className="text-sm sm:text-base"
+            >
               {opt.label}
             </SelectItem>
           ))}

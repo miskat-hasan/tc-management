@@ -23,16 +23,16 @@ const DashboardTopbar = () => {
       <div className="flex items-center gap-2.5">
         <Link
           href={"/admin/notifications"}
-          className="w-[60px] h-[60px] bg-white rounded-[14px] flex items-center justify-center"
+          className="w-[40px] h-[40px] lg:w-[60px] lg:h-[60px] bg-white rounded-[14px] flex items-center justify-center"
         >
           <NotificationIcon />
         </Link>
 
         <Link
           href={"/admin/manage_profile"}
-          className="h-[60px] bg-white rounded-[14px] flex p-1 w-auto gap-[11px]"
+          className="h-auto lg:h-[60px] bg-white rounded-[14px]  flex items-center p-1 w-auto gap-[11px]"
         >
-          <div className="w-[50px] h-[50px] overflow-hidden rounded-[11px]">
+          <div className="w-[30px] h-[30px] lg:w-[50px] lg:h-[50px] overflow-hidden rounded-[11px]">
             <Image
               src="/user_pic.jpg"
               width={64}
@@ -42,8 +42,10 @@ const DashboardTopbar = () => {
             />
           </div>
           <div className="flex flex-col pr-[12px]">
-            <h6 className="text-xl font-medium">Nathan</h6>
-            <p className="text-[12px] text-[#8C8C8C]">Client ID: 882</p>
+            <h6 className="text-[16px] lg:text-xl font-medium">Nathan</h6>
+            <p className="text-[10px] lg:text-[12px] text-[#8C8C8C]">
+              Client ID: 882
+            </p>
           </div>
         </Link>
       </div>

@@ -54,10 +54,9 @@ export const NotificationIcon = () => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
       viewBox="0 0 24 24"
       fill="none"
+      className="w-[20px] h-[20px] md:w-[24px] md:h-[24px]"
     >
       <g clipPath="url(#clip0_255_23)">
         <path
