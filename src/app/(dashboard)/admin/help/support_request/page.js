@@ -25,7 +25,7 @@ const Page = () => {
         <p className="text-gray-500">
           Have a te&lical issue or an enhancement request? You can send an emai
           to <b className="text-black">support@enrolhvare.com</b> or fill out
-          the form below We'll be in touch as soon as possible.
+          the form below We will be in touch as soon as possible.
         </p>
       </div>
       {/* White Form Card */}

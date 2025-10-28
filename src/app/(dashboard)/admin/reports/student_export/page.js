@@ -176,10 +176,10 @@ export default function StudentExport() {
       <div className="mt-2.5 lg:mt-5 rounded-xl border border-gray-200 bg-white p-2.5 lg:p-5 text-[12px] md:text-sm leading-relaxed text-gray-600">
         This page will produce an Excel Export of your students including all
         pertinent class and registration information. Select your desired date
-        range below and click "Go" to generate the report. If you are using
-        Office 2007 or later, Excel "Wi" display a file format warning dialog
-        before loading the file. Click "Yes" on the dialog box and the file will
-        be displayed.
+        range below and click Go to generate the report. If you are using Office
+        2007 or later, Excel Wi display a file format warning dialog before
+        loading the file. Click Yes on the dialog box and the file will be
+        displayed.
       </div>
     </div>
   );
