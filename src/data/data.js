@@ -812,3 +812,60 @@ export const StudentSearchResultsdemoone = [
       "Deleted class (American RedCross) Adult and Pediatric First Aid/CPR/AED Blended Learning Course(345029) on 9/24/2025 2:00:00 PM",
   },
 ];
+
+export const TrainingSiteData = [
+  {
+    company: "AHA SHELL CPR, LLC 615–230–7991",
+    contact: "NATHANIEL SHELL",
+    email: "TRAINING@SHELLCPR.COM",
+    level: 2,
+  },
+  {
+    company: "AMERICAN HEART ASSOCIATION – CODE BLUE CPR SERVICES",
+    contact: "NATHANIEL SHELL",
+    email: "NATHAN@CODEBLUECPRSERVICES.COM",
+    level: 2,
+  },
+  {
+    company: "Aveanna Healthcare",
+    contact: "Kelli Pawelczak",
+    email: "Km92880@gmail.com",
+    level: 3,
+  },
+  {
+    company: "Equipped Medical Training and Services",
+    contact: "Joey Williams",
+    email: "j.jhslf@gmail.com",
+    level: 3,
+  },
+  {
+    company: "(American Heart Association)…",
+    contact: "Kelli Pawelczak",
+    email: "Km92880@gmail.com",
+    level: 3,
+  },
+  {
+    company: "Kelli Pawelczak Aveanna Healthcare",
+    contact: "Kingston Springs Fire Department",
+    email: "needemail@gmail.com",
+    level: 5,
+  },
+  {
+    company: "Kingston Springs Fire Department",
+    contact: "Chelsea Jackson",
+    email: "chelseadeton@hotmail.com",
+    level: 3,
+  },
+  {
+    company: "Laurel County Corrections KY",
+    contact: "Matthew De La Fe",
+    email: "noemail@emailnone.com",
+    level: 20,
+  },
+  {
+    company: "Miccosukee Casino And Resort",
+    contact: "Anthony Moser",
+    email: "anthonyemail@gmail.com",
+    level: 20,
+  },
+];
