@@ -88,7 +88,7 @@ export default function ActivityReportPage() {
   );
 
   return (
-    <main className="min-h-screen space-y-5 ">
+    <main className="min-h-screen space-y-2.5 lg:space-y-5 ">
       <SectionTitle title={"Activity Report"} />
       <div className="px-[16px] py-[16px] lg:px-[32px] lg:py-[32px] bg-white rounded-[16px] flex flex-wrap lg:flex-nowrap gap-[10px] xl:gap-[24px]">
         <CustomSelect
