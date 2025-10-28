@@ -1,13 +1,12 @@
 "use client";
 import SectionTitle from "@/components/common/SectionTitle";
 import SubSectionTitle from "@/components/common/SubSectionTitle";
-import CustomSelect from "@/components/shared/form/CustomSelect";
+
 import { Button } from "@/components/ui/button";
-import { keycodeSales, paymentReport } from "@/data/data";
-import { PlusIcon, SearchIcon } from "@/svg/SvgContainer";
+import { paymentReport } from "@/data/data";
+
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
-import { CiEdit } from "react-icons/ci";
 
 const Page = () => {
   const router = useRouter();
@@ -16,35 +15,49 @@ const Page = () => {
     router.push("/admin/credit_card_services/funding_reports");
   };
   return (
-    <div className="flex flex-col gap-[25px]">
+    <div className="flex flex-col gap-[12.5px] lg:gap-[25px]">
       {/* Header */}
       <div className="flex justify-between">
         <SectionTitle title={"Payment Report"} />
       </div>
 
       {/* Table */}
-      <div className="p-[26px] bg-white rounded-[14px] flex flex-col gap-[24px]">
+      <div className="p-[13px] lg:p-[26px] bg-white rounded-[14px] flex flex-col gap-[12px] lg:gap-[24px]">
         <div className="flex items-center justify-between">
           {" "}
           <SubSectionTitle subtitle="All List" />
           <Button
             onClick={handleNavigation}
-            className="py-[22px] cursor-pointer bg-brown flex items-center gap-2"
+            className="py-[11px] lg:py-[22px] text-[12px] lg:text-base cursor-pointer bg-brown flex items-center gap-2"
           >
             Funding Report $
           </Button>
         </div>
         <div className="overflow-x-auto">
-          <table className="w-full text-sm text-left text-gray-700">
-            <thead className="bg-gray-50 text-black capitalize text-[20px] font-semibold">
+          <table className="min-w-full text-sm text-left text-gray-700">
+            <thead className="bg-gray-50 text-black capitalize text-[16px] md:text-[20px] font-semibold">
               <tr>
-                <th className="px-6 py-3 w-[40px]">Date/Time</th>
-                <th className="px-6 py-3">Name</th>
-                <th className="px-6 py-3">Description</th>
-                <th className="px-6 py-3">User</th>
-                <th className="px-6 py-3">Type</th>
-                <th className="px-6 py-3">Tx ID</th>
-                <th className="px-6 py-3">Amount</th>
+                <th className="px-3 py-2 md:px-6 md:py-3 w-[40px] whitespace-nowrap">
+                  Date/Time
+                </th>
+                <th className="px-3 py-2 md:px-6 md:py-3 whitespace-nowrap">
+                  Name
+                </th>
+                <th className="px-3 py-2 md:px-6 md:py-3 whitespace-nowrap">
+                  Description
+                </th>
+                <th className="px-3 py-2 md:px-6 md:py-3 whitespace-nowrap">
+                  User
+                </th>
+                <th className="px-3 py-2 md:px-6 md:py-3 whitespace-nowrap">
+                  Type
+                </th>
+                <th className="px-3 py-2 md:px-6 md:py-3 whitespace-nowrap">
+                  Tx ID
+                </th>
+                <th className="px-3 py-2 md:px-6 md:py-3 whitespace-nowrap">
+                  Amount
+                </th>
               </tr>
             </thead>
             <tbody>
@@ -54,28 +67,32 @@ const Page = () => {
                     key={index}
                     className="border-b hover:bg-gray-50 transition-all"
                   >
-                    <td className="px-6 py-4 text-gray-800">{item.dateTime}</td>
-                    <td className="px-6 py-4 text-gray-800">
-                      <div>
-                        <p>{item.name}</p>
-                      </div>
+                    <td className="px-3 py-2 md:px-6 md:py-4 text-gray-800">
+                      {item.dateTime}
                     </td>
-                    <td className="px-6 py-4">{item.description}</td>
-                    <td className="px-6 py-4">{item.user}</td>
-                    <td className="px-6 py-4">{item.type}</td>
-                    <td className="px-6 py-4 truncate max-w-[250px]">
+                    <td className="px-3 py-2 md:px-6 md:py-4 text-gray-800">
+                      <p className="truncate max-w-[120px] md:max-w-none">
+                        {item.name}
+                      </p>
+                    </td>
+                    <td className="px-3 py-2 md:px-6 md:py-4">
+                      <p className="truncate max-w-[150px] md:max-w-none">
+                        {item.description}
+                      </p>
+                    </td>
+                    <td className="px-3 py-2 md:px-6 md:py-4">{item.user}</td>
+                    <td className="px-3 py-2 md:px-6 md:py-4">{item.type}</td>
+                    <td className="px-3 py-2 md:px-6 md:py-4 truncate max-w-[200px]">
                       {item.txID}
                     </td>
-                    <td className="px-6 py-4 truncate max-w-[250px]">
-                      {item.amount}
-                    </td>
+                    <td className="px-3 py-2 md:px-6 md:py-4">{item.amount}</td>
                   </tr>
                 ))
               ) : (
                 <tr>
                   <td
-                    colSpan="8"
-                    className="text-center py-6 text-gray-500 italic"
+                    colSpan="7"
+                    className="text-center py-3 lg:py-6 text-gray-500 italic"
                   >
                     No results found
                   </td>
@@ -86,7 +103,7 @@ const Page = () => {
         </div>
 
         {/* Footer controls */}
-        <div className="flex flex-col md:flex-row items-center justify-between mt-6 gap-3">
+        <div className="flex flex-col md:flex-row items-center justify-between mt-3 lg:mt-6 gap-3">
           <div className="flex items-center gap-2">
             <span className="text-gray-600 text-sm">Show:</span>
             <select
