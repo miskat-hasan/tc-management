@@ -103,34 +103,19 @@ const menuItems = [
     label: "Reports",
     href: "#",
     submenu: [
-      {
-        label: "Activity Reports",
-        href: "/admin/reports/activity_reports",
-      },
-      {
-        label: "Class Report",
-        href: "/admin/reports/class_reports",
-      },
+      { label: "Activity Reports", href: "/admin/reports/activity_reports" },
+      { label: "Class Report", href: "/admin/reports/class_reports" },
       {
         label: "Product Add-on Report",
         href: "/admin/reports/product_addon_report",
       },
-      {
-        label: "Promo Code Report",
-        href: "/admin/reports/promo_code_report",
-      },
+      { label: "Promo Code Report", href: "/admin/reports/promo_code_report" },
       {
         label: "Registration Report",
         href: "/admin/reports/registration_report",
       },
-      {
-        label: "Student Export",
-        href: "/admin/reports/student_export",
-      },
-      {
-        label: "Event Log",
-        href: "/admin/reports/event_log",
-      },
+      { label: "Student Export", href: "/admin/reports/student_export" },
+      { label: "Event Log", href: "/admin/reports/event_log" },
     ],
   },
   {
@@ -146,7 +131,7 @@ const menuItems = [
         href: "/admin/credit_card_services/payment_report",
       },
       {
-        label: "Virtual Report",
+        label: "Virtual Terminal",
         href: "/admin/credit_card_services/virtual_terminal",
       },
     ],
@@ -157,7 +142,7 @@ const menuItems = [
     submenu: [
       { label: "Search Help", href: "https://help.enrollware.com/" },
       { label: "Support Request", href: "/admin/help/support_request" },
-      { label: "Whats New", href: "/admin/help/whats_new" },
+      { label: "What's New", href: "/admin/help/whats_new" },
     ],
   },
   {
@@ -173,7 +158,7 @@ const menuItems = [
       { label: "Site Manager", href: "/admin/settings/site_manager" },
       { label: "Card Settings", href: "/admin/settings/cards_settings" },
       { label: "Certificates", href: "/admin/settings/certificates" },
-      { label: "External SKu's", href: "/admin/settings/external_skills" },
+      { label: "External SKUs", href: "/admin/settings/external_skills" },
       { label: "Email Campaigns", href: "/admin/settings/emails_campaigns" },
       { label: "Text Messaging", href: "/admin/settings/text_messaging" },
       { label: "Users", href: "/admin/settings/users" },
@@ -181,16 +166,13 @@ const menuItems = [
   },
 ];
 
-const DashboardSidebar = () => {
+const MobileSidebar = ({ onClose, isSidebarOpen }) => {
   const pathname = usePathname();
   const [openMenu, setOpenMenu] = useState(null);
 
   useEffect(() => {
     for (const item of menuItems) {
-      if (
-        item.submenu &&
-        item.submenu.some((sub) => pathname.startsWith(sub.href))
-      ) {
+      if (item.submenu?.some((sub) => pathname.startsWith(sub.href))) {
         setOpenMenu(item.label);
         return;
       }
@@ -203,36 +185,45 @@ const DashboardSidebar = () => {
   };
 
   return (
-    <div className="max-w-[250px] xl:max-w-[300px] 2xl:max-w-[345px] w-full px-[17px] pt-[22.5px] h-screen overflow-y-auto scroll-bar bg-white text-black hidden xl:flex xl:flex-col gap-[31.5px]">
-      {/* Logo */}
-      <div className="flex items-center gap-1.5 justify-center">
-        <Logo />
-        <h5 className="font-black text-[14px]">ENROLL NATIONWIDE</h5>
+    <div
+      className={`fixed top-0 ${
+        isSidebarOpen ? "left-0" : "-left-full"
+      } w-[280px] h-screen bg-white text-black duration-300 z-50 shadow-lg overflow-y-auto scroll-bar`}
+    >
+      {/* Header */}
+      <div className="flex items-center justify-between px-4 py-3 border-b border-gray-200">
+        <div className="flex items-center gap-1.5">
+          <Logo />
+          <h5 className="font-black text-[14px]">ENROLL NATIONWIDE</h5>
+        </div>
+        <button
+          onClick={onClose}
+          className="text-xl font-bold text-gray-600 cursor-pointer"
+        >
+          ✕
+        </button>
       </div>
 
-      {/* Dashboard Header */}
-      <div className="flex flex-col">
-        <div className="flex items-center gap-[12px] px-[20px] py-[10px]">
+      {/* Menu */}
+      <nav className="p-3">
+        <div className="flex items-center gap-2 mb-3">
           <DashboardIcon />
-          <h6>Dashboard</h6>
+          <h6 className="font-medium">Dashboard</h6>
         </div>
 
-        {/* Menu List */}
-        <nav className="flex-grow py-4">
-          <ul>
-            {menuItems.map((item) => {
-              const hasSubmenu = item.submenu && item.submenu.length > 0;
-              const isMenuOpen = openMenu === item.label;
-              const isActive = hasSubmenu && isMenuOpen;
+        <ul>
+          {menuItems.map((item) => {
+            const hasSubmenu = item.submenu?.length > 0;
+            const isMenuOpen = openMenu === item.label;
 
-              return (
-                <li key={item.label} className="text-sm font-semibold">
-                  {/* Top-level menu item */}
-                  {hasSubmenu ? (
+            return (
+              <li key={item.label} className="mb-1">
+                {hasSubmenu ? (
+                  <>
                     <button
                       onClick={() => toggleMenu(item.label)}
-                      className={`w-full flex items-center justify-between px-5 py-3 rounded-[10px] transition-colors ${
-                        isActive ? "bg-brown text-white" : "hover:bg-gray-100"
+                      className={`flex justify-between items-center w-full px-4 py-2 rounded-lg text-left ${
+                        isMenuOpen ? "bg-brown text-white" : "hover:bg-gray-100"
                       }`}
                     >
                       <span>{item.label}</span>
@@ -242,60 +233,51 @@ const DashboardSidebar = () => {
                         }`}
                       />
                     </button>
-                  ) : (
-                    <Link
-                      href={item.href}
-                      className={`w-full flex items-center justify-between px-5 py-3 rounded-[10px] transition-colors ${
-                        pathname === item.href
-                          ? "bg-brown text-white"
-                          : "hover:bg-gray-100 text-gray-700"
-                      }`}
-                    >
-                      <span>{item.label}</span>
-                    </Link>
-                  )}
-
-                  {/* Submenu */}
-                  {hasSubmenu && (
-                    <div
-                      className={`overflow-y-auto no-scroll-bar transition-all duration-300 ease-in-out ${
+                    <ul
+                      className={`overflow-hidden transition-all duration-300 ${
                         isMenuOpen ? "max-h-96" : "max-h-0"
                       }`}
                     >
-                      <ul className="bg-gray-50 rounded-[10px] pt-1">
-                        {item.submenu.map((subItem) => {
-                          const active = pathname === subItem.href;
-                          return (
-                            <li key={subItem.label}>
-                              <Link
-                                href={subItem.href}
-                                className={`flex items-center pl-16 pr-6 py-2.5 text-xs relative transition-colors ${
-                                  active
-                                    ? "text-gray-900 font-semibold"
-                                    : "text-gray-600 hover:text-brown"
-                                }`}
-                              >
-                                {active ? (
-                                  <span className="absolute left-6 h-5 w-1 bg-brown rounded-full"></span>
-                                ) : (
-                                  <span className="absolute left-6 h-5 w-1 bg-gray-200 rounded-full"></span>
-                                )}
-                                {subItem.label}
-                              </Link>
-                            </li>
-                          );
-                        })}
-                      </ul>
-                    </div>
-                  )}
-                </li>
-              );
-            })}
-          </ul>
-        </nav>
-      </div>
+                      {item.submenu.map((subItem) => {
+                        const active = pathname === subItem.href;
+                        return (
+                          <li key={subItem.label}>
+                            <Link
+                              href={subItem.href}
+                              onClick={onClose}
+                              className={`block pl-8 pr-4 py-2 text-sm ${
+                                active
+                                  ? "text-brown font-semibold"
+                                  : "text-gray-600 hover:text-brown"
+                              }`}
+                            >
+                              {subItem.label}
+                            </Link>
+                          </li>
+                        );
+                      })}
+                    </ul>
+                  </>
+                ) : (
+                  <Link
+                    href={item.href}
+                    onClick={onClose}
+                    className={`block px-4 py-2 rounded-lg ${
+                      pathname === item.href
+                        ? "bg-brown text-white"
+                        : "hover:bg-gray-100 text-gray-700"
+                    }`}
+                  >
+                    {item.label}
+                  </Link>
+                )}
+              </li>
+            );
+          })}
+        </ul>
+      </nav>
     </div>
   );
 };
 
-export default DashboardSidebar;
+export default MobileSidebar;

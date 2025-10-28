@@ -63,7 +63,7 @@ const Page = () => {
       </div>
 
       {/* Search filters */}
-      <div className="px-[32px] py-[32px] bg-white rounded-[16px] flex gap-[24px]">
+      <div className="px-[32px] py-[32px] bg-white rounded-[16px] flex gap-[10px] xl:gap-[24px]">
         <CustomSelect
           id="dates"
           label="Dates"
