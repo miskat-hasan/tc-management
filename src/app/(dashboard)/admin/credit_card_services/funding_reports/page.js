@@ -118,14 +118,14 @@ const Page = () => {
   }, [filteredData]);
 
   return (
-    <div className="flex flex-col gap-[25px]">
+    <div className="flex flex-col gap-[12.5px] lg:gap-[25px]">
       {/* Header */}
       <div className="flex justify-between">
         <SectionTitle title={"Funding Reports"} />
       </div>
 
       {/* Search filters */}
-      <div className="px-[32px] py-[32px] bg-white rounded-[16px] flex gap-[24px]">
+      <div className="lg:px-[32px] px-[16px] py-[16px] lg:py-[32px] bg-white rounded-[16px] flex gap-[12px] flex-wrap lg:gap-[24px]">
         <CustomSelect
           id="month"
           label="Month"
@@ -143,7 +143,7 @@ const Page = () => {
         <div className="flex justify-end items-end">
           <Button
             onClick={handleSearch}
-            className="py-[24px] cursor-pointer bg-brown flex items-center gap-2"
+            className="py-[12px] lg:py-[24px] cursor-pointer bg-brown flex items-center gap-2"
           >
             <SearchIcon />
             Search
@@ -152,22 +152,42 @@ const Page = () => {
       </div>
 
       {/* Table */}
-      <div className="p-[26px] bg-white rounded-[14px] flex flex-col gap-[24px]">
+      <div className="p-[13px] lg:p-[26px] bg-white rounded-[14px] flex flex-col gap-[24px]">
         <SubSectionTitle subtitle="All Lists" />
         <div className="overflow-x-auto">
-          <table className="w-full text-sm text-left text-gray-700">
-            <thead className="bg-gray-50  text-black capitalize text-[16px] font-semibold">
+          <table className="min-w-full text-sm text-left text-gray-700">
+            <thead className="bg-gray-50 text-black capitalize text-[14px] md:text-[16px] font-semibold">
               <tr>
-                <th className="px-6 py-3 w-[40px]">Deposit Date</th>
-                <th className="px-6 py-3">Sales Count</th>
-                <th className="px-6 py-3">Sales Total</th>
-                <th className="px-6 py-3">Refund Count</th>
-                <th className="px-6 py-3">Refund Total</th>
-                <th className="px-6 py-3">Chargeback Count</th>
-                <th className="px-6 py-3 ">Chargeback Total</th>
-                <th className="px-6 py-3 ">Gross Amount</th>
-                <th className="px-6 py-3">Total Fees</th>
-                <th className="px-6 py-3">Net Amount</th>
+                <th className="px-3 py-2 md:px-6 md:py-3 whitespace-nowrap">
+                  Deposit Date
+                </th>
+                <th className="px-3 py-2 md:px-6 md:py-3 whitespace-nowrap">
+                  Sales Count
+                </th>
+                <th className="px-3 py-2 md:px-6 md:py-3 whitespace-nowrap">
+                  Sales Total
+                </th>
+                <th className="px-3 py-2 md:px-6 md:py-3 whitespace-nowrap">
+                  Refund Count
+                </th>
+                <th className="px-3 py-2 md:px-6 md:py-3 whitespace-nowrap">
+                  Refund Total
+                </th>
+                <th className="px-3 py-2 md:px-6 md:py-3 whitespace-nowrap">
+                  Chargeback Count
+                </th>
+                <th className="px-3 py-2 md:px-6 md:py-3 whitespace-nowrap">
+                  Chargeback Total
+                </th>
+                <th className="px-3 py-2 md:px-6 md:py-3 whitespace-nowrap">
+                  Gross Amount
+                </th>
+                <th className="px-3 py-2 md:px-6 md:py-3 whitespace-nowrap">
+                  Total Fees
+                </th>
+                <th className="px-3 py-2 md:px-6 md:py-3 whitespace-nowrap">
+                  Net Amount
+                </th>
               </tr>
             </thead>
             <tbody>
@@ -177,28 +197,34 @@ const Page = () => {
                     key={index}
                     className="border-b hover:bg-gray-50 transition-all"
                   >
-                    <td className="px-6 py-4 text-gray-800">
+                    <td className="px-3 py-2 md:px-6 md:py-4 text-gray-800 whitespace-nowrap">
                       {item.depositDate}
                     </td>
-                    <td className="px-6 py-4 text-gray-800">
+                    <td className="px-3 py-2 md:px-6 md:py-4 text-gray-800">
                       {item.salesCount}
                     </td>
-                    <td className="px-6 py-4">${item.salesTotal.toFixed(2)}</td>
-                    <td className="px-6 py-4">{item.refundCount}</td>
-                    <td className="px-6 py-4">
+                    <td className="px-3 py-2 md:px-6 md:py-4">
+                      ${item.salesTotal.toFixed(2)}
+                    </td>
+                    <td className="px-3 py-2 md:px-6 md:py-4">
+                      {item.refundCount}
+                    </td>
+                    <td className="px-3 py-2 md:px-6 md:py-4">
                       ${item.refundTotal.toFixed(2)}
                     </td>
-                    <td className="px-6 py-4">{item.chargebackCount}</td>
-                    <td className="px-6 py-4">
+                    <td className="px-3 py-2 md:px-6 md:py-4">
+                      {item.chargebackCount}
+                    </td>
+                    <td className="px-3 py-2 md:px-6 md:py-4">
                       ${item.chargebackTotal.toFixed(2)}
                     </td>
-                    <td className="px-6 py-4">
+                    <td className="px-3 py-2 md:px-6 md:py-4">
                       ${item.grossAmount.toFixed(2)}
                     </td>
-                    <td className="px-6 py-4 text-red-600">
+                    <td className="px-3 py-2 md:px-6 md:py-4 text-red-600">
                       ${item.totalFees.toFixed(2)}
                     </td>
-                    <td className="px-6 py-4 text-green-600">
+                    <td className="px-3 py-2 md:px-6 md:py-4 text-green-600">
                       ${item.netAmount.toFixed(2)}
                     </td>
                   </tr>
@@ -214,22 +240,30 @@ const Page = () => {
                 </tr>
               )}
 
-              {/* Totals row */}
+              {/* Totals Row */}
               <tr className="bg-gray-50 font-semibold border-t-2">
-                <td className="px-6 py-2">Totals</td>
-                <td className="px-6 py-2">{totals.salesCount}</td>
-                <td className="px-6 py-2">${totals.salesTotal.toFixed(2)}</td>
-                <td className="px-6 py-2">0</td>
-                <td className="px-6 py-2">${totals.refundTotal.toFixed(2)}</td>
-                <td className="px-6 py-2">0</td>
-                <td className="px-6 py-2">
+                <td className="px-3 py-2 md:px-6 md:py-3">Totals</td>
+                <td className="px-3 py-2 md:px-6 md:py-3">
+                  {totals.salesCount}
+                </td>
+                <td className="px-3 py-2 md:px-6 md:py-3">
+                  ${totals.salesTotal.toFixed(2)}
+                </td>
+                <td className="px-3 py-2 md:px-6 md:py-3">0</td>
+                <td className="px-3 py-2 md:px-6 md:py-3">
+                  ${totals.refundTotal.toFixed(2)}
+                </td>
+                <td className="px-3 py-2 md:px-6 md:py-3">0</td>
+                <td className="px-3 py-2 md:px-6 md:py-3">
                   ${totals.chargebackTotal.toFixed(2)}
                 </td>
-                <td className="px-6 py-2">${totals.grossAmount.toFixed(2)}</td>
-                <td className="px-6 py-2 text-red-600">
+                <td className="px-3 py-2 md:px-6 md:py-3">
+                  ${totals.grossAmount.toFixed(2)}
+                </td>
+                <td className="px-3 py-2 md:px-6 md:py-3 text-red-600">
                   ${totals.totalFees.toFixed(2)}
                 </td>
-                <td className="px-6 py-2 text-green-600">
+                <td className="px-3 py-2 md:px-6 md:py-3 text-green-600">
                   ${totals.netAmount.toFixed(2)}
                 </td>
               </tr>
@@ -238,7 +272,7 @@ const Page = () => {
         </div>
 
         {/* Footer controls */}
-        <div className="flex flex-col md:flex-row items-center justify-between mt-6 gap-3">
+        <div className="flex flex-col md:flex-row items-center justify-between mt-3 lg:mt-6 gap-3">
           <div className="flex items-center gap-2">
             <span className="text-gray-600 text-sm">Show:</span>
             <select
