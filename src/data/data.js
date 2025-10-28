@@ -732,7 +732,6 @@ export const paymentReport = [
   },
 ];
 
-
 export const StudentSearchResultsdemo = [
   {
     name: "Hardwick, Leah",
@@ -773,5 +772,43 @@ export const StudentSearchResultsdemo = [
     phone: "615 710 0172",
     class: "(American Heart Association) Basic Life Support...",
     status: "Complete",
+  },
+];
+
+export const StudentSearchResultsdemoone = [
+  {
+    user: "shell",
+    timeDate: "10/05/2025 07:00 AM",
+    ipAddress: "26.233.10",
+    event:
+      "Deleted class (American Redcross Course) Adult 1st Aid CPR AED Training Course(277627) on 10/17/2025 AM",
+  },
+  {
+    user: "shell",
+    timeDate: "10/05/2025 07:00 AM",
+    ipAddress: "26.233.10",
+    event:
+      "Deleted registrant Dennis Tatum from Redcross Basic Life Support In Person course Sunday, September 21, 2025 at 9:00 AM - Nashville, TN 640 Spence Lane Ste 125 Nashville, TN 37217",
+  },
+  {
+    user: "Caitlynn Myers",
+    timeDate: "10/05/2025 07:00 AM",
+    ipAddress: "28.233.10",
+    event:
+      "Deleted class (American Heart Association) AHA Basic Life Support (BLS) Full In-Person Course(425378) on 9/25/2025 3:07:00 PM",
+  },
+  {
+    user: "Caitlynn Myers",
+    timeDate: "10/05/2025 07:00 AM",
+    ipAddress: "26.233.10",
+    event:
+      "Deleted class (American Heart Association) Basic Life Support Provider Renewal Course(215879) on 5/26/2025 PM",
+  },
+  {
+    user: "shell",
+    timeDate: "10/05/2025 07:00 AM",
+    ipAddress: "26.233.10",
+    event:
+      "Deleted class (American RedCross) Adult and Pediatric First Aid/CPR/AED Blended Learning Course(345029) on 9/24/2025 2:00:00 PM",
   },
 ];
