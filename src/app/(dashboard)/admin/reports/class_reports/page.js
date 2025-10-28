@@ -48,7 +48,7 @@ const Page = () => {
   };
 
   return (
-    <div className="flex flex-col gap-[25px]">
+    <div className="flex flex-col gap-[12.5px] lg:gap-[25px]">
       {/* Header */}
       <div className="flex justify-between">
         <SectionTitle title={"Class Reports"} />
@@ -57,12 +57,14 @@ const Page = () => {
             type="checkbox"
             className="w-3.5 h-3.5 bg-transparent accent-[#8C8C8C]"
           />
-          <label className="text-[12px]">Hide Empty Classes</label>
+          <label className="text-[10px] lg:text-[12px]">
+            Hide Empty Classes
+          </label>
         </div>
       </div>
 
       {/* Search filters */}
-      <div className="px-[32px] py-[32px] bg-white rounded-[16px] flex gap-[24px]">
+      <div className="px-[16px] lg:px-[32px] py-[16px] lg:py-[32px] bg-white rounded-[16px] flex gap-[12px] flex-wrap lg:gap-[24px]">
         <CustomSelect
           id="dates"
           label="Dates"
@@ -134,18 +136,18 @@ const Page = () => {
       </div>
 
       {/* Table */}
-      <div className="p-[26px] bg-white rounded-[14px] flex flex-col gap-[24px]">
+      <div className="p-[13px] lg:p-[26px] bg-white rounded-[14px] flex flex-col gap-[12px] lg:gap-[24px]">
         <SubSectionTitle subtitle="All Lists" />
         <div className="overflow-x-auto">
-          <table className="w-full text-sm text-left text-gray-700">
-            <thead className="bg-gray-50 text-black capitalize text-[20px] font-semibold">
+          <table className="min-w-[600px] w-full text-sm text-left text-gray-700">
+            <thead className="bg-gray-50 text-black capitalize text-[18px] sm:text-[20px] font-semibold">
               <tr>
-                <th className="px-6 py-3 w-[40px] ">Date/Time</th>
-                <th className="px-6 py-3">Instructor</th>
-                <th className="px-6 py-3">Course</th>
-                <th className="px-6 py-3">Location</th>
-                <th className="px-6 py-3">Enrolled</th>
-                <th className="px-6 py-3 ">Hours</th>
+                <th className="px-3 sm:px-6 py-3 w-[80px]">Date/Time</th>
+                <th className="px-3 sm:px-6 py-3">Instructor</th>
+                <th className="px-3 sm:px-6 py-3">Course</th>
+                <th className="px-3 sm:px-6 py-3">Location</th>
+                <th className="px-3 sm:px-6 py-3">Enrolled</th>
+                <th className="px-3 sm:px-6 py-3">Hours</th>
               </tr>
             </thead>
             <tbody>
@@ -155,27 +157,30 @@ const Page = () => {
                     key={item.id}
                     className="border-b hover:bg-gray-50 transition-all"
                   >
-                    <td className="px-6 py-4 text-gray-800 ">
+                    <td className="px-3 sm:px-6 py-4 text-gray-800 whitespace-nowrap">
                       {item.dateTime}
                     </td>
-                    <td className="px-6 py-4 text-gray-800">
+                    <td className="px-3 sm:px-6 py-4 text-gray-800 whitespace-nowrap">
                       {item.instructor}
                     </td>
-
-                    <td className="px-6 py-4 truncate max-w-[220px]">
+                    <td className="px-3 sm:px-6 py-4 truncate max-w-[180px]">
                       {item.course}
                     </td>
-                    <td className="px-6 py-4 truncate max-w-[220px]">
+                    <td className="px-3 sm:px-6 py-4 truncate max-w-[180px]">
                       {item.location}
                     </td>
-                    <td className="px-6 py-4 text-gray-600">{item.enrolled}</td>
-                    <td className="px-6 py-4 text-gray-600 ">{item.hour}</td>
+                    <td className="px-3 sm:px-6 py-4 text-gray-600 whitespace-nowrap">
+                      {item.enrolled}
+                    </td>
+                    <td className="px-3 sm:px-6 py-4 text-gray-600 whitespace-nowrap">
+                      {item.hour}
+                    </td>
                   </tr>
                 ))
               ) : (
                 <tr>
                   <td
-                    colSpan="7"
+                    colSpan="6"
                     className="text-center py-6 text-gray-500 italic"
                   >
                     No results found
@@ -187,7 +192,7 @@ const Page = () => {
         </div>
 
         {/* Footer controls */}
-        <div className="flex flex-col md:flex-row items-center justify-between mt-6 gap-3">
+        <div className="flex flex-col md:flex-row items-center justify-between mt-3 lg:mt-6 gap-3">
           <div className="flex items-center gap-2">
             <span className="text-gray-600 text-sm">Show:</span>
             <select
