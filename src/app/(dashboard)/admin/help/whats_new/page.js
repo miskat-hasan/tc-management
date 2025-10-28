@@ -13,26 +13,29 @@ const Page = () => {
   const [selectedShow, setSelectedShow] = useState(50);
 
   return (
-    <div className="flex flex-col gap-[25px]">
+    <div className="flex flex-col gap-[12.5px] lg:gap-[25px]">
       {/* Header */}
       <div className="flex justify-between">
         <SectionTitle title={"What’s New"} />
       </div>
 
       {/* Table */}
-      <div className="p-[26px] bg-white rounded-[14px] flex flex-col gap-[24px]">
+      <div className="p-[13px] lg:p-[26px] bg-white rounded-[14px] flex flex-col gap-[12px] lg:gap-[24px]">
         <div className="flex items-center justify-between">
           <SubSectionTitle subtitle="All Lists" />
         </div>
 
         <div className="overflow-x-auto">
-          <table className="w-full text-sm text-left text-gray-700">
-            <thead className="bg-gray-50 text-black capitalize text-[20px] font-semibold">
+          <table className="min-w-full text-sm text-left text-gray-700">
+            <thead className="bg-gray-50 text-black capitalize text-[16px] md:text-[20px] font-semibold">
               <tr>
-                <th className=" py-3 w-[200px] ">Date</th>
-                <th className=" py-3 grow">Update</th>
+                <th className="px-3 py-3 md:px-6 w-[150px] md:w-[200px] whitespace-nowrap">
+                  Date
+                </th>
+                <th className="px-3 py-3 md:px-6 whitespace-nowrap">Update</th>
               </tr>
             </thead>
+
             <tbody>
               {whatsnewData.length > 0 ? (
                 whatsnewData.map((item, index) => (
@@ -40,17 +43,21 @@ const Page = () => {
                     key={index}
                     className="border-b hover:bg-gray-50 transition-all"
                   >
-                    <td className=" py-4  ">{item.date}</td>
-                    <td className=" py-4  ">{item.update}</td>
+                    <td className="px-3 py-3 md:px-6 text-gray-800 whitespace-nowrap">
+                      {item.date}
+                    </td>
+                    <td className="px-3 py-3 md:px-6 text-gray-800">
+                      {item.update}
+                    </td>
                   </tr>
                 ))
               ) : (
                 <tr>
                   <td
-                    colSpan="7"
-                    className="text-center py-6 text-gray-500 italic"
+                    colSpan="2"
+                    className="text-center py-3 lg:py-6 text-gray-500 italic"
                   >
-                    <NotFound title={"No Record Found"} />
+                    <NotFound title="No Record Found" />
                   </td>
                 </tr>
               )}
@@ -59,7 +66,7 @@ const Page = () => {
         </div>
 
         {/* Footer controls */}
-        <div className="flex flex-col md:flex-row items-center justify-between mt-6 gap-3">
+        <div className="flex flex-col md:flex-row items-center justify-between mt-3 lg:mt-6 gap-3">
           <div className="flex items-center gap-2">
             <span className="text-gray-600 text-sm">Show:</span>
             <select
