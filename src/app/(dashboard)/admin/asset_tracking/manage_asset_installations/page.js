@@ -16,35 +16,37 @@ const Page = () => {
     router.push("/admin/asset_tracking/add_location");
   };
   return (
-    <div className="flex flex-col gap-[25px]">
+    <div className="flex flex-col gap-[12.5px] lg:gap-[25px]">
       {/* Header */}
       <div className="flex justify-between">
         <SectionTitle title={"Manage Asset Installations"} />
       </div>
 
       {/* Table */}
-      <div className="p-[26px] bg-white rounded-[14px] flex flex-col gap-[24px]">
+      <div className="p-[13px] lg:p-[26px] bg-white rounded-[14px] flex flex-col gap-[12px] lg:gap-[24px]">
         <div className="flex items-center justify-between">
           <SubSectionTitle subtitle="All Lists" />
           <Button
             onClick={handleNavigation}
-            className="py-[22px] cursor-pointer bg-brown flex items-center gap-2"
+            className="py-[11px] lg:py-[22px] cursor-pointer bg-brown flex items-center gap-2"
           >
             Add Location <PlusIcon />
           </Button>
         </div>
 
         <div className="overflow-x-auto">
-          <table className="w-full text-sm text-left text-gray-700">
-            <thead className="bg-gray-50 text-black capitalize text-[20px] font-semibold">
+          <table className="min-w-[700px] w-full text-sm sm:text-base text-left text-gray-700">
+            <thead className="bg-gray-50 text-black capitalize text-[14px] sm:text-[20px] font-semibold">
               <tr>
-                <th className="px-6 py-3  ">Name</th>
-                <th className="px-6 py-3">Contact</th>
-                <th className="px-6 py-3">Email</th>
-                <th className="px-6 py-3">Next Service</th>
-                <th className="px-6 py-3">Action</th>
+                <th className="px-3 sm:px-6 py-3">SL</th>
+                <th className="px-3 sm:px-6 py-3">Name</th>
+                <th className="px-3 sm:px-6 py-3">Contact</th>
+                <th className="px-3 sm:px-6 py-3">Email</th>
+                <th className="px-3 sm:px-6 py-3">Next Service</th>
+                <th className="px-3 sm:px-6 py-3 text-center">Action</th>
               </tr>
             </thead>
+
             <tbody>
               {assestsInstallation.length > 0 ? (
                 assestsInstallation.map((item, index) => (
@@ -52,15 +54,24 @@ const Page = () => {
                     key={item.id}
                     className="border-b hover:bg-gray-50 transition-all"
                   >
-                    <td className="px-6 py-4 text-gray-800">{index + 1}</td>
-                    <td className="px-6 py-4 text-gray-800">{item.name}</td>
-                    <td className="px-6 py-4">{item.contact}</td>
-                    <td className="px-6 py-4  ">{item.email}</td>
-                    <td className="px-6 py-4  ">{item.next_service}</td>
-
-                    <td className="px-6 py-4 text-center">
-                      <button className="p-2 bg-gray-100 rounded-lg hover:bg-gray-200 transition">
-                        <CiEdit className="text-gray-600 text-[16px]" />
+                    <td className="px-3 sm:px-6 py-3 text-gray-800 whitespace-nowrap">
+                      {index + 1}
+                    </td>
+                    <td className="px-3 sm:px-6 py-3 text-gray-800 whitespace-nowrap">
+                      {item.name}
+                    </td>
+                    <td className="px-3 sm:px-6 py-3 whitespace-nowrap">
+                      {item.contact}
+                    </td>
+                    <td className="px-3 sm:px-6 py-3 truncate max-w-[150px] sm:max-w-[200px]">
+                      {item.email}
+                    </td>
+                    <td className="px-3 sm:px-6 py-3 whitespace-nowrap">
+                      {item.next_service}
+                    </td>
+                    <td className="px-3 sm:px-6 py-3 text-center">
+                      <button className="p-1.5 sm:p-2 bg-gray-100 rounded-lg hover:bg-gray-200 transition">
+                        <CiEdit className="text-gray-600 text-[14px] sm:text-[16px]" />
                       </button>
                     </td>
                   </tr>
@@ -68,8 +79,8 @@ const Page = () => {
               ) : (
                 <tr>
                   <td
-                    colSpan="7"
-                    className="text-center py-6 text-gray-500 italic"
+                    colSpan="6"
+                    className="text-center py-3 lg:py-6 text-gray-500 italic"
                   >
                     <NotFound title={"No Record Found"} />
                   </td>
@@ -80,7 +91,7 @@ const Page = () => {
         </div>
 
         {/* Footer controls */}
-        <div className="flex flex-col md:flex-row items-center justify-between mt-6 gap-3">
+        <div className="flex flex-col md:flex-row items-center justify-between mt-3 lg:mt-6 gap-3">
           <div className="flex items-center gap-2">
             <span className="text-gray-600 text-sm">Show:</span>
             <select
