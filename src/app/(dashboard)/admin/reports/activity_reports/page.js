@@ -5,6 +5,7 @@ import { Search, ChevronDown, Download } from "lucide-react";
 import CustomSelect from "@/components/shared/form/CustomSelect";
 import { SearchIcon } from "@/svg/SvgContainer";
 import { Button } from "@/components/ui/button";
+import SectionTitle from "@/components/common/SectionTitle";
 
 const ReportCard = ({ title, children }) => {
   return (
@@ -88,8 +89,8 @@ export default function ActivityReportPage() {
 
   return (
     <main className="min-h-screen space-y-5 ">
-      <h1 className="text-3xl font-bold text-gray-900">Activity Report</h1>
-      <div className="px-[32px] py-[32px] bg-white rounded-[16px] flex gap-[24px]">
+      <SectionTitle title={"Activity Report"} />
+      <div className="px-[16px] py-[16px] lg:px-[32px] lg:py-[32px] bg-white rounded-[16px] flex flex-wrap lg:flex-nowrap gap-[10px] xl:gap-[24px]">
         <CustomSelect
           id="dates"
           label="Dates"
@@ -120,7 +121,7 @@ export default function ActivityReportPage() {
         <div className="flex justify-end items-end">
           <Button
             // onClick={handleSearch}
-            className="py-[24px] cursor-pointer bg-brown flex items-center gap-2"
+            className="py-[12px] lg:py-[24px] text-[13px] lg:text-base  cursor-pointer bg-brown flex items-center gap-2"
           >
             <SearchIcon />
             Search
@@ -129,7 +130,7 @@ export default function ActivityReportPage() {
       </div>
 
       {/* Report Cards Grid */}
-      <div className="space-y-6">
+      <div className="space-y-3 lg:space-y-6">
         {/* Card 1: Instructor by Discipline */}
         <ReportCard title="Instructor by Discipline">
           {/* Headings */}
