@@ -60,13 +60,11 @@ const parseDate = (value) => {
 // ===== Page Component =====
 const Page = () => {
   const [selectedShow, setSelectedShow] = useState(50);
-
   const [filters, setFilters] = useState({
     registration: "",
     month: "",
     promoCode: "",
   });
-
   const [filteredData, setFilteredData] = useState(courseSchedule);
 
   const handleSelectChange = (key, value) => {
@@ -78,8 +76,6 @@ const Page = () => {
 
     const filtered = courseSchedule.filter((item) => {
       const dt = parseDate(item.dateTime);
-
-      // Registration range filter
       let matchRegistration = true;
       if (filters.registration && dt) {
         const diffDays = Math.floor((now - dt) / (1000 * 60 * 60 * 24));
@@ -101,7 +97,6 @@ const Page = () => {
         }
       }
 
-      // Month filter
       let matchMonth = true;
       if (filters.month && dt) {
         const monthName = filters.month.toLowerCase();
@@ -123,7 +118,6 @@ const Page = () => {
         matchMonth = months[monthIndex] === monthName;
       }
 
-      // Promo code filter
       let matchCode = true;
       if (filters.promoCode) {
         matchCode = item.promoCode
@@ -138,14 +132,14 @@ const Page = () => {
   };
 
   return (
-    <div className="flex flex-col gap-[25px]">
+    <div className="flex flex-col gap-[12.5px] lg:gap-[25px]">
       {/* Header */}
-      <div className="flex justify-between">
+      <div className="flex justify-between items-center flex-wrap gap-2">
         <SectionTitle title={"Promo Code Reports"} />
       </div>
 
       {/* Filters */}
-      <div className="px-[32px] py-[32px] bg-white rounded-[16px] flex gap-[24px]">
+      <div className="px-[16px] sm:px-[32px] py-[24px] sm:py-[32px] bg-white rounded-[16px] flex flex-col lg:flex-row gap-[16px] lg:gap-[24px]">
         <CustomSelect
           id="registration"
           label="Registration Date"
@@ -157,7 +151,7 @@ const Page = () => {
             { value: "last30", label: "Last 30 days" },
           ]}
           onChange={(val) => handleSelectChange("registration", val)}
-          className="flex-1"
+          className="flex-1 min-w-[180px]"
         />
         <CustomSelect
           id="month"
@@ -178,7 +172,7 @@ const Page = () => {
             { value: "December", label: "December" },
           ]}
           onChange={(val) => handleSelectChange("month", val)}
-          className="flex-1"
+          className="flex-1 min-w-[180px]"
         />
         <CustomSelect
           id="promoCode"
@@ -191,13 +185,13 @@ const Page = () => {
             { value: "BLACK75", label: "BLACK75" },
           ]}
           onChange={(val) => handleSelectChange("promoCode", val)}
-          className="flex-1"
+          className="flex-1 min-w-[180px]"
         />
 
         <div className="flex justify-end items-end">
           <Button
             onClick={handleSearch}
-            className="py-[24px] cursor-pointer bg-brown flex items-center gap-2"
+            className="py-[18px] sm:py-[24px] w-full sm:w-auto bg-brown flex items-center justify-center gap-2"
           >
             <SearchIcon />
             Search
@@ -206,18 +200,24 @@ const Page = () => {
       </div>
 
       {/* Table */}
-      <div className="p-[26px] bg-white rounded-[14px] flex flex-col gap-[24px]">
+      <div className="p-[13px] lg:p-[26px] bg-white rounded-[14px] flex flex-col gap-[24px]">
         <SubSectionTitle subtitle="All Lists" />
         <div className="overflow-x-auto">
-          <table className="w-full text-sm text-left text-gray-700">
-            <thead className="bg-gray-50 text-black capitalize text-[20px] font-semibold">
+          <table className="min-w-[700px] w-full text-sm text-left text-gray-700">
+            <thead className="bg-gray-50 text-black capitalize text-[14px] sm:text-[18px] font-semibold">
               <tr>
-                <th className="px-6 py-3">Student</th>
-                <th className="px-6 py-3">Reg Date</th>
-                <th className="px-6 py-3">Course</th>
-                <th className="px-6 py-3">Promo Code</th>
-                <th className="px-6 py-3">Status</th>
-                <th className="px-6 py-3 text-center">Action</th>
+                <th className="px-3 sm:px-6 py-3 whitespace-nowrap">Student</th>
+                <th className="px-3 sm:px-6 py-3 whitespace-nowrap">
+                  Reg Date
+                </th>
+                <th className="px-3 sm:px-6 py-3 whitespace-nowrap">Course</th>
+                <th className="px-3 sm:px-6 py-3 whitespace-nowrap">
+                  Promo Code
+                </th>
+                <th className="px-3 sm:px-6 py-3 whitespace-nowrap">Status</th>
+                <th className="px-3 sm:px-6 py-3 text-center whitespace-nowrap">
+                  Action
+                </th>
               </tr>
             </thead>
             <tbody>
@@ -227,12 +227,22 @@ const Page = () => {
                     key={item.id}
                     className="border-b hover:bg-gray-50 transition-all"
                   >
-                    <td className="px-6 py-4 text-gray-800">{item.student}</td>
-                    <td className="px-6 py-4 text-gray-800">{item.dateTime}</td>
-                    <td className="px-6 py-4">{item.course}</td>
-                    <td className="px-6 py-4">{item.promoCode}</td>
-                    <td className="px-6 py-4 text-gray-600">{item.status}</td>
-                    <td className="px-6 py-4 text-center">
+                    <td className="px-3 sm:px-6 py-4 text-gray-800 whitespace-nowrap">
+                      {item.student}
+                    </td>
+                    <td className="px-3 sm:px-6 py-4 text-gray-800 whitespace-nowrap">
+                      {item.dateTime}
+                    </td>
+                    <td className="px-3 sm:px-6 py-4 truncate max-w-[180px]">
+                      {item.course}
+                    </td>
+                    <td className="px-3 sm:px-6 py-4 whitespace-nowrap">
+                      {item.promoCode}
+                    </td>
+                    <td className="px-3 sm:px-6 py-4 text-gray-600 whitespace-nowrap">
+                      {item.status}
+                    </td>
+                    <td className="px-3 sm:px-6 py-4 text-center">
                       <button className="p-2 bg-gray-100 rounded-lg hover:bg-gray-200 transition">
                         <CiEdit className="text-gray-600 text-[16px]" />
                       </button>
@@ -254,7 +264,7 @@ const Page = () => {
         </div>
 
         {/* Footer */}
-        <div className="flex flex-col md:flex-row items-center justify-between mt-6 gap-3">
+        <div className="flex flex-col sm:flex-row items-center justify-between mt-6 gap-3">
           <div className="flex items-center gap-2">
             <span className="text-gray-600 text-sm">Show:</span>
             <select
