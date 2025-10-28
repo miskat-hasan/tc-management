@@ -49,7 +49,7 @@ const Page = () => {
   };
 
   return (
-    <div className="flex flex-col gap-[25px]">
+    <div className="flex flex-col gap-[12.5px] lg:gap-[25px]">
       {/* Header */}
       <div className="flex justify-between">
         <SectionTitle title={"Upcoming Classes"} />
@@ -199,7 +199,7 @@ const Page = () => {
         </div>
 
         {/* Footer controls */}
-        <div className="flex flex-col md:flex-row items-center justify-between mt-6 gap-3">
+        <div className="flex flex-col md:flex-row items-center justify-between mt-3 lg:mt-6 gap-3">
           <div className="flex flex-wrap items-center gap-2 sm:gap-3">
             <span className="text-gray-600 text-sm sm:text-base">Show:</span>
             <select
