@@ -218,7 +218,7 @@ const DashboardSidebar = () => {
         </div>
 
         {/* Menu List */}
-        <nav className="flex-grow py-4">
+        <nav className="flex-grow ">
           <ul>
             {menuItems.map((item) => {
               const hasSubmenu = item.submenu && item.submenu.length > 0;
