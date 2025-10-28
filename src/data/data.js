@@ -870,5 +870,77 @@ export const TrainingSiteData = [
   },
 ];
 
-
-
+export const productOrder = [
+  {
+    date: "9/18/25 7:44a",
+    site_class: "Wayne Halfway — BLS/ACLS and First Aid/CPR/AED",
+    ordered_by: "Ashley Estes",
+    status: "New",
+    paid: "Yes",
+    amount: "$25.00",
+  },
+  {
+    date: "9/18/25 10:16p",
+    site_class: "TS140944 Rejuvenate Muncie LLC",
+    ordered_by: "Dominyse Davis",
+    status: "Viewed",
+    paid: "Yes",
+    amount: "$117.00",
+  },
+  {
+    date: "9/18/25 6:02p",
+    site_class: "TS265710 Concierge Healthcare Training Services",
+    ordered_by: "Tamisha Good",
+    status: "Complete",
+    paid: "Yes",
+    amount: "$150.00",
+  },
+  {
+    date: "9/18/25 3:08p",
+    site_class: "Remington College",
+    ordered_by: "Jasmine Boldridge",
+    status: "Complete",
+    paid: "Yes",
+    amount: "$93.00",
+  },
+  {
+    date: "9/18/25 1:40p",
+    site_class: "Wayne Halfway — BLS/ACLS and First Aid/CPR/AED",
+    ordered_by: "Ashley Cordwell",
+    status: "Complete",
+    paid: "Yes",
+    amount: "$275.00",
+  },
+  {
+    date: "9/18/25 1:38p",
+    site_class: "TS320544 LEADERS CPR, LL",
+    ordered_by: "Mary Williams",
+    status: "Complete",
+    paid: "Yes",
+    amount: "$30.00",
+  },
+  {
+    date: "9/18/25 1:35p",
+    site_class: "TS320544 LEADERS CPR, LLC",
+    ordered_by: "Mary Williams",
+    status: "Complete",
+    paid: "Yes",
+    amount: "$75.00",
+  },
+  {
+    date: "9/18/25 9:30a",
+    site_class: "AHA SHELL CPR, LLC 615-230-7991",
+    ordered_by: "Suzy Constantine",
+    status: "Complete",
+    paid: "Yes",
+    amount: "$50.00",
+  },
+  {
+    date: "11/7/25 1:56p",
+    site_class: "Remington College",
+    ordered_by: "Jasmine Boldridge",
+    status: "Complete",
+    paid: "Yes",
+    amount: "$36.75",
+  },
+];
