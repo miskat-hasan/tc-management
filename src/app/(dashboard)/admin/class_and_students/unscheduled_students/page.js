@@ -9,48 +9,57 @@ import { UnscheduleStudents } from "@/data/data";
 const Page = () => {
   const [selectedShow, setSelectedShow] = useState(50);
   return (
-    <div className="flex flex-col gap-[25px]">
+    <div className="flex flex-col gap-[12.5px] lg:gap-[25px]">
       {/* Header */}
       <div className="flex justify-between">
-        <SectionTitle title={"Student Search Results"} />
+        <SectionTitle title={"Unschedule Students"} />
       </div>
 
       {/* Table */}
-      <div className="p-[26px] bg-white rounded-[14px] flex flex-col gap-[24px]">
+      <div className="p-[13px] lg:p-[26px] bg-white rounded-[14px] flex flex-col gap-[12px] lg:gap-[24px]">
         <SubSectionTitle subtitle="All List" />
         <div className="overflow-x-auto">
-          <table className="w-full text-sm text-left text-gray-700">
-            <thead className="bg-gray-50 text-black capitalize text-[20px] font-semibold">
+          <table className="min-w-[850px] w-full text-sm sm:text-base text-left text-gray-700">
+            <thead className="bg-gray-50 text-black capitalize text-[16px] sm:text-[20px] font-semibold">
               <tr>
-                <th className="px-6 py-3 w-[40px]">SL</th>
-                <th className="px-6 py-3">Name</th>
-                <th className="px-6 py-3">Reg Date</th>
-                <th className="px-6 py-3">Phone</th>
-                <th className="px-6 py-3">Class</th>
-                <th className="px-6 py-3">Status</th>
-                <th className="px-6 py-3 text-center">Action</th>
+                <th className="px-3 sm:px-6 py-3 w-[40px]">SL</th>
+                <th className="px-3 sm:px-6 py-3">Name</th>
+                <th className="px-3 sm:px-6 py-3">Reg Date</th>
+                <th className="px-3 sm:px-6 py-3">Phone</th>
+                <th className="px-3 sm:px-6 py-3">Class</th>
+                <th className="px-3 sm:px-6 py-3">Status</th>
+                <th className="px-3 sm:px-6 py-3 text-center">Action</th>
               </tr>
             </thead>
+
             <tbody>
               {UnscheduleStudents?.length > 0 ? (
-                UnscheduleStudents?.map((item, index) => (
+                UnscheduleStudents.map((item, index) => (
                   <tr
                     key={index}
                     className="border-b hover:bg-gray-50 transition-all"
                   >
-                    <td className="px-6 py-4 text-gray-800">{index + 1}</td>
-                    <td className="px-6 py-4 text-gray-800">
+                    <td className="px-3 sm:px-6 py-3 text-gray-800">
+                      {index + 1}
+                    </td>
+                    <td className="px-3 sm:px-6 py-3 text-gray-800 whitespace-nowrap">
                       <div>
-                        <p>{item.name}</p>
-                        <p className="text-xs text-gray-500">{item.email}</p>
+                        <p className="font-medium">{item.name}</p>
+                        <p className="text-xs sm:text-sm text-gray-500 truncate">
+                          {item.email}
+                        </p>
                       </div>
                     </td>
-                    <td className="px-6 py-4">{item.reg_date}</td>
-                    <td className="px-6 py-4">{item.phone}</td>
-                    <td className="px-6 py-4 truncate max-w-[250px]">
+                    <td className="px-3 sm:px-6 py-3 whitespace-nowrap">
+                      {item.reg_date}
+                    </td>
+                    <td className="px-3 sm:px-6 py-3 whitespace-nowrap">
+                      {item.phone}
+                    </td>
+                    <td className="px-3 sm:px-6 py-3 truncate max-w-[150px] sm:max-w-[250px]">
                       {item.class}
                     </td>
-                    <td className="px-6 py-4">
+                    <td className="px-3 sm:px-6 py-3">
                       <span
                         className={`px-3 py-1 rounded-full text-xs font-medium ${
                           item.status === "Complete"
@@ -61,9 +70,9 @@ const Page = () => {
                         {item.status}
                       </span>
                     </td>
-                    <td className="px-6 py-4 text-center">
-                      <button className="p-2 bg-gray-100 rounded-lg hover:bg-gray-200 transition">
-                        <CiEdit className="text-gray-600 text-[16px]" />
+                    <td className="px-3 sm:px-6 py-3 text-center">
+                      <button className="p-1.5 sm:p-2 bg-gray-100 rounded-lg hover:bg-gray-200 transition">
+                        <CiEdit className="text-gray-600 text-[14px] sm:text-[16px]" />
                       </button>
                     </td>
                   </tr>
