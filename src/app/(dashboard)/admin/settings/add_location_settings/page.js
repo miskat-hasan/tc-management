@@ -19,17 +19,17 @@ const Page = () => {
   };
 
   return (
-    <section className="flex flex-col gap-4">
+    <section className="flex flex-col gap-2 lg:gap-4">
       {/* Title */}
       <SectionTitle title="My Account" />
 
       {/* White Form Card */}
-      <div className="bg-white rounded-[14px] p-8 shadow-sm">
-        <SectionTitle title="Basic Information" className={"mb-3"} />
+      <div className="bg-white rounded-[14px] p-4 lg:p-8 shadow-sm">
+        <SectionTitle title="Basic Information" className={"mb-1.5 lg:mb-3"} />
         <FormContainer form={form} onSubmit={onSubmit}>
           <div className="flex flex-col gap-3.5 mb-5">
             {/* Grid Layout */}
-            <div className="grid grid-cols-2 gap-6 ">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-6 ">
               <FormInput name="name" label="Name" placeholder="name here" />
               <CustomSelect
                 id="Abbreviation"
@@ -51,9 +51,9 @@ const Page = () => {
               label={"Directions"}
               placeholder={"Directions here"}
             />
-            <div className="flex flex-col gap-2.5">
+            <div className="flex flex-col gap-1.5 md:gap-2.5">
               <p className="font-semibold text-[15px] text-gray-700">Options</p>
-              <label className="flex items-center gap-2 text-sm">
+              <label className="flex items-center gap-2 text-[12px] sm:text-sm">
                 <input type="checkbox" className="accent-brown" />
                 Make this location my default selection when creating classes
               </label>
@@ -66,7 +66,7 @@ const Page = () => {
           </div>
 
           <SectionTitle title="Advanced Information" className={"mb-3"} />
-          <div className="grid grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-6">
             <FormInput
               name="address1"
               label="Address 1"
@@ -85,7 +85,7 @@ const Page = () => {
               placeholder="State"
             />
 
-            <div className="col-span-full w-full flex flex-col gap-6">
+            <div className="col-span-full w-full flex flex-col gap-3 md:gap-6">
               <FormInput
                 name="zipPostalCode"
                 label="Zip / Postal Code"
@@ -111,15 +111,15 @@ const Page = () => {
             </div>
           </div>
 
-          <div className="flex flex-col gap-2 my-4">
+          <div className="flex flex-col gap-2 my-2 lg:my-4">
             <p className="font-semibold text-[15px] text-gray-700">Options</p>
-            <label className="flex items-center gap-2 text-sm">
+            <label className="flex items-center gap-2 text-[12px] sm:text-sm">
               <input type="checkbox" className="accent-brown" />
               Include address in class communications
             </label>
           </div>
 
-          <div className="grid grid-cols-2 gap-6 ">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-6 ">
             <FormInput
               name="Contact Name"
               label="Contact Name"
@@ -143,7 +143,7 @@ const Page = () => {
           </div>
 
           {/* Footer Buttons */}
-          <div className="flex justify-end gap-4 mt-10">
+          <div className="flex justify-end gap-4 mt-5 lg:mt-10">
             <Button
               type="button"
               className="px-6 py-2 bg-transparent border border-gray-300 rounded-md text-sm font-medium text-black hover:bg-gray-50"

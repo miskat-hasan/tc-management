@@ -27,7 +27,7 @@ const FormTextarea = ({ name, label, description, placeholder, ...props }) => {
           <FormControl>
             <Textarea
               className={cn(
-                "h-[88px] p-4 gap-2.5 rounded-2xl resize-none",
+                "h-[60px] lg:h-[88px] p-2 lg:p-4 gap-2.5 rounded-2xl resize-none !text-[12px] lg:!text-base",
                 "bg-light",
                 "font-normal leading-[1.45]",
                 "placeholder:text-base placeholder:text-muted-foreground hover:placeholder:text-foreground",
