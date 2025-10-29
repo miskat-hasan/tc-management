@@ -21,29 +21,34 @@ const Page = () => {
     router.push("/admin/settings/add_location_settings");
   };
   return (
-    <section className="flex flex-col gap-[25px] ">
+    <section className="flex flex-col gap-[12.5px] lg:gap-[25px] ">
       <div className="flex justify-between">
         <SectionTitle title={"Locations"} />
         <Button
           onClick={handleNavigate}
-          className="py-[22px] cursor-pointer bg-brown flex items-center gap-2"
+          className="py-[11px] lg:py-[22px] cursor-pointer bg-brown flex items-center gap-2"
         >
           Add Locations <PlusIcon />
         </Button>
       </div>
 
-      <div className="p-[26px] bg-white rounded-[14px] flex flex-col gap-[24px]">
+      <div className="p-[13px] lg:p-[26px] bg-white rounded-[14px] flex flex-col gap-[24px]">
         <div className="overflow-x-auto">
-          <table className="w-full text-sm text-left text-gray-700">
-            <thead className="bg-gray-50 text-black text-[16px] font-semibold">
+          <table className="min-w-full text-sm text-left text-gray-700">
+            <thead className="bg-gray-50 text-black text-[14px] md:text-[16px] font-semibold">
               <tr>
-                <th className="px-6 py-3">Name</th>
-                <th className="px-6 py-3">Abbrev </th>
-                <th className="px-6 py-3">Directions</th>
-                <th className="px-6 py-3">Default</th>
-                <th className="px-6 py-3 text-center">Action</th>
+                <th className="px-3 md:px-6 py-3 whitespace-nowrap">Name</th>
+                <th className="px-3 md:px-6 py-3 whitespace-nowrap">Abbrev</th>
+                <th className="px-3 md:px-6 py-3 whitespace-nowrap">
+                  Directions
+                </th>
+                <th className="px-3 md:px-6 py-3 whitespace-nowrap">Default</th>
+                <th className="px-3 md:px-6 py-3 text-center whitespace-nowrap">
+                  Action
+                </th>
               </tr>
             </thead>
+
             <tbody>
               {locationData.length > 0 ? (
                 locationData.map((item, index) => (
@@ -51,11 +56,19 @@ const Page = () => {
                     key={index}
                     className="border-b hover:bg-gray-50 transition-all"
                   >
-                    <td className="px-6 py-4">{item.name}</td>
-                    <td className="px-6 py-4">{item.abbrev}</td>
-                    <td className="px-6 py-4">{item.directions}</td>
-                    <td className="px-6 py-4">{item.default}</td>
-                    <td className="px-6 py-4 text-center">
+                    <td className="px-3 md:px-6 py-4 whitespace-nowrap">
+                      {item.name}
+                    </td>
+                    <td className="px-3 md:px-6 py-4 whitespace-nowrap">
+                      {item.abbrev}
+                    </td>
+                    <td className="px-3 md:px-6 py-4 whitespace-nowrap">
+                      {item.directions}
+                    </td>
+                    <td className="px-3 md:px-6 py-4 whitespace-nowrap">
+                      {item.default}
+                    </td>
+                    <td className="px-3 md:px-6 py-4 text-center whitespace-nowrap">
                       <button className="p-2 bg-gray-100 rounded-lg hover:bg-gray-200 transition">
                         <CiEdit className="text-gray-600 text-[16px]" />
                       </button>
@@ -77,7 +90,7 @@ const Page = () => {
         </div>
 
         {/* Footer controls */}
-        <div className="flex flex-col md:flex-row items-center justify-between mt-6 gap-3">
+        <div className="flex flex-col md:flex-row items-center justify-between mt-3 lg:mt-6 gap-3">
           <div className="flex items-center gap-2">
             <span className="text-gray-600 text-sm">Show:</span>
             <select
