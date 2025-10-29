@@ -21,12 +21,12 @@ const Page = () => {
     router.push("/admin/settings/add_keycodes_bank");
   };
   return (
-    <section className="flex flex-col gap-[25px] ">
+    <section className="flex flex-col gap-[12.5px] lg:gap-[25px] ">
       <div className="flex justify-between">
         <SectionTitle title={"Keycode Banks"} />
         <Button
           onClick={handleNavigate}
-          className="py-[22px] cursor-pointer bg-brown flex items-center gap-2"
+          className="py-[11px] lg:py-[22px] text-[12px] lg:text-base cursor-pointer bg-brown flex items-center gap-2"
         >
           Add keycode bank <PlusIcon />
         </Button>
@@ -34,15 +34,18 @@ const Page = () => {
 
       <div className="p-[26px] bg-white rounded-[14px] flex flex-col gap-[24px]">
         <div className="overflow-x-auto">
-          <table className="w-full text-sm text-left text-gray-700">
-            <thead className="bg-gray-50 text-black text-[16px] font-semibold">
+          <table className="min-w-full text-sm text-left text-gray-700">
+            <thead className="bg-gray-50 text-black text-[14px] md:text-[16px] font-semibold">
               <tr>
-                <th className="px-6 py-3">Name</th>
-                <th className="px-6 py-3">Total </th>
-                <th className="px-6 py-3">Unused</th>
-                <th className="px-6 py-3 text-center">Action</th>
+                <th className="px-3 md:px-6 py-3 whitespace-nowrap">Name</th>
+                <th className="px-3 md:px-6 py-3 whitespace-nowrap">Total</th>
+                <th className="px-3 md:px-6 py-3 whitespace-nowrap">Unused</th>
+                <th className="px-3 md:px-6 py-3 text-center whitespace-nowrap">
+                  Action
+                </th>
               </tr>
             </thead>
+
             <tbody>
               {keycodeData.length > 0 ? (
                 keycodeData.map((item, index) => (
@@ -50,17 +53,18 @@ const Page = () => {
                     key={index}
                     className="border-b hover:bg-gray-50 transition-all"
                   >
-                    <td className="px-6 py-4">
-                      <div className="flex flex-col">
-                        <span className="font-medium text-gray-800">
-                          {item.name}
-                        </span>
-                      </div>
+                    <td className="px-3 md:px-6 py-4 whitespace-nowrap">
+                      <span className="font-medium text-gray-800">
+                        {item.name}
+                      </span>
                     </td>
-                    <td className="px-6 py-4">{item.total}</td>
-                    <td className="px-6 py-4">{item.unused}</td>
-
-                    <td className="px-6 py-4 text-center">
+                    <td className="px-3 md:px-6 py-4 whitespace-nowrap">
+                      {item.total}
+                    </td>
+                    <td className="px-3 md:px-6 py-4 whitespace-nowrap">
+                      {item.unused}
+                    </td>
+                    <td className="px-3 md:px-6 py-4 text-center whitespace-nowrap">
                       <button className="p-2 bg-gray-100 rounded-lg hover:bg-gray-200 transition">
                         <CiEdit className="text-gray-600 text-[16px]" />
                       </button>
@@ -70,7 +74,7 @@ const Page = () => {
               ) : (
                 <tr>
                   <td
-                    colSpan="5"
+                    colSpan="4"
                     className="text-center py-6 text-gray-500 italic"
                   >
                     No results found
@@ -82,7 +86,7 @@ const Page = () => {
         </div>
 
         {/* Footer controls */}
-        <div className="flex flex-col md:flex-row items-center justify-between mt-6 gap-3">
+        <div className="flex flex-col md:flex-row items-center justify-between mt-3 lg:mt-6 gap-3">
           <div className="flex items-center gap-2">
             <span className="text-gray-600 text-sm">Show:</span>
             <select
