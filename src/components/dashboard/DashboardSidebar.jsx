@@ -291,7 +291,7 @@ const DashboardSidebar = () => {
                 </li>
               );
             })}
-            <li className="text-sm font-semibold mt-10 cursor-pointer">
+            <li className="text-sm font-semibold mt-10 cursor-pointer px-[20px] py-[10px] bg-brown rounded-[10px] flex items-center justify-center text-white">
               Log Out
             </li>
           </ul>
