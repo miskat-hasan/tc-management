@@ -164,13 +164,7 @@ const Page = () => {
   };
 
   return (
-    <div style={{ height: "90vh", padding: "20px" }}>
-      <div
-        style={{ marginBottom: "10px", padding: "10px", background: "#f5f5f5" }}
-      >
-        <strong>Debug Info:</strong> Current Path: {currentPath} | Files Count:{" "}
-        {files.length}
-      </div>
+    <div className="mb-10">
       <FileManager
         files={files}
         path={currentPath}
@@ -181,10 +175,9 @@ const Page = () => {
         onMove={handleMove}
         onUpload={handleUpload}
         onDownload={handleDownload}
-        // Try different approaches for uploadUrl:
         uploadUrl={false} // Try this
-        // uploadUrl={null} // Or this
-        // uploadUrl="" // Or this
+        collapsibleNav={true}
+        defaultNavExpanded={false}
         capabilities={{
           canCreate: true,
           canDelete: true,

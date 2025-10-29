@@ -177,3 +177,55 @@ body {
   background-color: rgba(0, 0, 0, 0.5) !important;
   z-index: 99 !important; /* Below the modal, above the files */
 }
+
+.navigation-pane {
+  width: 300px !important;
+  height: auto !important;
+}
+
+.file-explorer {
+  height: 100vh !important;
+}
+
+.bread-crumb-container .breadcrumb {
+  height: 62px !important;
+  min-height: 35px !important;
+  overflow-x: visible !important;
+}
+
+.toolbar {
+  height: auto !important;
+  min-height: 35px !important;
+  max-height: 500px !important;
+  border-bottom: 1px solid #cfcfcf;
+  padding: 5px 10px;
+}
+
+.toolbar .file-action-container {
+  display: flex;
+  justify-content: none !important;
+  flex-wrap: wrap !important;
+}
+
+.file-action-container div {
+  flex-wrap: wrap !important;
+}
+
+@media screen and (max-width: 500px) {
+  .navigation-pane {
+    width: 250px !important;
+  }
+  .files.list .files-header .file-name {
+    width: auto !important;
+  }
+  .files.list .files-header .file-date {
+    width: auto !important;
+  }
+  .files.list .files-header .file-size {
+    width: auto !important;
+  }
+}
+
+.files {
+  height: auto;
+}
