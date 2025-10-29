@@ -22,18 +22,18 @@ const Page = () => {
   };
 
   return (
-    <section className="flex flex-col gap-4">
+    <section className="flex flex-col gap-2 lg:gap-4">
       <SectionTitle title={"Upload Certificate"} />
       <div className="w-full flex justify-center">
-        <div className="w-full  bg-gray-50 border border-gray-200 rounded-xl p-8 text-center">
+        <div className="w-full  bg-gray-50 border border-gray-200 rounded-xl p-4 lg:p-8 text-center">
           <label
             htmlFor="file-upload"
             className="cursor-pointer flex flex-col items-center justify-center text-gray-500 hover:text-gray-700 transition"
           >
             <div className="bg-gray-100 hover:bg-gray-200 p-4 rounded-full mb-3 transition">
-              <Upload size={28} />
+              <Upload className="size-[20px] lg:size-[28px]" />
             </div>
-            <p className="text-sm">
+            <p className="text-[10px] md:text-sm">
               To upload a new certificate, select your <b>.docx</b> file and
               click
               <b> Upload</b>. Existing files with the same name will be
@@ -56,7 +56,7 @@ const Page = () => {
 
           <button
             onClick={handleUpload}
-            className="mt-4 bg-brown text-white px-6 py-2 rounded-lg hover:bg-brown-hover transition disabled:opacity-50 cursor-pointer"
+            className="mt-4 bg-brown text-white text-sm lg:text-base px-3 lg:px-6 py-2 rounded-lg hover:bg-brown-hover transition disabled:opacity-50 cursor-pointer"
             disabled={!file}
           >
             Upload

@@ -29,12 +29,15 @@ const Page = () => {
     };
   };
   return (
-    <section className="flex flex-col gap-4">
+    <section className="flex flex-col gap-2 lg:gap-4">
       <SectionTitle title={"Certification Card Settings"} />
-      <div className="p-[26px] bg-white rounded-[14px] flex flex-col gap-[24px]">
-        <SubSectionTitle className={"!text-2xl"} subtitle={"Setting Profile"} />
+      <div className="p-[13px] lg:p-[26px] bg-white rounded-[14px] flex flex-col gap-[12px] lg:gap-[24px]">
+        <SubSectionTitle
+          className={"!text-[18px] lg:!text-2xl"}
+          subtitle={"Setting Profile"}
+        />
         <FormContainer form={form} onSubmit={onSubmit}>
-          <div className="grid grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3 lg:gap-6">
             <FormInput
               name="Profile Name"
               label="Profile Name"
@@ -65,7 +68,7 @@ const Page = () => {
             />
           </div>
 
-          <div className="mt-6">
+          <div className="mt-3 lg:mt-6">
             <FormInput
               name="Course Location"
               label="Course Location"
@@ -73,7 +76,7 @@ const Page = () => {
             />
           </div>
 
-          <div className="grid grid-cols-3 gap-6 mt-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3 lg:gap-6 mt-3 lg:mt-6">
             <CustomSelect
               name="Card Type"
               label="Card Type"
@@ -118,7 +121,7 @@ const Page = () => {
             </label>
           </div>
           <div className="flex items-center justify-end">
-            <div className="flex justify-end gap-4 mt-8">
+            <div className="flex justify-end gap-4 mt-4 lg:mt-8">
               <Button
                 type="button"
                 className="px-6 py-2 bg-transparent border border-gray-300 rounded-md text-sm font-medium text-black hover:bg-gray-50 focus:outline-none"

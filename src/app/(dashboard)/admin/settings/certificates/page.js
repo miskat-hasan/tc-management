@@ -17,28 +17,31 @@ const Page = () => {
     router.push("/admin/settings/upload_certificate");
   };
   return (
-    <div className="flex flex-col gap-[25px]">
+    <div className="flex flex-col gap-[12.5px] lg:gap-[25px]">
       {/* Header */}
       <div className="flex justify-between">
         <SectionTitle title={"Certificates"} />
         <Button
           onClick={handleNavigation}
-          className="py-[22px] cursor-pointer bg-brown flex items-center gap-2"
+          className="py-[11px] lg:py-[22px] cursor-pointer bg-brown flex items-center gap-2"
         >
           Upload Certificate
         </Button>
       </div>
 
       {/* Table */}
-      <div className="p-[26px] bg-white rounded-[14px] flex flex-col gap-[24px]">
+      <div className="p-[11px] lg:p-[26px] bg-white rounded-[14px] flex flex-col gap-[12px] lg:gap-[24px]">
         <div className="overflow-x-auto">
-          <table className="w-full text-sm text-left text-gray-700">
-            <thead className="bg-gray-50 text-black capitalize text-[20px] font-semibold">
+          <table className="min-w-full text-sm text-left text-gray-700">
+            <thead className="bg-gray-50 text-black capitalize text-[16px] md:text-[20px] font-semibold">
               <tr>
-                <th className="px-6 py-3">Name</th>
-                <th className="px-6 py-3 text-right">Action</th>
+                <th className="px-3 md:px-6 py-3 whitespace-nowrap">Name</th>
+                <th className="px-3 md:px-6 py-3 text-right whitespace-nowrap">
+                  Action
+                </th>
               </tr>
             </thead>
+
             <tbody>
               {keycodeSales.length > 0 ? (
                 keycodeSales.map((item, index) => (
@@ -46,9 +49,11 @@ const Page = () => {
                     key={index}
                     className="border-b hover:bg-gray-50 transition-all"
                   >
-                    <td className="px-6 py-4 text-gray-800">{item.name}</td>
+                    <td className="px-3 md:px-6 py-4 text-gray-800 whitespace-nowrap">
+                      {item.name}
+                    </td>
 
-                    <td className="px-6 py-4 flex gap-2.5 justify-end">
+                    <td className="px-3 md:px-6 py-4 flex gap-2.5 justify-end">
                       <button className="p-2 cursor-pointer bg-gray-100 rounded-lg hover:bg-gray-200 transition">
                         <HiOutlineDownload className="text-gray-600 text-[16px]" />
                       </button>
@@ -73,7 +78,7 @@ const Page = () => {
         </div>
 
         {/* Footer controls */}
-        <div className="flex flex-col md:flex-row items-center justify-between mt-6 gap-3">
+        <div className="flex flex-col md:flex-row items-center justify-between mt-3 lg:mt-6 gap-3">
           <div className="flex items-center gap-2">
             <span className="text-gray-600 text-sm">Show:</span>
             <select
