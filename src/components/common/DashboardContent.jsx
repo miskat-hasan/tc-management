@@ -3,7 +3,7 @@ import React from "react";
 import DashboardTopbar from "../dashboard/DashboardTopbar";
 import { usePathname } from "next/navigation";
 
-const DashboardContent = ({ children }) => {
+const DashboardContent = ({ content }) => {
   const pathname = usePathname();
   return (
     <div
@@ -15,7 +15,7 @@ const DashboardContent = ({ children }) => {
       }`}
     >
       <DashboardTopbar />
-      {children}
+      {content}
     </div>
   );
 };

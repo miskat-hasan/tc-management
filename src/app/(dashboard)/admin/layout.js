@@ -18,7 +18,7 @@ export default function DashboardLayout({ children }) {
   return (
     <section className={`${poppins.variable} flex`}>
       <DashboardSidebar />
-      <DashboardContent children={children} />
+      <DashboardContent content={children} />
     </section>
   );
 }
