@@ -45,7 +45,7 @@ const CustomSelect = ({
             w-full
             border border-gray-300 
             bg-light rounded-md 
-            px-2 sm:px-3 py-2 sm:!py-2.5 
+            px-2 sm:px-3 py-2 sm:!py-6
             text-sm sm:text-base text-gray-700
             focus:outline-none focus:ring-2 focus:ring-gray-300
             transition-all duration-150

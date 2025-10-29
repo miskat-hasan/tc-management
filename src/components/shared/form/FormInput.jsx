@@ -47,7 +47,7 @@ const FormInput = ({
                 `
                 w-full
                 rounded-xl sm:rounded-2xl
-                px-3 sm:px-4 py-2.5 sm:py-3
+                px-3 sm:px-4 py-2.5 md:py-6
                 text-sm sm:text-base
                 font-normal leading-[1.45]
                 placeholder:text-gray-400

@@ -291,6 +291,9 @@ const DashboardSidebar = () => {
                 </li>
               );
             })}
+            <li className="text-sm font-semibold mt-10 cursor-pointer">
+              Log Out
+            </li>
           </ul>
         </nav>
       </div>
