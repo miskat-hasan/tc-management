@@ -40,9 +40,9 @@ const Page = () => {
   return (
     <section className="flex flex-col gap-4">
       <SectionTitle title={"Add / Edit Course Type"} />
-      <div className="p-[26px] bg-white rounded-[14px] flex flex-col gap-[24px]">
+      <div className="p-[13px] lg:p-[26px] bg-white rounded-[14px] flex flex-col gap-[24px]">
         <FormContainer form={form} onSubmit={onSubmit}>
-          <div className="flex flex-col gap-6">
+          <div className="flex flex-col gap-3 lg:gap-6">
             <FormInput
               name="courseName"
               label="Course Name"
@@ -51,15 +51,15 @@ const Page = () => {
 
             <div className="flex flex-col gap-2">
               <p className="font-semibold text-[15px] text-gray-700">Mode</p>
-              <label className="flex items-center gap-2 text-sm">
+              <label className="flex items-center gap-2 text-[12px] sm:text-sm">
                 <input type="checkbox" className="accent-brown" />
                 On-site: The course is taught in person at a physical location.
               </label>
-              <label className="flex items-center gap-2 text-sm">
+              <label className="flex items-center gap-2 text-[12px] sm:text-sm">
                 <input type="checkbox" className="accent-brown" />
                 Blended: The course has both online and in-person components.
               </label>
-              <label className="flex items-center gap-2 text-sm">
+              <label className="flex items-center gap-2 text-[12px] sm:text-sm">
                 <input type="checkbox" className="accent-brown" />
                 Online: All class instruction, assignments, and tests are
                 asynchronous and can be completed virtually.
@@ -76,15 +76,15 @@ const Page = () => {
               <p className="font-semibold text-[15px] text-gray-700">
                 Price Options
               </p>
-              <label className="flex items-center gap-2 text-sm">
+              <label className="flex items-center gap-2 text-[12px] sm:text-sm">
                 <input type="checkbox" className="accent-brown" />
                 Allow registrations with a deposit
               </label>
-              <label className="flex items-center gap-2 text-sm">
+              <label className="flex items-center gap-2 text-[12px] sm:text-sm">
                 <input type="checkbox" className="accent-brown" />
                 Allow multiple pricing levels
               </label>
-              <label className="flex items-center gap-2 text-sm">
+              <label className="flex items-center gap-2 text-[12px] sm:text-sm">
                 <input type="checkbox" className="accent-brown" />
                 Online: All class instruction, assignments, and tests are
                 asynchronous and can be completed virtually.
@@ -93,7 +93,7 @@ const Page = () => {
 
             <FormInput name="price" label="Price" placeholder="Price" />
 
-            <div className="grid grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-6">
               <FormInput
                 name="addonPrompt"
                 label="Add-on Prompt"
@@ -118,7 +118,7 @@ const Page = () => {
               />
             </div>
 
-            <div className="grid grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-6">
               <FormInput
                 name="Shipping Price"
                 label="Shipping Price"
@@ -144,7 +144,7 @@ const Page = () => {
               />
             </div>
 
-            <div className="grid grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-6">
               <CustomSelect
                 id="courseCertifyingBody"
                 label="Course Certifying Body"
@@ -178,7 +178,7 @@ const Page = () => {
               />
             </div>
 
-            <div className="grid grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-6">
               <CustomSelect
                 id="secondCardType"
                 label="Second Card Type"
@@ -214,55 +214,55 @@ const Page = () => {
             <div className="flex flex-col gap-2">
               <p className="font-semibold text-[15px] text-gray-700">Options</p>
               <div className="flex  items-center gap-2 text-gray-400 max-w-[1400px] flex-wrap">
-                <label className="flex items-center gap-2 text-sm">
+                <label className="flex items-center gap-2 text-[12px] sm:text-sm">
                   <input type="checkbox" className="accent-brown" />
                   Prompt for certification / recertification during registration
                 </label>
-                <label className="flex items-center gap-2 text-sm">
+                <label className="flex items-center gap-2 text-[12px] sm:text-sm">
                   <input type="checkbox" className="accent-brown" />
                   Include student to instructor ratio on roster
                 </label>
-                <label className="flex items-center gap-2 text-sm">
+                <label className="flex items-center gap-2 text-[12px] sm:text-sm">
                   <input type="checkbox" className="accent-brown" />
                   Include student to manikin ratio on roster
                 </label>
-                <label className="flex items-center gap-2 text-sm">
+                <label className="flex items-center gap-2 text-[12px] sm:text-sm">
                   <input type="checkbox" className="accent-brown" />
                   Include electronic signature for AHA roster
                 </label>
-                <label className="flex items-center gap-2 text-sm">
+                <label className="flex items-center gap-2 text-[12px] sm:text-sm">
                   <input type="checkbox" className="accent-brown" />
                   Use certificate number instead of test score (online course)
                 </label>
-                <label className="flex items-center gap-2 text-sm">
+                <label className="flex items-center gap-2 text-[12px] sm:text-sm">
                   <input type="checkbox" className="accent-brown" />
                   Show the number of seats remaining on the schedule page
                 </label>
-                <label className="flex items-center gap-2 text-sm">
+                <label className="flex items-center gap-2 text-[12px] sm:text-sm">
                   <input type="checkbox" className="accent-brown" />
                   Allow students to select will call to schedule
                 </label>
-                <label className="flex items-center gap-2 text-sm">
+                <label className="flex items-center gap-2 text-[12px] sm:text-sm">
                   <input type="checkbox" className="accent-brown" />
                   Prompt for license number during registration
                 </label>
-                <label className="flex items-center gap-2 text-sm">
+                <label className="flex items-center gap-2 text-[12px] sm:text-sm">
                   <input type="checkbox" className="accent-brown" />
                   Require license number during registration
                 </label>
-                <label className="flex items-center gap-2 text-sm">
+                <label className="flex items-center gap-2 text-[12px] sm:text-sm">
                   <input type="checkbox" className="accent-brown" />
                   Allow an alternate date/time description{" "}
                 </label>
-                <label className="flex items-center gap-2 text-sm">
+                <label className="flex items-center gap-2 text-[12px] sm:text-sm">
                   <input type="checkbox" className="accent-brown" />
                   Enable Registration Waitlist
                 </label>
-                <label className="flex items-center gap-2 text-sm">
+                <label className="flex items-center gap-2 text-[12px] sm:text-sm">
                   <input type="checkbox" className="accent-brown" />
                   Enable Class Roster Expirations
                 </label>
-                <label className="flex items-center gap-2 text-sm">
+                <label className="flex items-center gap-2 text-[12px] sm:text-sm">
                   <input type="checkbox" className="accent-brown" />
                   Automatic Waitlist
                 </label>
@@ -282,7 +282,7 @@ const Page = () => {
               <RichTextEditor ref={descriptionRef} />
             </div>
 
-            <div className="grid grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-6">
               <FormInput
                 name="courseConfirmationEmailCCS"
                 label="Course Confirmation Email CCS"
@@ -331,7 +331,7 @@ const Page = () => {
           </div>
 
           <div className="flex items-center justify-end">
-            <div className="flex justify-end gap-4 mt-8">
+            <div className="flex justify-end gap-4 mt-4 lg:mt-8">
               <Button
                 type="button"
                 className="px-6 py-2 bg-transparent border border-gray-300 rounded-md text-sm font-medium text-black hover:bg-gray-50 focus:outline-none"
