@@ -17,15 +17,15 @@ const Page = () => {
   };
 
   return (
-    <section className="flex flex-col gap-4">
+    <section className="flex flex-col gap-2 lg:gap-4">
       {/* Title */}
       <SectionTitle title="Add Email Campaigns" />
 
       {/* White Form Card */}
-      <div className="bg-white rounded-[14px] p-8 shadow-sm">
+      <div className="bg-white rounded-[14px] p-4 lg:p-8 shadow-sm">
         <FormContainer form={form} onSubmit={onSubmit}>
           {/* Grid Layout */}
-          <div className="grid grid-cols-2 gap-x-6 gap-y-5">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-3 gap-y-2.5 lg:gap-x-6 lg:gap-y-5">
             <FormInput name="Name" label="Name" placeholder="Name here" />
 
             <FormInput
@@ -47,14 +47,14 @@ const Page = () => {
           </div>
 
           {/* Options + Roles */}
-          <div className="grid grid-cols-2 gap-10 mt-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 lg:gap-10 mt-4 lg:mt-8">
             <div className="flex flex-col gap-2">
               <p className="font-semibold text-[15px] text-gray-700">Options</p>
-              <label className="flex items-center gap-2 text-sm">
+              <label className="flex items-center gap-2 text-[10px] lg:text-sm">
                 <input type="checkbox" className="accent-brown" />
                 Active
               </label>
-              <label className="flex items-center gap-2 text-sm">
+              <label className="flex items-center gap-2 text-[10px] lg:text-sm">
                 <input type="checkbox" className="accent-brown" />
                 Stop this campaign if the customer registers for a renewal class
               </label>
@@ -64,27 +64,27 @@ const Page = () => {
             <p className="font-semibold text-[15px] text-gray-700">
               Send to all Course Types
             </p>
-            <label className="flex items-center gap-2 text-sm">
+            <label className="flex items-center gap-2 text-[10px] lg:text-sm">
               <input type="checkbox" className="accent-brown" />
               Yes
             </label>
-            <label className="flex items-center gap-2 text-sm">
+            <label className="flex items-center gap-2 text-[10px] lg:text-sm">
               <input type="checkbox" className="accent-brown" />
               No
             </label>
           </div>
 
           {/* Footer Buttons */}
-          <div className="flex justify-end gap-4 mt-10">
+          <div className="flex justify-end gap-4 mt-5 lg:mt-10">
             <Button
               type="button"
-              className="px-6 py-2 bg-transparent border border-gray-300 rounded-md text-sm font-medium text-black hover:bg-gray-50"
+              className="px-3 lg:px-6 lg:py-2 bg-transparent border border-gray-300 rounded-md text-[10px] lg:text-sm font-medium text-black hover:bg-gray-50"
             >
               Back
             </Button>
             <Button
               type="submit"
-              className="px-6 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium cursor-pointer text-white bg-brown hover:bg-brown-hover"
+              className="px-3 lg:px-6 lg:py-2 border border-transparent rounded-md shadow-sm text-[10px] lg:text-sm font-medium cursor-pointer text-white bg-brown hover:bg-brown-hover"
             >
               Save Changes
             </Button>
