@@ -25,7 +25,7 @@ const CreditCardSettings = () => {
     };
   };
   return (
-    <div className="p-[26px] bg-white rounded-[14px] flex flex-col gap-[24px]">
+    <div className="p-[13px] lg:p-[26px] bg-white rounded-[14px] flex flex-col gap-[12px] lg:gap-[24px]">
       <SectionTitle title={"Credit Card Services Settings"} />
       <FormContainer form={form} onSubmit={onSubmit}>
         <FormInput
@@ -40,16 +40,16 @@ const CreditCardSettings = () => {
         />
         <div className="flex flex-col gap-2">
           <p className="font-semibold text-[15px] text-gray-700">Options</p>
-          <label className="flex items-center gap-2 text-sm">
+          <label className="flex items-center gap-2 text-[12px] sm:text-sm">
             <input type="checkbox" className="accent-brown" />
             Enable QuickBooks sync (more info)
           </label>
-          <label className="flex items-center gap-2 text-sm">
+          <label className="flex items-center gap-2 text-[12px] sm:text-sm">
             <input type="checkbox" className="accent-brown" />
             Include a payment form link in the receipt for registrations with a
             balance due (more info)
           </label>
-          <label className="flex items-center gap-2 text-sm">
+          <label className="flex items-center gap-2 text-[12px] sm:text-sm">
             <input type="checkbox" className="accent-brown" />
             Strict AVS
           </label>
@@ -61,7 +61,7 @@ const CreditCardSettings = () => {
           placeholder="Merchant Capital Advance Here"
         />
         <div className="flex items-center justify-end">
-          <div className="flex justify-end gap-4 mt-8">
+          <div className="flex justify-end gap-4 mt-4 lg:mt-8">
             <Button
               type="button"
               className="px-6 py-2 bg-transparent border border-gray-300 rounded-md text-sm font-medium text-black hover:bg-gray-50 focus:outline-none"

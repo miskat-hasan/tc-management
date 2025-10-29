@@ -31,8 +31,8 @@ const RegistrationSettings = () => {
     };
   };
   return (
-    <section className="flex flex-col gap-4">
-      <div className="p-[26px] bg-white rounded-[14px] flex flex-col gap-[24px]">
+    <section className="flex flex-col gap-2 lg:gap-4">
+      <div className="p-[13px] lg:p-[26px] bg-white rounded-[14px] flex flex-col gap-[12px] lg:gap-[24px]">
         <SectionTitle title={"Basic Site Settings"} />
         <FormContainer form={form} onSubmit={onSubmit}>
           <FormInput
@@ -46,18 +46,18 @@ const RegistrationSettings = () => {
             placeholder="Schedule Page Format Here"
           />
 
-          <div className="flex flex-col gap-2 my-4">
+          <div className="flex flex-col gap-2 my-2 lg:my-4">
             <p className="font-semibold text-[15px] text-gray-700">Options</p>
-            <p className="flex items-center gap-2 text-sm">
+            <p className="flex items-center gap-2 text-[12px] sm:text-sm">
               https://codeblueservices.enrollware.com{" "}
             </p>
-            <p className="flex items-center gap-2 text-sm">
+            <p className="flex items-center gap-2 text-[12px] sm:text-sm">
               https://codeblueservices.enrollware.com{" "}
             </p>
-            <p className="flex items-center gap-2 text-sm">
+            <p className="flex items-center gap-2 text-[12px] sm:text-sm">
               https://codeblueservices.enrollware.com{" "}
             </p>
-            <p className="flex items-center gap-2 text-sm">
+            <p className="flex items-center gap-2 text-[12px] sm:text-sm">
               https://codeblueservices.enrollware.com{" "}
             </p>
           </div>
@@ -87,7 +87,7 @@ const RegistrationSettings = () => {
           />
 
           <div className="flex items-center justify-end">
-            <div className="flex justify-end gap-4 mt-8">
+            <div className="flex justify-end gap-4 mt-4 lg:mt-8">
               <Button
                 type="button"
                 className="px-6 py-2 bg-transparent border border-gray-300 rounded-md text-sm font-medium text-black hover:bg-gray-50 focus:outline-none"
