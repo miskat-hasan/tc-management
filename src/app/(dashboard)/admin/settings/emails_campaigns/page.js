@@ -138,27 +138,24 @@ const campaigns = [
 // This part does not need to change at all.
 export default function EmailCampaignsPage() {
   return (
-    <div className="min-h-screen bg-gray-100 ">
+    <div className="min-h-screen bg-gray-100  ">
       {/* Page Header */}
-      <div className="mb-6 flex items-center justify-between">
+      <div className="mb-3 lg:mb-6 flex flex-row justify-between gap-4">
         <SectionTitle title={"Email Campaigns"} />
         <Link
           href={`/admin/settings/emails_campaigns/add_new_campaign`}
-          className="rounded-md bg-brown px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-brown focus:outline-none focus:ring-2 focus:ring-brown focus:ring-offset-2"
+          className="rounded-md bg-brown px-4 py-2 text-[10px] lg:text-sm font-medium text-white shadow-sm hover:bg-brown focus:outline-none focus:ring-2 focus:ring-brown focus:ring-offset-2"
         >
           New Campaign
         </Link>
       </div>
 
       {/* Campaign List */}
-      <div>
+      <div className="space-y-3 lg:space-y-6">
         {campaigns.map((campaign, i) => (
-          <div
-            key={i}
-            className="mb-6 overflow-hidden rounded-lg bg-white shadow-md"
-          >
+          <div key={i} className="overflow-hidden rounded-lg bg-white ">
             {/* Card Header */}
-            <div className="flex flex-wrap items-center justify-between gap-2 bg-gray-50 px-6 py-4 border-b border-gray-200">
+            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-2 bg-gray-50 px-4 md:px-6 py-4 border-b border-gray-200">
               <h2 className="text-lg font-semibold text-gray-800">
                 {campaign.title}
                 {campaign.status === "inactive" && (
@@ -167,16 +164,16 @@ export default function EmailCampaignsPage() {
                   </span>
                 )}
               </h2>
-              <div className="flex gap-2">
+              <div className="flex flex-wrap gap-2">
                 <Link
                   href={`/admin/settings/emails_campaigns/${campaign.type}/edit_email_campaign`}
-                  className="rounded-md bg-brown px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-brown focus:outline-none focus:ring-2 focus:ring-brown focus:ring-offset-2"
+                  className="rounded-md bg-brown px-4 py-2 text-[10px] lg:text-sm font-medium text-white shadow-sm hover:bg-brown focus:outline-none focus:ring-2 focus:ring-brown focus:ring-offset-2"
                 >
                   Edit Campaign
                 </Link>
                 <Link
                   href={`/admin/settings/emails_campaigns/${campaign.type}/add_new_email`}
-                  className="rounded-md bg-brown px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-brown focus:outline-none focus:ring-2 focus:ring-brown focus:ring-offset-2"
+                  className="rounded-md bg-brown px-4 py-2 text-[10px] lg:text-sm font-medium text-white shadow-sm hover:bg-brown focus:outline-none focus:ring-2 focus:ring-brown focus:ring-offset-2"
                 >
                   Add New Email
                 </Link>
@@ -184,9 +181,9 @@ export default function EmailCampaignsPage() {
             </div>
 
             {/* Card Body (Email List) */}
-            <div className="px-6 py-4">
+            <div className="px-2 md:px-6 py-4">
               {/* Table Headers */}
-              <div className="grid grid-cols-12 gap-4 pb-2 text-xs font-semibold uppercase text-gray-500">
+              <div className="hidden md:grid grid-cols-12 gap-4 pb-2 text-xs font-semibold text-gray-500">
                 <div className="col-span-2">Day to Send</div>
                 <div className="col-span-8">Subject Line</div>
                 <div className="col-span-2 text-right">Actions</div>
@@ -197,18 +194,23 @@ export default function EmailCampaignsPage() {
                 {campaign.emails.map((email, index) => (
                   <div
                     key={index}
-                    className="grid grid-cols-12 items-center gap-4 rounded-md bg-gray-50 p-3"
+                    className="grid grid-cols-12 items-center gap-2 md:gap-4 rounded-md bg-gray-50 p-3 md:p-3"
                   >
-                    <div className="col-span-2 text-sm text-gray-700">
+                    {/* Day */}
+                    <div className="col-span-2 text-sm text-gray-700 md:text-left">
                       {email.day}
                     </div>
+
+                    {/* Subject */}
                     <div className="col-span-8 text-sm text-gray-900 flex items-center">
                       {email.special && (
                         <span className="mr-2 h-2 w-2 flex-shrink-0 rounded-full bg-red-500"></span>
                       )}
                       {email.subject}
                     </div>
-                    <div className="col-span-2 flex justify-end">
+
+                    {/* Actions */}
+                    <div className="col-span-2 flex justify-end md:justify-end">
                       <button className="text-gray-400 hover:text-red-600">
                         <XCircle size={20} />
                       </button>
