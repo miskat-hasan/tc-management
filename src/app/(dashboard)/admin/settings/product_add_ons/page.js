@@ -28,30 +28,37 @@ const Page = () => {
     router.push("/admin/settings/add_product_ons");
   };
   return (
-    <section className="flex flex-col gap-[25px] ">
+    <section className="flex flex-col gap-[12.5px] lg:gap-[25px] ">
       <div className="flex justify-between">
         <SectionTitle title={"Product Add-ons"} />
         <Button
           onClick={handleNavigate}
-          className="py-[22px] cursor-pointer bg-brown flex items-center gap-2"
+          className="py-[11px] lg:py-[22px] cursor-pointer bg-brown flex items-center gap-2"
         >
           New Add on
           <PlusIcon />
         </Button>
       </div>
 
-      <div className="p-[26px] bg-white rounded-[14px] flex flex-col gap-[24px]">
+      <div className="p-[13px] lg:p-[26px] bg-white rounded-[14px] flex flex-col gap-[12px] lg:gap-[24px]">
         <div className="overflow-x-auto">
-          <table className="w-full text-sm text-left text-gray-700">
-            <thead className="bg-gray-50 text-black text-[16px] font-semibold">
+          <table className="min-w-full text-sm text-left text-gray-700">
+            <thead className="bg-gray-50 text-black text-[14px] md:text-[16px] font-semibold">
               <tr>
-                <th className="px-6 py-3">Product code</th>
-                <th className="px-6 py-3">Name</th>
-                <th className="px-6 py-3">Display Order</th>
-                <th className="px-6 py-3">Price</th>
-                <th className="px-6 py-3 text-center">Action</th>
+                <th className="px-3 md:px-6 py-3 whitespace-nowrap">
+                  Product Code
+                </th>
+                <th className="px-3 md:px-6 py-3 whitespace-nowrap">Name</th>
+                <th className="px-3 md:px-6 py-3 whitespace-nowrap">
+                  Display Order
+                </th>
+                <th className="px-3 md:px-6 py-3 whitespace-nowrap">Price</th>
+                <th className="px-3 md:px-6 py-3 text-center whitespace-nowrap">
+                  Action
+                </th>
               </tr>
             </thead>
+
             <tbody>
               {instructorData.length > 0 ? (
                 instructorData.map((item, index) => (
@@ -59,7 +66,7 @@ const Page = () => {
                     key={index}
                     className="border-b hover:bg-gray-50 transition-all"
                   >
-                    <td className="px-6 py-4">
+                    <td className="px-3 md:px-6 py-4 whitespace-nowrap">
                       <div className="flex flex-col">
                         <span className="font-medium text-gray-800">
                           {item.name}
@@ -69,10 +76,16 @@ const Page = () => {
                         </span>
                       </div>
                     </td>
-                    <td className="px-6 py-4">{item.ahaId}</td>
-                    <td className="px-6 py-4">{item.certification}</td>
-                    <td className="px-6 py-4">{item.expires}</td>
-                    <td className="px-6 py-4 text-center">
+                    <td className="px-3 md:px-6 py-4 whitespace-nowrap">
+                      {item.ahaId}
+                    </td>
+                    <td className="px-3 md:px-6 py-4 whitespace-nowrap">
+                      {item.certification}
+                    </td>
+                    <td className="px-3 md:px-6 py-4 whitespace-nowrap">
+                      {item.expires}
+                    </td>
+                    <td className="px-3 md:px-6 py-4 text-center whitespace-nowrap">
                       <button className="p-2 bg-gray-100 rounded-lg hover:bg-gray-200 transition">
                         <CiEdit className="text-gray-600 text-[16px]" />
                       </button>
@@ -94,7 +107,7 @@ const Page = () => {
         </div>
 
         {/* Footer controls */}
-        <div className="flex flex-col md:flex-row items-center justify-between mt-6 gap-3">
+        <div className="flex flex-col md:flex-row items-center justify-between mt-3 lg:mt-6 gap-3">
           <div className="flex items-center gap-2">
             <span className="text-gray-600 text-sm">Show:</span>
             <select
@@ -128,10 +141,10 @@ const Page = () => {
         </div>
       </div>
 
-      <div className="p-[26px] bg-white rounded-[14px] flex flex-col gap-[24px]">
+      <div className="p-[13px] lg:p-[26px] bg-white rounded-[14px] flex flex-col gap-[12px] lg:gap-[24px]">
         <FormContainer form={form} onSubmit={onSubmit}>
           {/* Grid Layout */}
-          <div className="grid grid-cols-2 gap-x-6 gap-y-5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-3 gap-y-2.5 lg:gap-x-6 lg:gap-y-5">
             <FormInput
               name="Pickup Text"
               label="Pickup Text"
@@ -146,16 +159,16 @@ const Page = () => {
           </div>
 
           {/* Footer Buttons */}
-          <div className="flex justify-end gap-4 mt-10">
+          <div className="flex justify-end gap-4 mt-5 lg:mt-10">
             <Button
               type="button"
-              className="px-6 py-2 bg-transparent border border-gray-300 rounded-md text-sm font-medium text-black hover:bg-gray-50"
+              className="px-3 md:px-6 py-2 bg-transparent border border-gray-300 rounded-md text-sm font-medium text-black hover:bg-gray-50"
             >
               Back
             </Button>
             <Button
               type="submit"
-              className="px-6 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium cursor-pointer text-white bg-brown hover:bg-brown-hover"
+              className="px-3 md:px-6 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium cursor-pointer text-white bg-brown hover:bg-brown-hover"
             >
               Save Changes
             </Button>
