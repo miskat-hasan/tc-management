@@ -45,7 +45,7 @@ const ExternalSkillsPage = () => {
   };
 
   return (
-    <div className=" space-y-6">
+    <div className="space-y-3 lg:space-y-6">
       <h2 className="text-lg font-semibold">External SKU</h2>
 
       <CustomSelect
@@ -63,23 +63,27 @@ const ExternalSkillsPage = () => {
       />
 
       <div className="overflow-x-auto bg-white border rounded-lg">
-        <table className="w-full text-left text-gray-700">
-          <thead className=" text-sm">
+        <table className="min-w-full text-left text-gray-700">
+          <thead className="bg-gray-50 text-sm font-semibold text-gray-900">
             <tr>
-              <th className="p-3">Create Date</th>
-              <th className="p-3">Name</th>
-              <th className="p-3">Code</th>
-              <th className="p-3">Action</th>
+              <th className="p-3 whitespace-nowrap">Create Date</th>
+              <th className="p-3 whitespace-nowrap">Name</th>
+              <th className="p-3 whitespace-nowrap">Code</th>
+              <th className="p-3 whitespace-nowrap text-center">Action</th>
             </tr>
           </thead>
+
           <tbody>
             {tableData.length > 0 ? (
               tableData.map((item, idx) => (
-                <tr key={idx} className="border-t hover:bg-gray-50">
-                  <td className="p-3">{item.date}</td>
-                  <td className="p-3">{item.name}</td>
-                  <td className="p-3">{item.code}</td>
-                  <td className="p-3">
+                <tr
+                  key={idx}
+                  className="border-t hover:bg-gray-50 transition-all"
+                >
+                  <td className="p-3 whitespace-nowrap">{item.date}</td>
+                  <td className="p-3 whitespace-nowrap">{item.name}</td>
+                  <td className="p-3 whitespace-nowrap">{item.code}</td>
+                  <td className="p-3 text-center">
                     <button className="p-2 bg-gray-100 cursor-pointer rounded-lg hover:bg-red-300 transition">
                       <HiOutlineTrash className="text-gray-600 text-[16px]" />
                     </button>
