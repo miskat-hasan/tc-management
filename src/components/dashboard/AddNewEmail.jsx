@@ -18,24 +18,25 @@ export default function AddEditEmailCampaignPage({ id }) {
   const emailBodyRef = useRef(null);
   const onSubmit = (values) => {};
   return (
-    <div className="min-h-screen bg-gray-100 p-6">
+    <div className="min-h-screen bg-gray-100 ">
       {/* Header */}
       <div className="mb-6  ">
         <SectionTitle title={"Add Email Campaign"} />
       </div>
-      <div className="p-[26px] bg-white rounded-[14px] flex flex-col gap-[24px]">
+      <div className="p-[13px] lg:p-[26px] bg-white rounded-[14px] flex flex-col gap-[12px] lg:gap-[24px]">
         <FormContainer form={form} onSubmit={onSubmit}>
-          <div className="flex items-center gap-2.5">
+          <div className="flex flex-col md:flex-row md:items-center gap-2.5">
             <div className="flex justify-center items-center mt-2 space-x-2  ">
               <FormInput
                 name="Timing"
                 value={timingDays}
                 label={"Send email"}
                 placeholder="eg:90"
-                className={"!h-[48px] bg-white"}
                 onChange={(e) => setTimingDays(e.target.value)}
               />
-              <span className="text-gray-700 mt-5">day(s)</span>
+              <span className="text-gray-700 mt-5 text-[12px] md:text-base">
+                day(s)
+              </span>
             </div>
             <div className="flex justify-center items-center gap-2">
               <CustomSelect
@@ -53,7 +54,9 @@ export default function AddEditEmailCampaignPage({ id }) {
                   },
                 ]}
               />
-              <span className="text-gray-700 mt-8">the class</span>
+              <span className="text-gray-700 mt-8 text-[12px] md:text-base whitespace-nowrap">
+                the class
+              </span>
             </div>
           </div>
           <div>
@@ -67,9 +70,11 @@ export default function AddEditEmailCampaignPage({ id }) {
             <h3 className="text-lg font-semibold text-gray-800 mb-2">
               Supported Tokens
             </h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-2 text-sm text-gray-600">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-2 text-[10px] lg:text-sm text-gray-600 ">
               <div>
-                <span className="font-semibold text-gray-800">[FIRSTNAME]</span>{" "}
+                <span className="font-semibold  text-gray-800">
+                  [FIRSTNAME]
+                </span>{" "}
                 - The student's first name.
               </div>
               <div>
@@ -112,7 +117,6 @@ export default function AddEditEmailCampaignPage({ id }) {
               name="Test"
               label={"Test"}
               placeholder="Test Mail Here "
-              className={"w-[1400px] h-[48px]"}
             />
             <Button type="button" className={"bg-brown "}>
               Go
