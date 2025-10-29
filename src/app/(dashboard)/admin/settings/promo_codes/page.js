@@ -17,31 +17,40 @@ const Page = () => {
     router.push("/admin/settings/add_promo_code");
   };
   return (
-    <section className="flex flex-col gap-[25px] ">
+    <section className="flex flex-col gap-[12.5px] lg:gap-[25px] ">
       <div className="flex justify-between">
         <SectionTitle title={"Promo Codes"} />
         <Button
           onClick={handleNavigate}
-          className="py-[22px] cursor-pointer bg-brown flex items-center gap-2"
+          className="py-[11px] lg:py-[22px] cursor-pointer bg-brown flex items-center gap-2"
         >
           Add Promo Codes <PlusIcon />
         </Button>
       </div>
 
-      <div className="p-[26px] bg-white rounded-[14px] flex flex-col gap-[24px]">
+      <div className="p-[26px] bg-white rounded-[14px] flex flex-col gap-[12px] lg:gap-[24px]">
         <div className="overflow-x-auto">
-          <table className="w-full text-sm text-left text-gray-700">
-            <thead className="bg-gray-50 text-black text-[16px] font-semibold">
+          <table className="min-w-full text-sm text-left text-gray-700">
+            <thead className="bg-gray-50 text-black text-[14px] md:text-[16px] font-semibold">
               <tr>
-                <th className="px-6 py-3">Code</th>
-                <th className="px-6 py-3">Description </th>
-                <th className="px-6 py-3">Start</th>
-                <th className="px-6 py-3">End</th>
-                <th className="px-6 py-3">Discount</th>
-                <th className="px-6 py-3">Remaining</th>
-                <th className="px-6 py-3 text-center">Action</th>
+                <th className="px-3 md:px-6 py-3 whitespace-nowrap">Code</th>
+                <th className="px-3 md:px-6 py-3 whitespace-nowrap">
+                  Description
+                </th>
+                <th className="px-3 md:px-6 py-3 whitespace-nowrap">Start</th>
+                <th className="px-3 md:px-6 py-3 whitespace-nowrap">End</th>
+                <th className="px-3 md:px-6 py-3 whitespace-nowrap">
+                  Discount
+                </th>
+                <th className="px-3 md:px-6 py-3 whitespace-nowrap">
+                  Remaining
+                </th>
+                <th className="px-3 md:px-6 py-3 text-center whitespace-nowrap">
+                  Action
+                </th>
               </tr>
             </thead>
+
             <tbody>
               {promocodeData.length > 0 ? (
                 promocodeData.map((item, index) => (
@@ -49,14 +58,25 @@ const Page = () => {
                     key={index}
                     className="border-b hover:bg-gray-50 transition-all"
                   >
-                    <td className="px-6 py-4">{item.code}</td>
-                    <td className="px-6 py-4">{item.description}</td>
-                    <td className="px-6 py-4">{item.start}</td>
-                    <td className="px-6 py-4">{item.end}</td>
-                    <td className="px-6 py-4">{item.discount}</td>
-                    <td className="px-6 py-4">{item.remaining}</td>
-
-                    <td className="px-6 py-4 text-center">
+                    <td className="px-3 md:px-6 py-4 whitespace-nowrap">
+                      {item.code}
+                    </td>
+                    <td className="px-3 md:px-6 py-4 whitespace-nowrap">
+                      {item.description}
+                    </td>
+                    <td className="px-3 md:px-6 py-4 whitespace-nowrap">
+                      {item.start}
+                    </td>
+                    <td className="px-3 md:px-6 py-4 whitespace-nowrap">
+                      {item.end}
+                    </td>
+                    <td className="px-3 md:px-6 py-4 whitespace-nowrap">
+                      {item.discount}
+                    </td>
+                    <td className="px-3 md:px-6 py-4 whitespace-nowrap">
+                      {item.remaining}
+                    </td>
+                    <td className="px-3 md:px-6 py-4 text-center whitespace-nowrap">
                       <button className="p-2 bg-gray-100 rounded-lg hover:bg-gray-200 transition">
                         <CiEdit className="text-gray-600 text-[16px]" />
                       </button>
@@ -66,7 +86,7 @@ const Page = () => {
               ) : (
                 <tr>
                   <td
-                    colSpan="5"
+                    colSpan="7"
                     className="text-center py-6 text-gray-500 italic"
                   >
                     No results found
