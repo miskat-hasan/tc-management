@@ -18,15 +18,15 @@ const Page = () => {
 
   return (
     <div>
-      <div className="p-[26px] bg-white rounded-[14px] flex flex-col gap-[24px]">
+      <div className="p-[13px] lg:p-[26px] bg-white rounded-[14px] flex flex-col gap-[12px] lg:gap-[24px]">
         <FormContainer
-          className={"flex flex-col gap-4"}
+          className={"flex flex-col  lg:gap-4"}
           form={form}
           onSubmit={onSubmit}
         >
           <SectionTitle title={"Product Add-ons"} />
           {/* Grid Layout */}
-          <div className="grid grid-cols-2 gap-x-6 gap-y-5">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-3 gap-y-2.5 md:gap-x-6 md:gap-y-5">
             <FormInput
               name="Product Code"
               label="Product Code"
@@ -57,7 +57,7 @@ const Page = () => {
           </div>
           <FormInput name="Price" label="Price" placeholder="Price" />
 
-          <div className="flex flex-col gap-2 mt-2">
+          <div className="flex flex-col gap-1 lg:gap-2  lg:mt-2">
             <p className="font-semibold text-[15px] text-gray-700">Type</p>
             <div>
               <label className="flex items-center gap-2 text-sm">
@@ -75,7 +75,7 @@ const Page = () => {
             </div>
           </div>
 
-          <div className="flex flex-col gap-2 mt-2">
+          <div className="flex flex-col gap-1 lg:gap-2 lg:mt-2">
             <p className="font-semibold text-[15px] text-gray-700">Options</p>
 
             <label className="flex items-center gap-2 text-sm">
@@ -84,7 +84,7 @@ const Page = () => {
             </label>
           </div>
           {/* Footer Buttons */}
-          <div className="flex justify-end gap-4 mt-10">
+          <div className="flex justify-end gap-4 mt-5 lg:mt-10">
             <Button
               type="button"
               className="px-6 py-2 bg-transparent border border-gray-300 rounded-md text-sm font-medium text-black hover:bg-gray-50"
