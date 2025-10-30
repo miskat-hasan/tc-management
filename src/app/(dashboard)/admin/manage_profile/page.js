@@ -23,11 +23,11 @@ const Page = () => {
       <SectionTitle title="My Account" />
 
       {/* White Form Card */}
-      <div className="bg-white rounded-[14px] p-8 shadow-sm">
+      <div className="bg-white rounded-[14px] p-4 lg:p-8 ">
         <SectionTitle title="1. General Information" className={"mb-3"} />
         <FormContainer form={form} onSubmit={onSubmit}>
           {/* Grid Layout */}
-          <div className="grid grid-cols-2 gap-x-6 gap-y-5">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-3 gap-y-2.5 md:gap-x-6 md:gap-y-5">
             <FormInput
               name="username"
               label="User Name"
@@ -144,7 +144,7 @@ const Page = () => {
 
             <div className="col-span-full">
               <SectionTitle title="2. Password Change" className={"mb-3"} />
-              <div className="grid grid-cols-2 gap-x-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-x-3 md:gap-x-6">
                 <FormInput
                   name="password"
                   label="New Password"
@@ -162,19 +162,19 @@ const Page = () => {
           </div>
 
           {/* Options + Roles */}
-          <div className="grid grid-cols-2 gap-10 mt-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 lg:gap-10 mt-4 lg:mt-8">
             <div className="flex flex-col gap-2">
               <p className="font-semibold text-[15px] text-gray-700">Options</p>
-              <label className="flex items-center gap-2 text-sm">
+              <label className="flex items-center gap-2 text-[10px] md:text-sm ">
                 <input type="checkbox" className="accent-brown" />
                 Send me an email when I am assigned to a class
               </label>
-              <label className="flex items-center gap-2 text-sm">
+              <label className="flex items-center gap-2 text-[10px] md:text-sm ">
                 <input type="checkbox" className="accent-brown" />
                 Send me an email when there are updates to a class I am assigned
                 to
               </label>
-              <label className="flex items-center gap-2 text-sm">
+              <label className="flex items-center gap-2 text-[10px] md:text-sm ">
                 <input type="checkbox" className="accent-brown" />
                 Send me reminder emails prior to my classes
               </label>
@@ -182,11 +182,11 @@ const Page = () => {
 
             <div className="flex flex-col gap-2">
               <p className="font-semibold text-[15px] text-gray-700">Roles</p>
-              <label className="flex items-center gap-2 text-sm">
+              <label className="flex items-center gap-2 text-[10px] md:text-sm ">
                 <input type="checkbox" className="accent-brown" />
                 Send me reminder text messages prior to my classes
               </label>
-              <label className="flex items-center gap-2 text-sm">
+              <label className="flex items-center gap-2 text-[10px] md:text-sm ">
                 <input type="checkbox" className="accent-brown" />
                 Default upcoming class list page size to Show All
               </label>
@@ -194,7 +194,7 @@ const Page = () => {
           </div>
 
           {/* Footer Buttons */}
-          <div className="flex justify-end gap-4 mt-10">
+          <div className="flex justify-end gap-4 mt-5 lg:mt-10">
             <Button
               type="button"
               className="px-6 py-2 bg-transparent border border-gray-300 rounded-md text-sm font-medium text-black hover:bg-gray-50"

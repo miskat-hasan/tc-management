@@ -10,46 +10,65 @@ const Page = () => {
   const [selectedShow, setSelectedShow] = useState(50);
 
   return (
-    <div className="flex flex-col gap-[25px]">
+    <div className="flex flex-col gap-[12.5px] lg:gap-[25px]">
       {/* Header */}
       <div className="flex justify-between">
         <SectionTitle title={"Notifications"} />
       </div>
 
       {/* Table */}
-      <div className="p-[26px] bg-white rounded-[14px] flex flex-col gap-[24px]">
+      <div className="p-[13px] lg:p-[26px] bg-white rounded-[14px] flex flex-col gap-[12px] lg:gap-[24px]">
         <div>
           <SubSectionTitle subtitle="Total Notifications : 5" />
         </div>
 
         <div className="overflow-x-auto">
           <table className="w-full text-sm text-left text-gray-700">
-            <thead className="bg-gray-50 text-black capitalize text-[20px] font-semibold">
+            {/* Table Header — hidden on mobile */}
+            <thead className="hidden md:table-header-group bg-gray-50 text-black capitalize text-[16px] md:text-[20px] font-semibold">
               <tr>
-                <th className="px-6 py-3">Unread</th>
-                <th className="px-6 py-3">Message</th>
-                <th className="px-6 py-3">Notification Date</th>
+                <th className="px-4 md:px-6 py-3">Unread</th>
+                <th className="px-4 md:px-6 py-3">Message</th>
+                <th className="px-4 md:px-6 py-3">Notification Date</th>
               </tr>
             </thead>
+
+            {/* Table Body */}
             <tbody>
               {notifications?.length > 0 ? (
                 notifications.map((item, index) => (
                   <tr
                     key={index}
-                    className="border-b hover:bg-gray-50 transition-all"
+                    className="block md:table-row border-b md:border-0 hover:bg-gray-50 transition-all"
                   >
-                    <td className="px-6 py-4 text-gray-800 flex flex-col ">
-                      <p>{item.name}</p>
-                      <p>{item.email}</p>
+                    {/* Mobile Card Layout */}
+                    <td className="block md:table-cell px-4 md:px-6 py-3 text-gray-800 md:flex md:flex-col border-b md:border-none">
+                      <div className="md:hidden mb-1 font-semibold text-gray-500">
+                        Unread
+                      </div>
+                      <p className="font-medium">{item.name}</p>
+                      <p className="text-gray-500 text-xs">{item.email}</p>
                     </td>
-                    <td className="px-6 py-4">{item.message}</td>
-                    <td className="px-6 py-4">{item.date}</td>
+
+                    <td className="block md:table-cell px-4 md:px-6 py-3 border-b md:border-none">
+                      <div className="md:hidden mb-1 font-semibold text-gray-500">
+                        Message
+                      </div>
+                      {item.message}
+                    </td>
+
+                    <td className="block md:table-cell px-4 md:px-6 py-3 border-b md:border-none">
+                      <div className="md:hidden mb-1 font-semibold text-gray-500">
+                        Notification Date
+                      </div>
+                      {item.date}
+                    </td>
                   </tr>
                 ))
               ) : (
                 <tr>
                   <td
-                    colSpan="9"
+                    colSpan="3"
                     className="text-center py-6 text-gray-500 italic"
                   >
                     No results found
