@@ -6,6 +6,7 @@ export const courseSchedule = [
     course: "(American Heart Association) AHA Basic Life Support",
     location: "Nashville, TN 640 Spence Lane",
     enrolled: "1/6",
+    student: "2",
     hour: 1,
   },
   {
@@ -15,6 +16,7 @@ export const courseSchedule = [
     course: "(American Heart Association) AHA Basic Life Support",
     location: "Nashville, TN 640 Spence Lane",
     enrolled: "0/6",
+    student: "6",
     hour: 4,
   },
   {
@@ -24,6 +26,7 @@ export const courseSchedule = [
     course: "(American Heart Association) AHA Basic Life Support",
     location: "Nashville, TN 640 Spence Lane",
     enrolled: "0/9",
+    student: "9",
     hour: 2,
   },
   {
@@ -33,6 +36,7 @@ export const courseSchedule = [
     course: "(American Heart Association) AHA Basic Life Support",
     location: "640 Spence Lane Ste 125",
     enrolled: "0/12",
+    student: "5",
     hour: 3,
   },
   {
@@ -42,6 +46,7 @@ export const courseSchedule = [
     course: "(American Heart Association) AHA Basic Life Support",
     location: "Nashville, TN 640 Spence Lane",
     enrolled: "4/12",
+    student: "5",
     hour: 2,
   },
 ];

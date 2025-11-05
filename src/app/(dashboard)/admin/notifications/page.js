@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import SectionTitle from "@/components/common/SectionTitle";
 import SubSectionTitle from "@/components/common/SubSectionTitle";
-import { CiEdit } from "react-icons/ci";
+
 import { notifications } from "@/data/data";
 
 const Page = () => {

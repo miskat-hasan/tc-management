@@ -95,11 +95,11 @@
   --radius-xl: calc(var(--radius) + 4px);
 }
 
-@media (prefers-color-scheme: dark) {
+/* @media (prefers-color-scheme: dark) {
   :root {
     --primary-background: #222222;
   }
-}
+} */
 
 body {
   background: var(--primary-background);

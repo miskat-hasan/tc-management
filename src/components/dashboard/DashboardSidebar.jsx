@@ -3,7 +3,8 @@ import { DashboardIcon, Logo } from "@/svg/SvgContainer";
 import { FaChevronRight } from "react-icons/fa";
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import CustomSelect from "../shared/form/CustomSelect";
 
 const menuItems = [
   {
@@ -103,34 +104,19 @@ const menuItems = [
     label: "Reports",
     href: "#",
     submenu: [
-      {
-        label: "Activity Reports",
-        href: "/admin/reports/activity_reports",
-      },
-      {
-        label: "Class Report",
-        href: "/admin/reports/class_reports",
-      },
+      { label: "Activity Reports", href: "/admin/reports/activity_reports" },
+      { label: "Class Report", href: "/admin/reports/class_reports" },
       {
         label: "Product Add-on Report",
         href: "/admin/reports/product_addon_report",
       },
-      {
-        label: "Promo Code Report",
-        href: "/admin/reports/promo_code_report",
-      },
+      { label: "Promo Code Report", href: "/admin/reports/promo_code_report" },
       {
         label: "Registration Report",
         href: "/admin/reports/registration_report",
       },
-      {
-        label: "Student Export",
-        href: "/admin/reports/student_export",
-      },
-      {
-        label: "Event Log",
-        href: "/admin/reports/event_log",
-      },
+      { label: "Student Export", href: "/admin/reports/student_export" },
+      { label: "Event Log", href: "/admin/reports/event_log" },
     ],
   },
   {
@@ -181,12 +167,40 @@ const menuItems = [
   },
 ];
 
+const menuItems2 = [
+  {
+    label: "Classes",
+    href: "#",
+    submenu: [
+      { label: "Classes", href: "/admin/class_and_students/classes" },
+      {
+        label: "Schedule a Class",
+        href: "/admin/class_and_students/schedule_class",
+      },
+      {
+        label: "Student Search",
+        href: "/admin/class_and_students/student_search",
+      },
+      { label: "Student Export", href: "/admin/reports/student_export" },
+      {
+        label: "TC Product Orders",
+        href: "/admin/training_center/tc_product_orders",
+      },
+    ],
+  },
+];
+
 const DashboardSidebar = () => {
   const pathname = usePathname();
   const [openMenu, setOpenMenu] = useState(null);
+  const [selectOption, setSelectOption] = useState("admin");
+  const router = useRouter();
 
   useEffect(() => {
-    for (const item of menuItems) {
+    const activeMenus =
+      selectOption === "training_site" ? menuItems2 : menuItems;
+
+    for (const item of activeMenus) {
       if (
         item.submenu &&
         item.submenu.some((sub) => pathname.startsWith(sub.href))
@@ -195,8 +209,17 @@ const DashboardSidebar = () => {
         return;
       }
     }
-    setOpenMenu(null);
-  }, [pathname]);
+  }, [pathname, selectOption]);
+
+  const handleSelectChange = (val) => {
+    setSelectOption(val);
+
+    if (val === "admin") {
+      router.push("/admin/class_and_students/upcoming_classes");
+    } else {
+      router.push("/admin/class_and_students/classes");
+    }
+  };
 
   const toggleMenu = (label) => {
     setOpenMenu((prev) => (prev === label ? null : label));
@@ -204,94 +227,101 @@ const DashboardSidebar = () => {
 
   return (
     <div className="max-w-[250px] xl:max-w-[300px] 2xl:max-w-[345px] w-full px-[17px] pt-[22.5px] h-screen overflow-y-auto scroll-bar bg-white text-black hidden xl:flex xl:flex-col gap-[31.5px]">
-      {/* Logo */}
       <div className="flex items-center gap-1.5 justify-center">
         <Logo />
         <h5 className="font-black text-[14px]">ENROLL NATIONWIDE</h5>
       </div>
 
-      {/* Dashboard Header */}
       <div className="flex flex-col">
+        <CustomSelect
+          id="training-site"
+          value={selectOption}
+          options={[
+            { value: "admin", label: "Primary Site" },
+            { value: "training_site", label: "Training 2" },
+          ]}
+          onChange={handleSelectChange}
+          className="flex-1 mb-2"
+        />
+
         <div className="flex items-center gap-[12px] px-[20px] py-[10px]">
           <DashboardIcon />
           <h6>Dashboard</h6>
         </div>
 
-        {/* Menu List */}
-        <nav className="flex-grow ">
+        {/* Dynamic Menu */}
+        <nav className="flex-grow">
           <ul>
-            {menuItems.map((item) => {
-              const hasSubmenu = item.submenu && item.submenu.length > 0;
-              const isMenuOpen = openMenu === item.label;
-              const isActive = hasSubmenu && isMenuOpen;
+            {(selectOption === "training_site" ? menuItems2 : menuItems).map(
+              (item) => {
+                const hasSubmenu = item.submenu && item.submenu.length > 0;
+                const isOpen = openMenu === item.label;
 
-              return (
-                <li key={item.label} className="text-sm font-semibold">
-                  {/* Top-level menu item */}
-                  {hasSubmenu ? (
-                    <button
-                      onClick={() => toggleMenu(item.label)}
-                      className={`w-full flex items-center justify-between px-5 py-3 rounded-[10px] transition-colors ${
-                        isActive ? "bg-brown text-white" : "hover:bg-gray-100"
-                      }`}
-                    >
-                      <span>{item.label}</span>
-                      <FaChevronRight
-                        className={`h-3 w-3 transition-transform ${
-                          isMenuOpen ? "rotate-90" : ""
+                return (
+                  <li key={item.label} className="text-sm font-semibold">
+                    {hasSubmenu ? (
+                      <button
+                        onClick={() => toggleMenu(item.label)}
+                        className={`w-full flex items-center justify-between px-5 py-3 rounded-[10px] transition-colors ${
+                          isOpen ? "bg-brown text-white" : "hover:bg-gray-100"
                         }`}
-                      />
-                    </button>
-                  ) : (
-                    <Link
-                      href={item.href}
-                      className={`w-full flex items-center justify-between px-5 py-3 rounded-[10px] transition-colors ${
-                        pathname === item.href
-                          ? "bg-brown text-white"
-                          : "hover:bg-gray-100 text-gray-700"
-                      }`}
-                    >
-                      <span>{item.label}</span>
-                    </Link>
-                  )}
+                      >
+                        <span>{item.label}</span>
+                        <FaChevronRight
+                          className={`h-3 w-3 ${isOpen ? "rotate-90" : ""}`}
+                        />
+                      </button>
+                    ) : (
+                      <Link
+                        href={item.href}
+                        className={`w-full block px-5 py-3 rounded-[10px] ${
+                          pathname === item.href
+                            ? "bg-brown text-white"
+                            : "hover:bg-gray-100"
+                        }`}
+                      >
+                        {item.label}
+                      </Link>
+                    )}
 
-                  {/* Submenu */}
-                  {hasSubmenu && (
-                    <div
-                      className={`overflow-y-auto no-scroll-bar transition-all duration-300 ease-in-out ${
-                        isMenuOpen ? "max-h-96" : "max-h-0"
-                      }`}
-                    >
-                      <ul className="bg-gray-50 rounded-[10px] pt-1">
-                        {item.submenu.map((subItem) => {
-                          const active = pathname === subItem.href;
-                          return (
-                            <li key={subItem.label}>
-                              <Link
-                                href={subItem.href}
-                                className={`flex items-center pl-16 pr-6 py-2.5 text-xs relative transition-colors ${
-                                  active
-                                    ? "text-gray-900 font-semibold"
-                                    : "text-gray-600 hover:text-brown"
-                                }`}
-                              >
-                                {active ? (
-                                  <span className="absolute left-6 h-5 w-1 bg-brown rounded-full"></span>
-                                ) : (
-                                  <span className="absolute left-6 h-5 w-1 bg-gray-200 rounded-full"></span>
-                                )}
-                                {subItem.label}
-                              </Link>
-                            </li>
-                          );
-                        })}
-                      </ul>
-                    </div>
-                  )}
-                </li>
-              );
-            })}
-            <li className="text-sm font-semibold mt-10 cursor-pointer px-[20px] py-[10px] bg-brown rounded-[10px] flex items-center justify-center text-white">
+                    {hasSubmenu && (
+                      <div
+                        className={`transition-all overflow-hidden ${
+                          isOpen ? "max-h-96" : "max-h-0"
+                        }`}
+                      >
+                        <ul className="bg-gray-50 rounded-[10px] pt-1">
+                          {item.submenu.map((sub) => {
+                            const active = pathname === sub.href;
+                            return (
+                              <li key={sub.label}>
+                                <Link
+                                  href={sub.href}
+                                  className={`flex items-center pl-16 pr-6 py-2.5 text-xs relative ${
+                                    active
+                                      ? "text-gray-900 font-semibold"
+                                      : "text-gray-600 hover:text-brown"
+                                  }`}
+                                >
+                                  <span
+                                    className={`absolute left-6 h-5 w-1 rounded-full ${
+                                      active ? "bg-brown" : "bg-gray-200"
+                                    }`}
+                                  ></span>
+                                  {sub.label}
+                                </Link>
+                              </li>
+                            );
+                          })}
+                        </ul>
+                      </div>
+                    )}
+                  </li>
+                );
+              }
+            )}
+
+            <li className="text-sm font-semibold mt-10 cursor-pointer px-[20px] py-[10px] bg-brown rounded-[10px] text-white text-center">
               Log Out
             </li>
           </ul>
