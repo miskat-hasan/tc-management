@@ -23,7 +23,6 @@ const FormInput = ({
   const form = useFormContext();
   const location = usePathname();
 
-  // ✅ Fix: conditional check for specific pages
   const isLightBg =
     location === "/admin/clients/add_client" ||
     location === "/admin/instructors/add_instructor";
@@ -34,7 +33,7 @@ const FormInput = ({
       name={name}
       render={({ field }) => (
         <FormItem className="w-full flex flex-col gap-1.5 sm:gap-2">
-          {/* ✅ Responsive label */}
+          {/* Responsive label */}
           {label && (
             <FormLabel className="leading-[1.45] font-medium text-sm sm:text-base text-gray-700">
               {label}
@@ -65,14 +64,14 @@ const FormInput = ({
             />
           </FormControl>
 
-          {/* ✅ Optional description */}
+          {/*  Optional description */}
           {description && (
             <FormDescription className="text-xs sm:text-sm text-gray-500">
               {description}
             </FormDescription>
           )}
 
-          {/* ✅ Error message */}
+          {/* Error message */}
           <FormMessage className="text-right text-xs sm:text-sm text-destructive font-normal" />
         </FormItem>
       )}
