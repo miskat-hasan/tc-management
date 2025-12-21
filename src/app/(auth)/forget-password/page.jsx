@@ -1,18 +1,22 @@
 "use client";
-
 import FormContainer from "@/components/shared/form/FormContainer";
 import FormInput from "@/components/shared/form/FormInput";
 import { Button } from "@/components/ui/button";
 import { Logo } from "@/svg/SvgContainer";
-import Link from "next/link";
+import { useRouter } from "next/navigation";
 import React from "react";
 import { useForm } from "react-hook-form";
 
-const Login = () => {
+const ForgetPassword = () => {
   const form = useForm();
+  const router = useRouter();
 
   const onSubmit = (values) => {
     console.log(values);
+    const encodedEmail = Buffer.from("naymurrahmanshahed@gmail.com").toString(
+      "base64"
+    );
+    router.push(`/forget-password/${encodedEmail}`);
   };
   return (
     <div className="min-h-screen flex items-center justify-center">
@@ -23,11 +27,10 @@ const Login = () => {
         </div>
 
         <p className="text-center mt-2 text-[20px]">
-          <span className="font-semibold"> Welcome back! </span>
+          <span className="font-semibold"> Forgot Password?</span>
           <br />{" "}
           <span className="text-[16px] text-gray-500">
-            {" "}
-            Sign in to access your account
+            Enter your email to get a verification code.
           </span>
         </p>
         <FormContainer form={form} onSubmit={onSubmit}>
@@ -36,23 +39,12 @@ const Login = () => {
             label="Email"
             placeholder="Enter Your Email"
           />
-          <FormInput
-            name="password"
-            label="Password"
-            placeholder="Enter Your Password"
-            type="password"
-          />
-          <Link
-            href={"/forget-password"}
-            className="mb-2 inline-block text-brown underline"
-          >
-            Forget Password?
-          </Link>
+
           <Button
             type="submit"
             className="px-6 h-[40px] border border-brown rounded-md shadow-sm text-sm font-medium cursor-pointer text-white hover:text-brown bg-brown hover:bg-transparent w-full duration-300"
           >
-            Login
+            Submit
           </Button>
         </FormContainer>
       </div>
@@ -60,4 +52,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default ForgetPassword;
