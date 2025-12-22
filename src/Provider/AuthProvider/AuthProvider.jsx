@@ -1,6 +1,6 @@
 "use client";
 
-import { useGetUserData } from "@/Hooks/api/auth_api";
+import { useGetUserData } from "@/hooks/api/authApi";
 import useLocalStorage from "@/Hooks/useLocalStorage";
 import { createContext, useEffect, useState } from "react";
 
