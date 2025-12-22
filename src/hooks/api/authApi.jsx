@@ -1,6 +1,7 @@
 import { useRouter } from "next/navigation";
 import useAuth from "../useAuth";
 import useClientApi from "../useClientApi";
+import Swal from "sweetalert2";
 
 export const useLogin = () => {
   const router = useRouter();
@@ -13,11 +14,30 @@ export const useLogin = () => {
     onSuccess: (data) => {
       if (data?.success) {
         setToken(data?.data?.token);
-        toast.success(data?.message);
+
+        Swal.fire({
+          title: data?.message,
+          icon: "success",
+          confirmButtonText: "Go To Dashboard",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            router.push("admin/class_and_students/upcoming_classes");
+          }
+
+          if (
+            result.dismiss === Swal.DismissReason.backdrop ||
+            result.dismiss === Swal.DismissReason.esc
+          ) {
+            router.push("admin/class_and_students/upcoming_classes");
+          }
+        });
       }
     },
     onError: (err) => {
-      toast.error(err?.response?.data?.message);
+      Swal.fire({
+        title: err?.response?.data?.message || "Something went wrong",
+        icon: "error",
+      });
     },
   });
 };

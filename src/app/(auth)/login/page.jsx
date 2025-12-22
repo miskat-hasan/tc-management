@@ -3,12 +3,15 @@
 import FormContainer from "@/components/shared/form/FormContainer";
 import FormInput from "@/components/shared/form/FormInput";
 import { Button } from "@/components/ui/button";
+import { useLogin } from "@/hooks/api/authApi";
 import { Logo } from "@/svg/SvgContainer";
 import Link from "next/link";
 import React from "react";
 import { useForm } from "react-hook-form";
 
 const Login = () => {
+  const { mutateAsync: loginMutation, isPending } = useLogin();
+
   const form = useForm({
     defaultValues: {
       email: "",
@@ -17,8 +20,8 @@ const Login = () => {
     mode: "onSubmit",
   });
 
-  const onSubmit = (values) => {
-    console.log(values);
+  const onSubmit = async (values) => {
+    await loginMutation(values);
   };
 
   return (
@@ -74,9 +77,10 @@ const Login = () => {
 
           <Button
             type="submit"
-            className="px-6 h-[40px] border border-brown rounded-md shadow-sm text-sm font-medium cursor-pointer text-white hover:text-brown bg-brown hover:bg-transparent w-full duration-300"
+            disabled={isPending}
+            className="px-6 h-[40px] border border-brown rounded-md shadow-sm text-sm font-medium cursor-pointer text-white hover:text-brown bg-brown hover:bg-transparent w-full duration-300 disabled:cursor-not-allowed"
           >
-            Login
+            {isPending ? "Signing in...." : "Sign In"}
           </Button>
         </FormContainer>
       </div>
