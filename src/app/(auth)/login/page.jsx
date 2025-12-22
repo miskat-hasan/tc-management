@@ -4,12 +4,22 @@ import FormContainer from "@/components/shared/form/FormContainer";
 import FormInput from "@/components/shared/form/FormInput";
 import { Button } from "@/components/ui/button";
 import { useLogin } from "@/hooks/api/authApi";
+import useAuth from "@/hooks/useAuth";
 import { Logo } from "@/svg/SvgContainer";
 import Link from "next/link";
-import React from "react";
+import { useRouter } from "next/navigation";
+import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 
 const Login = () => {
+  const { token } = useAuth();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (token) {
+      router.replace("/admin/class_and_students/upcoming_classes");
+    }
+  }, [token, router]);
   const { mutateAsync: loginMutation, isPending } = useLogin();
 
   const form = useForm({

@@ -1,7 +1,7 @@
 "use client";
 import { DashboardIcon, Logo } from "@/svg/SvgContainer";
 import { FaChevronRight } from "react-icons/fa";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import CustomSelect from "../shared/form/CustomSelect";
@@ -195,7 +195,7 @@ const DashboardSidebar = () => {
   const [openMenu, setOpenMenu] = useState(null);
   const [selectOption, setSelectOption] = useState("admin");
   const router = useRouter();
-
+  const initialRender = useRef(true);
   useEffect(() => {
     const activeMenus =
       selectOption === "training_site" ? menuItems2 : menuItems;
@@ -213,13 +213,20 @@ const DashboardSidebar = () => {
 
   const handleSelectChange = (val) => {
     setSelectOption(val);
+  };
 
-    if (val === "admin") {
+  useEffect(() => {
+    if (initialRender.current) {
+      initialRender.current = false;
+      return;
+    }
+
+    if (selectOption === "admin") {
       router.push("/admin/class_and_students/upcoming_classes");
     } else {
       router.push("/admin/class_and_students/classes");
     }
-  };
+  }, [selectOption, router]);
 
   const toggleMenu = (label) => {
     setOpenMenu((prev) => (prev === label ? null : label));
