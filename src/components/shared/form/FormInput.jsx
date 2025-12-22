@@ -1,4 +1,5 @@
 "use client";
+
 import {
   FormControl,
   FormDescription,
@@ -18,6 +19,7 @@ const FormInput = ({
   description,
   placeholder,
   className,
+  rules,
   ...props
 }) => {
   const form = useFormContext();
@@ -31,9 +33,9 @@ const FormInput = ({
     <FormField
       control={form.control}
       name={name}
+      rules={rules}
       render={({ field }) => (
         <FormItem className="w-full flex flex-col gap-1.5 sm:gap-2">
-          {/* Responsive label */}
           {label && (
             <FormLabel className="leading-[1.45] font-medium text-sm sm:text-base text-gray-700">
               {label}
@@ -64,14 +66,12 @@ const FormInput = ({
             />
           </FormControl>
 
-          {/*  Optional description */}
           {description && (
             <FormDescription className="text-xs sm:text-sm text-gray-500">
               {description}
             </FormDescription>
           )}
 
-          {/* Error message */}
           <FormMessage className="text-right text-xs sm:text-sm text-destructive font-normal" />
         </FormItem>
       )}
