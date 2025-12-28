@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React from "react";
 import {
   Select,
   SelectContent,
@@ -12,22 +12,13 @@ const CustomSelect = ({
   id,
   label,
   placeholder = "Select...",
-  options,
-  value: controlledValue,
-  defaultValue,
-  className,
+  options = [],
+  value,
   onChange,
+  onBlur,
+  className,
+  error,
 }) => {
-  const [value, setValue] = useState(controlledValue || defaultValue || "");
-
-  useEffect(() => {
-    if (onChange) onChange(value);
-  }, [value]);
-
-  useEffect(() => {
-    if (controlledValue !== undefined) setValue(controlledValue);
-  }, [controlledValue]);
-
   return (
     <div className={`flex flex-col gap-2 sm:gap-3 w-full ${className || ""}`}>
       {label && (
@@ -39,17 +30,24 @@ const CustomSelect = ({
         </label>
       )}
 
-      <Select value={value} onValueChange={setValue} id={id}>
+      <Select
+        value={value || ""}
+        onValueChange={onChange}
+        onOpenChange={(open) => !open && onBlur?.()}
+      >
         <SelectTrigger
-          className="
+          id={id}
+          className={`
             w-full
-            border border-gray-300 
-            bg-light rounded-md 
+            border
+            ${error ? "border-red-500" : "border-gray-300"}
+            bg-light rounded-md
             px-2 sm:px-3 py-2 sm:!py-6
             text-sm sm:text-base text-gray-700
-            focus:outline-none focus:ring-2 focus:ring-gray-300
+            focus:outline-none focus:ring-2
+            ${error ? "focus:ring-red-400" : "focus:ring-gray-300"}
             transition-all duration-150
-          "
+          `}
         >
           <SelectValue placeholder={placeholder} />
         </SelectTrigger>
@@ -66,6 +64,9 @@ const CustomSelect = ({
           ))}
         </SelectContent>
       </Select>
+
+      {/* Error Message */}
+      {error && <p className="text-xs text-red-500 font-medium">{error}</p>}
     </div>
   );
 };
