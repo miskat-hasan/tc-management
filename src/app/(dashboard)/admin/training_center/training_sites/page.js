@@ -2,12 +2,17 @@
 import SectionTitle from "@/components/common/SectionTitle";
 import SubSectionTitle from "@/components/common/SubSectionTitle";
 import TableSkeleton from "@/components/common/TableSkelation";
+import { Button } from "@/components/ui/button";
 import { keycodeSales, TrainingSiteData } from "@/data/data";
 import { getallTrainingsite } from "@/hooks/api/dashboardApi";
+import { PlusIcon } from "@/svg/SvgContainer";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { CiEdit } from "react-icons/ci";
 
 const Page = () => {
+  const router = useRouter();
+
   const [selectedShow, setSelectedShow] = useState(50);
   const [filters, setFilters] = useState({
     name: "",
@@ -15,12 +20,21 @@ const Page = () => {
   });
 
   const { data, isLoading } = getallTrainingsite();
-
+  const handleNavigation = () => {
+    router.push("/admin/training_center/add_new_trainingsite");
+  };
   return (
     <div className="flex flex-col gap-[12.5px] lg:gap-[25px]">
       {/* Header */}
       <div className="flex justify-between">
         <SectionTitle title={"Training Sites"} />
+
+        <Button
+          onClick={handleNavigation}
+          className="py-[11px] lg:py-[22px] cursor-pointer bg-brown flex items-center gap-2"
+        >
+          Add Training Site <PlusIcon />
+        </Button>
       </div>
 
       {/* <div>
