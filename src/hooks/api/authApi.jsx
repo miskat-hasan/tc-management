@@ -49,8 +49,8 @@ export const useGetUserData = (token) => {
     enabled: !!token,
     endpoint: "/api/users/data",
     isPrivate: true,
-    queryOptions: {
-      refetchInterval: 1000 * 60 * 60,
-    },
+    // queryOptions: {
+    //   refetchInterval: 1000 * 60 * 60,
+    // },
   });
 };

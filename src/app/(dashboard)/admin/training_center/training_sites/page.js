@@ -1,11 +1,10 @@
 "use client";
 import SectionTitle from "@/components/common/SectionTitle";
-import SubSectionTitle from "@/components/common/SubSectionTitle";
 import TableSkeleton from "@/components/common/TableSkelation";
 import { Button } from "@/components/ui/button";
-import { keycodeSales, TrainingSiteData } from "@/data/data";
 import { getallTrainingsite } from "@/hooks/api/dashboardApi";
 import { PlusIcon } from "@/svg/SvgContainer";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { CiEdit } from "react-icons/ci";
@@ -81,9 +80,12 @@ const Page = () => {
                         {item.level}
                       </td>
                       <td className="px-3 sm:px-6 py-3 text-center">
-                        <button className="p-1.5 sm:p-2 bg-gray-100 rounded-lg hover:bg-gray-200 transition">
+                        <Link
+                          href={`/admin/training_center/training_sites/${item?.id}`}
+                          className="p-1.5 sm:p-2 bg-gray-100 rounded-lg inline-block hover:bg-gray-200 transition"
+                        >
                           <CiEdit className="text-gray-600 text-[14px] sm:text-[16px]" />
-                        </button>
+                        </Link>
                       </td>
                     </tr>
                   ))

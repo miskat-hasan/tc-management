@@ -5,6 +5,7 @@ import React, { useEffect, useState, useRef } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import CustomSelect from "../shared/form/CustomSelect";
+import useAuth from "@/hooks/useAuth";
 
 const menuItems = [
   {
@@ -192,6 +193,7 @@ const menuItems2 = [
 
 const DashboardSidebar = () => {
   const pathname = usePathname();
+
   const [openMenu, setOpenMenu] = useState(null);
   const [selectOption, setSelectOption] = useState("admin");
   const router = useRouter();

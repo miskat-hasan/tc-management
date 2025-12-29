@@ -8,3 +8,12 @@ export const getallTrainingsite = () => {
     endpoint: "/api/training-sites",
   });
 };
+
+export const getSingleTrainingsite = (id) => {
+  return useClientApi({
+    method: "get",
+    key: ["get-single-training-site"],
+    isPrivate: true,
+    endpoint: `/api/training-site/edit/${id}`,
+  });
+};

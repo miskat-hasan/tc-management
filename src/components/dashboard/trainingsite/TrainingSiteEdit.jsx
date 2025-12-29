@@ -1,15 +1,18 @@
 "use client";
-
+import { getSingleTrainingsite } from "@/hooks/api/dashboardApi";
 import React from "react";
-import { useForm, Controller } from "react-hook-form";
-
+import { Controller, useForm } from "react-hook-form";
 import SectionTitle from "@/components/common/SectionTitle";
+import { Button } from "@/components/ui/button";
 import FormContainer from "@/components/shared/form/FormContainer";
 import FormInput from "@/components/shared/form/FormInput";
 import CustomSelect from "@/components/shared/form/CustomSelect";
-import { Button } from "@/components/ui/button";
 
-const Page = () => {
+const TrainingSiteEdit = ({ slug }) => {
+  const { data, isLoading } = getSingleTrainingsite(slug);
+
+  console.log(data);
+
   const form = useForm({
     mode: "onBlur",
     defaultValues: {
@@ -41,16 +44,44 @@ const Page = () => {
     handleSubmit,
     control,
     register,
+    reset,
     formState: { errors },
   } = form;
+
+  React.useEffect(() => {
+    if (data) {
+      reset({
+        company: data?.data?.company_name ?? "",
+        trainingSite: data?.data?.trainingSite ?? "",
+        contact_first_name: data?.data?.contact_first_name ?? "",
+        contact_last_name: data?.data?.contact_last_name ?? "",
+        address1: data?.data?.address_line_1 ?? "",
+        address2: data?.data?.address_line_2 ?? "",
+        city: data?.data?.city ?? "",
+        fax: data?.data?.fax_number ?? "",
+        stateProvince: data?.data?.state_province ?? "",
+        zipPostalCode: data?.data?.postal_code ?? "",
+        country: data?.data?.country ?? "",
+        mobilePhone: data?.data?.phone_number ?? "",
+        emailAddress: data?.data?.email ?? "",
+        trainingsiteid: data?.data?.training_site_id ?? "",
+        price_level: data?.data?.price_level ?? "",
+        sales_tax_rate: data?.data?.sales_tax_rate ?? "",
+        enable_cert_print: !!data?.data?.enable_cert_print,
+        send_reminders: !!data?.data?.send_reminders,
+        allow_bid: !!data?.data?.allow_bid,
+        restrict_product: !!data?.data?.restrict_product,
+        restrict_view: !!data?.data?.restrict_view,
+      });
+    }
+  }, [data, reset]);
 
   const onSubmit = (data) => {
     console.log("SUBMITTED DATA ", data);
   };
-
   return (
     <section className="flex flex-col gap-4">
-      <SectionTitle title="Add Training Site" />
+      <SectionTitle title="Update Training Site" />
 
       <div className="bg-white rounded-[14px] p-4 lg:p-8 shadow-sm">
         <FormContainer form={form} onSubmit={handleSubmit(onSubmit)}>
@@ -260,4 +291,4 @@ const Page = () => {
   );
 };
 
-export default Page;
+export default TrainingSiteEdit;
