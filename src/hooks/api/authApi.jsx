@@ -16,20 +16,12 @@ export const useLogin = () => {
         setToken(data?.data?.token);
 
         Swal.fire({
-          title: data?.message,
+          title: data?.message || "Login Successful",
           icon: "success",
           confirmButtonText: "Go To Dashboard",
-        }).then((result) => {
-          if (result.isConfirmed) {
-            router.push("admin/class_and_students/upcoming_classes");
-          }
-
-          if (
-            result.dismiss === Swal.DismissReason.backdrop ||
-            result.dismiss === Swal.DismissReason.esc
-          ) {
-            router.push("admin/class_and_students/upcoming_classes");
-          }
+          allowOutsideClick: true,
+        }).then(() => {
+          router.push("/admin/class_and_students/upcoming_classes");
         });
       }
     },
@@ -49,8 +41,25 @@ export const useGetUserData = (token) => {
     enabled: !!token,
     endpoint: "/api/users/data",
     isPrivate: true,
-    // queryOptions: {
-    //   refetchInterval: 1000 * 60 * 60,
-    // },
+  });
+};
+
+export const useLogout = () => {
+  const router = useRouter();
+  const { clearToken } = useAuth();
+
+  return useClientApi({
+    method: "post",
+    key: ["logout"],
+    isPrivate: true,
+    endpoint: "/api/users/logout",
+    onSuccess: (data) => {
+      clearToken();
+      router.push("/login");
+    },
+    onError: () => {
+      clearToken();
+      router.push("/login");
+    },
   });
 };
