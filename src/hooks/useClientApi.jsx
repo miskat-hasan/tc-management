@@ -17,6 +17,8 @@ export default function useClientApi({
   axiosOptions,
   enabled = true,
 }) {
+  console.log(isPrivate);
+
   const axiosInstance = isPrivate ? axiosSecure : axiosPublic;
 
   // GET request (Query)

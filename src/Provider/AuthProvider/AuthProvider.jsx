@@ -13,6 +13,8 @@ export default function AuthProvider({ children }) {
   // 1. Get initial token from cookies
   const [token, _setTokenState] = useState(() => getCookie("token"));
 
+  console.log(token);
+
   const { data: userData, isLoading: loadingUserData } = useGetUserData(token);
 
   // 2. Helper function to update cookie and state simultaneously

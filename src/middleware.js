@@ -4,6 +4,8 @@ export function middleware(request) {
   const token = request.cookies.get("token")?.value;
   const { pathname } = request.nextUrl;
 
+  console.log(request);
+
   const protectedPaths = ["/admin"];
   const isProtectedRoute = protectedPaths.some((path) =>
     pathname.startsWith(path)
