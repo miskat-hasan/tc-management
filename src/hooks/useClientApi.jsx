@@ -17,8 +17,6 @@ export default function useClientApi({
   axiosOptions,
   enabled = true,
 }) {
-  console.log(isPrivate);
-
   const axiosInstance = isPrivate ? axiosSecure : axiosPublic;
 
   // GET request (Query)
@@ -41,12 +39,6 @@ export default function useClientApi({
   return useMutation({
     mutationKey: key,
     mutationFn: async (variables) => {
-      /**
-       * Supports:
-       * - mutate({ data })
-       * - mutate({ endpoint: "/api/other" })
-       * - mutate({ endpoint: "/api/other", data })
-       */
       const dynamicEndpoint = variables?.endpoint || endpoint;
       const payload = variables?.data || variables;
 
