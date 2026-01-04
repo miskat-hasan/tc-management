@@ -10,9 +10,9 @@ export default function AuthProvider({ children }) {
   const [loading, setLoading] = useState(false);
   const [user, setUser] = useState(null);
   const [token, setToken, clearToken] = useLocalStorage("token", null);
-  const { data: userData, isLoading: loadingUserData } = useGetUserData(token);
+  console.log(token);
 
-  console.log(userData);
+  const { data: userData, isLoading: loadingUserData } = useGetUserData(token);
 
   useEffect(() => {
     if (!token) {

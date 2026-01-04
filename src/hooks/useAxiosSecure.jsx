@@ -1,5 +1,5 @@
 import axios from "axios";
-import { getCookie, deleteCookie } from "cookies-next";
+import { getItem, removeItem } from "@/lib/localStorage";
 
 export const axiosSecure = axios.create({
   baseURL: process.env.NEXT_PUBLIC_SITE_URL,
@@ -7,27 +7,32 @@ export const axiosSecure = axios.create({
 
 axiosSecure.interceptors.request.use(
   (config) => {
-    const token = getCookie("token");
-
+    const token = getItem("token");
     if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
+      config.headers["Authorization"] = `Bearer ${token}`;
     }
-
     return config;
   },
-  (error) => Promise.reject(error)
+  (error) => {
+    return Promise.reject(error);
+  }
 );
 
 axiosSecure.interceptors.response.use(
   (response) => response,
-  (error) => {
+  async (error) => {
     if (
       error.response &&
       (error.response.status === 401 || error.response.status === 403)
     ) {
-      deleteCookie("token");
-      window.location.href = "/login";
+      removeItem("token");
     }
     return Promise.reject(error);
   }
 );
+
+const useAxiosSecure = () => {
+  return axiosSecure;
+};
+
+export default useAxiosSecure;

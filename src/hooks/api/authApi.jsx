@@ -63,23 +63,3 @@ export const useLogout = () => {
     },
   });
 };
-
-export const useLogout = () => {
-  const router = useRouter();
-  const { clearToken } = useAuth();
-
-  return useClientApi({
-    method: "post",
-    key: ["logout"],
-    isPrivate: true,
-    endpoint: "/api/users/logout",
-    onSuccess: (data) => {
-      clearToken();
-      router.push("/login");
-    },
-    onError: () => {
-      clearToken();
-      router.push("/login");
-    },
-  });
-};
