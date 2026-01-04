@@ -8,6 +8,7 @@ import FormContainer from "@/components/shared/form/FormContainer";
 import FormInput from "@/components/shared/form/FormInput";
 import CustomSelect from "@/components/shared/form/CustomSelect";
 import { Button } from "@/components/ui/button";
+import { createSingleTrainingSite, getAllCountry } from "@/hooks/api/dashboardApi";
 
 const Page = () => {
   const form = useForm({
@@ -44,8 +45,33 @@ const Page = () => {
     formState: { errors },
   } = form;
 
-  const onSubmit = (data) => {
-    console.log("SUBMITTED DATA ", data);
+  const {data: countryData, isLoading} = getAllCountry()
+  console.log("countryData", countryData)
+
+  const { mutateAsync: trainingSiteMutation, isPending } =
+    createSingleTrainingSite();
+
+  const onSubmit = async (data) => {
+    const formData = new FormData();
+
+    formData.append("company_name", data?.company);
+    formData.append("training_center_name", data?.trainingSite);
+    formData.append("contact_first_name", data?.contact_first_name);
+    formData.append("contact_last_name", data?.contact_last_name);
+    formData.append("email", data?.emailAddress);
+    formData.append("phone_number", data?.mobilePhone);
+    formData.append("fax_number", data?.fax || "");
+    formData.append("address_line_1", data?.address1);
+    formData.append("address_line_2", data?.address2 || "");
+    formData.append("city", data?.city);
+    formData.append("state_province", data?.stateProvince);
+    formData.append("postal_code", data?.zipPostalCode);
+    formData.append("country", data?.country);
+    formData.append("training_site_id", data?.trainingsiteid || "");
+    formData.append("price_level", Number(data?.price_level));
+    formData.append("sales_tax_rate", Number(data?.sales_tax_rate) || 0);
+
+    await trainingSiteMutation(formData);
   };
 
   return (
@@ -66,12 +92,12 @@ const Page = () => {
             <Controller
               name="trainingSite"
               control={control}
-              rules={{ required: "Training site is required" }}
+              rules={{ required: "Training center is required" }}
               render={({ field }) => (
                 <CustomSelect
                   {...field}
-                  label="Training Site"
-                  placeholder="Training Site"
+                  label="Training Center"
+                  placeholder="Training Center"
                   options={[
                     {
                       value: "CODE BLUE CPR SERVICES. LLC",
@@ -142,10 +168,7 @@ const Page = () => {
                   {...field}
                   label="Country"
                   placeholder="Country"
-                  options={[
-                    { value: "germany", label: "Germany" },
-                    { value: "canada", label: "Canada" },
-                  ]}
+                  options={countryData?.data}
                   error={errors.country?.message}
                 />
               )}
@@ -243,15 +266,16 @@ const Page = () => {
 
           {/* ACTIONS */}
           <div className="flex justify-end gap-3 mt-8">
-            <Button type="button" variant="outline">
+            {/* <Button type="button" variant="outline">
               Back
-            </Button>
+            </Button> */}
 
             <Button
               type="submit"
-              className="bg-brown hover:bg-brown-hover text-white"
+              className="bg-brown hover:bg-brown-hover text-white cursor-pointer"
+              disabled={isPending}
             >
-              Save Changes
+              {isPending ? "Saving ..." : "Save Changes"}
             </Button>
           </div>
         </FormContainer>

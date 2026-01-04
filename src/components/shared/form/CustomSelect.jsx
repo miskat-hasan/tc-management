@@ -55,11 +55,11 @@ const CustomSelect = ({
         <SelectContent className="max-h-60 overflow-y-auto">
           {options.map((opt) => (
             <SelectItem
-              key={opt.value}
-              value={opt.value}
+              key={opt.id}
+              value={opt.id}
               className="text-sm sm:text-base"
             >
-              {opt.label}
+              {opt.name}
             </SelectItem>
           ))}
         </SelectContent>
