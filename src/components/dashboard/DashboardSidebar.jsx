@@ -5,6 +5,8 @@ import React, { useEffect, useState, useRef } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import CustomSelect from "../shared/form/CustomSelect";
+import useAuth from "@/hooks/useAuth";
+
 import { useLogout } from "@/hooks/api/authApi";
 
 const menuItems = [

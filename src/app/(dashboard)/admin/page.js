@@ -1,10 +1,7 @@
-"use client";
+import React from "react";
 
-import { useRouter } from "next/navigation";
-
-const Page = () => {
-  const router = useRouter();
-  return router.replace("/admin/class_and_students/upcoming_classes");
+const page = () => {
+  return <div></div>;
 };
 
-export default Page;
+export default page;

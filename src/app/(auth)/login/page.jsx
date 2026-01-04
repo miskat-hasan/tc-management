@@ -15,11 +15,11 @@ const Login = () => {
   const { token } = useAuth();
   const router = useRouter();
 
-  useEffect(() => {
-    if (token) {
-      router.replace("/admin/class_and_students/upcoming_classes");
-    }
-  }, [token, router]);
+  // useEffect(() => {
+  //   if (token) {
+  //     router.replace("/admin/class_and_students/upcoming_classes");
+  //   }
+  // }, [token, router]);
   const { mutateAsync: loginMutation, isPending } = useLogin();
 
   const form = useForm({
