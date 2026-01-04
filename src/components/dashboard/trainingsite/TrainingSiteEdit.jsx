@@ -1,5 +1,9 @@
 "use client";
-import { getSingleTrainingsite } from "@/hooks/api/dashboardApi";
+import {
+  createSingleTrainingSite,
+  getSingleTrainingsite,
+  updateTrainingSite,
+} from "@/hooks/api/dashboardApi";
 import React from "react";
 import { Controller, useForm } from "react-hook-form";
 import SectionTitle from "@/components/common/SectionTitle";
@@ -10,8 +14,6 @@ import CustomSelect from "@/components/shared/form/CustomSelect";
 
 const TrainingSiteEdit = ({ slug }) => {
   const { data, isLoading } = getSingleTrainingsite(slug);
-
-  console.log(data);
 
   const form = useForm({
     mode: "onBlur",
@@ -76,8 +78,30 @@ const TrainingSiteEdit = ({ slug }) => {
     }
   }, [data, reset]);
 
-  const onSubmit = (data) => {
-    console.log("SUBMITTED DATA ", data);
+  const { mutateAsync: trainingSiteEditMutation, isPending } =
+    updateTrainingSite(slug);
+
+  const onSubmit = async(data) => {
+    const formData = new FormData();
+
+    formData.append("company_name", data?.company);
+    formData.append("training_center_name", data?.trainingSite);
+    formData.append("contact_first_name", data?.contact_first_name);
+    formData.append("contact_last_name", data?.contact_last_name);
+    formData.append("email", data?.emailAddress);
+    formData.append("phone_number", data?.mobilePhone);
+    formData.append("fax_number", data?.fax || "");
+    formData.append("address_line_1", data?.address1);
+    formData.append("address_line_2", data?.address2 || "");
+    formData.append("city", data?.city);
+    formData.append("state_province", data?.stateProvince);
+    formData.append("postal_code", data?.zipPostalCode);
+    formData.append("country", data?.country);
+    formData.append("training_site_id", data?.trainingsiteid || "");
+    formData.append("price_level", Number(data?.price_level));
+    formData.append("sales_tax_rate", Number(data?.sales_tax_rate) || 0);
+
+    await trainingSiteEditMutation(formData);
   };
   return (
     <section className="flex flex-col gap-4">
@@ -97,12 +121,12 @@ const TrainingSiteEdit = ({ slug }) => {
             <Controller
               name="trainingSite"
               control={control}
-              rules={{ required: "Training site is required" }}
+              rules={{ required: "Training Center is required" }}
               render={({ field }) => (
                 <CustomSelect
                   {...field}
-                  label="Training Site"
-                  placeholder="Training Site"
+                  label="Training Center"
+                  placeholder="Training Center"
                   options={[
                     {
                       value: "CODE BLUE CPR SERVICES. LLC",
@@ -274,15 +298,16 @@ const TrainingSiteEdit = ({ slug }) => {
 
           {/* ACTIONS */}
           <div className="flex justify-end gap-3 mt-8">
-            <Button type="button" variant="outline">
+            {/* <Button type="button" variant="outline">
               Back
-            </Button>
+            </Button> */}
 
             <Button
               type="submit"
-              className="bg-brown hover:bg-brown-hover text-white"
+              className="bg-brown hover:bg-brown-hover text-white cursor-pointer"
+              disabled={isPending}
             >
-              Save Changes
+              {isPending ? "Saving ..." : "Save Changes"}
             </Button>
           </div>
         </FormContainer>
