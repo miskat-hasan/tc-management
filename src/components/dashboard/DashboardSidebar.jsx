@@ -6,6 +6,7 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import CustomSelect from "../shared/form/CustomSelect";
 import useAuth from "@/hooks/useAuth";
+import { useLogout } from "@/hooks/api/authApi";
 
 const menuItems = [
   {
@@ -234,6 +235,12 @@ const DashboardSidebar = () => {
     setOpenMenu((prev) => (prev === label ? null : label));
   };
 
+  const { mutateAsync: logoutAsync, isPending } = useLogout();
+
+  const handleLogout = async () => {
+    await logoutAsync();
+  };
+
   return (
     <div className="max-w-[250px] xl:max-w-[300px] 2xl:max-w-[345px] w-full px-[17px] pt-[22.5px] h-screen overflow-y-auto scroll-bar bg-white text-black hidden xl:flex xl:flex-col gap-[31.5px]">
       <div className="flex items-center gap-1.5 justify-center">
@@ -330,9 +337,12 @@ const DashboardSidebar = () => {
               }
             )}
 
-            <li className="text-sm font-semibold mt-10 cursor-pointer px-[20px] py-[10px] bg-brown rounded-[10px] text-white text-center">
+            <button
+              onClick={handleLogout}
+              className="text-sm font-semibold mt-10 cursor-pointer px-[20px] py-[10px] bg-brown rounded-[10px] text-white text-center"
+            >
               Log Out
-            </li>
+            </button>
           </ul>
         </nav>
       </div>

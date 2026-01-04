@@ -12,8 +12,6 @@ export default function AuthProvider({ children }) {
   const [token, setToken, clearToken] = useLocalStorage("token", null);
   const { data: userData, isLoading: loadingUserData } = useGetUserData(token);
 
-  console.log(userData);
-
   useEffect(() => {
     if (!token) {
       setUser(null);
