@@ -1,4 +1,25 @@
+import Swal from "sweetalert2";
 import useClientApi from "../useClientApi";
+
+export const createSingleTrainingSite = () => {
+  return useClientApi({
+    method: "post",
+    endpoint: "/api/training-site/create",
+    isPrivate: true,
+    onSuccess: (data) => {
+      Swal.fire({
+        text: data.message,
+        icon: "success",
+      });
+    },
+    onError: (error) => {
+      Swal.fire({
+        text: error?.response?.data?.message,
+        icon: "error",
+      });
+    },
+  });
+};
 
 export const getallTrainingsite = () => {
   return useClientApi({
@@ -17,6 +38,26 @@ export const getSingleTrainingsite = (id) => {
     endpoint: `/api/training-site/edit/${id}`,
   });
 };
+
+export const updateTrainingSite =(id)=> {
+  return useClientApi({
+    method: "post",
+    isPrivate: true,
+    endpoint: `/api/training-site/update/${id}`,
+    onSuccess: (data) => {
+      Swal.fire({
+        text: data?.message,
+        icon: "success"
+      })
+    },
+    onError: (error)=>{
+      Swal.fire({
+        text: error?.response?.data?.message,
+        icon: "error"
+      })
+    }
+  })
+}
 
 export const getAllCountry = () => {
   return useClientApi({
