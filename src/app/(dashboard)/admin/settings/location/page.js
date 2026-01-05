@@ -8,14 +8,13 @@ import React, { useState } from "react";
 import { CiEdit } from "react-icons/ci";
 
 import { useRouter } from "next/navigation";
+import { getAllLocation } from "@/hooks/api/dashboardApi";
 
 const Page = () => {
   const [selectedShow, setSelectedShow] = useState(50);
   const router = useRouter();
 
-  const onSubmit = (values) => {
-    console.log(values);
-  };
+  const { data: allLocation, isLoading } = getAllLocation();
 
   const handleNavigate = () => {
     router.push("/admin/settings/add_location_settings");
@@ -50,8 +49,8 @@ const Page = () => {
             </thead>
 
             <tbody>
-              {locationData.length > 0 ? (
-                locationData.map((item, index) => (
+              {allLocation?.data?.data.length > 0 ? (
+                allLocation?.data?.data.map((item, index) => (
                   <tr
                     key={index}
                     className="border-b hover:bg-gray-50 transition-all"
@@ -60,7 +59,7 @@ const Page = () => {
                       {item.name}
                     </td>
                     <td className="px-3 md:px-6 py-4 whitespace-nowrap">
-                      {item.abbrev}
+                      {item.abbreviation}
                     </td>
                     <td className="px-3 md:px-6 py-4 whitespace-nowrap">
                       {item.directions}

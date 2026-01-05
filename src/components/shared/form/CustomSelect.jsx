@@ -14,8 +14,8 @@ const CustomSelect = ({
   placeholder = "Select...",
   options = [],
   value,
+  isLoading,
   onChange,
-  onBlur,
   className,
   error,
 }) => {
@@ -31,9 +31,8 @@ const CustomSelect = ({
       )}
 
       <Select
-        value={value || ""}
-        onValueChange={onChange}
-        onOpenChange={(open) => !open && onBlur?.()}
+        value={value ? String(value) : ""}
+        onValueChange={(val) => onChange(val)}
       >
         <SelectTrigger
           id={id}
@@ -53,10 +52,11 @@ const CustomSelect = ({
         </SelectTrigger>
 
         <SelectContent className="max-h-60 overflow-y-auto">
+          {isLoading && <div>Loading ....</div>}
           {options.map((opt) => (
             <SelectItem
               key={opt.id}
-              value={opt.id}
+              value={String(opt.id)}
               className="text-sm sm:text-base"
             >
               {opt.name}

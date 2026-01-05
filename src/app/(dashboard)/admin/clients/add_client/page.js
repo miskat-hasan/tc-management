@@ -1,9 +1,11 @@
 "use client";
 
 import SectionTitle from "@/components/common/SectionTitle";
+import CustomSelect from "@/components/shared/form/CustomSelect";
 import FormContainer from "@/components/shared/form/FormContainer";
 import FormInput from "@/components/shared/form/FormInput";
 import { Button } from "@/components/ui/button";
+import { getAllCountry, storeClient } from "@/hooks/api/dashboardApi";
 
 import dynamic from "next/dynamic";
 import React, { useRef, useState } from "react";
@@ -11,7 +13,7 @@ import React, { useRef, useState } from "react";
 const RichTextEditor = dynamic(() => import("@/components/shared/RichEditor"), {
   ssr: false,
 });
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 
 const Page = () => {
   const sharedNotesRef = useRef(null);
@@ -20,15 +22,38 @@ const Page = () => {
     defaultValues: {},
   });
 
-  const onSubmit = (values) => {
+  const {control, formState: {errors}} = form;
+    const { data: countryData, isLoading: countryDataLoading } = getAllCountry();
+
+  const { mutateAsync: storeClientMutation, isPending } = storeClient();
+
+  const onSubmit = async (data) => {
     const sharedNotes = sharedNotesRef.current?.getContent();
     const internalNotes = internalNotesRef.current?.getContent();
 
-    const finalData = {
-      ...values,
-      sharedNotes,
-      internalNotes,
-    };
+    const formData = new FormData();
+
+    formData.append("company", data.company);
+    formData.append("abbreviation", data.abbreviation);
+    formData.append("contact_first_name", data.contactFirstName);
+    formData.append("contact_last_name", data.contactLastName);
+    formData.append("email", data.emailAddress);
+    formData.append("contact_date", data.contactDate);
+    formData.append("website", data.website);
+    formData.append("main_phone", data.mainPhone);
+    formData.append("mobile_phone", data.mobilePhone);
+    formData.append("fax", data.fax);
+    formData.append("country_id", data.country);
+    formData.append("address_1", data.address1);
+    formData.append("address_2", data.address2);
+    formData.append("city", data.city);
+    formData.append("state", data.stateProvince);
+    formData.append("zip", data.zipPostalCode);
+    formData.append("cc_confirmations_to", data.ccConfirmationsTo);
+    formData.append("shared_notes", sharedNotes);
+    formData.append("internal_notes", internalNotes);
+
+    await storeClientMutation(formData);
   };
   return (
     <section className="flex flex-col gap-2 lg:gap-4">
@@ -106,7 +131,24 @@ const Page = () => {
               label="Zip/Postal Code"
               placeholder="Postal code"
             />
-            <FormInput name="country" label="Country" placeholder="Choose" />
+            
+            <Controller
+              name="country"
+              control={control}
+              rules={{ required: "Country is required" }}
+              render={({ field }) => (
+                <CustomSelect
+                  {...field}
+                  id="country"
+                  label="Country"
+                  placeholder="Country"
+                  isLoading={countryDataLoading}
+                  options={countryData?.data}
+                  error={errors.country?.message}
+                  className="flex-1"
+                />
+              )}
+            />
           </div>
 
           <FormInput
