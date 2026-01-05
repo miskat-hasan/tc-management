@@ -39,7 +39,7 @@ export const getSingleTrainingsite = (id) => {
   });
 };
 
-export const updateTrainingSite =(id)=> {
+export const updateTrainingSite = (id) => {
   return useClientApi({
     method: "post",
     isPrivate: true,
@@ -47,17 +47,17 @@ export const updateTrainingSite =(id)=> {
     onSuccess: (data) => {
       Swal.fire({
         text: data?.message,
-        icon: "success"
-      })
+        icon: "success",
+      });
     },
-    onError: (error)=>{
+    onError: (error) => {
       Swal.fire({
         text: error?.response?.data?.message,
-        icon: "error"
-      })
-    }
-  })
-}
+        icon: "error",
+      });
+    },
+  });
+};
 
 export const getAllCountry = () => {
   return useClientApi({
@@ -65,6 +65,26 @@ export const getAllCountry = () => {
     key: ["get-all-country"],
     isPrivate: true,
     endpoint: `/api/country`,
+  });
+};
+
+export const storeClient = () => {
+  return useClientApi({
+    method: "post",
+    isPrivate: true,
+    endpoint: "/api/clients/store",
+    onSuccess: (data) => {
+      Swal.fire({
+        text: data?.message,
+        icon: "success",
+      });
+    },
+    onError: (err) => {
+      Swal.fire({
+        text: err?.response?.data?.message,
+        icon: "error",
+      });
+    },
   });
 };
 
@@ -86,12 +106,32 @@ export const getSingleClient = (id) => {
   });
 };
 
+export const storeLocation = () => {
+  return useClientApi({
+    method: "post",
+    isPrivate: true,
+    endpoint: "/api/locations/store",
+    onSuccess: (data) => {
+      Swal.fire({
+        text: data?.message,
+        icon: "success",
+      });
+    },
+    onError: (err) => {
+      Swal.fire({
+        text: err?.response?.data?.message,
+        icon: "error",
+      });
+    },
+  });
+};
+
 export const getAllLocation = () => {
   return useClientApi({
     method: "get",
     key: ["get-all-location"],
     isPrivate: true,
-    endpoint: `/api/location`,
+    endpoint: `/api/locations`,
   });
 };
 
@@ -113,12 +153,32 @@ export const getSingleTcProduct = (id) => {
   });
 };
 
+export const createInstructor = () => {
+  return useClientApi({
+    method: "post",
+    isPrivate: true,
+    endpoint: "/api/instructors/store",
+    onSuccess: (data) => {
+      Swal.fire({
+        text: data?.message,
+        icon: "success",
+      });
+    },
+    onError: (err) => {
+      Swal.fire({
+        text: err?.response?.data?.message,
+        icon: "error",
+      });
+    },
+  });
+};
+
 export const getAllInstructor = () => {
   return useClientApi({
     method: "get",
     key: ["get-all-instructor"],
     isPrivate: true,
-    endpoint: `/api/instructor`,
+    endpoint: `/api/instructors`,
   });
 };
 

@@ -4,12 +4,15 @@ import SubSectionTitle from "@/components/common/SubSectionTitle";
 import CustomSelect from "@/components/shared/form/CustomSelect";
 import { Button } from "@/components/ui/button";
 import { instructorData } from "@/data/data";
-import { PlusIcon, SearchIcon } from "@/svg/SvgContainer";
+import { getAllInstructor } from "@/hooks/api/dashboardApi";
+import { SearchIcon } from "@/svg/SvgContainer";
 import React, { useState } from "react";
 import { CiEdit } from "react-icons/ci";
 
 const Page = () => {
   const [selectedShow, setSelectedShow] = useState(50);
+
+  const { data: allInstructor, isLoading } = getAllInstructor();
   return (
     <section className="flex flex-col gap-[13.5px] lg:gap-[25px] ">
       <div className="flex justify-between">
@@ -80,8 +83,8 @@ const Page = () => {
             </thead>
 
             <tbody>
-              {instructorData.length > 0 ? (
-                instructorData.map((item, index) => (
+              {allInstructor?.data?.length > 0 ? (
+                allInstructor?.data?.map((item, index) => (
                   <tr
                     key={index}
                     className="border-b hover:bg-gray-50 transition-all"
@@ -89,7 +92,7 @@ const Page = () => {
                     <td className="px-3 sm:px-6 py-3">
                       <div className="flex flex-col">
                         <span className="font-medium text-gray-800">
-                          {item.name}
+                          {item.first_name} {item.last_name}
                         </span>
                         <span className="text-xs sm:text-sm text-gray-500 truncate max-w-[150px] sm:max-w-[200px]">
                           {item.email}
@@ -97,7 +100,7 @@ const Page = () => {
                       </div>
                     </td>
                     <td className="px-3 sm:px-6 py-3 whitespace-nowrap">
-                      {item.ahaId}
+                      {item.aha_instructor_id}
                     </td>
                     <td className="px-3 sm:px-6 py-3 truncate max-w-[150px] sm:max-w-[200px]">
                       {item.certification}

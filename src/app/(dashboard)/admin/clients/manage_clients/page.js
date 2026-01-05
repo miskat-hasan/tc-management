@@ -4,11 +4,14 @@ import React, { useState } from "react";
 import SectionTitle from "@/components/common/SectionTitle";
 import SubSectionTitle from "@/components/common/SubSectionTitle";
 import { CiEdit } from "react-icons/ci";
-import { ClientLists } from "@/data/data";
+import { getAllClient } from "@/hooks/api/dashboardApi";
 
 const Page = () => {
   const [selectedShow, setSelectedShow] = useState(50);
 
+  const {data: clientList, isLoading} = getAllClient()
+
+console.log(clientList)
   return (
     <div className="flex flex-col gap-[12.5px] lg:gap-[25px]">
       {/* Header */}
@@ -24,7 +27,7 @@ const Page = () => {
 
         <div className="overflow-x-auto">
           <table className="min-w-[900px] w-full text-sm sm:text-base text-left text-gray-700">
-            <thead className="bg-gray-50 text-black capitalize text-[16px] sm:text-[20px] font-semibold">
+            <thead className="bg-gray-50 text-black capitalize text-[16px] sm:text-[20px] font-semibold text-nowrap">
               <tr>
                 <th className="px-3 sm:px-6 md:py-3">Company</th>
                 <th className="px-3 sm:px-6 md:py-3">Abbrev</th>
@@ -37,29 +40,29 @@ const Page = () => {
             </thead>
 
             <tbody>
-              {ClientLists?.length > 0 ? (
-                ClientLists.map((item, index) => (
+              {clientList?.data?.data?.length > 0 ? (
+                clientList?.data?.data?.map((item, index) => (
                   <tr
                     key={index}
                     className="border-b hover:bg-gray-50 transition-all"
                   >
                     <td className="px-3 sm:px-6 py-3 text-gray-800 whitespace-nowrap">
-                      {item.name}
+                      {item.company}
                     </td>
                     <td className="px-3 sm:px-6 py-3 whitespace-nowrap">
-                      {item.abbrev}
+                      {item.abbreviation}
                     </td>
                     <td className="px-3 sm:px-6 py-3 whitespace-nowrap">
-                      {item.contact}
+                      {item.contact_first_name} {item.contact_last_name}
                     </td>
                     <td className="px-3 sm:px-6 py-3 whitespace-nowrap">
-                      {item.phone}
+                      {item.mobile_phone}
                     </td>
                     <td className="px-3 sm:px-6 py-3 truncate max-w-[180px] sm:max-w-[220px]">
                       {item.email}
                     </td>
                     <td className="px-3 sm:px-6 py-3 whitespace-nowrap">
-                      {item.contactDate}
+                      {item.contact_date}
                     </td>
                     <td className="px-3 sm:px-6 py-3 text-center">
                       <button className="p-1.5 sm:p-2 bg-gray-100 rounded-lg hover:bg-gray-200 transition">
