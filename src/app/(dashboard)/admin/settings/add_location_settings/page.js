@@ -4,18 +4,47 @@ import SectionTitle from "@/components/common/SectionTitle";
 import FormContainer from "@/components/shared/form/FormContainer";
 import FormInput from "@/components/shared/form/FormInput";
 import { Button } from "@/components/ui/button";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import React from "react";
 import CustomSelect from "@/components/shared/form/CustomSelect";
 import FormTextarea from "@/components/shared/form/FormTextarea";
+import { getAllCountry, storeLocation } from "@/hooks/api/dashboardApi";
 
 const Page = () => {
   const form = useForm({
     defaultValues: {},
   });
 
-  const onSubmit = (values) => {
-    console.log(values);
+  const {
+    control,
+    formState: { errors },
+  } = form;
+
+  const { data: countryData, isLoading: countryDataLoading } = getAllCountry();
+
+  const {mutateAsync: storeLocationMutation, isPending} = storeLocation()
+
+  const onSubmit = async (data) => {
+    const formData = new FormData();
+    
+    formData.append("name", data.name);
+    formData.append("abbreviation", data.Abbreviation);
+    formData.append("contact_name", data.ContactName);
+    formData.append("contact_email", data.ContactEmail);
+    formData.append("contact_phone", data.ContactPhone);
+    formData.append("directions", data.Directions);
+    formData.append("internal_notes", data.InternalNotes);
+    formData.append("print_card_line_1", data.PrintOnCards ? data.name : "");
+    formData.append("print_card_line_2", data.PrintOnCards ? data.name : "");
+    formData.append("address_1", data.address1);
+    formData.append("address_2", data.address2 || "");
+    formData.append("city", data.city);
+    formData.append("state", data.stateProvince);
+    formData.append("zip", data.zipPostalCode);
+    formData.append("country", data.country);
+
+    await storeLocationMutation(formData)
+    
   };
 
   return (
@@ -31,7 +60,12 @@ const Page = () => {
             {/* Grid Layout */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-6 ">
               <FormInput name="name" label="Name" placeholder="name here" />
-              <CustomSelect
+              <FormInput
+                name="Abbreviation"
+                label="Abbreviation"
+                placeholder="Abbreviation here"
+              />
+              {/* <CustomSelect
                 id="Abbreviation"
                 label="Abbreviation"
                 placeholder="Abbreviation"
@@ -43,7 +77,7 @@ const Page = () => {
                 ]}
                 // onChange={(val) => handleSelectChange("instructor", val)}
                 className="flex-1"
-              />
+              /> */}
             </div>
 
             <FormTextarea
@@ -59,7 +93,7 @@ const Page = () => {
               </label>
             </div>
             <FormInput
-              name="Print on Cards"
+              name="PrintOnCards"
               label="Print on Cards"
               placeholder="Print on Cards here"
             />
@@ -91,22 +125,22 @@ const Page = () => {
                 label="Zip / Postal Code"
                 placeholder="Postal code"
               />
-              <CustomSelect
-                id="country"
-                label="Country"
-                placeholder="Country"
-                options={[
-                  {
-                    value: "garmany",
-                    label: "Garmany",
-                  },
-                  {
-                    value: "canada",
-                    label: "Canada",
-                  },
-                ]}
-                // onChange={(val) => handleSelectChange("instructor", val)}
-                className="flex-1"
+              <Controller
+                name="country"
+                control={control}
+                rules={{ required: "Country is required" }}
+                render={({ field }) => (
+                  <CustomSelect
+                    {...field}
+                    id="country"
+                    label="Country"
+                    placeholder="Country"
+                    isLoading={countryDataLoading}
+                    options={countryData?.data}
+                    error={errors.country?.message}
+                    className="flex-1"
+                  />
+                )}
               />
             </div>
           </div>
@@ -121,22 +155,22 @@ const Page = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-6 ">
             <FormInput
-              name="Contact Name"
+              name="ContactName"
               label="Contact Name"
               placeholder="Contact Name here"
             />
             <FormInput
-              name="Contact Email"
+              name="ContactEmail"
               label="Contact Email"
               placeholder="Contact Email here"
             />
             <FormInput
-              name="Contact Phone"
+              name="ContactPhone"
               label="Contact Phone"
               placeholder="Contact Phone here"
             />
             <FormInput
-              name="Internal Notes"
+              name="InternalNotes"
               label="Internal Notes"
               placeholder="Internal Notes here"
             />

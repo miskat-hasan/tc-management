@@ -8,7 +8,10 @@ import FormContainer from "@/components/shared/form/FormContainer";
 import FormInput from "@/components/shared/form/FormInput";
 import CustomSelect from "@/components/shared/form/CustomSelect";
 import { Button } from "@/components/ui/button";
-import { createSingleTrainingSite, getAllCountry } from "@/hooks/api/dashboardApi";
+import {
+  createSingleTrainingSite,
+  getAllCountry,
+} from "@/hooks/api/dashboardApi";
 
 const Page = () => {
   const form = useForm({
@@ -42,16 +45,17 @@ const Page = () => {
     handleSubmit,
     control,
     register,
+    watch,
     formState: { errors },
   } = form;
-
-  const {data: countryData, isLoading} = getAllCountry()
-  console.log("countryData", countryData)
+  
+  const { data: countryData, isLoading } = getAllCountry();
 
   const { mutateAsync: trainingSiteMutation, isPending } =
     createSingleTrainingSite();
 
   const onSubmit = async (data) => {
+    console.log("from data", data);
     const formData = new FormData();
 
     formData.append("company_name", data?.company);
@@ -70,6 +74,26 @@ const Page = () => {
     formData.append("training_site_id", data?.trainingsiteid || "");
     formData.append("price_level", Number(data?.price_level));
     formData.append("sales_tax_rate", Number(data?.sales_tax_rate) || 0);
+    formData.append(
+      "enable_certification_card_printing",
+      Number(data?.enable_cert_print)
+    );
+    formData.append(
+      "send_reminders_to_instructors_with_unfinalized_rosters",
+      Number(data?.send_reminders)
+    );
+    formData.append(
+      "create_an_admin_user_for_this_site",
+      Number(data?.allow_bid)
+    );
+    formData.append(
+      "restrict_tc_product_orders_to_admins_only",
+      Number(data?.restrict_product)
+    );
+    formData.append(
+      "restrict_instructors_to_only_view_classes_they_teach",
+      Number(data?.restrict_view)
+    );
 
     await trainingSiteMutation(formData);
   };
@@ -89,7 +113,7 @@ const Page = () => {
               rules={{ required: "Company is required" }}
             />
 
-            <Controller
+            {/* <Controller
               name="trainingSite"
               control={control}
               rules={{ required: "Training center is required" }}
@@ -100,13 +124,20 @@ const Page = () => {
                   placeholder="Training Center"
                   options={[
                     {
-                      value: "CODE BLUE CPR SERVICES. LLC",
-                      label: "CODE BLUE CPR SERVICES. LLC",
+                      id: "1",
+                      name: "CODE BLUE CPR SERVICES. LLC",
                     },
                   ]}
                   error={errors.trainingSite?.message}
                 />
               )}
+            /> */}
+
+            <FormInput
+              name="trainingSite"
+              label="Training Center"
+              placeholder="Training Center"
+              rules={{ required: "Training Center is required" }}
             />
 
             <FormInput
@@ -216,8 +247,26 @@ const Page = () => {
                   label="Price Level"
                   placeholder="Price Level"
                   options={[
-                    { value: "1", label: "1" },
-                    { value: "2", label: "2" },
+                    { id: "1", name: "1" },
+                    { id: "2", name: "2" },
+                    { id: "3", name: "3" },
+                    { id: "4", name: "4" },
+                    { id: "5", name: "5" },
+                    { id: "6", name: "6" },
+                    { id: "7", name: "7" },
+                    { id: "8", name: "8" },
+                    { id: "9", name: "9" },
+                    { id: "10", name: "10" },
+                    { id: "11", name: "11" },
+                    { id: "12", name: "12" },
+                    { id: "13", name: "13" },
+                    { id: "14", name: "14" },
+                    { id: "15", name: "15" },
+                    { id: "16", name: "16" },
+                    { id: "17", name: "17" },
+                    { id: "18", name: "18" },
+                    { id: "19", name: "19" },
+                    { id: "20", name: "20" },
                   ]}
                   error={errors.price_level?.message}
                 />
@@ -236,27 +285,27 @@ const Page = () => {
             <p className="font-semibold text-gray-700 mb-2">Options</p>
 
             <div className="flex flex-col gap-2 text-sm">
-              <label className="flex gap-2">
+              <label className="flex w-fit cursor-pointer gap-2">
                 <input {...register("enable_cert_print")} type="checkbox" />
                 Enable certification card printing{" "}
               </label>
 
-              <label className="flex gap-2">
+              <label className="flex w-fit cursor-pointer gap-2">
                 <input {...register("send_reminders")} type="checkbox" />
                 Send reminders to instructors with unfinalized rosters
               </label>
 
-              <label className="flex gap-2">
+              <label className="flex w-fit cursor-pointer gap-2">
                 <input {...register("allow_bid")} type="checkbox" />
                 Create an admin user for this site
               </label>
 
-              <label className="flex gap-2">
+              <label className="flex w-fit cursor-pointer gap-2">
                 <input {...register("restrict_product")} type="checkbox" />
                 Restrict TC product orders to admins only
               </label>
 
-              <label className="flex gap-2">
+              <label className="flex w-fit cursor-pointer gap-2">
                 <input {...register("restrict_view")} type="checkbox" />
                 Restrict instructors (non-admins) to only view classes they
                 teach
