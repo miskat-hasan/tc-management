@@ -12,6 +12,7 @@ import {
   createSingleTrainingSite,
   getAllCountry,
 } from "@/hooks/api/dashboardApi";
+import Swal from "sweetalert2";
 
 const Page = () => {
   const form = useForm({
@@ -46,16 +47,15 @@ const Page = () => {
     control,
     register,
     watch,
+    reset,
     formState: { errors },
   } = form;
-  
+
   const { data: countryData, isLoading } = getAllCountry();
 
-  const { mutateAsync: trainingSiteMutation, isPending } =
-    createSingleTrainingSite();
+  const { mutateAsync, isPending } = createSingleTrainingSite();
 
   const onSubmit = async (data) => {
-    console.log("from data", data);
     const formData = new FormData();
 
     formData.append("company_name", data?.company);
@@ -95,7 +95,26 @@ const Page = () => {
       Number(data?.restrict_view)
     );
 
-    await trainingSiteMutation(formData);
+    try {
+      const res = await mutateAsync(formData);
+
+      const result = await Swal.fire({
+        icon: "success",
+        text: res.message,
+        confirmButtonText: "OK",
+        allowOutsideClick: false,
+        allowEscapeKey: false,
+      });
+
+      if (result.isConfirmed) {
+        reset();
+      }
+    } catch (error) {
+      await Swal.fire({
+        icon: "error",
+        text: error?.response?.data?.message || "Something went wrong",
+      });
+    }
   };
 
   return (

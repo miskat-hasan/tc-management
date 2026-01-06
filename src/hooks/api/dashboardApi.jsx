@@ -6,18 +6,6 @@ export const createSingleTrainingSite = () => {
     method: "post",
     endpoint: "/api/training-site/create",
     isPrivate: true,
-    onSuccess: (data) => {
-      Swal.fire({
-        text: data.message,
-        icon: "success",
-      });
-    },
-    onError: (error) => {
-      Swal.fire({
-        text: error?.response?.data?.message,
-        icon: "error",
-      });
-    },
   });
 };
 
