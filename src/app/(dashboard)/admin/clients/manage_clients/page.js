@@ -40,7 +40,17 @@ console.log(clientList)
             </thead>
 
             <tbody>
-              {clientList?.data?.data?.length > 0 ? (
+              {isLoading && (
+                <tr>
+                  <td
+                    colSpan="7"
+                    className="text-center py-6 text-gray-500 italic"
+                  >
+                    Loading data ...
+                  </td>
+                </tr>
+              )}
+              {isLoading || clientList?.data?.data?.length > 0 ? (
                 clientList?.data?.data?.map((item, index) => (
                   <tr
                     key={index}

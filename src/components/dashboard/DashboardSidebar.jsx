@@ -64,9 +64,13 @@ const menuItems = [
       },
       { label: "Add Instructor", href: "/admin/instructors/add_instructor" },
       {
-        label: "Expiring Certifications",
-        href: "/admin/instructors/expiring_certifications",
+        label: "Certifications",
+        href: "/admin/instructors/certifications",
       },
+      // {
+      //   label: "Expiring Certifications",
+      //   href: "/admin/instructors/expiring_certifications",
+      // },
     ],
   },
   {
@@ -304,7 +308,7 @@ const DashboardSidebar = () => {
                     {hasSubmenu && (
                       <div
                         className={`transition-all overflow-hidden ${
-                          isOpen ? "max-h-96" : "max-h-0"
+                          !isOpen && "max-h-0"
                         }`}
                       >
                         <ul className="bg-gray-50 rounded-[10px] pt-1">

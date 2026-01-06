@@ -61,18 +61,6 @@ export const storeClient = () => {
     method: "post",
     isPrivate: true,
     endpoint: "/api/clients/store",
-    onSuccess: (data) => {
-      Swal.fire({
-        text: data?.message,
-        icon: "success",
-      });
-    },
-    onError: (err) => {
-      Swal.fire({
-        text: err?.response?.data?.message,
-        icon: "error",
-      });
-    },
   });
 };
 
@@ -175,7 +163,7 @@ export const getSingleInstructor = (id) => {
     method: "get",
     key: ["get-single-instructor"],
     isPrivate: true,
-    endpoint: `/api/instructor/${id}`,
+    endpoint: `/api/instructors/${id}`,
   });
 };
 
@@ -185,5 +173,31 @@ export const getAllCourses = () => {
     key: ["get-all-course"],
     isPrivate: true,
     endpoint: `/api/couese/index`,
+  });
+};
+
+export const getAllDiscipline = () => {
+  return useClientApi({
+    method: "get",
+    isPrivate: true,
+    key: ["get-all-discipline"],
+    endpoint: "/api/discipline/index",
+  });
+};
+
+export const storeCertification = () => {
+  return useClientApi({
+    method: "post",
+    isPrivate: true,
+    endpoint: "/api/certifications/store",
+  });
+};
+
+export const getAllCertification = () => {
+  return useClientApi({
+    method: "get",
+    key: ["get-all-certification"],
+    isPrivate: true,
+    endpoint: "/api/certifications/index",
   });
 };

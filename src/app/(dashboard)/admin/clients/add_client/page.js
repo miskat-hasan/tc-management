@@ -6,24 +6,48 @@ import FormContainer from "@/components/shared/form/FormContainer";
 import FormInput from "@/components/shared/form/FormInput";
 import { Button } from "@/components/ui/button";
 import { getAllCountry, storeClient } from "@/hooks/api/dashboardApi";
-
+import { Controller, useForm } from "react-hook-form";
 import dynamic from "next/dynamic";
-import React, { useRef, useState } from "react";
+import React, { useRef } from "react";
+import Swal from "sweetalert2";
 
 const RichTextEditor = dynamic(() => import("@/components/shared/RichEditor"), {
   ssr: false,
 });
-import { Controller, useForm } from "react-hook-form";
 
 const Page = () => {
   const sharedNotesRef = useRef(null);
   const internalNotesRef = useRef(null);
   const form = useForm({
-    defaultValues: {},
+    defaultValues: {
+      company: "",
+      abbreviation: "",
+      contactFirstName: "",
+      contactLastName: "",
+      emailAddress: "",
+      contactDate: "",
+      website: "",
+      mainPhone: "",
+      mobilePhone: "",
+      fax: "",
+      country: "",
+      address1: "",
+      address2: "",
+      city: "",
+      stateProvince: "",
+      zipPostalCode: "",
+      ccConfirmationsTo: "",
+      sharedNotes: "",
+      internalNotes: "",
+    },
   });
 
-  const {control, formState: {errors}} = form;
-    const { data: countryData, isLoading: countryDataLoading } = getAllCountry();
+  const {
+    control,
+    reset,
+    formState: { errors },
+  } = form;
+  const { data: countryData, isLoading: countryDataLoading } = getAllCountry();
 
   const { mutateAsync: storeClientMutation, isPending } = storeClient();
 
@@ -53,7 +77,24 @@ const Page = () => {
     formData.append("shared_notes", sharedNotes);
     formData.append("internal_notes", internalNotes);
 
-    await storeClientMutation(formData);
+    await storeClientMutation(formData, {
+      onSuccess: (data) => {
+        reset();
+        sharedNotesRef.current?.clear();
+        internalNotesRef.current?.clear();
+
+        Swal.fire({
+          text: data?.message,
+          icon: "success",
+        });
+      },
+      onError: (err) => {
+        Swal.fire({
+          text: err?.response?.data?.message,
+          icon: "error",
+        });
+      },
+    });
   };
   return (
     <section className="flex flex-col gap-2 lg:gap-4">
@@ -92,9 +133,11 @@ const Page = () => {
               name="contactDate"
               label="Contact Date"
               placeholder="Date"
+              type="date"
             />
 
             <FormInput name="website" label="Website" placeholder="Website" />
+
             <FormInput
               name="mainPhone"
               label="Main Phone"
@@ -131,7 +174,7 @@ const Page = () => {
               label="Zip/Postal Code"
               placeholder="Postal code"
             />
-            
+
             <Controller
               name="country"
               control={control}
@@ -172,17 +215,18 @@ const Page = () => {
 
           <div className="flex items-center justify-end">
             <div className="flex justify-end gap-4 mt-4 lg:mt-8">
-              <Button
+              {/* <Button
                 type="button"
                 className="px-6 py-2 bg-transparent border border-gray-300 rounded-md text-sm font-medium text-black hover:bg-gray-50 focus:outline-none"
               >
                 Back
-              </Button>
+              </Button> */}
               <Button
                 type="submit"
                 className="px-6 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium cursor-pointer text-white bg-brown cursor hover:bg-brown-hover focus:outline-none"
+                disabled={isPending}
               >
-                Add Client
+                {isPending ? "Adding ..." : " Add Client"}
               </Button>
             </div>
           </div>
