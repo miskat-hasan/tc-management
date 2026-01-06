@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { instructorData } from "@/data/data";
 import { getAllInstructor } from "@/hooks/api/dashboardApi";
 import { SearchIcon } from "@/svg/SvgContainer";
+import Link from "next/link";
 import React, { useState } from "react";
 import { CiEdit } from "react-icons/ci";
 
@@ -83,7 +84,17 @@ const Page = () => {
             </thead>
 
             <tbody>
-              {allInstructor?.data?.length > 0 ? (
+              {isLoading && (
+                <tr>
+                  <td
+                    colSpan="5"
+                    className="text-center py-6 text-gray-500 italic"
+                  >
+                    Loading instructor data ...
+                  </td>
+                </tr>
+              )}
+              {isLoading || allInstructor?.data?.length > 0 ? (
                 allInstructor?.data?.map((item, index) => (
                   <tr
                     key={index}
@@ -109,9 +120,14 @@ const Page = () => {
                       {item.expires}
                     </td>
                     <td className="px-3 sm:px-6 py-3 text-center">
-                      <button className="p-1.5 sm:p-2 bg-gray-100 rounded-lg hover:bg-gray-200 transition">
-                        <CiEdit className="text-gray-600 text-[14px] sm:text-[16px]" />
-                      </button>
+                      <div>
+                        <Link
+                          href={`/admin/instructors/instructor_records/${item?.id}`}
+                          className="p-1.5 sm:p-2 bg-gray-100 rounded-lg inline-block hover:bg-gray-200 transition"
+                        >
+                          <CiEdit className="text-gray-600 text-[14px] sm:text-[16px]" />
+                        </Link>
+                      </div>
                     </td>
                   </tr>
                 ))

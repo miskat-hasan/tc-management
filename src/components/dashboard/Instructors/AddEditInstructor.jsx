@@ -8,8 +8,9 @@ import { Controller, useForm } from "react-hook-form";
 import React from "react";
 import CustomSelect from "@/components/shared/form/CustomSelect";
 import { createInstructor, getAllCountry } from "@/hooks/api/dashboardApi";
+import Link from "next/link";
 
-const Page = () => {
+const AddEditInstructor = ({ type = "add", instructorData }) => {
   const form = useForm({
     defaultValues: {},
   });
@@ -17,10 +18,43 @@ const Page = () => {
   const {
     register,
     control,
+    reset,
     formState: { errors },
   } = form;
 
   const { data: countryData, isLoading: countryDataLoading } = getAllCountry();
+
+  const findSingleCountry = countryData?.data?.find(
+    (country) => country.id === instructorData?.country_id
+  );
+  console.log(findSingleCountry?.name)
+  React.useEffect(() => {
+    if (instructorData) {
+      reset({
+        username: instructorData?.username ?? "",
+        training_site: instructorData?.training_site_id ?? "",
+        firstName: instructorData?.first_name ?? "",
+        lastName: instructorData?.last_name ?? "",
+        address1: instructorData?.address_line_1 ?? "",
+        address2: instructorData?.address_line_2 ?? "",
+        city: instructorData?.city ?? "",
+        stateProvince: instructorData?.state_province_region ?? "",
+        country: findSingleCountry?.name ?? "",
+        mobilePhone: instructorData?.mobile_phone ?? "",
+        emailAddress: instructorData?.email ?? "",
+        zipPostalCode: instructorData?.zip_postal_code ?? "",
+        nameOnCard: instructorData?.name_to_print_on_card ?? "",
+        ahaInstructorId: instructorData?.aha_instructor_id ?? "",
+        hsiInstructorId: instructorData?.hsi_instructor_id ?? "",
+        rclcUsername: instructorData?.rclc_username ?? "",
+        password: "",
+        active_user: instructorData?.active_user ?? 0,
+        read_only_user: instructorData?.read_only_user ?? 0,
+        allow_bid_on_open_classes:
+          instructorData?.allow_bid_on_open_classes ?? 0,
+      });
+    }
+  }, [instructorData, reset]);
 
   const { mutateAsync: instructorMutation, isPending: instructorPending } =
     createInstructor();
@@ -59,7 +93,9 @@ const Page = () => {
   return (
     <section className="flex flex-col gap-2 lg:gap-4">
       {/* Title */}
-      <SectionTitle title="Add Instructor" />
+      <SectionTitle
+        title={type === "add" ? "Add Instructor" : "Edit Instructor"}
+      />
 
       {/* White Form Card */}
       <div className="bg-white rounded-[14px] p-4 lg:p-8 shadow-sm">
@@ -244,10 +280,10 @@ const Page = () => {
           {/* Footer Buttons */}
           <div className="flex justify-end gap-2 lg:gap-4 mt-5 lg:mt-10">
             <Button
-              type="button"
+              asChild={true}
               className="px-6 py-2 bg-transparent border border-gray-300 rounded-md text-sm font-medium text-black hover:bg-gray-50"
             >
-              Back
+              <Link href={"/admin/instructors/instructor_records"}>Back</Link>
             </Button>
             <Button
               type="submit"
@@ -263,4 +299,4 @@ const Page = () => {
   );
 };
 
-export default Page;
+export default AddEditInstructor;

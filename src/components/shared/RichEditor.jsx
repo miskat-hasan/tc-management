@@ -14,53 +14,31 @@ const RichTextEditor = forwardRef((_, ref) => {
   const quillRef = useRef(null);
 
   useEffect(() => {
-    if (editorRef.current) {
+    if (editorRef.current && !quillRef.current) {
       quillRef.current = new Quill(editorRef.current, {
         theme: "snow",
         modules: {
           toolbar: [
             [{ font: [] }],
-            [{ size: ["small", false, "large", "huge"] }], // Font size
-            [{ header: [1, 2, 3, 4, 5, 6, false] }], // Headers
-            ["bold", "italic", "underline", "strike"], // Formatting
-            [{ color: [] }, { background: [] }], // Text color & background
+            [{ size: ["small", false, "large", "huge"] }],
+            [{ header: [1, 2, 3, 4, 5, 6, false] }],
+            ["bold", "italic", "underline", "strike"],
+            [{ color: [] }, { background: [] }],
             [{ script: "sub" }, { script: "super" }],
             [
               { list: "ordered" },
               { list: "bullet" },
               { indent: "-1" },
               { indent: "+1" },
-            ], // Lists & Indent
-            [{ direction: "rtl" }], // Text direction
-            [{ align: [] }], // Text alignment
-            ["link", "image", "video"], // Links & media
-            ["blockquote", "code-block"], // Blocks
-            ["clean"], // Remove formatting
+            ],
+            [{ direction: "rtl" }],
+            [{ align: [] }],
+            ["link", "image", "video"],
+            ["blockquote", "code-block"],
+            ["clean"],
           ],
         },
         placeholder: "Write something...",
-        formats: [
-          "font",
-          "size",
-          "header",
-          "bold",
-          "italic",
-          "underline",
-          "strike",
-          "color",
-          "background",
-          "script",
-          "list",
-          "bullet",
-          "indent",
-          "direction",
-          "align",
-          "link",
-          "image",
-          "video",
-          "blockquote",
-          "code-block",
-        ],
       });
     }
 
@@ -71,10 +49,14 @@ const RichTextEditor = forwardRef((_, ref) => {
 
   useImperativeHandle(ref, () => ({
     getContent: () => {
+      return quillRef.current?.root.innerHTML || "";
+    },
+
+    // 🔥 THIS IS THE MISSING PART
+    clear: () => {
       if (quillRef.current) {
-        return quillRef.current.root.innerHTML;
+        quillRef.current.setText(""); // clears editor
       }
-      return "";
     },
   }));
 
