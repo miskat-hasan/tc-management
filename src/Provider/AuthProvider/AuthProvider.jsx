@@ -1,7 +1,7 @@
 "use client";
 
 import { useGetUserData } from "@/hooks/api/authApi";
-import useLocalStorage from "@/Hooks/useLocalStorage";
+import useLocalStorage from "@/hooks/useLocalStorage";
 import { createContext, useEffect, useState } from "react";
 
 export const AuthContextProvider = createContext(null);
@@ -10,7 +10,6 @@ export default function AuthProvider({ children }) {
   const [loading, setLoading] = useState(false);
   const [user, setUser] = useState(null);
   const [token, setToken, clearToken] = useLocalStorage("token", null);
-  console.log(token);
 
   const { data: userData, isLoading: loadingUserData } = useGetUserData(token);
 
