@@ -27,7 +27,7 @@ const AddEditInstructor = ({ type = "add", instructorData }) => {
   const findSingleCountry = countryData?.data?.find(
     (country) => country.id === instructorData?.country_id
   );
-  console.log(findSingleCountry?.name)
+  
   React.useEffect(() => {
     if (instructorData) {
       reset({

@@ -193,11 +193,28 @@ export const storeCertification = () => {
   });
 };
 
+export const updateCertification = () => {
+  return useClientApi({
+    method: "post",
+    isPrivate: true,
+    endpoint: "/api/certifications/update",
+  });
+};
+
 export const getAllCertification = () => {
   return useClientApi({
     method: "get",
     key: ["get-all-certification"],
     isPrivate: true,
     endpoint: "/api/certifications/index",
+  });
+};
+
+export const getSingleCertification = (id) => {
+  return useClientApi({
+    method: "get",
+    key: ["get-single-certification"],
+    isPrivate: true,
+    endpoint: `/api/certifications/show?id=${id}`,
   });
 };
