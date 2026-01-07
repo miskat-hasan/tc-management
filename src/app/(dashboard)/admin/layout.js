@@ -1,7 +1,6 @@
 import DashboardContent from "@/components/common/DashboardContent";
 import DashboardSidebar from "@/components/dashboard/DashboardSidebar";
-import DashboardTopbar from "@/components/dashboard/DashboardTopbar";
-import PrivateLayout from "@/private/Private";
+
 import { Poppins } from "next/font/google";
 
 const poppins = Poppins({

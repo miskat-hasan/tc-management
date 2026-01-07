@@ -1,7 +1,7 @@
 "use client";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { axiosSecure } from "@/Hooks/useAxiosSecure";
-import { axiosPublic } from "@/Hooks/useAxiosPublic";
+import { axiosSecure } from "@/hooks/useAxiosSecure";
+import { axiosPublic } from "@/hooks/useAxiosPublic";
 
 export default function useClientApi({
   endpoint,
