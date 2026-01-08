@@ -218,3 +218,28 @@ export const getSingleCertification = (id) => {
     endpoint: `/api/certifications/show?id=${id}`,
   });
 };
+
+export const storeDocument = () => {
+  return useClientApi({
+    method: "post",
+    isPrivate: true,
+    endpoint: "/api/documents/store",
+  });
+};
+
+export const getAllDocuments = () => {
+  return useClientApi({
+    method: "get",
+    key: ["get-all-documents"],
+    isPrivate: true,
+    endpoint: "/api/documents/index",
+  });
+};
+
+export const deleteDocument = (id) => {
+  return useClientApi({
+    method: "delete",
+    isPrivate: true,
+    endpoint: `/documents/delete?id=${id}`,
+  });
+};
