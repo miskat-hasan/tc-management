@@ -11,7 +11,7 @@ import { getAllDiscipline, storeCertification } from "@/hooks/api/dashboardApi";
 import Link from "next/link";
 import Swal from "sweetalert2";
 
-const page = () => {
+const Page = () => {
   const form = useForm({
     defaultValues: {},
   });
@@ -101,4 +101,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;
