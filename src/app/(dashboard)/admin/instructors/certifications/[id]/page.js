@@ -16,7 +16,7 @@ import {
 import Link from "next/link";
 import Swal from "sweetalert2";
 
-const page = ({ params }) => {
+const Page = ({ params }) => {
   const { data: singleCertification, isLoading: loadingSingleCertification } =
     getSingleCertification(params?.id);
 
@@ -113,4 +113,4 @@ const page = ({ params }) => {
   );
 };
 
-export default page;
+export default Page;
