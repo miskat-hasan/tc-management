@@ -12,6 +12,7 @@ import FormInput from "@/components/shared/form/FormInput";
 
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
+import { getAllProductAddOns } from "@/hooks/api/dashboardApi";
 
 const Page = () => {
   const [selectedShow, setSelectedShow] = useState(50);
@@ -27,6 +28,10 @@ const Page = () => {
   const handleNavigate = () => {
     router.push("/admin/settings/add_product_ons");
   };
+
+  const { data: productAddOns, isLoading: productAddOnsLoading } =
+    getAllProductAddOns();
+
   return (
     <section className="flex flex-col gap-[12.5px] lg:gap-[25px] ">
       <div className="flex justify-between">

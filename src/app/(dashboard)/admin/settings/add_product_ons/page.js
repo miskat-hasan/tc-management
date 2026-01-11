@@ -4,16 +4,42 @@ import CustomSelect from "@/components/shared/form/CustomSelect";
 import FormContainer from "@/components/shared/form/FormContainer";
 import FormInput from "@/components/shared/form/FormInput";
 import { Button } from "@/components/ui/button";
+import { storeProductAddOns } from "@/hooks/api/dashboardApi";
 import React from "react";
 import { useForm } from "react-hook-form";
+import Swal from "sweetalert2";
 
 const Page = () => {
   const form = useForm({
     defaultValues: {},
   });
 
-  const onSubmit = (values) => {
-    console.log(values);
+  const { mutate, isPending } = storeProductAddOns();
+
+  const onSubmit = (data) => {
+    console.log(data);
+    const formData = new FormData();
+
+    formData.append("name", data.name);
+    formData.append("product_code", data.productCode);
+    formData.append("description", data.description);
+    // formData.append("display_order", data.description)
+    formData.append("price", data.price);
+
+    mutate(formData, {
+      onSuccess: (data) => {
+        Swal.fire({
+          text: data?.message,
+          icon: "success",
+        });
+      },
+      onError: (err) => {
+        Swal.fire({
+          text: err?.response?.data?.message,
+          icon: "error",
+        });
+      },
+    });
   };
 
   return (
@@ -28,14 +54,14 @@ const Page = () => {
           {/* Grid Layout */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-x-3 gap-y-2.5 md:gap-x-6 md:gap-y-5">
             <FormInput
-              name="Product Code"
+              name="productCode"
               label="Product Code"
               placeholder="Product Code here"
             />
 
-            <FormInput name="Name" label="Name" placeholder="Enter name" />
+            <FormInput name="name" label="Name" placeholder="Enter name" />
             <FormInput
-              name="Description / Notes"
+              name="description"
               label="Description"
               placeholder="Description / Notes here"
             />
@@ -45,17 +71,17 @@ const Page = () => {
               placeholder="Select Display Order"
               options={[
                 {
-                  value: "order 1",
-                  label: "Order 1",
+                  id: "order 1",
+                  name: "Order 1",
                 },
                 {
-                  value: "order 2",
-                  label: "Order 2",
+                  id: "order 2",
+                  name: "Order 2",
                 },
               ]}
             />
           </div>
-          <FormInput name="Price" label="Price" placeholder="Price" />
+          <FormInput name="price" label="Price" placeholder="Price" />
 
           <div className="flex flex-col gap-1 lg:gap-2  lg:mt-2">
             <p className="font-semibold text-[15px] text-gray-700">Type</p>
