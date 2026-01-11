@@ -11,7 +11,7 @@ import { getAllDiscipline, storeCertification } from "@/hooks/api/dashboardApi";
 import Link from "next/link";
 import Swal from "sweetalert2";
 
-const Page = () => {
+const NewCertification = ({instructorId, onCancel}) => {
   const form = useForm({
     defaultValues: {},
   });
@@ -27,6 +27,7 @@ const Page = () => {
     const formData = new FormData();
 
     formData.append("discipline_id", data?.discipline);
+    formData.append("instructor_id", instructorId);
     formData.append("initial", data?.initial);
     formData.append("expires", data?.expires);
 
@@ -82,10 +83,10 @@ const Page = () => {
           {/* Footer Buttons */}
           <div className="flex justify-end gap-2 lg:gap-4 mt-5 lg:mt-10">
             <Button
-              asChild={true}
+              onClick={onCancel}
               className="px-6 py-2 bg-transparent border border-gray-300 rounded-md text-sm font-medium text-black hover:bg-gray-50"
             >
-              <Link href={"/admin/instructors/certifications"}>Back</Link>
+              Cancel
             </Button>
             <Button
               type="submit"
@@ -101,4 +102,4 @@ const Page = () => {
   );
 };
 
-export default Page;
+export default NewCertification;

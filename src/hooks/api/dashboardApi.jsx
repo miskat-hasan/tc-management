@@ -149,6 +149,14 @@ export const createInstructor = () => {
   });
 };
 
+export const updateInstructor = (id) => {
+  return useClientApi({
+    method: "post",
+    isPrivate: true,
+    endpoint: `/instructors/${id}/update`,
+  });
+};
+
 export const getAllInstructor = () => {
   return useClientApi({
     method: "get",
@@ -241,5 +249,31 @@ export const deleteDocument = (id) => {
     method: "delete",
     isPrivate: true,
     endpoint: `/documents/delete?id=${id}`,
+  });
+};
+
+export const getAllUserRole = () => {
+  return useClientApi({
+    method: "get",
+    key: ["get-all-roles"],
+    isPrivate: true,
+    endpoint: "api/roles/index",
+  });
+};
+
+export const storeProductAddOns = () => {
+  return useClientApi({
+    method: "post",
+    isPrivate: true,
+    endpoint: "/api/addon_list/store"
+  })
+}
+
+export const getAllProductAddOns = () => {
+  return useClientApi({
+    method: "get",
+    isPrivate: true,
+    key: ["get-all-product-add-ons"],
+    endpoint: "/api/addon_list/index",
   });
 };

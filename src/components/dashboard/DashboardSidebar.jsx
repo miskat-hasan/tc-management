@@ -63,10 +63,10 @@ const menuItems = [
         href: "/admin/instructors/instructor_records",
       },
       { label: "Add Instructor", href: "/admin/instructors/add_instructor" },
-      {
-        label: "Certifications",
-        href: "/admin/instructors/certifications",
-      },
+      // {
+      //   label: "Certifications",
+      //   href: "/admin/instructors/certifications",
+      // },
       // {
       //   label: "Expiring Certifications",
       //   href: "/admin/instructors/expiring_certifications",
