@@ -1,16 +1,21 @@
 "use client";
-import { getAllDocuments, getSingleInstructor } from "@/hooks/api/dashboardApi";
+import {
+  getAllUserRole,
+  getSingleInstructor,
+  updateInstructor,
+} from "@/hooks/api/dashboardApi";
 
 import SectionTitle from "@/components/common/SectionTitle";
 import FormContainer from "@/components/shared/form/FormContainer";
 import FormInput from "@/components/shared/form/FormInput";
 import { Button } from "@/components/ui/button";
 import { Controller, useForm } from "react-hook-form";
-import React from "react";
+import React, { use } from "react";
 import CustomSelect from "@/components/shared/form/CustomSelect";
 import { createInstructor, getAllCountry } from "@/hooks/api/dashboardApi";
 import Link from "next/link";
-import { Download, PlusIcon, Trash2 } from "lucide-react";
+import Certification from "../../certifications/page";
+import DocumentList from "@/components/dashboard/Instructors/DocumentList";
 
 const page = ({ params }) => {
   const form = useForm({
@@ -24,12 +29,14 @@ const page = ({ params }) => {
     formState: { errors },
   } = form;
 
-  const { data: instructorData, isLoading: instructorLoading } =
-    getSingleInstructor(params?.id);
+  const { id } = params;
 
-  const { data: documentData, isLoading: documentLoading } = getAllDocuments();
+  const { data: instructorData, isLoading: instructorLoading } =
+    getSingleInstructor(id);
 
   const { data: countryData, isLoading: countryDataLoading } = getAllCountry();
+
+  const { data: userRoles, isLoading: rolesLoading } = getAllUserRole();
 
   React.useEffect(() => {
     if (instructorData?.data && countryData) {
@@ -50,16 +57,18 @@ const page = ({ params }) => {
         ahaInstructorId: instructorData?.data?.aha_instructor_id ?? "",
         hsiInstructorId: instructorData?.data?.hsi_instructor_id ?? "",
         rclcUsername: instructorData?.data?.rclc_username ?? "",
-        active_user: instructorData?.data?.active_user ?? 0,
-        read_only_user: instructorData?.data?.read_only_user ?? 0,
-        allow_bid_on_open_classes:
-          instructorData?.data?.allow_bid_on_open_classes ?? 0,
+        active_user: Boolean(instructorData?.data?.active_user),
+        read_only_user: Boolean(instructorData?.data?.read_only_user),
+        allow_bid_on_open_classes: Boolean(
+          instructorData?.data?.allow_bid_on_open_classes
+        ),
+        roles: instructorData?.data?.roles?.map((role) => role.id),
       });
     }
   }, [instructorData, reset]);
 
   const { mutateAsync: instructorMutation, isPending: instructorPending } =
-    createInstructor();
+    updateInstructor(id);
 
   const onSubmit = async (data) => {
     const formData = new FormData();
@@ -87,6 +96,10 @@ const page = ({ params }) => {
       "allow_bid_on_open_classes",
       Number(data?.allow_bid_on_open_classes)
     );
+
+    data?.roles?.forEach((id) => {
+      formData.append("roles[]", Number(id));
+    });
 
     await instructorMutation(formData);
   };
@@ -256,101 +269,20 @@ const page = ({ params }) => {
                   <p className="font-semibold text-[15px] text-gray-700">
                     Roles
                   </p>
-                  <label className="flex items-center gap-1 md:gap-2 text-[10px] md:text-sm">
-                    <input type="checkbox" className="accent-brown" />
-                    Training Center Admin
-                  </label>
-                  <label className="flex items-center gap-1 md:gap-2 text-[10px] md:text-sm">
-                    <input type="checkbox" className="accent-brown" />
-                    Training Site Admin
-                  </label>
-                  <label className="flex items-center gap-1 md:gap-2 text-[10px] md:text-sm">
-                    <input type="checkbox" className="accent-brown" />
-                    Instructor
-                  </label>
-                  <label className="flex items-center gap-1 md:gap-2 text-[10px] md:text-sm">
-                    <input type="checkbox" className="accent-brown" />
-                    Instructor Assistant
-                  </label>
-                  <label className="flex items-center gap-1 md:gap-2 text-[10px] md:text-sm">
-                    <input type="checkbox" className="accent-brown" />
-                    Class Manager
-                  </label>
-                </div>
-              </div>
-
-              {/* document */}
-              <div className="bg-white rounded-[14px] p-4 border border-gray-200 mt-8 shadow-sm">
-                <div className="flex items-center justify-between mb-3">
-                  <h5 className="text-xl font-medium">Documents</h5>
-                  <label className="py-[7px] cursor-pointer rounded-sm text-white px-3 text-sm bg-brown flex items-center gap-2">
-                    <input type="file" className="hidden" />
-                    Add Document
-                    <PlusIcon size={16} />
-                  </label>
-                </div>
-
-                <div className="overflow-x-auto">
-                  <table className="min-w-[700px] w-full text-sm sm:text-base text-left text-gray-700">
-                    <thead className="bg-gray-50 text-black text-[14px] sm:text-[16px] font-semibold">
-                      <tr>
-                        <th className="px-3 sm:px-6 py-3">Filename</th>
-                        <th className="px-3 sm:px-6 py-3 text-center">
-                          Action
-                        </th>
-                      </tr>
-                    </thead>
-
-                    <tbody>
-                      {documentLoading && (
-                        <tr>
-                          <td
-                            colSpan="5"
-                            className="text-center py-6 text-gray-500 italic"
-                          >
-                            Loading documents data ...
-                          </td>
-                        </tr>
-                      )}
-                      {documentLoading || documentData?.data?.length > 0 ? (
-                        documentData?.data?.map((item, index) => (
-                          <tr
-                            key={item.id}
-                            className="border-b hover:bg-gray-50 transition-all"
-                          >
-                            <td className="px-3 sm:px-6 py-3 whitespace-nowrap">
-                              {item.document_path}
-                            </td>
-                            <td className="px-3 sm:px-6 py-3 text-center">
-                              <div className="flex items-center gap-1 justify-center">
-                                <Link
-                                  href={``}
-                                  className="p-1.5 sm:p-2 bg-gray-100 rounded-lg inline-block hover:bg-gray-200 transition"
-                                >
-                                  <Download size={16} />
-                                </Link>
-                                <Link
-                                  href={`/documents/delete?id=${item?.id}`}
-                                  className="p-1.5 sm:p-2 bg-gray-100 rounded-lg inline-block hover:bg-gray-200 transition"
-                                >
-                                  <Trash2 size={16} />
-                                </Link>
-                              </div>
-                            </td>
-                          </tr>
-                        ))
-                      ) : (
-                        <tr>
-                          <td
-                            colSpan="5"
-                            className="text-center py-6 text-gray-500 italic"
-                          >
-                            No results found
-                          </td>
-                        </tr>
-                      )}
-                    </tbody>
-                  </table>
+                  {userRoles?.data?.map((role) => (
+                    <label
+                      key={role.id}
+                      className="flex items-center gap-1 md:gap-2 text-[10px] md:text-sm"
+                    >
+                      <input
+                        type="checkbox"
+                        value={role.id}
+                        {...register("roles")}
+                        className="accent-brown"
+                      />
+                      {role.role_name}
+                    </label>
+                  ))}
                 </div>
               </div>
 
@@ -367,13 +299,17 @@ const page = ({ params }) => {
                 <Button
                   type="submit"
                   className="px-6 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium cursor-pointer text-white bg-brown hover:bg-brown-hover"
-                  disabled={instructorPending}
+                  disabled={instructorLoading}
                 >
-                  {instructorPending ? "Saving ..." : "Save Changes"}
+                  {instructorLoading ? "Saving ..." : "Save Changes"}
                 </Button>
               </div>
             </FormContainer>
           </div>
+          {/* document */}
+          <DocumentList instructorId={instructorData?.data?.id} />
+
+          <Certification instructorId={instructorData?.data?.id} />
         </section>
       )}
     </div>

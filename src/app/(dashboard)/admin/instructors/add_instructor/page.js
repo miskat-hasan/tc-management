@@ -7,7 +7,11 @@ import { Button } from "@/components/ui/button";
 import { Controller, useForm } from "react-hook-form";
 import React from "react";
 import CustomSelect from "@/components/shared/form/CustomSelect";
-import { createInstructor, getAllCountry } from "@/hooks/api/dashboardApi";
+import {
+  createInstructor,
+  getAllCountry,
+  getAllUserRole,
+} from "@/hooks/api/dashboardApi";
 
 const Page = () => {
   const form = useForm({
@@ -22,11 +26,12 @@ const Page = () => {
 
   const { data: countryData, isLoading: countryDataLoading } = getAllCountry();
 
+  const { data: userRoles, isLoading: rolesLoading } = getAllUserRole();
+
   const { mutateAsync: instructorMutation, isPending: instructorPending } =
     createInstructor();
 
   const onSubmit = async (data) => {
-    console.log("values", data);
     const formData = new FormData();
 
     formData.append("username", data?.username);
@@ -52,6 +57,9 @@ const Page = () => {
       "allow_bid_on_open_classes",
       Number(data?.allow_bid_on_open_classes)
     );
+    data?.roles?.forEach((id) => {
+      formData.append("roles[]", Number(id));
+    });
 
     await instructorMutation(formData);
   };
@@ -215,29 +223,26 @@ const Page = () => {
                 Allow this instructor to bid on open classes
               </label>
             </div>
-
             <div className="flex flex-col gap-2">
               <p className="font-semibold text-[15px] text-gray-700">Roles</p>
-              <label className="flex items-center gap-1 md:gap-2 text-[10px] md:text-sm">
-                <input type="checkbox" className="accent-brown" />
-                Training Center Admin
-              </label>
-              <label className="flex items-center gap-1 md:gap-2 text-[10px] md:text-sm">
-                <input type="checkbox" className="accent-brown" />
-                Training Site Admin
-              </label>
-              <label className="flex items-center gap-1 md:gap-2 text-[10px] md:text-sm">
-                <input type="checkbox" className="accent-brown" />
-                Instructor
-              </label>
-              <label className="flex items-center gap-1 md:gap-2 text-[10px] md:text-sm">
-                <input type="checkbox" className="accent-brown" />
-                Instructor Assistant
-              </label>
-              <label className="flex items-center gap-1 md:gap-2 text-[10px] md:text-sm">
-                <input type="checkbox" className="accent-brown" />
-                Class Manager
-              </label>
+              {userRoles?.data?.length > 0  ? (
+                userRoles?.data?.map((role) => (
+                  <label
+                  key={role.id}
+                  className="flex items-center gap-1 md:gap-2 text-[10px] md:text-sm"
+                  >
+                  <input
+                  type="checkbox"
+                  value={role.id}
+                  {...register("roles")}
+                  className="accent-brown"
+                  />
+                  {role.role_name}
+                  </label>
+                ))
+              ): (
+                <p className="text-sm text-gray-500">no user roles</p>
+              )}
             </div>
           </div>
 
