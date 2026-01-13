@@ -8,10 +8,13 @@ import React, { useState } from "react";
 import { CiEdit } from "react-icons/ci";
 
 import { useRouter } from "next/navigation";
+import { getAllPromoCode } from "@/hooks/api/dashboardApi";
 
 const Page = () => {
   const [selectedShow, setSelectedShow] = useState(50);
   const router = useRouter();
+
+  const { data: promoCodeData, isLoading } = getAllPromoCode();
 
   const handleNavigate = () => {
     router.push("/admin/settings/add_promo_code");
@@ -53,7 +56,7 @@ const Page = () => {
 
             <tbody>
               {promocodeData.length > 0 ? (
-                promocodeData.map((item, index) => (
+                promoCodeData?.data?.map((item, index) => (
                   <tr
                     key={index}
                     className="border-b hover:bg-gray-50 transition-all"
@@ -65,10 +68,10 @@ const Page = () => {
                       {item.description}
                     </td>
                     <td className="px-3 md:px-6 py-4 whitespace-nowrap">
-                      {item.start}
+                      {item.start_date}
                     </td>
                     <td className="px-3 md:px-6 py-4 whitespace-nowrap">
-                      {item.end}
+                      {item.end_date}
                     </td>
                     <td className="px-3 md:px-6 py-4 whitespace-nowrap">
                       {item.discount}

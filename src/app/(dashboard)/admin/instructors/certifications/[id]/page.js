@@ -15,8 +15,10 @@ import {
 } from "@/hooks/api/dashboardApi";
 import Link from "next/link";
 import Swal from "sweetalert2";
+import { redirect, useRouter } from "next/navigation";
 
 const Page = ({ params }) => {
+  const router = useRouter();
   const { data: singleCertification, isLoading: loadingSingleCertification } =
     getSingleCertification(params?.id);
 
@@ -94,10 +96,10 @@ const Page = ({ params }) => {
           {/* Footer Buttons */}
           <div className="flex justify-end gap-2 lg:gap-4 mt-5 lg:mt-10">
             <Button
-              asChild={true}
+              onClick={() => router.back()}
               className="px-6 py-2 bg-transparent border border-gray-300 rounded-md text-sm font-medium text-black hover:bg-gray-50"
             >
-              <Link href={"/admin/instructors/certifications"}>Back</Link>
+              Back
             </Button>
             <Button
               type="submit"
