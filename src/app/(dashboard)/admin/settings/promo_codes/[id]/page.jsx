@@ -5,14 +5,21 @@ import FormContainer from "@/components/shared/form/FormContainer";
 import FormInput from "@/components/shared/form/FormInput";
 import { Button } from "@/components/ui/button";
 import { Controller, useForm } from "react-hook-form";
-import React from "react";
+import React, { useEffect } from "react";
 import CustomSelect from "@/components/shared/form/CustomSelect";
 import FormTextarea from "@/components/shared/form/FormTextarea";
 import Link from "next/link";
-import { getAllClient, storePromoCode } from "@/hooks/api/dashboardApi";
+import {
+  getAllClient,
+  getSinglePromoCode,
+  storePromoCode,
+  updatePromoCode,
+} from "@/hooks/api/dashboardApi";
 import Swal from "sweetalert2";
 
-const Page = () => {
+const Page = ({ params }) => {
+  const { id } = params;
+
   const form = useForm({
     defaultValues: {
       // restrict_course_ids: [],
@@ -39,11 +46,42 @@ const Page = () => {
 
   const { data: clientData, isLoading: clientDataLoading } = getAllClient();
 
-  const { mutate, isPending } = storePromoCode();
+  const { data: promoCodeData, isLoading: promoCodeDataLoading } =
+    getSinglePromoCode(id);
+
+  const { mutate, isPending } = updatePromoCode();
+
+  useEffect(() => {
+  if (promoCodeData?.data) {
+    reset({
+      // restrict_course_ids: promoCodeData.data.restrict_course_ids || [],
+      code: promoCodeData.data.code || "",
+      client_id: promoCodeData.data.client_id || "",
+      description: promoCodeData.data.description || "",
+      start_date: promoCodeData.data.start_date || "",
+      end_date: promoCodeData.data.end_date || "",
+      discount_type: promoCodeData.data.type || "",
+      discount: promoCodeData.data.discount || "",
+      max_uses: promoCodeData.data.max_uses || "",
+      apply_to_addons_and_shipping: Boolean(
+        Number(promoCodeData.data.apply_to_addons_and_shipping)
+      ),
+      restrict_by_course_type: Boolean(
+        Number(promoCodeData.data.restrict_by_course_type)
+      ),
+      does_not_reduce_balance_due: Boolean(
+        Number(promoCodeData.data.does_not_reduce_balance_due)
+      ),
+    });
+  }
+}, [promoCodeData, reset]);
+
+  
 
   const onSubmit = (data) => {
     const formData = new FormData();
 
+    formData.append("id", id);
     formData.append("code", data.code);
     formData.append("client_id", data.client_id);
     formData.append("description", data.description);
@@ -89,7 +127,7 @@ const Page = () => {
   return (
     <section className="flex flex-col gap-2 lg:gap-4">
       {/* Title */}
-      <SectionTitle title="Add Promo Code" />
+      <SectionTitle title="Edit Promo Code" />
       {/* White Form Card */}
       <div className="bg-white rounded-[14px] p-4 lg:p-8 shadow-sm">
         <FormContainer form={form} onSubmit={onSubmit}>

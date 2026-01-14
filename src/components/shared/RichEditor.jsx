@@ -52,10 +52,20 @@ const RichTextEditor = forwardRef((_, ref) => {
       return quillRef.current?.root.innerHTML || "";
     },
 
-    // 🔥 THIS IS THE MISSING PART
+    setContents: (htmlContent) => {
+      if (quillRef.current) {
+        if (htmlContent) {
+          // Use clipboard.dangerouslyPasteHTML to set HTML content
+          quillRef.current.clipboard.dangerouslyPasteHTML(htmlContent);
+        } else {
+          quillRef.current.setText("");
+        }
+      }
+    },
+
     clear: () => {
       if (quillRef.current) {
-        quillRef.current.setText(""); // clears editor
+        quillRef.current.setText("");
       }
     },
   }));
