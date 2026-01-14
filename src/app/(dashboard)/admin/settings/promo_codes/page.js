@@ -9,6 +9,8 @@ import { CiEdit } from "react-icons/ci";
 
 import { useRouter } from "next/navigation";
 import { getAllPromoCode } from "@/hooks/api/dashboardApi";
+import TableSkeleton from "@/components/common/TableSkelation";
+import Link from "next/link";
 
 const Page = () => {
   const [selectedShow, setSelectedShow] = useState(50);
@@ -32,73 +34,79 @@ const Page = () => {
       </div>
 
       <div className="p-[26px] bg-white rounded-[14px] flex flex-col gap-[12px] lg:gap-[24px]">
-        <div className="overflow-x-auto">
-          <table className="min-w-full text-sm text-left text-gray-700">
-            <thead className="bg-gray-50 text-black text-[14px] md:text-[16px] font-semibold">
-              <tr>
-                <th className="px-3 md:px-6 py-3 whitespace-nowrap">Code</th>
-                <th className="px-3 md:px-6 py-3 whitespace-nowrap">
-                  Description
-                </th>
-                <th className="px-3 md:px-6 py-3 whitespace-nowrap">Start</th>
-                <th className="px-3 md:px-6 py-3 whitespace-nowrap">End</th>
-                <th className="px-3 md:px-6 py-3 whitespace-nowrap">
-                  Discount
-                </th>
-                <th className="px-3 md:px-6 py-3 whitespace-nowrap">
-                  Remaining
-                </th>
-                <th className="px-3 md:px-6 py-3 text-center whitespace-nowrap">
-                  Action
-                </th>
-              </tr>
-            </thead>
+        {isLoading ? (
+          <TableSkeleton />
+        ) : (
+          <div className="overflow-x-auto">
+            <table className="min-w-full text-sm text-left text-gray-700">
+              <thead className="bg-gray-50 text-black text-[14px] md:text-[16px] font-semibold">
+                <tr>
+                  <th className="px-3 md:px-6 py-3 whitespace-nowrap">Code</th>
+                  <th className="px-3 md:px-6 py-3 whitespace-nowrap">
+                    Description
+                  </th>
+                  <th className="px-3 md:px-6 py-3 whitespace-nowrap">Start</th>
+                  <th className="px-3 md:px-6 py-3 whitespace-nowrap">End</th>
+                  <th className="px-3 md:px-6 py-3 whitespace-nowrap">
+                    Discount
+                  </th>
+                  <th className="px-3 md:px-6 py-3 whitespace-nowrap">
+                    Remaining
+                  </th>
+                  <th className="px-3 md:px-6 py-3 text-center whitespace-nowrap">
+                    Action
+                  </th>
+                </tr>
+              </thead>
 
-            <tbody>
-              {promocodeData.length > 0 ? (
-                promoCodeData?.data?.map((item, index) => (
-                  <tr
-                    key={index}
-                    className="border-b hover:bg-gray-50 transition-all"
-                  >
-                    <td className="px-3 md:px-6 py-4 whitespace-nowrap">
-                      {item.code}
-                    </td>
-                    <td className="px-3 md:px-6 py-4 whitespace-nowrap">
-                      {item.description}
-                    </td>
-                    <td className="px-3 md:px-6 py-4 whitespace-nowrap">
-                      {item.start_date}
-                    </td>
-                    <td className="px-3 md:px-6 py-4 whitespace-nowrap">
-                      {item.end_date}
-                    </td>
-                    <td className="px-3 md:px-6 py-4 whitespace-nowrap">
-                      {item.discount}
-                    </td>
-                    <td className="px-3 md:px-6 py-4 whitespace-nowrap">
-                      {item.remaining}
-                    </td>
-                    <td className="px-3 md:px-6 py-4 text-center whitespace-nowrap">
-                      <button className="p-2 bg-gray-100 rounded-lg hover:bg-gray-200 transition">
-                        <CiEdit className="text-gray-600 text-[16px]" />
-                      </button>
+              <tbody>
+                {promoCodeData?.data?.length > 0 ? (
+                  promoCodeData?.data?.map((item, index) => (
+                    <tr
+                      key={index}
+                      className="border-b hover:bg-gray-50 transition-all"
+                    >
+                      <td className="px-3 md:px-6 py-4 whitespace-nowrap">
+                        {item.code}
+                      </td>
+                      <td className="px-3 md:px-6 py-4 whitespace-nowrap">
+                        {item.description}
+                      </td>
+                      <td className="px-3 md:px-6 py-4 whitespace-nowrap">
+                        {item.start_date}
+                      </td>
+                      <td className="px-3 md:px-6 py-4 whitespace-nowrap">
+                        {item.end_date}
+                      </td>
+                      <td className="px-3 md:px-6 py-4 whitespace-nowrap">
+                        {item.discount}
+                      </td>
+                      <td className="px-3 md:px-6 py-4 whitespace-nowrap">
+                        {item.remaining}
+                      </td>
+                      <td className="px-3 md:px-6 py-4 text-center whitespace-nowrap">
+                        <Link href={`promo_codes/${item.id}`}>
+                          <button className="p-2 bg-gray-100 rounded-lg hover:bg-gray-200 transition cursor-pointer">
+                            <CiEdit className="text-gray-600 text-[16px]" />
+                          </button>
+                        </Link>
+                      </td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
+                    <td
+                      colSpan="7"
+                      className="text-center py-6 text-gray-500 italic"
+                    >
+                      No results found
                     </td>
                   </tr>
-                ))
-              ) : (
-                <tr>
-                  <td
-                    colSpan="7"
-                    className="text-center py-6 text-gray-500 italic"
-                  >
-                    No results found
-                  </td>
-                </tr>
-              )}
-            </tbody>
-          </table>
-        </div>
+                )}
+              </tbody>
+            </table>
+          </div>
+        )}
 
         {/* Footer controls */}
         <div className="flex flex-col md:flex-row items-center justify-between mt-6 gap-3">

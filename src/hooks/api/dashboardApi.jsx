@@ -64,15 +64,6 @@ export const storeClient = () => {
   });
 };
 
-export const getAllClient = () => {
-  return useClientApi({
-    method: "get",
-    key: ["get-all-clients"],
-    isPrivate: true,
-    endpoint: `/api/clients`,
-  });
-};
-
 export const getSingleClient = (id) => {
   return useClientApi({
     method: "get",
@@ -82,35 +73,56 @@ export const getSingleClient = (id) => {
   });
 };
 
+export const updateSingleClient = (id) => {
+  return useClientApi({
+    method: "post",
+    isPrivate: true,
+    endpoint: `/api/clients/${id}/update`,
+  });
+};
+
+export const getAllClient = () => {
+  return useClientApi({
+    method: "get",
+    key: ["get-all-clients"],
+    isPrivate: true,
+    endpoint: `/api/clients`,
+  });
+};
+
 export const storeLocation = () => {
   return useClientApi({
     method: "post",
     isPrivate: true,
     endpoint: "/api/locations/store",
-    onSuccess: (data) => {
-      Swal.fire({
-        text: data?.message,
-        icon: "success",
-      });
-    },
-    onError: (err) => {
-      Swal.fire({
-        text: err?.response?.data?.message,
-        icon: "error",
-      });
-    },
   });
 };
 
-export const getAllLocation = () => {
+export const updateLocation = (id) => {
+  return useClientApi({
+    method: "post",
+    isPrivate: true,
+    endpoint: `/api/locations/${id}/update`,
+  });
+};
+
+export const getSingleLocation = (id) => {
   return useClientApi({
     method: "get",
-    key: ["get-all-location"],
     isPrivate: true,
-    endpoint: `/api/locations`,
+    key: ["get-single-location"],
+    endpoint: `/api/locations/${id}`,
   });
 };
 
+export const getAllLocation = (page = 1, perPage = 10) => {
+  return useClientApi({
+    method: "get",
+    key: ["get-all-location", page, perPage],
+    isPrivate: true,
+    endpoint: `/api/locations?page=${page}&per_page=${perPage}`,
+  });
+};
 export const getAllTcProducts = () => {
   return useClientApi({
     method: "get",
@@ -257,12 +269,12 @@ export const storeProductAddOns = () => {
   });
 };
 
-export const getAllProductAddOns = () => {
+export const getSingleProductAddOns = (id) => {
   return useClientApi({
     method: "get",
     isPrivate: true,
-    key: ["get-all-product-add-ons"],
-    endpoint: "/api/addon_list/index",
+    key: ["get-single-product-add-ons"],
+    endpoint: `/api/addon_list/show?id=${id}`,
   });
 };
 
@@ -273,6 +285,40 @@ export const updateProductAddOns = () => {
     endpoint: "/api/addon_list/update",
   });
 };
+
+export const getAllProductAddOns = () => {
+  return useClientApi({
+    method: "get",
+    isPrivate: true,
+    key: ["get-all-product-add-ons"],
+    endpoint: "/api/addon_list/index",
+  });
+};
+
+export const storePromoCode = () => {
+  return useClientApi({
+    method: "post",
+    isPrivate: true,
+    endpoint: "/api/promo-codes/store",
+  });
+};
+
+export const getSinglePromoCode = (id) => {
+  return useClientApi({
+    method: "get",
+    isPrivate: true,
+    key: ["get-single-promo-code"],
+    endpoint: `/api/promo-codes/show?id=${id}`
+  })
+}
+
+export const updatePromoCode = () => {
+  return useClientApi({
+    method: "post",
+    isPrivate: true, 
+    endpoint: `/api/promo-codes/update`
+  })
+}
 
 export const getAllPromoCode = () => {
   return useClientApi({

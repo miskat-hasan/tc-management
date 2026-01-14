@@ -5,13 +5,14 @@ import SectionTitle from "@/components/common/SectionTitle";
 import SubSectionTitle from "@/components/common/SubSectionTitle";
 import { CiEdit } from "react-icons/ci";
 import { getAllClient } from "@/hooks/api/dashboardApi";
+import Link from "next/link";
 
 const Page = () => {
   const [selectedShow, setSelectedShow] = useState(50);
 
-  const {data: clientList, isLoading} = getAllClient()
+  const { data: clientList, isLoading } = getAllClient();
 
-console.log(clientList)
+  console.log(clientList);
   return (
     <div className="flex flex-col gap-[12.5px] lg:gap-[25px]">
       {/* Header */}
@@ -75,9 +76,11 @@ console.log(clientList)
                       {item.contact_date}
                     </td>
                     <td className="px-3 sm:px-6 py-3 text-center">
-                      <button className="p-1.5 sm:p-2 bg-gray-100 rounded-lg hover:bg-gray-200 transition">
-                        <CiEdit className="text-gray-600 text-[14px] sm:text-[16px]" />
-                      </button>
+                      <Link href={`/admin/clients/manage_clients/${item.id}`}>
+                        <button className="p-1.5 sm:p-2 bg-gray-100 rounded-lg hover:bg-gray-200 transition cursor-pointer">
+                          <CiEdit className="text-gray-600 text-[14px] sm:text-[16px]" />
+                        </button>
+                      </Link>
                     </td>
                   </tr>
                 ))

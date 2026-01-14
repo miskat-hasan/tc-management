@@ -17,6 +17,7 @@ import { getAllCountry } from "@/hooks/api/dashboardApi";
 import Link from "next/link";
 import Certification from "../../certifications/page";
 import DocumentList from "@/components/dashboard/Instructors/DocumentList";
+import Swal from "sweetalert2";
 
 const Page = ({ params }) => {
   const form = useForm({
@@ -34,7 +35,7 @@ const Page = ({ params }) => {
 
   const { data: instructorData, isLoading: instructorLoading } =
     getSingleInstructor(id);
-
+    
   const { data: trainingSitesData, isLoading: trainingSitesLoading } =
     getallTrainingsite();
 
@@ -43,30 +44,30 @@ const Page = ({ params }) => {
   const { data: userRoles, isLoading: rolesLoading } = getAllUserRole();
 
   React.useEffect(() => {
-    if (instructorData?.data && countryData && trainingSitesData) {
+    if (instructorData?.data[0] && countryData && trainingSitesData) {
       reset({
-        username: instructorData?.data?.username ?? "",
-        trainingSite: instructorData?.data?.training_site_id ?? "",
-        firstName: instructorData?.data?.first_name ?? "",
-        lastName: instructorData?.data?.last_name ?? "",
-        address1: instructorData?.data?.address_line_1 ?? "",
-        address2: instructorData?.data?.address_line_2 ?? "",
-        city: instructorData?.data?.city ?? "",
-        stateProvince: instructorData?.data?.state_province_region ?? "",
-        country: instructorData?.data?.country_id ?? "",
-        mobilePhone: instructorData?.data?.mobile_phone ?? "",
-        emailAddress: instructorData?.data?.email ?? "",
-        zipPostalCode: instructorData?.data?.zip_postal_code ?? "",
-        nameOnCard: instructorData?.data?.name_to_print_on_card ?? "",
-        ahaInstructorId: instructorData?.data?.aha_instructor_id ?? "",
-        hsiInstructorId: instructorData?.data?.hsi_instructor_id ?? "",
-        rclcUsername: instructorData?.data?.rclc_username ?? "",
-        active_user: Boolean(instructorData?.data?.active_user),
-        read_only_user: Boolean(instructorData?.data?.read_only_user),
+        username: instructorData?.data[0]?.username ?? "",
+        trainingSite: instructorData?.data[0]?.training_site_id ?? "",
+        firstName: instructorData?.data[0]?.first_name ?? "",
+        lastName: instructorData?.data[0]?.last_name ?? "",
+        address1: instructorData?.data[0]?.address_line_1 ?? "",
+        address2: instructorData?.data[0]?.address_line_2 ?? "",
+        city: instructorData?.data[0]?.city ?? "",
+        stateProvince: instructorData?.data[0]?.state_province_region ?? "",
+        country: instructorData?.data[0]?.country_id ?? "",
+        mobilePhone: instructorData?.data[0]?.mobile_phone ?? "",
+        emailAddress: instructorData?.data[0]?.email ?? "",
+        zipPostalCode: instructorData?.data[0]?.zip_postal_code ?? "",
+        nameOnCard: instructorData?.data[0]?.name_to_print_on_card ?? "",
+        ahaInstructorId: instructorData?.data[0]?.aha_instructor_id ?? "",
+        hsiInstructorId: instructorData?.data[0]?.hsi_instructor_id ?? "",
+        rclcUsername: instructorData?.data[0]?.rclc_username ?? "",
+        active_user: Boolean(instructorData?.data[0]?.active_user),
+        read_only_user: Boolean(instructorData?.data[0]?.read_only_user),
         allow_bid_on_open_classes: Boolean(
-          instructorData?.data?.allow_bid_on_open_classes
+          instructorData?.data[0]?.allow_bid_on_open_classes
         ),
-        roles: instructorData?.data?.roles?.map((role) => role.id),
+        roles: instructorData?.data[0]?.roles?.map((role) => role.id),
       });
     }
   }, [instructorData, reset]);
@@ -93,7 +94,6 @@ const Page = ({ params }) => {
     formData.append("aha_instructor_id", data?.ahaInstructorId);
     formData.append("hsi_instructor_id", data?.hsiInstructorId);
     formData.append("rclc_username", data?.rclcUsername);
-    formData.append("password", data?.password);
     formData.append("active_user", Number(data?.active_user));
     formData.append("read_only_user", Number(data?.read_only_user));
     formData.append(
@@ -105,7 +105,20 @@ const Page = ({ params }) => {
       formData.append("roles[]", Number(id));
     });
 
-    await instructorMutation(formData);
+    await instructorMutation(formData, {
+      onSuccess: (data) => {
+        Swal.fire({
+          text: data?.message,
+          icon: "success",
+        });
+      },
+      onError: (err) => {
+        Swal.fire({
+          text: err?.response?.data?.message,
+          icon: "error",
+        });
+      },
+    });
   };
 
   return (
@@ -304,17 +317,20 @@ const Page = ({ params }) => {
                 <Button
                   type="submit"
                   className="px-6 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium cursor-pointer text-white bg-brown hover:bg-brown-hover"
-                  disabled={instructorLoading}
+                  disabled={instructorPending}
                 >
-                  {instructorLoading ? "Saving ..." : "Save Changes"}
+                  {instructorPending ? "Saving ..." : "Save Changes"}
                 </Button>
               </div>
             </FormContainer>
           </div>
           {/* document */}
-          <DocumentList instructorId={instructorData?.data?.id} documentData={instructorData?.data?.documents} />
+          <DocumentList
+            instructorId={instructorData?.data[0]?.id}
+            documentData={instructorData?.data[0]?.documents}
+          />
 
-          <Certification instructorId={instructorData?.data?.id} />
+          <Certification instructorId={instructorData?.data[0]?.id} />
         </section>
       )}
     </div>

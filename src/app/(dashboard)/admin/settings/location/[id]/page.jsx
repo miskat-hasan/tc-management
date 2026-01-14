@@ -5,14 +5,20 @@ import FormContainer from "@/components/shared/form/FormContainer";
 import FormInput from "@/components/shared/form/FormInput";
 import { Button } from "@/components/ui/button";
 import { Controller, useForm } from "react-hook-form";
-import React from "react";
+import React, { useEffect } from "react";
 import CustomSelect from "@/components/shared/form/CustomSelect";
 import FormTextarea from "@/components/shared/form/FormTextarea";
-import { getAllCountry, storeLocation } from "@/hooks/api/dashboardApi";
+import {
+  getAllCountry,
+  getSingleLocation,
+  updateLocation,
+} from "@/hooks/api/dashboardApi";
 import Swal from "sweetalert2";
 import Link from "next/link";
 
-const Page = () => {
+const Page = ({ params }) => {
+  const { id } = params;
+
   const form = useForm({
     defaultValues: {
       name: "",
@@ -40,7 +46,31 @@ const Page = () => {
 
   const { data: countryData, isLoading: countryDataLoading } = getAllCountry();
 
-  const { mutateAsync: storeLocationMutation, isPending } = storeLocation();
+  const { data: locationData, isLoading: locationDataLoading } =
+    getSingleLocation(id);
+
+  const { mutateAsync: updateLocationMutation, isPending } = updateLocation(id);
+
+  useEffect(() => {
+    if (locationData?.data) {
+      reset({
+        name: locationData.data.name ?? "",
+        Abbreviation: locationData.data.abbreviation ?? "",
+        ContactName: locationData.data.contact_name ?? "",
+        ContactEmail: locationData.data.contact_email ?? "",
+        ContactPhone: locationData.data.contact_phone ?? "",
+        Directions: locationData.data.directions ?? "",
+        InternalNotes: locationData.data.internal_notes ?? "",
+        PrintOnCards: Boolean(locationData.data.print_card_line_1),
+        address1: locationData.data.address_1 ?? "",
+        address2: locationData.data.address_2 ?? "",
+        city: locationData.data.city ?? "",
+        stateProvince: locationData.data.state ?? "",
+        zipPostalCode: locationData.data.zip ?? "",
+        country: locationData.data.country ?? "",
+      });
+    }
+  }, [locationData, reset]);
 
   const onSubmit = async (data) => {
     const formData = new FormData();
@@ -61,9 +91,8 @@ const Page = () => {
     formData.append("zip", data.zipPostalCode);
     formData.append("country", data.country);
 
-    await storeLocationMutation(formData, {
+    await updateLocationMutation(formData, {
       onSuccess: (data) => {
-        reset();
         Swal.fire({
           text: data?.message,
           icon: "success",
@@ -213,9 +242,7 @@ const Page = () => {
               asChild={true}
               className="px-6 py-2 bg-transparent border border-gray-300 rounded-md text-sm font-medium text-black hover:bg-gray-50"
             >
-              <Link href={'/admin/settings/location'}>
-              Back
-              </Link>
+              <Link href={"/admin/settings/location"}>Back</Link>
             </Button>
             <Button
               type="submit"
