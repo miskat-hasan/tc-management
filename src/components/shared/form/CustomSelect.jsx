@@ -59,7 +59,7 @@ const CustomSelect = ({
               value={String(opt.id)}
               className="text-sm sm:text-base"
             >
-              {opt.name ?? opt?.training_center_name}
+              {opt.name ?? opt?.training_center_name ?? opt?.company}
             </SelectItem>
           ))}
         </SelectContent>

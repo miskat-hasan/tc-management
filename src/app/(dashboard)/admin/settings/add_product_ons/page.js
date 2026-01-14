@@ -5,15 +5,23 @@ import FormContainer from "@/components/shared/form/FormContainer";
 import FormInput from "@/components/shared/form/FormInput";
 import { Button } from "@/components/ui/button";
 import { storeProductAddOns } from "@/hooks/api/dashboardApi";
+import Link from "next/link";
 import React from "react";
 import { Controller, useForm } from "react-hook-form";
 import Swal from "sweetalert2";
 
 const Page = () => {
   const form = useForm({
-    defaultValues: {},
+    defaultValues: {
+      name: "",
+      productCode: "",
+      description: "",
+      displayOrder: "",
+      type: "",
+      price: "",
+    },
   });
-  const { control, register } = form;
+  const { control, register, reset } = form;
 
   const { mutate, isPending } = storeProductAddOns();
 
@@ -30,6 +38,7 @@ const Page = () => {
 
     mutate(formData, {
       onSuccess: (data) => {
+        reset();
         Swal.fire({
           text: data?.message,
           icon: "success",
@@ -81,11 +90,11 @@ const Page = () => {
                   options={[
                     {
                       id: "1",
-                      name: "Order 1",
+                      name: "1",
                     },
                     {
                       id: "2",
-                      name: "Order 2",
+                      name: "2",
                     },
                   ]}
                 />
@@ -140,16 +149,16 @@ const Page = () => {
           {/* Footer Buttons */}
           <div className="flex justify-end gap-4 mt-5 lg:mt-10">
             <Button
-              type="button"
+              asChild={true}
               className="px-6 py-2 bg-transparent border border-gray-300 rounded-md text-sm font-medium text-black hover:bg-gray-50"
             >
-              Back
+              <Link href={"/admin/settings/product_add_ons"}>Back</Link>
             </Button>
             <Button
               type="submit"
               className="px-6 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium cursor-pointer text-white bg-brown hover:bg-brown-hover"
             >
-              Save Changes
+              {isPending ? "Saving...": "Save Changes"}
             </Button>
           </div>
         </FormContainer>
