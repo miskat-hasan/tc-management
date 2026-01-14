@@ -10,21 +10,49 @@ import CustomSelect from "@/components/shared/form/CustomSelect";
 import {
   createInstructor,
   getAllCountry,
+  getallTrainingsite,
   getAllUserRole,
 } from "@/hooks/api/dashboardApi";
+import Swal from "sweetalert2";
 
 const Page = () => {
   const form = useForm({
-    defaultValues: {},
+    defaultValues: {
+      username: "",
+      trainingSite: "",
+      firstName: "",
+      lastName: "",
+      address1: "",
+      address2: "",
+      city: "",
+      stateProvince: "",
+      country: "",
+      mobilePhone: "",
+      emailAddress: "",
+      zipPostalCode: "",
+      nameOnCard: "",
+      ahaInstructorId: "",
+      hsiInstructorId: "",
+      rclcUsername: "",
+      password: "",
+      active_user: false,
+      read_only_user: false,
+      allow_bid_on_open_classes: false,
+      roles: [],
+    },
   });
 
   const {
     register,
     control,
+    reset,
     formState: { errors },
   } = form;
 
   const { data: countryData, isLoading: countryDataLoading } = getAllCountry();
+
+  const { data: trainingSites, isLoading: trainingSitesLoading } =
+    getallTrainingsite();
 
   const { data: userRoles, isLoading: rolesLoading } = getAllUserRole();
 
@@ -35,7 +63,7 @@ const Page = () => {
     const formData = new FormData();
 
     formData.append("username", data?.username);
-    formData.append("training_site_id", data?.training_site);
+    formData.append("training_site_id", data?.trainingSite);
     formData.append("first_name", data?.firstName);
     formData.append("last_name", data?.lastName);
     formData.append("address_line_1", data?.address1);
@@ -61,7 +89,21 @@ const Page = () => {
       formData.append("roles[]", Number(id));
     });
 
-    await instructorMutation(formData);
+    await instructorMutation(formData, {
+      onSuccess: (data) => {
+        reset();
+        Swal.fire({
+          text: data?.message,
+          icon: "success",
+        });
+      },
+      onError: (err) => {
+        Swal.fire({
+          text: err?.response?.data?.message,
+          icon: "error",
+        });
+      },
+    });
   };
 
   return (
@@ -80,7 +122,7 @@ const Page = () => {
               placeholder="User name here"
             />
             <Controller
-              name="training_site"
+              name="trainingSite"
               control={control}
               rules={{ required: "Training center is required" }}
               render={({ field }) => (
@@ -89,12 +131,9 @@ const Page = () => {
                   id="trainingsite"
                   label="Training Site"
                   placeholder="Training Site"
-                  options={[
-                    {
-                      id: "1",
-                      name: "CODE BLUE CPR SERVICES. LLC",
-                    },
-                  ]}
+                  options={trainingSites?.data}
+                  isLoading={trainingSitesLoading}
+                  error={errors.trainingSite?.message}
                   className="flex-1"
                 />
               )}
@@ -225,22 +264,22 @@ const Page = () => {
             </div>
             <div className="flex flex-col gap-2">
               <p className="font-semibold text-[15px] text-gray-700">Roles</p>
-              {userRoles?.data?.length > 0  ? (
+              {userRoles?.data?.length > 0 ? (
                 userRoles?.data?.map((role) => (
                   <label
-                  key={role.id}
-                  className="flex items-center gap-1 md:gap-2 text-[10px] md:text-sm"
+                    key={role.id}
+                    className="flex items-center gap-1 md:gap-2 text-[10px] md:text-sm"
                   >
-                  <input
-                  type="checkbox"
-                  value={role.id}
-                  {...register("roles")}
-                  className="accent-brown"
-                  />
-                  {role.role_name}
+                    <input
+                      type="checkbox"
+                      value={role.id}
+                      {...register("roles")}
+                      className="accent-brown"
+                    />
+                    {role.role_name}
                   </label>
                 ))
-              ): (
+              ) : (
                 <p className="text-sm text-gray-500">no user roles</p>
               )}
             </div>
@@ -248,12 +287,6 @@ const Page = () => {
 
           {/* Footer Buttons */}
           <div className="flex justify-end gap-2 lg:gap-4 mt-5 lg:mt-10">
-            <Button
-              type="button"
-              className="px-6 py-2 bg-transparent border border-gray-300 rounded-md text-sm font-medium text-black hover:bg-gray-50"
-            >
-              Back
-            </Button>
             <Button
               type="submit"
               className="px-6 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium cursor-pointer text-white bg-brown hover:bg-brown-hover"

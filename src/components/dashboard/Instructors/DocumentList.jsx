@@ -2,30 +2,34 @@ import SectionTitle from "@/components/common/SectionTitle";
 import FormContainer from "@/components/shared/form/FormContainer";
 import { getAllDocuments, storeDocument } from "@/hooks/api/dashboardApi";
 import { Button } from "@nolesh/react-file-manager";
+import { useQueryClient } from "@tanstack/react-query";
 import { Download, PlusIcon, Trash2 } from "lucide-react";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
+import Swal from "sweetalert2";
 
-const DocumentList = ({ instructorId }) => {
+const DocumentList = ({ instructorId, documentData }) => {
   const form = useForm({
     defaultValues: {},
   });
-const {watch, register,} = form;
-  const { data: documentData, isLoading: documentLoading } = getAllDocuments();
+  const { reset, watch, register } = form;
+  // const { data: documentData, isLoading: documentLoading } = getAllDocuments();
 
   const {
     mutateAsync: storeDocumentMutation,
     isPending: storeDocumentLoading,
   } = storeDocument();
 
-  const documentPathWatch = watch("document_path");
-  console.log("documentPathWatch", documentPathWatch);
-  console.log("documentPathWatch", documentPathWatch?.[0]?.name);
+  const documentPathWatch = watch("documentFile");
+
+  const queryClient = useQueryClient();
 
   const documentOnSubmit = (data) => {
     const formData = new FormData();
     formData.append("instructor_id", instructorId);
-    formData.append("document_path", data.document_path);
+    if (data.documentFile?.[0]) {
+      formData.append("document_path", data.documentFile[0]);
+    }
 
     storeDocumentMutation(formData, {
       onSuccess: (data) => {
@@ -33,6 +37,8 @@ const {watch, register,} = form;
           text: data?.message,
           icon: "success",
         });
+        reset();
+        queryClient.invalidateQueries("get-single-instructor");
       },
       onError: (err) => {
         Swal.fire({
@@ -42,6 +48,8 @@ const {watch, register,} = form;
     });
   };
 
+  console.log("documentData", documentData);
+
   return (
     <div>
       <div className="mt-8">
@@ -50,7 +58,7 @@ const {watch, register,} = form;
             <SectionTitle title={"Documents"} />
             <label className="py-[7px] cursor-pointer rounded-sm text-white px-3 text-sm bg-brown flex items-center gap-2">
               <input
-                {...register("document_path")}
+                {...register("documentFile")}
                 type="file"
                 className="hidden"
               />
@@ -69,16 +77,6 @@ const {watch, register,} = form;
                 </thead>
 
                 <tbody>
-                  {documentLoading && (
-                    <tr>
-                      <td
-                        colSpan="5"
-                        className="text-center py-6 text-gray-500 italic"
-                      >
-                        Loading documents data ...
-                      </td>
-                    </tr>
-                  )}
                   {documentPathWatch?.[0]?.name && (
                     <tr
                       // key={item.id}
@@ -89,7 +87,10 @@ const {watch, register,} = form;
                       </td>
                       <td className="px-3 sm:px-6 py-3 text-center">
                         <div className="flex items-center gap-1 justify-center">
-                          <Button className="px-6 py-2 bg-transparent border border-gray-300 rounded-md text-sm font-medium text-black hover:bg-gray-50">
+                          <Button
+                            onClick={() => reset()}
+                            className="px-6 py-2 bg-transparent cursor-pointer border border-gray-300 rounded-md text-sm font-medium text-black hover:bg-gray-50"
+                          >
                             Cancel
                           </Button>
                           <Button
@@ -103,10 +104,8 @@ const {watch, register,} = form;
                       </td>
                     </tr>
                   )}
-                  {documentLoading ||
-                  documentPathWatch?.[0]?.name ||
-                  documentData?.data?.length > 0 ? (
-                    documentData?.data?.map((item, index) => (
+                  {documentPathWatch?.[0]?.name || documentData?.length > 0 ? (
+                    documentData?.map((item, index) => (
                       <tr
                         key={item.id}
                         className="border-b hover:bg-gray-50 transition-all"

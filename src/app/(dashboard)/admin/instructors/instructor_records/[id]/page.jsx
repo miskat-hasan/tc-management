@@ -1,5 +1,6 @@
 "use client";
 import {
+  getallTrainingsite,
   getAllUserRole,
   getSingleInstructor,
   updateInstructor,
@@ -12,12 +13,12 @@ import { Button } from "@/components/ui/button";
 import { Controller, useForm } from "react-hook-form";
 import React, { use } from "react";
 import CustomSelect from "@/components/shared/form/CustomSelect";
-import { createInstructor, getAllCountry } from "@/hooks/api/dashboardApi";
+import { getAllCountry } from "@/hooks/api/dashboardApi";
 import Link from "next/link";
 import Certification from "../../certifications/page";
 import DocumentList from "@/components/dashboard/Instructors/DocumentList";
 
-const page = ({ params }) => {
+const Page = ({ params }) => {
   const form = useForm({
     defaultValues: {},
   });
@@ -34,15 +35,18 @@ const page = ({ params }) => {
   const { data: instructorData, isLoading: instructorLoading } =
     getSingleInstructor(id);
 
+  const { data: trainingSitesData, isLoading: trainingSitesLoading } =
+    getallTrainingsite();
+
   const { data: countryData, isLoading: countryDataLoading } = getAllCountry();
 
   const { data: userRoles, isLoading: rolesLoading } = getAllUserRole();
 
   React.useEffect(() => {
-    if (instructorData?.data && countryData) {
+    if (instructorData?.data && countryData && trainingSitesData) {
       reset({
         username: instructorData?.data?.username ?? "",
-        training_site: instructorData?.data?.training_site_id ?? "",
+        trainingSite: instructorData?.data?.training_site_id ?? "",
         firstName: instructorData?.data?.first_name ?? "",
         lastName: instructorData?.data?.last_name ?? "",
         address1: instructorData?.data?.address_line_1 ?? "",
@@ -74,7 +78,7 @@ const page = ({ params }) => {
     const formData = new FormData();
 
     formData.append("username", data?.username);
-    formData.append("training_site_id", data?.training_site);
+    formData.append("training_site_id", data?.trainingSite);
     formData.append("first_name", data?.firstName);
     formData.append("last_name", data?.lastName);
     formData.append("address_line_1", data?.address1);
@@ -106,7 +110,11 @@ const page = ({ params }) => {
 
   return (
     <div>
-      {!countryData && instructorLoading && countryDataLoading ? (
+      {!countryData &&
+      !trainingSitesData &&
+      instructorLoading &&
+      countryDataLoading &&
+      trainingSitesLoading ? (
         "Loading Data ..."
       ) : (
         <section className="flex flex-col gap-2 lg:gap-4">
@@ -124,7 +132,7 @@ const page = ({ params }) => {
                   placeholder="User name here"
                 />
                 <Controller
-                  name="training_site"
+                  name="trainingSite"
                   control={control}
                   rules={{ required: "Training center is required" }}
                   render={({ field }) => (
@@ -133,12 +141,9 @@ const page = ({ params }) => {
                       id="trainingsite"
                       label="Training Site"
                       placeholder="Training Site"
-                      options={[
-                        {
-                          id: "1",
-                          name: "CODE BLUE CPR SERVICES. LLC",
-                        },
-                      ]}
+                      options={trainingSitesData?.data}
+                      isLoading={trainingSitesLoading}
+                      error={errors.trainingSite?.message}
                       className="flex-1"
                     />
                   )}
@@ -307,7 +312,7 @@ const page = ({ params }) => {
             </FormContainer>
           </div>
           {/* document */}
-          <DocumentList instructorId={instructorData?.data?.id} />
+          <DocumentList instructorId={instructorData?.data?.id} documentData={instructorData?.data?.documents} />
 
           <Certification instructorId={instructorData?.data?.id} />
         </section>
@@ -316,4 +321,4 @@ const page = ({ params }) => {
   );
 };
 
-export default page;
+export default Page;

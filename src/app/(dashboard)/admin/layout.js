@@ -17,11 +17,11 @@ export const metadata = {
 
 export default function DashboardLayout({ children }) {
   return (
-    // <PrivateLayout>
+    <PrivateLayout>
       <section className={`${poppins.variable} flex`}>
         <DashboardSidebar />
         <DashboardContent content={children} />
       </section>
-    // </PrivateLayout>
+    </PrivateLayout>
   );
 }

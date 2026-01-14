@@ -8,6 +8,7 @@ import { useForm } from "react-hook-form";
 import React from "react";
 import CustomSelect from "@/components/shared/form/CustomSelect";
 import FormTextarea from "@/components/shared/form/FormTextarea";
+import Link from "next/link";
 
 const Page = () => {
   const form = useForm({
@@ -98,10 +99,12 @@ const Page = () => {
           {/* Footer Buttons */}
           <div className="flex justify-end gap-4 mt-5 lg:mt-10">
             <Button
-              type="button"
+              asChild={true}
               className="px-6 py-2 bg-transparent border border-gray-300 rounded-md text-sm font-medium text-black hover:bg-gray-50"
             >
+              <Link href={''}>
               Back
+              </Link>
             </Button>
             <Button
               type="submit"
