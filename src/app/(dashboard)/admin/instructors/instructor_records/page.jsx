@@ -1,6 +1,7 @@
 "use client";
 import SectionTitle from "@/components/common/SectionTitle";
 import SubSectionTitle from "@/components/common/SubSectionTitle";
+import TableSkeleton from "@/components/common/TableSkelation";
 import CustomSelect from "@/components/shared/form/CustomSelect";
 import { Button } from "@/components/ui/button";
 import { instructorData } from "@/data/data";
@@ -65,85 +66,78 @@ const Page = () => {
       <div className="p-[13px] lg:p-[26px] bg-white rounded-[14px] flex flex-col gap-[24px]">
         <div className="flex items-center justify-between">
           <SubSectionTitle subtitle="All list" />
-          {/* <Button className="py-[22px] cursor-pointer bg-brown flex items-center gap-2">
-            Add Instructor
-            <PlusIcon />
-          </Button> */}
         </div>
-
-        <div className="overflow-x-auto">
-          <table className="min-w-[700px] w-full text-sm sm:text-base text-left text-gray-700">
-            <thead className="bg-gray-50 text-black text-[14px] sm:text-[16px] font-semibold">
-              <tr>
-                <th className="px-3 sm:px-6 py-3">Instructor</th>
-                <th className="px-3 sm:px-6 py-3">AHA ID</th>
-                <th className="px-3 sm:px-6 py-3">Certification</th>
-                <th className="px-3 sm:px-6 py-3">Expires</th>
-                <th className="px-3 sm:px-6 py-3 text-center">Action</th>
-              </tr>
-            </thead>
-
-            <tbody>
-              {isLoading && (
+        {isLoading ? (
+          <TableSkeleton />
+        ) : (
+          <div className="overflow-x-auto">
+            <table className="min-w-[700px] w-full text-sm sm:text-base text-left text-gray-700">
+              <thead className="bg-gray-50 text-black text-[14px] sm:text-[16px] font-semibold">
                 <tr>
-                  <td
-                    colSpan="5"
-                    className="text-center py-6 text-gray-500 italic"
-                  >
-                    Loading instructor data ...
-                  </td>
+                  <th className="px-3 sm:px-6 py-3">Instructor</th>
+                  <th className="px-3 sm:px-6 py-3">AHA ID</th>
+                  <th className="px-3 sm:px-6 py-3">Certification</th>
+                  <th className="px-3 sm:px-6 py-3">Expires</th>
+                  <th className="px-3 sm:px-6 py-3 text-center">Action</th>
                 </tr>
-              )}
-              {isLoading || allInstructor?.data?.length > 0 ? (
-                allInstructor?.data?.map((item, index) => (
-                  <tr
-                    key={index}
-                    className="border-b hover:bg-gray-50 transition-all"
-                  >
-                    <td className="px-3 sm:px-6 py-3">
-                      <div className="flex flex-col">
-                        <span className="font-medium text-gray-800">
-                          {item.first_name} {item.last_name}
-                        </span>
-                        <span className="text-xs sm:text-sm text-gray-500 truncate max-w-[150px] sm:max-w-[200px]">
-                          {item.email}
-                        </span>
-                      </div>
-                    </td>
-                    <td className="px-3 sm:px-6 py-3 whitespace-nowrap">
-                      {item.aha_instructor_id}
-                    </td>
-                    <td className="px-3 sm:px-6 py-3 truncate max-w-[150px] sm:max-w-[200px]">
-                      {item.certification}
-                    </td>
-                    <td className="px-3 sm:px-6 py-3 whitespace-nowrap">
-                      {item.expires}
-                    </td>
-                    <td className="px-3 sm:px-6 py-3 text-center">
-                      <div>
-                        <Link
-                          href={`/admin/instructors/instructor_records/${item?.id}`}
-                          className="p-1.5 sm:p-2 bg-gray-100 rounded-lg inline-block hover:bg-gray-200 transition"
-                        >
-                          <CiEdit className="text-gray-600 text-[14px] sm:text-[16px]" />
-                        </Link>
-                      </div>
+              </thead>
+
+              <tbody>
+                {isLoading || allInstructor?.data?.length > 0 ? (
+                  allInstructor?.data?.map((item, index) => (
+                    <tr
+                      key={index}
+                      className="border-b hover:bg-gray-50 transition-all"
+                    >
+                      <td className="px-3 sm:px-6 py-3">
+                        <div className="flex flex-col">
+                          <span className="font-medium text-gray-800">
+                            {item.first_name} {item.last_name}
+                          </span>
+                          <span className="text-xs sm:text-sm text-gray-500 truncate max-w-[150px] sm:max-w-[200px]">
+                            {item.email}
+                          </span>
+                        </div>
+                      </td>
+                      <td className="px-3 sm:px-6 py-3 whitespace-nowrap">
+                        {item.aha_instructor_id}
+                      </td>
+                      <td className="px-3 sm:px-6 py-3 truncate max-w-[150px] sm:max-w-[200px]">
+                        {item.certifications?.map((item)=> (
+                          <div key={item.id}>BLS</div>
+                        ))}
+                      </td>
+                      <td className="px-3 sm:px-6 py-3 whitespace-nowrap">
+                         {item.certifications?.map((item)=> (
+                          <div key={item.id}>{item.expires}</div>
+                        ))}
+                      </td>
+                      <td className="px-3 sm:px-6 py-3 text-center">
+                        <div>
+                          <Link
+                            href={`/admin/instructors/instructor_records/${item?.id}`}
+                            className="p-1.5 sm:p-2 bg-gray-100 rounded-lg inline-block hover:bg-gray-200 transition"
+                          >
+                            <CiEdit className="text-gray-600 text-[14px] sm:text-[16px]" />
+                          </Link>
+                        </div>
+                      </td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
+                    <td
+                      colSpan="5"
+                      className="text-center py-6 text-gray-500 italic"
+                    >
+                      No results found
                     </td>
                   </tr>
-                ))
-              ) : (
-                <tr>
-                  <td
-                    colSpan="5"
-                    className="text-center py-6 text-gray-500 italic"
-                  >
-                    No results found
-                  </td>
-                </tr>
-              )}
-            </tbody>
-          </table>
-        </div>
+                )}
+              </tbody>
+            </table>
+          </div>
+        )}
 
         {/* Footer controls */}
         <div className="flex flex-col md:flex-row items-center justify-between mt-3 lg:mt-6 gap-3">

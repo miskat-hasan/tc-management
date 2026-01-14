@@ -12,24 +12,14 @@ import { useState } from "react";
 
 const Certification = ({ instructorId }) => {
   const { data, isLoading } = getAllCertification();
-  const [openCertificationForm, setOpenCertificationForm] = useState(true);
 
   return (
     <>
       <div className="space-y-3 mt-8">
-        <div className="flex justify-between">
-          <SectionTitle title={"Certifications List"} />
-
-          <Button
-            onClick={() => setOpenCertificationForm(true)}
-            className="py-[11px] lg:py-[22px] cursor-pointer bg-brown flex items-center gap-2"
-          >
-            Add Certification <PlusIcon />
-          </Button>
-        </div>
-        {openCertificationForm && (
-          <NewCertification instructorId={instructorId} onCancel={()=> setOpenCertificationForm(false)} />
-        )}
+        <NewCertification
+          instructorId={instructorId}
+        />
+        <SectionTitle title={"Certifications List"} />
         {isLoading ? (
           <TableSkeleton rows={6} columns={5} />
         ) : (

@@ -4,18 +4,24 @@ import CustomSelect from "@/components/shared/form/CustomSelect";
 import FormContainer from "@/components/shared/form/FormContainer";
 import FormInput from "@/components/shared/form/FormInput";
 import { Button } from "@/components/ui/button";
-import { storeProductAddOns } from "@/hooks/api/dashboardApi";
+import { updateProductAddOns } from "@/hooks/api/dashboardApi";
 import React from "react";
-import { Controller, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
 
-const Page = () => {
-  const form = useForm({
-    defaultValues: {},
-  });
-  const { control, register } = form;
+const Page = ({ params }) => {
+  const { id } = params;
 
-  const { mutate, isPending } = storeProductAddOns();
+  const form = useForm({
+    defaultValues: {
+      
+    },
+  });
+
+  const {
+    mutate: updateProductAddOnsMutation,
+    isPending: productAddOnsPending,
+  } = updateProductAddOns();
 
   const onSubmit = (data) => {
     console.log(data);
@@ -24,11 +30,9 @@ const Page = () => {
     formData.append("name", data.name);
     formData.append("product_code", data.productCode);
     formData.append("description", data.description);
-    formData.append("display_order", data.displayOrder);
-    formData.append("type", data.shipping_type);
+    // formData.append("display_order", data.description)
     formData.append("price", data.price);
-
-    mutate(formData, {
+    updateProductAddOnsMutation(formData, {
       onSuccess: (data) => {
         Swal.fire({
           text: data?.message,
@@ -67,64 +71,38 @@ const Page = () => {
               label="Description"
               placeholder="Description / Notes here"
             />
-
-            <Controller
-              name="displayOrder"
-              control={control}
-              rules={{ required: "Country is required" }}
-              render={({ field }) => (
-                <CustomSelect
-                  {...field}
-                  id="display_order"
-                  label="Display Order"
-                  placeholder="Select Display Order"
-                  options={[
-                    {
-                      id: "1",
-                      name: "Order 1",
-                    },
-                    {
-                      id: "2",
-                      name: "Order 2",
-                    },
-                  ]}
-                />
-              )}
+            <CustomSelect
+              id="display_order"
+              label="Display Order"
+              placeholder="Select Display Order"
+              options={[
+                {
+                  id: "order 1",
+                  name: "Order 1",
+                },
+                {
+                  id: "order 2",
+                  name: "Order 2",
+                },
+              ]}
             />
           </div>
           <FormInput name="price" label="Price" placeholder="Price" />
 
           <div className="flex flex-col gap-1 lg:gap-2  lg:mt-2">
             <p className="font-semibold text-[15px] text-gray-700">Type</p>
-            <div className="flex flex-col gap-2">
+            <div>
               <label className="flex items-center gap-2 text-sm">
-                <input
-                  type="radio"
-                  value="shippable"
-                  {...register("shipping_type")}
-                  className="accent-brown"
-                />
+                <input type="checkbox" className="accent-brown" />
                 Shippable Item
               </label>
-
               <label className="flex items-center gap-2 text-sm">
-                <input
-                  type="radio"
-                  value="non_shippable"
-                  {...register("shipping_type")}
-                  className="accent-brown"
-                />
+                <input type="checkbox" className="accent-brown" />
                 Non-shippable Item
               </label>
-
               <label className="flex items-center gap-2 text-sm">
-                <input
-                  type="radio"
-                  value="digital"
-                  {...register("shipping_type")}
-                  className="accent-brown"
-                />
-                Digital Item
+                <input type="checkbox" className="accent-brown" />
+                Non-shippable Item
               </label>
             </div>
           </div>

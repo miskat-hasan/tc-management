@@ -134,18 +134,6 @@ export const createInstructor = () => {
     method: "post",
     isPrivate: true,
     endpoint: "/api/instructors/store",
-    onSuccess: (data) => {
-      Swal.fire({
-        text: data?.message,
-        icon: "success",
-      });
-    },
-    onError: (err) => {
-      Swal.fire({
-        text: err?.response?.data?.message,
-        icon: "error",
-      });
-    },
   });
 };
 
@@ -171,7 +159,7 @@ export const getSingleInstructor = (id) => {
     method: "get",
     key: ["get-single-instructor"],
     isPrivate: true,
-    endpoint: `/api/instructors/${id}`,
+    endpoint: `/api/instructors?id=${id}`,
   });
 };
 
@@ -265,9 +253,9 @@ export const storeProductAddOns = () => {
   return useClientApi({
     method: "post",
     isPrivate: true,
-    endpoint: "/api/addon_list/store"
-  })
-}
+    endpoint: "/api/addon_list/store",
+  });
+};
 
 export const getAllProductAddOns = () => {
   return useClientApi({
@@ -275,5 +263,22 @@ export const getAllProductAddOns = () => {
     isPrivate: true,
     key: ["get-all-product-add-ons"],
     endpoint: "/api/addon_list/index",
+  });
+};
+
+export const updateProductAddOns = () => {
+  return useClientApi({
+    method: "post",
+    isPrivate: true,
+    endpoint: "/api/addon_list/update",
+  });
+};
+
+export const getAllPromoCode = () => {
+  return useClientApi({
+    method: "get",
+    isPrivate: true,
+    key: ["get-all-promo-code"],
+    endpoint: "/api/promo-codes/index",
   });
 };
