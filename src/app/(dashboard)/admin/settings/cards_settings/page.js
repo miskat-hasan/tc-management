@@ -6,27 +6,90 @@ import CustomSelect from "@/components/shared/form/CustomSelect";
 import FormContainer from "@/components/shared/form/FormContainer";
 import FormInput from "@/components/shared/form/FormInput";
 import { Button } from "@/components/ui/button";
+import {
+  getAllCardType,
+  getCardSettings,
+  updateCardSettings,
+} from "@/hooks/api/dashboardApi";
 
-import React, { useRef } from "react";
+import React, { useEffect } from "react";
 
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
+import Swal from "sweetalert2";
 
 const Page = () => {
-  const sharedNotesRef = useRef(null);
-  const internalNotesRef = useRef(null);
+  const { data: cardTypeData, isLoading: cardTypeLoading } = getAllCardType();
+
+  const { data: cardSettingsData, isLoading: cardSettingsDataLoading } =
+    getCardSettings();
+
   const form = useForm({
-    defaultValues: {},
+    defaultValues: {
+      name: cardSettingsData?.data.name || "",
+      card_type_id: cardSettingsData?.data.card_type_id || "",
+      training_ctr: cardSettingsData?.data.training_ctr || "",
+      tc_info: cardSettingsData?.data.tc_info || "",
+      location: cardSettingsData?.data.location || "",
+      card_1: cardSettingsData?.data.card_1 || "",
+      card_2: cardSettingsData?.data.card_2 || "",
+      card_3: cardSettingsData?.data.card_3 || "",
+      is_default: Boolean(Number(cardSettingsData?.data.is_default)),
+    },
   });
 
-  const onSubmit = (values) => {
-    const sharedNotes = sharedNotesRef.current?.getContent();
-    const internalNotes = internalNotesRef.current?.getContent();
+  const {
+    control,
+    register,
+    reset,
+    formState: { errors },
+  } = form;
 
-    const finalData = {
-      ...values,
-      sharedNotes,
-      internalNotes,
-    };
+  const { mutate, isPending } = updateCardSettings();
+
+  useEffect(() => {
+    if (cardSettingsData?.data && cardTypeData?.data) {
+      reset({
+        name: cardSettingsData.data.name || "",
+        card_type_id: cardSettingsData.data.card_type_id || "",
+        training_ctr: cardSettingsData.data.training_ctr || "",
+        tc_info: cardSettingsData.data.tc_info || "",
+        location: cardSettingsData?.data.location || "",
+        card_1: cardSettingsData.data.card_1 || "",
+        card_2: cardSettingsData.data.card_2 || "",
+        card_3: cardSettingsData.data.card_3 || "",
+        is_default: Boolean(Number(cardSettingsData.data.is_default)),
+      });
+    }
+  }, [cardSettingsData, reset, cardTypeData]);
+
+  const onSubmit = (data) => {
+    const formData = new FormData();
+
+    formData.append("id", 1);
+    formData.append("name", data?.name);
+    formData.append("card_type_id", data?.card_type_id);
+    formData.append("training_ctr", data?.training_ctr);
+    formData.append("tc_info", data?.tc_info);
+    formData.append("location", data?.location);
+    formData.append("card_1", data?.card_1);
+    formData.append("card_2", data?.card_2);
+    formData.append("card_3", data?.card_3);
+    formData.append("is_default", Number(data?.is_default));
+
+    mutate(formData, {
+      onSuccess: (data) => {
+        Swal.fire({
+          text: data?.message,
+          icon: "success",
+        });
+      },
+      onError: (error) => {
+        Swal.fire({
+          text: error?.response?.data?.message,
+          icon: "error",
+        });
+      },
+    });
   };
   return (
     <section className="flex flex-col gap-2 lg:gap-4">
@@ -39,30 +102,36 @@ const Page = () => {
         <FormContainer form={form} onSubmit={onSubmit}>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3 lg:gap-6">
             <FormInput
-              name="Profile Name"
+              name="name"
               label="Profile Name"
               placeholder="Profile Name Here"
             />
 
-            <CustomSelect
-              name="Card Type"
-              label="Card Type"
-              placeholder="Card Type here"
-              options={[
-                {
-                  label: "Card Type 1",
-                  value: "Card Type 1",
-                },
-              ]}
+            <Controller
+              name="card_type_id"
+              control={control}
+              rules={{ required: "Card Type is required" }}
+              render={({ field }) => (
+                <CustomSelect
+                  {...field}
+                  id="card_type_id"
+                  label="Card Type"
+                  placeholder="Card Type here"
+                  options={cardTypeData?.data?.data}
+                  isLoading={cardTypeLoading}
+                  error={errors.card_type_id?.message}
+                  className="flex-1"
+                />
+              )}
             />
             <FormInput
-              name="Training Ctr"
+              name="training_ctr"
               label="Training Ctr"
               placeholder="Training Ctr here"
             />
 
             <FormInput
-              name="TC Info"
+              name="tc_info"
               label="TC Info"
               placeholder="TC Info here"
             />
@@ -70,69 +139,170 @@ const Page = () => {
 
           <div className="mt-3 lg:mt-6">
             <FormInput
-              name="Course Location"
+              name="location"
               label="Course Location"
               placeholder="Course Location here"
             />
           </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3 lg:gap-6 mt-3 lg:mt-6">
-            <CustomSelect
-              name="Card Type"
-              label="Card Type"
-              placeholder="Card Type here"
-              options={[
-                {
-                  label: "Card Type 1",
-                  value: "Card Type 1",
-                },
-              ]}
+          <div className="leading-[1.45] font-medium text-sm sm:text-base text-gray-700 mt-3 lg:mt-6">
+            Card Alignment Adjustments
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3 lg:gap-6 shadow border rounded-xl p-4">
+            <Controller
+              name="card_1"
+              control={control}
+              rules={{ required: "Card Type is required" }}
+              render={({ field }) => (
+                <CustomSelect
+                  {...field}
+                  id="card_1"
+                  label="Card 1"
+                  placeholder="Card Type here"
+                  options={[
+                    {
+                      id: `Up 1/4"`,
+                      name: `Up 1/4"`,
+                    },
+                    {
+                      id: `Up 3/16"`,
+                      name: `Up 3/16"`,
+                    },
+                    {
+                      id: `Up 1/8"`,
+                      name: `Up 1/8"`,
+                    },
+                    {
+                      id: `None`,
+                      name: `None`,
+                    },
+                    {
+                      id: `Down 1/8"`,
+                      name: `Down 1/8"`,
+                    },
+                    {
+                      id: `Down 3/16"`,
+                      name: `Down 3/16"`,
+                    },
+                    {
+                      id: `Down 1/4"`,
+                      name: `Down 1/4"`,
+                    },
+                  ]}
+                  error={errors.card_1?.message}
+                  className="flex-1"
+                />
+              )}
             />
-
-            <CustomSelect
-              name="Card Type"
-              label="Card Type"
-              placeholder="Card Type here"
-              options={[
-                {
-                  label: "Card Type 1",
-                  value: "Card Type 1",
-                },
-              ]}
+            <Controller
+              name="card_2"
+              control={control}
+              rules={{ required: "Card Type is required" }}
+              render={({ field }) => (
+                <CustomSelect
+                  {...field}
+                  id="card_2"
+                  label="Card 2"
+                  placeholder="Card Type here"
+                  options={[
+                    {
+                      id: `Up 1/4"`,
+                      name: `Up 1/4"`,
+                    },
+                    {
+                      id: `Up 3/16"`,
+                      name: `Up 3/16"`,
+                    },
+                    {
+                      id: `Up 1/8"`,
+                      name: `Up 1/8"`,
+                    },
+                    {
+                      id: `None`,
+                      name: `None`,
+                    },
+                    {
+                      id: `Down 1/8"`,
+                      name: `Down 1/8"`,
+                    },
+                    {
+                      id: `Down 3/16"`,
+                      name: `Down 3/16"`,
+                    },
+                    {
+                      id: `Down 1/4"`,
+                      name: `Down 1/4"`,
+                    },
+                  ]}
+                  error={errors.card_2?.message}
+                  className="flex-1"
+                />
+              )}
             />
-
-            <CustomSelect
-              name="Card Type"
-              label="Card Type"
-              placeholder="Card Type here"
-              options={[
-                {
-                  label: "Card Type 1",
-                  value: "Card Type 1",
-                },
-              ]}
+            <Controller
+              name="card_3"
+              control={control}
+              rules={{ required: "Card Type is required" }}
+              render={({ field }) => (
+                <CustomSelect
+                  {...field}
+                  id="card_3"
+                  label="Card 3"
+                  placeholder="Card Type here"
+                  options={[
+                    {
+                      id: `Up 1/4"`,
+                      name: `Up 1/4"`,
+                    },
+                    {
+                      id: `Up 3/16"`,
+                      name: `Up 3/16"`,
+                    },
+                    {
+                      id: `Up 1/8"`,
+                      name: `Up 1/8"`,
+                    },
+                    {
+                      id: `None`,
+                      name: `None`,
+                    },
+                    {
+                      id: `Down 1/8"`,
+                      name: `Down 1/8"`,
+                    },
+                    {
+                      id: `Down 3/16"`,
+                      name: `Down 3/16"`,
+                    },
+                    {
+                      id: `Down 1/4"`,
+                      name: `Down 1/4"`,
+                    },
+                  ]}
+                  error={errors.card_3?.message}
+                  className="flex-1"
+                />
+              )}
             />
           </div>
           <div className="flex flex-col gap-2 my-6">
             <p className="font-semibold text-[15px] text-gray-700">Options</p>
             <label className="flex items-center gap-2 text-sm">
-              <input type="checkbox" className="accent-brown" />
+              <input
+                {...register("is_default")}
+                type="checkbox"
+                className="accent-brown"
+              />
               This is the default card printing profile
             </label>
           </div>
           <div className="flex items-center justify-end">
             <div className="flex justify-end gap-4 mt-4 lg:mt-8">
               <Button
-                type="button"
-                className="px-6 py-2 bg-transparent border border-gray-300 rounded-md text-sm font-medium text-black hover:bg-gray-50 focus:outline-none"
-              >
-                Back
-              </Button>
-              <Button
                 type="submit"
                 className="px-6 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium cursor-pointer text-white bg-brown cursor hover:bg-brown-hover focus:outline-none"
+                disabled={isPending}
               >
-                Update Settings
+                {isPending ? "Updating..." : "Update Settings"}
               </Button>
             </div>
           </div>

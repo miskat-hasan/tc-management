@@ -4,7 +4,6 @@ import SubSectionTitle from "@/components/common/SubSectionTitle";
 import TableSkeleton from "@/components/common/TableSkelation";
 import CustomSelect from "@/components/shared/form/CustomSelect";
 import { Button } from "@/components/ui/button";
-import { instructorData } from "@/data/data";
 import { getAllInstructor } from "@/hooks/api/dashboardApi";
 import { SearchIcon } from "@/svg/SvgContainer";
 import Link from "next/link";
@@ -13,8 +12,10 @@ import { CiEdit } from "react-icons/ci";
 
 const Page = () => {
   const [selectedShow, setSelectedShow] = useState(50);
+  const [page, setPage] = useState(1);
+  const [perPage, setPerPage] = useState(10);
 
-  const { data: allInstructor, isLoading } = getAllInstructor();
+  const { data: allInstructor, isLoading } = getAllInstructor(page, perPage);
   return (
     <section className="flex flex-col gap-[13.5px] lg:gap-[25px] ">
       <div className="flex justify-between">
@@ -103,12 +104,12 @@ const Page = () => {
                         {item.aha_instructor_id}
                       </td>
                       <td className="px-3 sm:px-6 py-3 truncate max-w-[150px] sm:max-w-[200px]">
-                        {item.certifications?.map((item)=> (
+                        {item.certifications?.map((item) => (
                           <div key={item.id}>BLS</div>
                         ))}
                       </td>
                       <td className="px-3 sm:px-6 py-3 whitespace-nowrap">
-                         {item.certifications?.map((item)=> (
+                        {item.certifications?.map((item) => (
                           <div key={item.id}>{item.expires}</div>
                         ))}
                       </td>
@@ -140,36 +141,43 @@ const Page = () => {
         )}
 
         {/* Footer controls */}
-        <div className="flex flex-col md:flex-row items-center justify-between mt-3 lg:mt-6 gap-3">
-          <div className="flex items-center gap-2">
+        <div className="flex flex-col md:flex-row items-center justify-end mt-3 lg:mt-6 gap-3">
+          {/* Show per page */}
+          {/* <div className="flex items-center gap-2">
             <span className="text-gray-600 text-sm">Show:</span>
             <select
-              value={selectedShow}
-              onChange={(e) => setSelectedShow(e.target.value)}
-              className="border border-gray-300 rounded-md px-2 py-1 text-sm text-gray-700 focus:outline-none"
+              value={perPage}
+              onChange={(e) => {
+                setPerPage(Number(e.target.value));
+                setPage(1);
+              }}
+              className="border border-gray-300 rounded-md px-2 py-1 text-sm"
             >
-              <option value="10">10</option>
-              <option value="25">25</option>
-              <option value="50">50</option>
+              <option value={10}>10</option>
+              <option value={25}>25</option>
+              <option value={50}>50</option>
             </select>
-          </div>
+          </div> */}
 
+          {/* Pagination */}
           <div className="flex items-center gap-2">
-            <button className="px-3 py-1 text-sm text-gray-500 border rounded-md hover:bg-gray-100">
-              Previous
-            </button>
-            <button className="px-3 py-1 text-sm border border-blue-500 rounded-md text-blue-600">
-              1
-            </button>
-            <button className="px-3 py-1 text-sm border rounded-md hover:bg-gray-100">
-              2
-            </button>
-            <button className="px-3 py-1 text-sm border rounded-md hover:bg-gray-100">
-              3
-            </button>
-            <button className="px-3 py-1 text-sm text-gray-500 border rounded-md hover:bg-gray-100">
-              Next
-            </button>
+            {allInstructor?.data?.links?.map((link, index) => (
+              <button
+                key={index}
+                disabled={link.url === null || link.page === null}
+                onClick={() => link.page && setPage(link.page)}
+                className={`px-3 py-1 text-sm border rounded-md ${
+                  link.active
+                    ? "border-blue-500 text-blue-600 bg-blue-50"
+                    : "hover:bg-gray-100"
+                } ${
+                  link.url === null || link.page === null
+                    ? "text-gray-400 cursor-not-allowed"
+                    : "cursor-pointer"
+                }`}
+                dangerouslySetInnerHTML={{ __html: link.label }}
+              />
+            ))}
           </div>
         </div>
       </div>

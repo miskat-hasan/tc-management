@@ -5,13 +5,18 @@ import FormContainer from "@/components/shared/form/FormContainer";
 import FormInput from "@/components/shared/form/FormInput";
 import { Button } from "@/components/ui/button";
 import { useForm } from "react-hook-form";
-import React from "react";
+import React, { useEffect } from "react";
 import FormTextarea from "@/components/shared/form/FormTextarea";
-import { addKeyCodeBank } from "@/hooks/api/dashboardApi";
+import {
+  getSingleKeyCodeBank,
+  updateKeyCodeBank,
+} from "@/hooks/api/dashboardApi";
 import Link from "next/link";
 import Swal from "sweetalert2";
 
-const Page = () => {
+const Page = ({ params }) => {
+  const { id } = params;
+
   const form = useForm({
     defaultValues: {
       name: "",
@@ -19,20 +24,34 @@ const Page = () => {
       course_link: "",
     },
   });
+
   const { reset } = form;
 
-  const { mutate, isPending } = addKeyCodeBank();
+  const { mutate, isPending } = updateKeyCodeBank();
+
+  const { data: keyCodeData, isLoading: keyCodeLoading } =
+    getSingleKeyCodeBank(id);
+
+  useEffect(() => {
+    if (keyCodeData) {
+      reset({
+        name: keyCodeData?.data?.name || "",
+        instructions: keyCodeData?.data?.instructions || "",
+        course_link: keyCodeData?.data?.course_link || "",
+      });
+    }
+  }, [keyCodeData, reset]);
 
   const onSubmit = (data) => {
     const formData = new FormData();
 
+    formData.append("id", id);
     formData.append("name", data?.name);
     formData.append("instructions", data?.instructions);
     formData.append("course_link", data?.course_link);
 
     mutate(formData, {
       onSuccess: (data) => {
-        reset();
         Swal.fire({
           text: data?.message,
           icon: "success",
@@ -75,14 +94,14 @@ const Page = () => {
               asChild={true}
               className="px-6 py-2 bg-transparent border border-gray-300 rounded-md text-sm font-medium text-black hover:bg-gray-50"
             >
-              <Link href={"online_keycodes"}>Back</Link>
+              <Link href={"/admin/settings/online_keycodes"}>Back</Link>
             </Button>
             <Button
               type="submit"
               className="px-6 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium cursor-pointer text-white bg-brown hover:bg-brown-hover"
               disabled={isPending}
             >
-              {isPending ? "Adding ..." : "Add Keycode Bank"}
+              {isPending ? "Updating..." : "Update Keycode Bank"}
             </Button>
           </div>
         </FormContainer>
