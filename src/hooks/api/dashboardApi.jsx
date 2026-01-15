@@ -9,12 +9,12 @@ export const createSingleTrainingSite = () => {
   });
 };
 
-export const getallTrainingsite = () => {
+export const getallTrainingsite = (page = 1, perPage = 10) => {
   return useClientApi({
     method: "get",
-    key: ["get-all-training-site"],
+    key: ["get-all-training-site", page, perPage],
     isPrivate: true,
-    endpoint: "/api/training-sites",
+    endpoint: `/api/training-sites?page=${page}&per_page=${perPage}`,
   });
 };
 
@@ -47,12 +47,12 @@ export const updateTrainingSite = (id) => {
   });
 };
 
-export const getAllCountry = () => {
+export const getAllCountry = (page = 1, perPage = 10) => {
   return useClientApi({
     method: "get",
-    key: ["get-all-country"],
+    key: ["get-all-country", page, perPage],
     isPrivate: true,
-    endpoint: `/api/country`,
+    endpoint: `/api/country?page=${page}&per_page=${perPage}`,
   });
 };
 
@@ -81,12 +81,12 @@ export const updateSingleClient = (id) => {
   });
 };
 
-export const getAllClient = () => {
+export const getAllClient = (page = 1, perPage = 10) => {
   return useClientApi({
     method: "get",
-    key: ["get-all-clients"],
+    key: ["get-all-clients", page, perPage],
     isPrivate: true,
-    endpoint: `/api/clients`,
+    endpoint: `/api/clients?page=${page}&per_page=${perPage}`,
   });
 };
 
@@ -123,12 +123,12 @@ export const getAllLocation = (page = 1, perPage = 10) => {
     endpoint: `/api/locations?page=${page}&per_page=${perPage}`,
   });
 };
-export const getAllTcProducts = () => {
+export const getAllTcProducts = (page = 1, perPage = 10) => {
   return useClientApi({
     method: "get",
-    key: ["get-all-tcproduct"],
+    key: ["get-all-tcproduct", page, perPage],
     isPrivate: true,
-    endpoint: `/api/tc-product`,
+    endpoint: `/api/tc-product?page=${page}&per_page=${perPage}`,
   });
 };
 
@@ -157,12 +157,12 @@ export const updateInstructor = (id) => {
   });
 };
 
-export const getAllInstructor = () => {
+export const getAllInstructor = (page = 1, perPage = 10) => {
   return useClientApi({
     method: "get",
-    key: ["get-all-instructor"],
+    key: ["get-all-instructor", page, perPage],
     isPrivate: true,
-    endpoint: `/api/instructors`,
+    endpoint: `/api/instructors?page=${page}&per_page=${perPage}`,
   });
 };
 
@@ -175,21 +175,21 @@ export const getSingleInstructor = (id) => {
   });
 };
 
-export const getAllCourses = () => {
+export const getAllCourses = (page = 1, perPage = 10) => {
   return useClientApi({
     method: "get",
-    key: ["get-all-course"],
+    key: ["get-all-course", page, perPage],
     isPrivate: true,
-    endpoint: `/api/couese/index`,
+    endpoint: `/api/couese/index?page=${page}&per_page=${perPage}`,
   });
 };
 
-export const getAllDiscipline = () => {
+export const getAllDiscipline = (page = 1, perPage = 10) => {
   return useClientApi({
     method: "get",
     isPrivate: true,
-    key: ["get-all-discipline"],
-    endpoint: "/api/discipline/index",
+    key: ["get-all-discipline", page, perPage],
+    endpoint: `/api/discipline/index?page=${page}&per_page=${perPage}`,
   });
 };
 
@@ -209,12 +209,12 @@ export const updateCertification = () => {
   });
 };
 
-export const getAllCertification = () => {
+export const getAllCertification = (page = 1, perPage = 10) => {
   return useClientApi({
     method: "get",
-    key: ["get-all-certification"],
+    key: ["get-all-certification", page, perPage],
     isPrivate: true,
-    endpoint: "/api/certifications/index",
+    endpoint: `/api/certifications/index?page=${page}&per_page=${perPage}`,
   });
 };
 
@@ -235,12 +235,12 @@ export const storeDocument = () => {
   });
 };
 
-export const getAllDocuments = () => {
+export const getAllDocuments = (page = 1, perPage = 10) => {
   return useClientApi({
     method: "get",
-    key: ["get-all-documents"],
+    key: ["get-all-documents", page, perPage],
     isPrivate: true,
-    endpoint: "/api/documents/index",
+    endpoint: `/api/documents/index?page=${page}&per_page=${perPage}`,
   });
 };
 
@@ -252,12 +252,12 @@ export const deleteDocument = (id) => {
   });
 };
 
-export const getAllUserRole = () => {
+export const getAllUserRole = (page = 1, perPage = 10) => {
   return useClientApi({
     method: "get",
-    key: ["get-all-roles"],
+    key: ["get-all-roles", page, perPage],
     isPrivate: true,
-    endpoint: "api/roles/index",
+    endpoint: `api/roles/index?page=${page}&per_page=${perPage}`,
   });
 };
 
@@ -286,12 +286,12 @@ export const updateProductAddOns = () => {
   });
 };
 
-export const getAllProductAddOns = () => {
+export const getAllProductAddOns = (page = 1, perPage = 10) => {
   return useClientApi({
     method: "get",
     isPrivate: true,
-    key: ["get-all-product-add-ons"],
-    endpoint: "/api/addon_list/index",
+    key: ["get-all-product-add-ons", page, perPage],
+    endpoint: `/api/addon_list/index?page=${page}&per_page=${perPage}`,
   });
 };
 
@@ -308,23 +308,91 @@ export const getSinglePromoCode = (id) => {
     method: "get",
     isPrivate: true,
     key: ["get-single-promo-code"],
-    endpoint: `/api/promo-codes/show?id=${id}`
-  })
-}
+    endpoint: `/api/promo-codes/show?id=${id}`,
+  });
+};
 
 export const updatePromoCode = () => {
   return useClientApi({
     method: "post",
-    isPrivate: true, 
-    endpoint: `/api/promo-codes/update`
-  })
-}
+    isPrivate: true,
+    endpoint: `/api/promo-codes/update`,
+  });
+};
 
-export const getAllPromoCode = () => {
+export const getAllPromoCode = (page = 1, perPage = 10) => {
   return useClientApi({
     method: "get",
     isPrivate: true,
-    key: ["get-all-promo-code"],
-    endpoint: "/api/promo-codes/index",
+    key: ["get-all-promo-code", page, perPage],
+    endpoint: `/api/promo-codes/index?page=${page}&per_page=${perPage}`,
   });
 };
+
+export const addKeyCodeBank = () => {
+  return useClientApi({
+    method: "post",
+    isPrivate: true,
+    endpoint: "/api/keycode/store",
+  });
+};
+
+export const getSingleKeyCodeBank = (id) => {
+  return useClientApi({
+    method: "get",
+    isPrivate: true,
+    key: ["get-single-keycode-bank"],
+    endpoint: `/api/keycode/show?id=${id}`,
+  });
+};
+
+export const updateKeyCodeBank = () => {
+  return useClientApi({
+    method: "post",
+    isPrivate: true,
+    endpoint: `/api/keycode/update`,
+  });
+};
+
+export const getAllKeyCodeBank = (page = 1, perPage = 10) => {
+  return useClientApi({
+    method: "get",
+    isPrivate: true,
+    key: ["get-all-keycode-bank", page, perPage],
+    endpoint: `/api/keycode/index?page=${page}&per_page=${perPage}`,
+  });
+};
+
+export const storeCourse = () => {
+  return useClientApi({
+    method: "post",
+    isPrivate: true,
+    endpoint: "/api/couese/store",
+  });
+};
+
+export const getAllCardType = () => {
+  return useClientApi({
+    method: "get",
+    isPrivate: true,
+    key: ["get-all-card-type"],
+    endpoint: `/api/card/index`,
+  });
+};
+
+export const getCardSettings = () => {
+  return useClientApi({
+    method: "get",
+    isPrivate: true,
+    key: ["get-card-settings"],
+    endpoint: "/api/adjustment/index",
+  });
+};
+
+export const updateCardSettings = () => {
+  return useClientApi({
+    method: "post",
+    isPrivate: true,
+    endpoint: "/api/adjustment/update",
+  });
+ };
