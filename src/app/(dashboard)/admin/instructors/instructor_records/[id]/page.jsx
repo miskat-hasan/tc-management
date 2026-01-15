@@ -330,7 +330,7 @@ const Page = ({ params }) => {
             documentData={instructorData?.data[0]?.documents}
           />
 
-          <Certification instructorId={instructorData?.data[0]?.id} />
+            <Certification instructorId={instructorData?.data[0]?.id} CertificationData={instructorData?.data[0]?.certifications}/>
         </section>
       )}
     </div>

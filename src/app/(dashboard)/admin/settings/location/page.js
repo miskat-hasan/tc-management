@@ -100,9 +100,9 @@ const Page = () => {
         )}
 
         {/* Footer controls */}
-        <div className="flex flex-col md:flex-row items-center justify-between mt-3 lg:mt-6 gap-3">
+        <div className="flex flex-col md:flex-row items-center justify-end mt-3 lg:mt-6 gap-3">
           {/* Show per page */}
-          <div className="flex items-center gap-2">
+          {/* <div className="flex items-center gap-2">
             <span className="text-gray-600 text-sm">Show:</span>
             <select
               value={perPage}
@@ -116,7 +116,7 @@ const Page = () => {
               <option value={25}>25</option>
               <option value={50}>50</option>
             </select>
-          </div>
+          </div> */}
 
           {/* Pagination */}
           <div className="flex items-center gap-2">

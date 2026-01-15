@@ -5,8 +5,10 @@ import CustomSelect from "@/components/shared/form/CustomSelect";
 import FormContainer from "@/components/shared/form/FormContainer";
 import FormInput from "@/components/shared/form/FormInput";
 import { Button } from "@/components/ui/button";
+import { storeCourse } from "@/hooks/api/dashboardApi";
 
 import dynamic from "next/dynamic";
+import Link from "next/link";
 import React, { useRef } from "react";
 import { useForm } from "react-hook-form";
 
@@ -15,26 +17,48 @@ const RichTextEditor = dynamic(() => import("@/components/shared/RichEditor"), {
 });
 
 const Page = () => {
-  // Renamed refs to match the fields in the image
   const descriptionRef = useRef(null);
   const emailBodyRef = useRef(null);
 
   const form = useForm({
-    defaultValues: {},
+    defaultValues: {
+      
+    },
   });
 
-  const onSubmit = (values) => {
-    // Get content from the new refs
+  const { mutate: storeCourseMutation, isPending: storeCoursePending } =
+    storeCourse();
+
+  const onSubmit = (data) => {
     const description = descriptionRef.current?.getContent();
     const emailBody = emailBodyRef.current?.getContent();
+    
+    const formData = new FormData()
 
-    const finalData = {
-      ...values,
-      description,
-      emailBody,
-    };
-
-    console.log("Form Data:", finalData);
+    formData.append("course_name", data?.course_name)
+    formData.append("mode", data?.mode)
+    formData.append("discipline", data?.discipline)
+    formData.append("allow_deposit", data?.allow_deposit)
+    formData.append("prompt", data?.prompt)
+    formData.append("shipping_price", data?.shipping_price)
+    formData.append("keycode_bank_id", data?.keycode_bank_id)
+    formData.append("training_site_id", data?.training_site_id)
+    formData.append("card_type_id", data?.card_type_id)
+    formData.append("second_card_type_id", data?.second_card_type_id)
+    formData.append("calendar_icon_color", data?.calendar_icon_color)
+    formData.append("ecu_credits", data?.ecu_credits)
+    formData.append("description", data?.description)
+    formData.append("custom_sidebar", data?.custom_sidebar)
+    formData.append("confirmation_email", data?.confirmation_email)
+    formData.append("email_subject", data?.email_subject)
+    formData.append("payment_confirmation_email", data?.payment_confirmation_email)
+    formData.append("email_body", data?.email_body)
+    formData.append("seo_rich_results", data?.seo_rich_results)
+    formData.append("seo_description", data?.seo_description)
+    formData.append("course_image_id", data?.course_image_id)
+    formData.append("selected_addons", data?.selected_addons)
+    formData.append("selected_options", data?.selected_options)
+    formData.append("deposit_amounts", data?.deposit_amounts)
   };
 
   return (
@@ -44,7 +68,7 @@ const Page = () => {
         <FormContainer form={form} onSubmit={onSubmit}>
           <div className="flex flex-col gap-3 lg:gap-6">
             <FormInput
-              name="courseName"
+              name="course_name"
               label="Course Name"
               placeholder="Course name here"
             />
@@ -333,16 +357,16 @@ const Page = () => {
           <div className="flex items-center justify-end">
             <div className="flex justify-end gap-4 mt-4 lg:mt-8">
               <Button
-                type="button"
+                asChild={true}
                 className="px-6 py-2 bg-transparent border border-gray-300 rounded-md text-sm font-medium text-black hover:bg-gray-50 focus:outline-none"
               >
-                Back
+                <Link href={`/admin/settings/course_type`}>Back</Link>
               </Button>
               <Button
                 type="submit"
                 className="px-6 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium cursor-pointer text-white bg-brown cursor hover:bg-brown-hover focus:outline-none"
               >
-                Save Course Type
+                {storeCoursePending ? "Saving..." : "Save Course"}
               </Button>
             </div>
           </div>
