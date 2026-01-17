@@ -53,15 +53,19 @@ const CustomSelect = ({
 
         <SelectContent className="max-h-60 overflow-y-auto">
           {isLoading && <div>Loading ....</div>}
-          {options.map((opt) => (
+          {options?.length > 0 ?
+          
+          options.map((opt) => (
             <SelectItem
               key={opt.id}
               value={String(opt.id)}
               className="text-sm sm:text-base"
             >
-              {opt.name ?? opt?.training_center_name ?? opt?.company}
+              {opt.name ?? opt?.training_center_name ?? opt?.company ?? opt?.course_name ?? opt?.first_name + " " + opt?.middle_name + " " + opt?.last_name}
             </SelectItem>
-          ))}
+          )): (
+            <p>No data found</p>
+          )}
         </SelectContent>
       </Select>
 

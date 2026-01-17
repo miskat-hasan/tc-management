@@ -3,6 +3,7 @@
 import SectionTitle from "@/components/common/SectionTitle";
 import { Button } from "@/components/ui/button";
 import { coursesType } from "@/data/data";
+import { getAllCourses } from "@/hooks/api/dashboardApi";
 import { PlusIcon } from "@/svg/SvgContainer";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
@@ -12,6 +13,11 @@ const Page = () => {
   const router = useRouter();
   const [selectedShow, setSelectedShow] = useState(50);
   const [selectedRows, setSelectedRows] = useState([]);
+  const [page, setPage] = useState(1);
+  const [perPage, setPerPage] = useState(10);
+
+  const { data: coursesTypeData, isLoading: coursesTypeLoading } =
+    getAllCourses(page, perPage);
 
   const toggleRow = (index) => {
     setSelectedRows((prev) =>
@@ -30,10 +36,11 @@ const Page = () => {
   const handleNavigation = () => {
     router.push("/admin/settings/add_course_type");
   };
+
   return (
     <div>
       <SectionTitle title={"Course Type"} />
-      <div className="py-[10px] lg:py-[20px]  rounded-[16px] flex flex-col gap-2.5 ">
+      <div className="py-[10px] lg:py-[20px] rounded-[16px] flex flex-col gap-2.5">
         <div className="flex w-full items-center justify-between">
           <div className="flex items-center gap-2 text-[#8C8C8C]">
             <input
@@ -42,7 +49,7 @@ const Page = () => {
             />
             <label className="text-[12px]">Show Archived Courses</label>
           </div>
-          <div className="flex  gap-2.5">
+          <div className="flex gap-2.5">
             <Button
               onClick={handleNavigation}
               className="py-[11px] text-[12px] lg:text-base lg:py-[22px] cursor-pointer bg-brown flex items-center gap-2"
@@ -82,8 +89,8 @@ const Page = () => {
             </thead>
 
             <tbody>
-              {coursesType.length > 0 ? (
-                coursesType.map((item, index) => (
+              {coursesTypeData?.data?.data?.length > 0 ? (
+                coursesTypeData?.data?.data?.map((item, index) => (
                   <tr
                     key={index}
                     className={`border-b hover:bg-gray-50 transition-all ${
@@ -99,19 +106,19 @@ const Page = () => {
                       />
                     </td>
                     <td className="px-3 py-4 md:px-6 whitespace-nowrap">
-                      {item.Name}
+                      {item.course_name}
                     </td>
                     <td className="px-3 py-4 md:px-6 whitespace-nowrap">
-                      {item.Discipline}
+                      {item.discipline}
                     </td>
                     <td className="px-3 py-4 md:px-6 whitespace-nowrap">
-                      {item["Add-ons"] || item.Add_ons || "--"}
+                      {item.addons.length > 0 ? item.addons : "--"}
                     </td>
                     <td className="px-3 py-4 md:px-6 whitespace-nowrap">
-                      {item.Price}
+                      {item.price}
                     </td>
                     <td className="px-3 py-4 md:px-6 whitespace-nowrap">
-                      {item.Ship}
+                      $ {item.shipping_price}
                     </td>
                     <td className="px-3 py-4 md:px-6 whitespace-nowrap">
                       {item.eCard}
@@ -138,36 +145,43 @@ const Page = () => {
         </div>
 
         {/* Footer controls */}
-        <div className="flex flex-col md:flex-row items-center justify-between mt-6 gap-3">
-          <div className="flex items-center gap-2">
+        <div className="flex flex-col md:flex-row items-center justify-end mt-3 lg:mt-6 gap-3">
+          {/* Show per page */}
+          {/* <div className="flex items-center gap-2">
             <span className="text-gray-600 text-sm">Show:</span>
             <select
-              value={selectedShow}
-              onChange={(e) => setSelectedShow(e.target.value)}
-              className="border border-gray-300 rounded-md px-2 py-1 text-sm text-gray-700 focus:outline-none"
+              value={perPage}
+              onChange={(e) => {
+                setPerPage(Number(e.target.value));
+                setPage(1);
+              }}
+              className="border border-gray-300 rounded-md px-2 py-1 text-sm"
             >
-              <option value="10">10</option>
-              <option value="25">25</option>
-              <option value="50">50</option>
+              <option value={10}>10</option>
+              <option value={25}>25</option>
+              <option value={50}>50</option>
             </select>
-          </div>
+          </div> */}
 
+          {/* Pagination */}
           <div className="flex items-center gap-2">
-            <button className="px-3 py-1 text-sm text-gray-500 border rounded-md hover:bg-gray-100">
-              Previous
-            </button>
-            <button className="px-3 py-1 text-sm border border-blue-500 rounded-md text-blue-600">
-              1
-            </button>
-            <button className="px-3 py-1 text-sm border rounded-md hover:bg-gray-100">
-              2
-            </button>
-            <button className="px-3 py-1 text-sm border rounded-md hover:bg-gray-100">
-              3
-            </button>
-            <button className="px-3 py-1 text-sm text-gray-500 border rounded-md hover:bg-gray-100">
-              Next
-            </button>
+            {coursesTypeData?.data?.links?.map((link, index) => (
+              <button
+                key={index}
+                disabled={link.url === null || link.page === null}
+                onClick={() => link.page && setPage(link.page)}
+                className={`px-3 py-1 text-sm border rounded-md ${
+                  link.active
+                    ? "border-blue-500 text-blue-600 bg-blue-50"
+                    : "hover:bg-gray-100"
+                } ${
+                  link.url === null || link.page === null
+                    ? "text-gray-400 cursor-not-allowed"
+                    : "cursor-pointer"
+                }`}
+                dangerouslySetInnerHTML={{ __html: link.label }}
+              />
+            ))}
           </div>
         </div>
       </div>

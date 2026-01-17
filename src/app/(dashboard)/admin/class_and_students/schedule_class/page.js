@@ -1,11 +1,18 @@
 "use client";
 import SectionTitle from "@/components/common/SectionTitle";
+import CustomSelect from "@/components/shared/form/CustomSelect";
 import FormContainer from "@/components/shared/form/FormContainer";
 import FormInput from "@/components/shared/form/FormInput";
 import FormTextarea from "@/components/shared/form/FormTextarea";
 import { Button } from "@/components/ui/button";
+import {
+  getAllClient,
+  getAllCourses,
+  getAllInstructor,
+  getAllLocation,
+} from "@/hooks/api/dashboardApi";
 import React from "react";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 
 const Page = () => {
   const form = useForm({
@@ -21,6 +28,20 @@ const Page = () => {
     },
   });
 
+  const {
+    control,
+    register,
+    reset,
+    formState: { errors },
+  } = form;
+
+  const { data: coursesData, isLoading: coursesLoading } = getAllCourses();
+  const { data: clientData, isLoading: clientDataLoading } = getAllClient();
+  const { data: locationData, isLoading: locationDataLoading } =
+    getAllLocation();
+  const { data: instructorData, isLoading: instructorDataLoading } =
+    getAllInstructor();
+
   const onSubmit = (values) => {};
   return (
     <div className="flex flex-col gap-[10px] lg:gap-[20px]">
@@ -32,18 +53,78 @@ const Page = () => {
       >
         {/* Main form layout grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4">
-          <FormInput name="course" label="Course" placeholder="Choose" />
+          <Controller
+            name="course"
+            control={control}
+            rules={{ required: "Course is required" }}
+            render={({ field }) => (
+              <CustomSelect
+                {...field}
+                id="course"
+                label="Course"
+                placeholder="Course"
+                isLoading={coursesLoading}
+                options={coursesData?.data}
+                error={errors.course?.message}
+                className="flex-1"
+              />
+            )}
+          />
           <FormInput name="classId" label="Class Id" placeholder="Class Id" />
-
-          <FormInput name="client" label="Client" placeholder="None" />
-          <FormInput name="location" label="Location" placeholder="Location" />
-
-          <div>
-            <FormInput
-              name="instructor"
-              label="Instructor"
-              placeholder="Choose"
-            />
+          <Controller
+            name="client"
+            control={control}
+            rules={{ required: "Client is required" }}
+            render={({ field }) => (
+              <CustomSelect
+                {...field}
+                id="client"
+                label={"Client"}
+                placeholder="Client"
+                isLoading={clientDataLoading}
+                options={clientData?.data?.data}
+                error={errors.client?.message}
+                className={"flex-1"}
+              />
+            )}
+          />
+          <Controller
+            name="location"
+            control={control}
+            rules={{ required: "Location is required" }}
+            render={({ field }) => (
+              <CustomSelect
+                {...field}
+                id="location"
+                label={"Location"}
+                placeholder="Location"
+                isLoading={locationDataLoading}
+                options={locationData?.data?.data}
+                error={errors.location?.message}
+                className={"flex-1"}
+              />
+            )}
+          />
+          <div className="gap-6 grid grid-cols-2 col-span-2">
+            <div className="flex-1">
+              <Controller
+                name="instructor"
+                control={control}
+                rules={{ required: "Instructor is required" }}
+                render={({ field }) => (
+                  <CustomSelect
+                    {...field}
+                    id="instructor"
+                    label={"Instructor"}
+                    placeholder="Instructor"
+                    isLoading={instructorDataLoading}
+                    options={instructorData?.data}
+                    error={errors.instructor?.message}
+                    className={"flex-1"}
+                  />
+                )}
+              />
+            </div>
             <div className="flex items-center gap-2 mt-2">
               <input
                 id="bidding-checkbox"
@@ -59,11 +140,11 @@ const Page = () => {
               </label>
             </div>
           </div>
-          <FormInput
+          {/* <FormInput
             name="instructorClassId"
             label="Class Id"
             placeholder="Class Id"
-          />
+          /> */}
 
           {/* Class Times Section */}
           <div className="md:col-span-2">
