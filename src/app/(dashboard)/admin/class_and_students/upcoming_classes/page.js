@@ -4,6 +4,7 @@ import SubSectionTitle from "@/components/common/SubSectionTitle";
 import CustomSelect from "@/components/shared/form/CustomSelect";
 import { Button } from "@/components/ui/button";
 import { courseSchedule } from "@/data/data";
+import { getAllCourses } from "@/hooks/api/dashboardApi";
 import { SearchIcon } from "@/svg/SvgContainer";
 import React, { useState } from "react";
 import { CiEdit } from "react-icons/ci";
@@ -16,8 +17,9 @@ const Page = () => {
     instructor: "",
     location: "",
   });
-
   const [filteredData, setFilteredData] = useState(courseSchedule);
+
+  const { data: coursesData, isLoading: coursesLoading } = getAllCourses();
 
   // Handle select changes
   const handleSelectChange = (key, value) => {
@@ -205,14 +207,7 @@ const Page = () => {
             <select
               value={selectedShow}
               onChange={(e) => setSelectedShow(e.target.value)}
-              className="
-      border border-gray-300 rounded-md 
-      px-2 md:px-3 py-1.5 sm:py-2 
-      text-sm md:text-base text-gray-700 
-      bg-white
-      focus:outline-none focus:ring-2 focus:ring-gray-300
-      transition-all duration-150
-    "
+              className="border border-gray-300 rounded-md px-2 md:px-3 py-1.5 sm:py-2  text-sm md:text-base text-gray-700  bg-white focus:outline-none focus:ring-2 focus:ring-gray-300 transition-all duration-150"
             >
               <option value="10">10</option>
               <option value="25">25</option>

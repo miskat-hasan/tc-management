@@ -395,4 +395,4 @@ export const updateCardSettings = () => {
     isPrivate: true,
     endpoint: "/api/adjustment/update",
   });
- };
+};
