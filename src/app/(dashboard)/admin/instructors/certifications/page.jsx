@@ -2,15 +2,13 @@
 
 import SectionTitle from "@/components/common/SectionTitle";
 import TableSkeleton from "@/components/common/TableSkelation";
-import { Button } from "@/components/ui/button";
 import { getAllCertification } from "@/hooks/api/dashboardApi";
-import { PlusIcon } from "@/svg/SvgContainer";
 import Link from "next/link";
 import { CiEdit } from "react-icons/ci";
 import NewCertification from "./new/page";
 import { useState } from "react";
 
-const Certification = ({ instructorId }) => {
+const Certification = ({ instructorId, CertificationData }) => {
   const [page, setPage] = useState(1);
   const [perPage, setPerPage] = useState(10);
 
@@ -37,8 +35,8 @@ const Certification = ({ instructorId }) => {
                 </thead>
 
                 <tbody>
-                  {data?.data?.length > 0 ? (
-                    data?.data?.map((item, index) => (
+                  {CertificationData?.length > 0 ? (
+                    CertificationData?.map((item, index) => (
                       <tr
                         key={index}
                         className="border-b hover:bg-gray-50 transition-all"
@@ -97,7 +95,7 @@ const Certification = ({ instructorId }) => {
 
               {/* Pagination */}
               <div className="flex items-center gap-2">
-                {data?.data?.links?.map((link, index) => (
+                {CertificationData?.links?.map((link, index) => (
                   <button
                     key={index}
                     disabled={link.url === null || link.page === null}

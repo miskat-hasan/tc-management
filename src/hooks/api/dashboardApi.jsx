@@ -153,7 +153,7 @@ export const updateInstructor = (id) => {
   return useClientApi({
     method: "post",
     isPrivate: true,
-    endpoint: `/instructors/${id}/update`,
+    endpoint: `/api/instructors/${id}/update`,
   });
 };
 
@@ -171,7 +171,7 @@ export const getSingleInstructor = (id) => {
     method: "get",
     key: ["get-single-instructor"],
     isPrivate: true,
-    endpoint: `/api/instructors?id=${id}`,
+    endpoint: `/api/single-instructors?id=${id}`,
   });
 };
 
@@ -394,5 +394,31 @@ export const updateCardSettings = () => {
     method: "post",
     isPrivate: true,
     endpoint: "/api/adjustment/update",
+  });
+};
+
+export const storeClass = () => {
+  return useClientApi({
+    method: "post",
+    isPrivate: true,
+    endpoint: "/api/class/store",
+  });
+};
+
+export const getSecondCardType = () => {
+  return useClientApi({
+    method: "get",
+    key: ["get-all-second-card-type"],
+    isPrivate: true,
+    endpoint: "/api/second_card/index",
+  });
+};
+
+export const getCourseImage = () => {
+  return useClientApi({
+    method: "get",
+    isPrivate: true,
+    key: ["get-all-course-image"],
+    endpoint: "/api/course_image/index",
   });
 };

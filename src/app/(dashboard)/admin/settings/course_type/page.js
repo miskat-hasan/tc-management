@@ -2,7 +2,6 @@
 
 import SectionTitle from "@/components/common/SectionTitle";
 import { Button } from "@/components/ui/button";
-import { coursesType } from "@/data/data";
 import { getAllCourses } from "@/hooks/api/dashboardApi";
 import { PlusIcon } from "@/svg/SvgContainer";
 import { useRouter } from "next/navigation";
@@ -11,25 +10,25 @@ import { CiEdit } from "react-icons/ci";
 
 const Page = () => {
   const router = useRouter();
-  const [selectedShow, setSelectedShow] = useState(50);
   const [selectedRows, setSelectedRows] = useState([]);
   const [page, setPage] = useState(1);
   const [perPage, setPerPage] = useState(10);
 
   const { data: coursesTypeData, isLoading: coursesTypeLoading } =
     getAllCourses(page, perPage);
+    console.log("coursesTypeData", coursesTypeData?.data?.data)
 
   const toggleRow = (index) => {
     setSelectedRows((prev) =>
-      prev.includes(index) ? prev.filter((i) => i !== index) : [...prev, index]
+      prev.includes(index) ? prev.filter((i) => i !== index) : [...prev, index],
     );
   };
 
   const toggleAllRows = () => {
-    if (selectedRows.length === coursesType.length) {
+    if (selectedRows.length === coursesTypeData?.data?.data?.length) {
       setSelectedRows([]);
     } else {
-      setSelectedRows(coursesType.map((_, i) => i));
+      setSelectedRows(coursesTypeData?.data?.data?.map((_, i) => i));
     }
   };
 
@@ -71,7 +70,7 @@ const Page = () => {
                     type="checkbox"
                     className="w-4 h-4 accent-[#8C8C8C]"
                     onChange={toggleAllRows}
-                    checked={selectedRows.length === coursesType.length}
+                    checked={selectedRows.length === coursesTypeData?.data?.data?.length}
                   />
                 </th>
                 <th className="px-3 py-3 md:px-6 whitespace-nowrap">Name</th>
@@ -112,7 +111,7 @@ const Page = () => {
                       {item.discipline}
                     </td>
                     <td className="px-3 py-4 md:px-6 whitespace-nowrap">
-                      {item.addons.length > 0 ? item.addons : "--"}
+                      {/* {item.addons.length > 0 ? item.addons?.product_code : "--"} */}
                     </td>
                     <td className="px-3 py-4 md:px-6 whitespace-nowrap">
                       {item.price}

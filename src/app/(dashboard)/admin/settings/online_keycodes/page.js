@@ -15,8 +15,6 @@ import Link from "next/link";
 const Page = () => {
   const [page, setPage] = useState(1);
   const [perPage, setPerPage] = useState(10);
-
-  const [selectedShow, setSelectedShow] = useState(50);
   const router = useRouter();
 
   const { data: keycodeData, isLoading: keycodeDataLoading } =
@@ -57,8 +55,8 @@ const Page = () => {
               </thead>
 
               <tbody>
-                {keycodeData?.data?.data?.length > 0 ? (
-                  keycodeData?.data?.data?.map((item, index) => (
+                {keycodeData?.data?.length > 0 ? (
+                  keycodeData?.data?.map((item, index) => (
                     <tr
                       key={index}
                       className="border-b hover:bg-gray-50 transition-all"
@@ -119,7 +117,7 @@ const Page = () => {
 
           {/* Pagination */}
           <div className="flex items-center gap-2">
-            {keycodeData?.data?.data?.links?.map((link, index) => (
+            {keycodeData?.data?.links?.map((link, index) => (
               <button
                 key={index}
                 disabled={link.url === null || link.page === null}
