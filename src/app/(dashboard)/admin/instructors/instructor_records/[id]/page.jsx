@@ -33,9 +33,6 @@ const Page = ({ params }) => {
 
   const { id } = params;
 
-  const { data: instructorData, isLoading: instructorLoading } =
-    getSingleInstructor(id);
-    
   const { data: trainingSitesData, isLoading: trainingSitesLoading } =
     getallTrainingsite();
 
@@ -43,34 +40,44 @@ const Page = ({ params }) => {
 
   const { data: userRoles, isLoading: rolesLoading } = getAllUserRole();
 
+  const { data: instructorData, isLoading: instructorLoading } =
+    getSingleInstructor(id);
+
+  console.log("instructorData", instructorData);
+
   React.useEffect(() => {
-    if (instructorData?.data[0] && countryData && trainingSitesData) {
+    if (
+      instructorData?.data &&
+      countryData?.data &&
+      trainingSitesData?.data &&
+      userRoles?.data
+    ) {
       reset({
-        username: instructorData?.data[0]?.username ?? "",
-        trainingSite: instructorData?.data[0]?.training_site_id ?? "",
-        firstName: instructorData?.data[0]?.first_name ?? "",
-        lastName: instructorData?.data[0]?.last_name ?? "",
-        address1: instructorData?.data[0]?.address_line_1 ?? "",
-        address2: instructorData?.data[0]?.address_line_2 ?? "",
-        city: instructorData?.data[0]?.city ?? "",
-        stateProvince: instructorData?.data[0]?.state_province_region ?? "",
-        country: instructorData?.data[0]?.country_id ?? "",
-        mobilePhone: instructorData?.data[0]?.mobile_phone ?? "",
-        emailAddress: instructorData?.data[0]?.email ?? "",
-        zipPostalCode: instructorData?.data[0]?.zip_postal_code ?? "",
-        nameOnCard: instructorData?.data[0]?.name_to_print_on_card ?? "",
-        ahaInstructorId: instructorData?.data[0]?.aha_instructor_id ?? "",
-        hsiInstructorId: instructorData?.data[0]?.hsi_instructor_id ?? "",
-        rclcUsername: instructorData?.data[0]?.rclc_username ?? "",
-        active_user: Boolean(instructorData?.data[0]?.active_user),
-        read_only_user: Boolean(instructorData?.data[0]?.read_only_user),
+        username: instructorData?.data?.username ?? "",
+        trainingSite: instructorData?.data?.training_site_id ?? "",
+        firstName: instructorData?.data?.first_name ?? "",
+        lastName: instructorData?.data?.last_name ?? "",
+        address1: instructorData?.data?.address_line_1 ?? "",
+        address2: instructorData?.data?.address_line_2 ?? "",
+        city: instructorData?.data?.city ?? "",
+        stateProvince: instructorData?.data?.state_province_region ?? "",
+        country: instructorData?.data?.country_id ?? "",
+        mobilePhone: instructorData?.data?.mobile_phone ?? "",
+        emailAddress: instructorData?.data?.email ?? "",
+        zipPostalCode: instructorData?.data?.zip_postal_code ?? "",
+        nameOnCard: instructorData?.data?.name_to_print_on_card ?? "",
+        ahaInstructorId: instructorData?.data?.aha_instructor_id ?? "",
+        hsiInstructorId: instructorData?.data?.hsi_instructor_id ?? "",
+        rclcUsername: instructorData?.data?.rclc_username ?? "",
+        active_user: Boolean(instructorData?.data?.active_user),
+        read_only_user: Boolean(instructorData?.data?.read_only_user),
         allow_bid_on_open_classes: Boolean(
-          instructorData?.data[0]?.allow_bid_on_open_classes
+          instructorData?.data?.allow_bid_on_open_classes,
         ),
-        roles: instructorData?.data[0]?.roles?.map((role) => role.id),
+        roles: instructorData?.data?.roles?.map((role) => role.id),
       });
     }
-  }, [instructorData, reset]);
+  }, [instructorData, trainingSitesData, reset, userRoles, countryData]);
 
   const { mutateAsync: instructorMutation, isPending: instructorPending } =
     updateInstructor(id);
@@ -98,7 +105,7 @@ const Page = ({ params }) => {
     formData.append("read_only_user", Number(data?.read_only_user));
     formData.append(
       "allow_bid_on_open_classes",
-      Number(data?.allow_bid_on_open_classes)
+      Number(data?.allow_bid_on_open_classes),
     );
 
     data?.roles?.forEach((id) => {
@@ -123,11 +130,10 @@ const Page = ({ params }) => {
 
   return (
     <div>
-      {!countryData &&
-      !trainingSitesData &&
-      instructorLoading &&
+      {instructorLoading &&
+      trainingSitesLoading &&
       countryDataLoading &&
-      trainingSitesLoading ? (
+      rolesLoading ? (
         "Loading Data ..."
       ) : (
         <section className="flex flex-col gap-2 lg:gap-4">
@@ -292,11 +298,24 @@ const Page = ({ params }) => {
                       key={role.id}
                       className="flex items-center gap-1 md:gap-2 text-[10px] md:text-sm"
                     >
-                      <input
-                        type="checkbox"
-                        value={role.id}
-                        {...register("roles")}
-                        className="accent-brown"
+                      <Controller
+                        name="roles"
+                        control={control}
+                        render={({ field }) => (
+                          <input
+                            type="checkbox"
+                            checked={field.value?.includes(role.id)}
+                            onChange={(e) => {
+                              const updatedRoles = e.target.checked
+                                ? [...(field.value || []), role.id]
+                                : (field.value || []).filter(
+                                    (id) => id !== role.id,
+                                  );
+                              field.onChange(updatedRoles);
+                            }}
+                            className="accent-brown"
+                          />
+                        )}
                       />
                       {role.role_name}
                     </label>
@@ -326,11 +345,14 @@ const Page = ({ params }) => {
           </div>
           {/* document */}
           <DocumentList
-            instructorId={instructorData?.data[0]?.id}
-            documentData={instructorData?.data[0]?.documents}
+            instructorId={instructorData?.data?.id}
+            documentData={instructorData?.data?.documents}
           />
 
-            <Certification instructorId={instructorData?.data[0]?.id} CertificationData={instructorData?.data[0]?.certifications}/>
+          <Certification
+            instructorId={instructorData?.data?.id}
+            CertificationData={instructorData?.data?.certifications}
+          />
         </section>
       )}
     </div>

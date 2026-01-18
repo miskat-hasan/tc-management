@@ -10,21 +10,31 @@ import {
   getAllCourses,
   getAllInstructor,
   getAllLocation,
+  storeClass,
 } from "@/hooks/api/dashboardApi";
-import React from "react";
-import { Controller, useForm } from "react-hook-form";
+import { LucideTrash2, X } from "lucide-react";
+import React, { useState } from "react";
+import { Controller, useForm, useFieldArray } from "react-hook-form";
+import { FaPlus } from "react-icons/fa";
+import Swal from "sweetalert2";
 
 const Page = () => {
   const form = useForm({
     defaultValues: {
-      agent: "",
-      garageCode: "",
-      doorCode: "",
-      gateCode: "",
-      lockboxCode: "",
-      lockboxLocation: "",
-      parking: "",
-      showingInstructions: "",
+      course: null,
+      client: null,
+      location: null,
+      instructor: null,
+      classId: "",
+      price: "",
+      totalHours: "",
+      maxStudents: "",
+      studentManikinRatio: "",
+      closeRegistrationEarly: "",
+      listing: false,
+      publicNotes: "",
+      internalNotes: "",
+      classTimes: [{ date: "", timeFrom: "", timeTo: "" }],
     },
   });
 
@@ -32,8 +42,16 @@ const Page = () => {
     control,
     register,
     reset,
+    watch,
+    setValue,
     formState: { errors },
   } = form;
+
+  // Use useFieldArray for dynamic class times
+  const { fields, append, remove } = useFieldArray({
+    control,
+    name: "classTimes",
+  });
 
   const { data: coursesData, isLoading: coursesLoading } = getAllCourses();
   const { data: clientData, isLoading: clientDataLoading } = getAllClient();
@@ -42,7 +60,109 @@ const Page = () => {
   const { data: instructorData, isLoading: instructorDataLoading } =
     getAllInstructor();
 
-  const onSubmit = (values) => {};
+  const selectedAssistants = watch("assistants") || [];
+
+  // const dayOptions = [
+  //   { id: "monday", name: "Monday" },
+  //   { id: "tuesday", name: "Tuesday" },
+  //   { id: "wednesday", name: "Wednesday" },
+  //   { id: "thursday", name: "Thursday" },
+  //   { id: "friday", name: "Friday" },
+  //   { id: "saturday", name: "Saturday" },
+  //   { id: "sunday", name: "Sunday" },
+  // ];
+
+  const { mutate, isPending } = storeClass();
+
+  const onSubmit = (data) => {
+    const formData = new FormData();
+
+    formData.append("course_id", data.course);
+    formData.append("client_id", data.client);
+    formData.append("location_id", data.location);
+    formData.append("instructor_id", data.instructor);
+    formData.append("class_id", data.classId);
+    formData.append("price", data.price);
+    formData.append("total_hours", data.totalHours);
+    formData.append("max_student", data.maxStudents);
+    formData.append("ratio", data.studentManikinRatio);
+    formData.append("close_registration", data.closeRegistrationEarly);
+    formData.append("listing", data.listing ? 1 : 0);
+    formData.append("public_notes", data.publicNotes);
+    formData.append("internal_notes", data.internalNotes);
+    formData.append("training_site_id", 1);
+
+    // assistants array
+    // data.assistants.forEach((id, index) => {
+    //   formData.append(`assistant_ids[]`, id);
+    // });
+
+    // classTimes array
+    data.classTimes.forEach((item, index) => {
+      formData.append(`class_times[${index}][date]`, item.date);
+      formData.append(`class_times[${index}][from]`, item.timeFrom);
+      formData.append(`class_times[${index}][to]`, item.timeTo);
+    });
+
+    mutate(formData, {
+      onSuccess: (data) => {
+        reset();
+        Swal.fire({
+          text: data?.message,
+          icon: "success",
+        });
+      },
+      onError: (err) => {
+        Swal.fire({
+          text: err?.response?.data?.message,
+          icon: "error",
+        });
+      },
+    });
+  };
+
+  const handleAddClassTime = () => {
+    if (fields.length < 7) {
+      append({
+        day: "",
+        timeFrom: "",
+        timeTo: "",
+      });
+    }
+  };
+
+  const handleRemoveClassTime = (index) => {
+    if (fields.length > 1) {
+      remove(index);
+    }
+  };
+
+  const handleAddAssistant = (value) => {
+    // Handle both cases: value could be an ID or an object
+    const assistantId = typeof value === "object" ? value?.id : value;
+    // Convert to number to ensure consistency
+    const numericId = Number(assistantId);
+
+    console.log("Adding assistant ID:", numericId);
+    console.log("Current selected:", selectedAssistants);
+
+    if (numericId && !selectedAssistants.includes(numericId)) {
+      setValue("assistants", [...selectedAssistants, numericId]);
+    }
+  };
+
+  const handleRemoveAssistant = (assistantId) => {
+    setValue(
+      "assistants",
+      selectedAssistants.filter((id) => id !== assistantId),
+    );
+  };
+
+  // Get available assistants (not already selected)
+  const availableAssistants = instructorData?.data?.data?.filter(
+    (instructor) => !selectedAssistants.includes(instructor.id),
+  );
+
   return (
     <div className="flex flex-col gap-[10px] lg:gap-[20px]">
       <SectionTitle title={"Schedule a Class"} />
@@ -64,7 +184,7 @@ const Page = () => {
                 label="Course"
                 placeholder="Course"
                 isLoading={coursesLoading}
-                options={coursesData?.data}
+                options={coursesData?.data?.data}
                 error={errors.course?.message}
                 className="flex-1"
               />
@@ -105,71 +225,141 @@ const Page = () => {
               />
             )}
           />
-          <div className="gap-6 grid grid-cols-2 col-span-2">
-            <div className="flex-1">
-              <Controller
-                name="instructor"
-                control={control}
-                rules={{ required: "Instructor is required" }}
-                render={({ field }) => (
-                  <CustomSelect
-                    {...field}
-                    id="instructor"
-                    label={"Instructor"}
-                    placeholder="Instructor"
-                    isLoading={instructorDataLoading}
-                    options={instructorData?.data}
-                    error={errors.instructor?.message}
-                    className={"flex-1"}
-                  />
-                )}
+          <Controller
+            name="instructor"
+            control={control}
+            rules={{ required: "Instructor is required" }}
+            render={({ field }) => (
+              <CustomSelect
+                {...field}
+                id="instructor"
+                label={"Instructor"}
+                placeholder="Instructor"
+                isLoading={instructorDataLoading}
+                options={instructorData?.data?.data}
+                error={errors.instructor?.message}
+                className={"flex-1"}
               />
-            </div>
-            <div className="flex items-center gap-2 mt-2">
-              <input
-                id="bidding-checkbox"
-                type="checkbox"
-                {...form.register("openForBidding")}
-                className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
-              />
-              <label
-                htmlFor="bidding-checkbox"
-                className="text-sm text-gray-600"
-              >
-                Open for bidding
-              </label>
-            </div>
+            )}
+          />
+
+          {/* Multiple Assistants Selection */}
+          <div className="flex flex-col gap-2">
+            {/* Dropdown to add more assistants */}
+            <Controller
+              name="assistantSelector"
+              control={control}
+              render={({ field }) => (
+                <CustomSelect
+                  {...field}
+                  id="assistantSelector"
+                  label={"Assistants"}
+                  placeholder="Select assistant to add"
+                  isLoading={instructorDataLoading}
+                  options={availableAssistants}
+                  onChange={(value) => {
+                    if (value) {
+                      handleAddAssistant(value);
+                      field.onChange(""); // Reset selector
+                    }
+                  }}
+                  value=""
+                  className={"flex-1"}
+                />
+              )}
+            />
+            {errors.assistants && (
+              <p className="text-red-500 text-sm">
+                {errors.assistants.message}
+              </p>
+            )}
+            {/* Selected Assistants Tags */}
+            {selectedAssistants.length > 0 && (
+              <div className="flex flex-wrap gap-2 mb-2">
+                {selectedAssistants.map((assistantId) => {
+                  const assistant = instructorData?.data?.data?.find(
+                    (inst) => inst.id === assistantId,
+                  );
+                  return (
+                    <div
+                      key={assistantId}
+                      className="inline-flex items-center gap-1 bg-neutral-200 text-neutral-800 px-3 py-1 rounded-full text-sm"
+                    >
+                      <span>{assistant?.name || assistant?.username}</span>
+                      <div
+                        onClick={() => handleRemoveAssistant(assistantId)}
+                        className="hover:bg-blue-200 rounded-full p-0.5 cursor-pointer"
+                      >
+                        <X className="size-3" />
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
           </div>
-          {/* <FormInput
-            name="instructorClassId"
-            label="Class Id"
-            placeholder="Class Id"
-          /> */}
 
           {/* Class Times Section */}
-          <div className="md:col-span-2">
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Class Times
-            </label>
-            <div className="grid grid-cols-2 gap-4">
-              <FormInput
-                name="classTimeFrom"
-                label=""
-                placeholder="from"
-                type="time"
-              />
-              <FormInput
-                name="classTimeTo"
-                label=""
-                placeholder="to"
-                type="time"
-              />
+          <div className="col-span-2 bg-neutral-50 border px-2 pt-2 pb-4 rounded-md">
+            <h6 className="text-xl mb-1">Set Class Times</h6>
+            {fields.map((field, index) => (
+              <div key={field.id} className="flex items-center gap-4 mt-3">
+                <div className="grid grid-cols-3 gap-4 flex-1">
+                  {/* <Controller
+                    name={`classTimes.${index}.day`}
+                    control={control}
+                    rules={{ required: "Day is required" }}
+                    render={({ field }) => (
+                      <CustomSelect
+                        {...field}
+                        label="Day"
+                        placeholder="Select day"
+                        options={dayOptions}
+                        error={errors?.classTimes?.[index]?.day?.message}
+                      />
+                    )}
+                  /> */}
+                  <FormInput
+                    name={`classTimes.${index}.date`}
+                    label="Date"
+                    placeholder="Date"
+                    type="date"
+                  />
+                  <FormInput
+                    name={`classTimes.${index}.timeFrom`}
+                    label="From"
+                    placeholder="from"
+                    type="time"
+                  />
+                  <FormInput
+                    name={`classTimes.${index}.timeTo`}
+                    label="To"
+                    placeholder="to"
+                    type="time"
+                  />
+                </div>
+                {fields.length > 1 && (
+                  <div
+                    onClick={() => handleRemoveClassTime(index)}
+                    className="bg-neutral-200 p-2 -mb-6 rounded-md cursor-pointer hover:bg-neutral-300"
+                  >
+                    <LucideTrash2 className="size-4" />
+                  </div>
+                )}
+              </div>
+            ))}
+            <div
+              onClick={handleAddClassTime}
+              className="mt-4 px-2 py-1.5 inline-flex items-center gap-1 border rounded-md text-sm bg-neutral-700 text-neutral-100 cursor-pointer hover:bg-neutral-600 shadow-sm"
+            >
+              <FaPlus className="size-3" />
+              Add more
             </div>
           </div>
 
           {/* Pricing and Capacity Section */}
           <div className="md:col-span-2">
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
               <FormInput name="price" label="Price" placeholder="e.g., 100" />
               <FormInput
                 name="totalHours"
@@ -181,37 +371,66 @@ const Page = () => {
                 label="Max Students"
                 placeholder="e.g., 25"
               />
+              <div>
+                <Controller
+                  name="studentManikinRatio"
+                  control={control}
+                  rules={{ required: "Student/Manikin Ratio is required" }}
+                  render={({ field }) => (
+                    <CustomSelect
+                      {...field}
+                      id="studentManikinRatio"
+                      label={"Student/Manikin Ratio"}
+                      placeholder="Student Ratio"
+                      options={[
+                        { id: "1", name: "1:1" },
+                        { id: "2", name: "2:1" },
+                        { id: "3", name: "3:1" },
+                        { id: "4", name: "4:1" },
+                        { id: "5", name: "5:1" },
+                        { id: "6", name: "6:1" },
+                        { id: "7", name: "7:1" },
+                        { id: "8", name: "8:1" },
+                        { id: "9", name: "9:1" },
+                      ]}
+                      error={errors.studentManikinRatio?.message}
+                      className={"flex-1"}
+                    />
+                  )}
+                />
+                <p className="text-xs text-gray-500 mt-1">if applicable</p>
+              </div>
             </div>
           </div>
 
           <div>
             <FormInput
-              name="studentManikinRatio"
-              label="Student/Manikin Ratio"
-            />
-            <p className="text-xs text-gray-500 mt-1">if applicable</p>
-          </div>
-
-          <FormInput
-            name="assistants"
-            label="Assistants"
-            placeholder="Click to select"
-          />
-
-          <FormInput
-            name="additionalAssistants"
-            label="Assistants"
-            placeholder="Click to select"
-          />
-          <div>
-            <FormInput
               name="closeRegistrationEarly"
               label="Close Registration Early"
-              type="number"
+              type="date"
             />
             <p className="text-xs text-gray-500 mt-1">
               days and hours before class start date
             </p>
+          </div>
+          <div className="flex flex-col gap-2 mt-2">
+            <label className="leading-[1.45] font-medium text-sm sm:text-base text-gray-700">
+              Listing
+            </label>
+            <div className="flex items-center gap-2">
+              <input
+                id="bidding-checkbox"
+                type="checkbox"
+                {...form.register("listing")}
+                className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+              />
+              <label
+                htmlFor="bidding-checkbox"
+                className="text-sm text-gray-600"
+              >
+                Include in the online class catalog
+              </label>
+            </div>
           </div>
 
           {/* Notes Section */}
@@ -226,16 +445,10 @@ const Page = () => {
         {/* Action Buttons */}
         <div className="flex justify-end gap-4 mt-8">
           <Button
-            type="button"
-            className="px-6 py-2 bg-transparent border border-gray-300 rounded-md text-sm font-medium text-black hover:bg-gray-50 focus:outline-none"
-          >
-            Back
-          </Button>
-          <Button
             type="submit"
             className="px-6 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium cursor-pointer text-white bg-brown cursor hover:bg-brown-hover focus:outline-none"
           >
-            Update Class
+            {isPending ? "Updating..." : "Update Class"}
           </Button>
         </div>
       </FormContainer>
