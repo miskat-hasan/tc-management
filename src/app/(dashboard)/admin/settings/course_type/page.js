@@ -1,9 +1,11 @@
 "use client";
 
 import SectionTitle from "@/components/common/SectionTitle";
+import TableSkeleton from "@/components/common/TableSkelation";
 import { Button } from "@/components/ui/button";
 import { getAllCourses } from "@/hooks/api/dashboardApi";
 import { PlusIcon } from "@/svg/SvgContainer";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { CiEdit } from "react-icons/ci";
@@ -16,7 +18,6 @@ const Page = () => {
 
   const { data: coursesTypeData, isLoading: coursesTypeLoading } =
     getAllCourses(page, perPage);
-    console.log("coursesTypeData", coursesTypeData?.data?.data)
 
   const toggleRow = (index) => {
     setSelectedRows((prev) =>
@@ -61,87 +62,98 @@ const Page = () => {
       </div>
 
       <div className="p-[13px] lg:p-[26px] bg-white rounded-[14px] flex flex-col gap-[24px]">
-        <div className="overflow-x-auto">
-          <table className="min-w-full text-sm text-left text-gray-700">
-            <thead className="bg-gray-50 text-black text-[14px] md:text-[16px] font-semibold">
-              <tr>
-                <th className="px-3 py-3 md:px-6">
-                  <input
-                    type="checkbox"
-                    className="w-4 h-4 accent-[#8C8C8C]"
-                    onChange={toggleAllRows}
-                    checked={selectedRows.length === coursesTypeData?.data?.data?.length}
-                  />
-                </th>
-                <th className="px-3 py-3 md:px-6 whitespace-nowrap">Name</th>
-                <th className="px-3 py-3 md:px-6 whitespace-nowrap">
-                  Discipline
-                </th>
-                <th className="px-3 py-3 md:px-6 whitespace-nowrap">Add-ons</th>
-                <th className="px-3 py-3 md:px-6 whitespace-nowrap">Price</th>
-                <th className="px-3 py-3 md:px-6 whitespace-nowrap">Ship</th>
-                <th className="px-3 py-3 md:px-6 whitespace-nowrap">eCard</th>
-                <th className="px-3 py-3 md:px-6 text-center whitespace-nowrap">
-                  Action
-                </th>
-              </tr>
-            </thead>
+        {coursesTypeLoading ? (
+          <TableSkeleton />
+        ) : (
+          <div className="overflow-x-auto">
+            <table className="min-w-full text-sm text-left text-gray-700">
+              <thead className="bg-gray-50 text-black text-[14px] md:text-[16px] font-semibold">
+                <tr>
+                  <th className="px-3 py-3 md:px-6">
+                    <input
+                      type="checkbox"
+                      className="w-4 h-4 accent-[#8C8C8C]"
+                      onChange={toggleAllRows}
+                      checked={
+                        selectedRows.length ===
+                        coursesTypeData?.data?.data?.length
+                      }
+                    />
+                  </th>
+                  <th className="px-3 py-3 md:px-6 whitespace-nowrap">Name</th>
+                  <th className="px-3 py-3 md:px-6 whitespace-nowrap">
+                    Discipline
+                  </th>
+                  <th className="px-3 py-3 md:px-6 whitespace-nowrap">
+                    Add-ons
+                  </th>
+                  <th className="px-3 py-3 md:px-6 whitespace-nowrap">Price</th>
+                  <th className="px-3 py-3 md:px-6 whitespace-nowrap">Ship</th>
+                  <th className="px-3 py-3 md:px-6 whitespace-nowrap">eCard</th>
+                  <th className="px-3 py-3 md:px-6 text-center whitespace-nowrap">
+                    Action
+                  </th>
+                </tr>
+              </thead>
 
-            <tbody>
-              {coursesTypeData?.data?.data?.length > 0 ? (
-                coursesTypeData?.data?.data?.map((item, index) => (
-                  <tr
-                    key={index}
-                    className={`border-b hover:bg-gray-50 transition-all ${
-                      selectedRows.includes(index) ? "bg-gray-100" : ""
-                    }`}
-                  >
-                    <td className="px-3 py-4 md:px-6">
-                      <input
-                        type="checkbox"
-                        className="w-4 h-4 accent-[#8C8C8C]"
-                        checked={selectedRows.includes(index)}
-                        onChange={() => toggleRow(index)}
-                      />
-                    </td>
-                    <td className="px-3 py-4 md:px-6 whitespace-nowrap">
-                      {item.course_name}
-                    </td>
-                    <td className="px-3 py-4 md:px-6 whitespace-nowrap">
-                      {item.discipline}
-                    </td>
-                    <td className="px-3 py-4 md:px-6 whitespace-nowrap">
-                      {/* {item.addons.length > 0 ? item.addons?.product_code : "--"} */}
-                    </td>
-                    <td className="px-3 py-4 md:px-6 whitespace-nowrap">
-                      {item.price}
-                    </td>
-                    <td className="px-3 py-4 md:px-6 whitespace-nowrap">
-                      $ {item.shipping_price}
-                    </td>
-                    <td className="px-3 py-4 md:px-6 whitespace-nowrap">
-                      {item.eCard}
-                    </td>
-                    <td className="px-3 py-4 md:px-6 text-center whitespace-nowrap">
-                      <button className="p-2 bg-gray-100 rounded-lg hover:bg-gray-200 transition">
-                        <CiEdit className="text-gray-600 text-[16px]" />
-                      </button>
+              <tbody>
+                {coursesTypeData?.data?.data?.length > 0 ? (
+                  coursesTypeData?.data?.data?.map((item, index) => (
+                    <tr
+                      key={index}
+                      className={`border-b hover:bg-gray-50 transition-all ${
+                        selectedRows.includes(index) ? "bg-gray-100" : ""
+                      }`}
+                    >
+                      <td className="px-3 py-4 md:px-6">
+                        <input
+                          type="checkbox"
+                          className="w-4 h-4 accent-[#8C8C8C]"
+                          checked={selectedRows.includes(index)}
+                          onChange={() => toggleRow(index)}
+                        />
+                      </td>
+                      <td className="px-3 py-4 md:px-6 whitespace-nowrap">
+                        {item.course_name}
+                      </td>
+                      <td className="px-3 py-4 md:px-6 whitespace-nowrap">
+                        {item.discipline}
+                      </td>
+                      <td className="px-3 py-4 md:px-6 whitespace-nowrap">
+                        {/* {item.addons.length > 0 ? item.addons?.product_code : "--"} */}
+                      </td>
+                      <td className="px-3 py-4 md:px-6 whitespace-nowrap">
+                        {item.price}
+                      </td>
+                      <td className="px-3 py-4 md:px-6 whitespace-nowrap">
+                        $ {item.shipping_price}
+                      </td>
+                      <td className="px-3 py-4 md:px-6 whitespace-nowrap">
+                        {item.eCard}
+                      </td>
+                      <td className="px-3 py-4 md:px-6 text-center whitespace-nowrap">
+                        <Link href={`/admin/settings/course_type/${item.id}`}>
+                          <button className="p-2 bg-gray-100 rounded-lg hover:bg-gray-200 transition cursor-pointer">
+                            <CiEdit className="text-gray-600 text-[16px]" />
+                          </button>
+                        </Link>
+                      </td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
+                    <td
+                      colSpan="8"
+                      className="text-center py-6 text-gray-500 italic"
+                    >
+                      No results found
                     </td>
                   </tr>
-                ))
-              ) : (
-                <tr>
-                  <td
-                    colSpan="8"
-                    className="text-center py-6 text-gray-500 italic"
-                  >
-                    No results found
-                  </td>
-                </tr>
-              )}
-            </tbody>
-          </table>
-        </div>
+                )}
+              </tbody>
+            </table>
+          </div>
+        )}
 
         {/* Footer controls */}
         <div className="flex flex-col md:flex-row items-center justify-end mt-3 lg:mt-6 gap-3">
