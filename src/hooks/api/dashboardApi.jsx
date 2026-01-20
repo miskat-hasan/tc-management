@@ -175,15 +175,6 @@ export const getSingleInstructor = (id) => {
   });
 };
 
-export const getAllCourses = (page = 1, perPage = 10) => {
-  return useClientApi({
-    method: "get",
-    key: ["get-all-course", page, perPage],
-    isPrivate: true,
-    endpoint: `/api/couese/index?page=${page}&per_page=${perPage}`,
-  });
-};
-
 export const getAllDiscipline = (page = 1, perPage = 10) => {
   return useClientApi({
     method: "get",
@@ -261,6 +252,7 @@ export const getAllUserRole = (page = 1, perPage = 10) => {
   });
 };
 
+// product add ons
 export const storeProductAddOns = () => {
   return useClientApi({
     method: "post",
@@ -295,6 +287,7 @@ export const getAllProductAddOns = (page = 1, perPage = 10) => {
   });
 };
 
+// promo code
 export const storePromoCode = () => {
   return useClientApi({
     method: "post",
@@ -329,6 +322,7 @@ export const getAllPromoCode = (page = 1, perPage = 10) => {
   });
 };
 
+// key code
 export const addKeyCodeBank = () => {
   return useClientApi({
     method: "post",
@@ -363,6 +357,7 @@ export const getAllKeyCodeBank = (page = 1, perPage = 10) => {
   });
 };
 
+// course
 export const storeCourse = () => {
   return useClientApi({
     method: "post",
@@ -371,6 +366,41 @@ export const storeCourse = () => {
   });
 };
 
+export const getSingleCourse = (id) => {
+  return useClientApi({
+    method: "get",
+    key: ["get-single-course"],
+    isPrivate: true,
+    endpoint: `/api/couese/show?id=${id}`,
+  });
+};
+
+export const updateCourse = () => {
+  return useClientApi({
+    method: "post",
+    isPrivate: true,
+    endpoint: "/api/couese/update",
+  });
+};
+export const getAllCourses = (page = 1, perPage = 10) => {
+  return useClientApi({
+    method: "get",
+    key: ["get-all-course", page, perPage],
+    isPrivate: true,
+    endpoint: `/api/couese/index?page=${page}&per_page=${perPage}`,
+  });
+};
+
+// course
+export const getCourseOptions = () => {
+  return useClientApi({
+    method: "get",
+    isPrivate: true,
+    key: ["get-all-course-type"],
+    endpoint: `/api/course_option/index`,
+  });
+};
+// card type
 export const getAllCardType = () => {
   return useClientApi({
     method: "get",
@@ -397,6 +427,7 @@ export const updateCardSettings = () => {
   });
 };
 
+// class
 export const storeClass = () => {
   return useClientApi({
     method: "post",
@@ -405,6 +436,31 @@ export const storeClass = () => {
   });
 };
 
+export const getSingleClass = (id) => {
+  return useClientApi({
+    method: "get",
+    isPrivate: true,
+    key: ["get-single-class"],
+    endpoint: `/api/class/show?id=${id}`,
+  });
+};
+
+export const updateClass = () => {
+  return useClientApi({
+    method: "post",
+    isPrivate: true,
+    endpoint: "/api/class/update",
+  });
+};
+
+export const getAllClasses = (page = 1, perPage = 10) => {
+  return useClientApi({
+    method: "get",
+    isPrivate: true,
+    key: ["get-all-classes", page, perPage],
+    endpoint: `/api/class/index?page=${page}&per_page=${perPage}`,
+  });
+};
 export const getSecondCardType = () => {
   return useClientApi({
     method: "get",

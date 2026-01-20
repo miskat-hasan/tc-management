@@ -10,15 +10,19 @@ import {
   getAllCourses,
   getAllInstructor,
   getAllLocation,
-  storeClass,
+  getSingleClass,
+  updateClass,
 } from "@/hooks/api/dashboardApi";
 import { LucideTrash2, X } from "lucide-react";
-import React, { useState } from "react";
+import React, { useEffect } from "react";
 import { Controller, useForm, useFieldArray } from "react-hook-form";
 import { FaPlus } from "react-icons/fa";
 import Swal from "sweetalert2";
 
-const Page = () => {
+const Page = ({ 
+  params }) => {
+  const { id } = params;
+
   const form = useForm({
     defaultValues: {
       course: null,
@@ -48,11 +52,12 @@ const Page = () => {
     formState: { errors },
   } = form;
 
-  // Use useFieldArray for dynamic class times
   const { fields, append, remove } = useFieldArray({
     control,
     name: "classTimes",
   });
+
+  const { data: classData, isLoading: classDataLoading } = getSingleClass(id);
 
   const { data: coursesData, isLoading: coursesLoading } = getAllCourses();
   const { data: clientData, isLoading: clientDataLoading } = getAllClient();
@@ -62,6 +67,50 @@ const Page = () => {
     getAllInstructor();
 
   const selectedAssistants = watch("assistants") || [];
+  useEffect(() => {
+    if (
+      classData?.data &&
+      coursesData?.data?.data &&
+      clientData?.data?.data &&
+      locationData?.data?.data &&
+      instructorData?.data?.data
+    ) {
+      const classInfo = classData.data;
+
+      reset({
+        course: classInfo?.course_id || null,
+        client: classInfo?.client_id || null,
+        location: classInfo?.location_id || null,
+        instructor: classInfo?.instructor_id || null,
+        classId: classInfo?.class_id || "",
+        price: classInfo?.price || "",
+        totalHours: classInfo?.total_hours || "",
+        maxStudents: classInfo?.max_student || "",
+        studentManikinRatio: classInfo?.ratio || "",
+        closeRegistrationEarly: classInfo?.close_registration || "",
+        listing: Boolean(classInfo?.listing),
+        publicNotes: classInfo?.public_notes || "",
+        internalNotes: classInfo?.internal_notes || "",
+        assistants:
+          classInfo?.assistants?.map((assistant) => assistant.id) || [],
+        classTimes:
+          classInfo?.class_times?.length > 0
+            ? classInfo.class_times.map((time) => ({
+                date: time.date || "",
+                timeFrom: time.from || "",
+                timeTo: time.to || "",
+              }))
+            : [{ date: "", timeFrom: "", timeTo: "" }],
+      });
+    }
+  }, [
+    reset,
+    classData?.data,
+    coursesData?.data?.data,
+    clientData?.data?.data,
+    instructorData?.data?.data,
+    locationData?.data?.data,
+  ]);
 
   // const dayOptions = [
   //   { id: "monday", name: "Monday" },
@@ -73,11 +122,12 @@ const Page = () => {
   //   { id: "sunday", name: "Sunday" },
   // ];
 
-  const { mutate, isPending } = storeClass();
+  const { mutate, isPending } = updateClass();
 
   const onSubmit = (data) => {
     const formData = new FormData();
 
+    formData.append("id", params.id);
     formData.append("course_id", data.course);
     formData.append("client_id", data.client);
     formData.append("location_id", data.location);
@@ -94,9 +144,9 @@ const Page = () => {
     formData.append("training_site_id", 1);
 
     // assistants array
-    data.assistants.forEach((id, index) => {
-      formData.append(`assistant_ids[]`, id);
-    });
+    // data.assistants.forEach((id, index) => {
+    //   formData.append(`assistant_ids[]`, id);
+    // });
 
     // classTimes array
     data.classTimes.forEach((item, index) => {
@@ -449,7 +499,7 @@ const Page = () => {
             type="submit"
             className="px-6 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium cursor-pointer text-white bg-brown cursor hover:bg-brown-hover focus:outline-none"
           >
-            {isPending ? "Adding..." : "Add Class"}
+            {isPending ? "Updating..." : "Update Class"}
           </Button>
         </div>
       </FormContainer>
