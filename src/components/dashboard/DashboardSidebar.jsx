@@ -73,22 +73,22 @@ const menuItems = [
       // },
     ],
   },
-  {
-    label: "Asset Tracking",
-    href: "#",
-    submenu: [
-      {
-        label: "Manage Asset Installations",
-        href: "/admin/asset_tracking/manage_asset_installations",
-      },
-      {
-        label: "Service Due Report",
-        href: "/admin/asset_tracking/service_due_report",
-      },
-      { label: "Parts Setup", href: "/admin/asset_tracking/parts_setup" },
-      { label: "Search Assets", href: "/admin/asset_tracking/search_assets" },
-    ],
-  },
+  // {
+  //   label: "Asset Tracking",
+  //   href: "#",
+  //   submenu: [
+  //     {
+  //       label: "Manage Asset Installations",
+  //       href: "/admin/asset_tracking/manage_asset_installations",
+  //     },
+  //     {
+  //       label: "Service Due Report",
+  //       href: "/admin/asset_tracking/service_due_report",
+  //     },
+  //     { label: "Parts Setup", href: "/admin/asset_tracking/parts_setup" },
+  //     { label: "Search Assets", href: "/admin/asset_tracking/search_assets" },
+  //   ],
+  // },
   {
     label: "Training Center",
     href: "#",
