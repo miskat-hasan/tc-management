@@ -1,12 +1,9 @@
 "use client";
 import SectionTitle from "@/components/common/SectionTitle";
-
 import { Button } from "@/components/ui/button";
-import { instructorData, keycodeData } from "@/data/data";
 import { PlusIcon } from "@/svg/SvgContainer";
 import React, { useState } from "react";
 import { CiEdit } from "react-icons/ci";
-
 import { useRouter } from "next/navigation";
 import { getAllKeyCodeBank } from "@/hooks/api/dashboardApi";
 import TableSkeleton from "@/components/common/TableSkelation";
@@ -55,8 +52,8 @@ const Page = () => {
               </thead>
 
               <tbody>
-                {keycodeData?.data?.length > 0 ? (
-                  keycodeData?.data?.map((item, index) => (
+                {keycodeData?.data?.data?.length > 0 ? (
+                  keycodeData?.data?.data?.map((item, index) => (
                     <tr
                       key={index}
                       className="border-b hover:bg-gray-50 transition-all"

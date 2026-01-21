@@ -1,8 +1,6 @@
 "use client";
 import SectionTitle from "@/components/common/SectionTitle";
-
 import { Button } from "@/components/ui/button";
-import { keycodeData, promocodeData } from "@/data/data";
 import { PlusIcon } from "@/svg/SvgContainer";
 import React, { useState } from "react";
 import { CiEdit } from "react-icons/ci";
@@ -13,9 +11,8 @@ import TableSkeleton from "@/components/common/TableSkelation";
 import Link from "next/link";
 
 const Page = () => {
-  const [selectedShow, setSelectedShow] = useState(50);
-    const [page, setPage] = useState(1);
-    const [perPage, setPerPage] = useState(10);
+  const [page, setPage] = useState(1);
+  const [perPage, setPerPage] = useState(10);
   const router = useRouter();
 
   const { data: promoCodeData, isLoading } = getAllPromoCode(page, perPage);
@@ -62,8 +59,8 @@ const Page = () => {
               </thead>
 
               <tbody>
-                {promoCodeData?.data?.length > 0 ? (
-                  promoCodeData?.data?.map((item, index) => (
+                {promoCodeData?.data?.data?.length > 0 ? (
+                  promoCodeData?.data?.data?.map((item, index) => (
                     <tr
                       key={index}
                       className="border-b hover:bg-gray-50 transition-all"
@@ -110,7 +107,7 @@ const Page = () => {
           </div>
         )}
 
-     {/* Footer controls */}
+        {/* Footer controls */}
         <div className="flex flex-col md:flex-row items-center justify-end mt-3 lg:mt-6 gap-3">
           {/* Show per page */}
           {/* <div className="flex items-center gap-2">

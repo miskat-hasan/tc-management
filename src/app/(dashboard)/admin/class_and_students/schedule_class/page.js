@@ -13,7 +13,7 @@ import {
   storeClass,
 } from "@/hooks/api/dashboardApi";
 import { LucideTrash2, X } from "lucide-react";
-import React, { useState } from "react";
+import React from "react";
 import { Controller, useForm, useFieldArray } from "react-hook-form";
 import { FaPlus } from "react-icons/fa";
 import Swal from "sweetalert2";
@@ -26,7 +26,7 @@ const Page = () => {
       location: null,
       instructor: null,
       assistants: [],
-      classId: "",
+      // classId: "",
       price: "",
       totalHours: "",
       maxStudents: "",
@@ -82,7 +82,7 @@ const Page = () => {
     formData.append("client_id", data.client);
     formData.append("location_id", data.location);
     formData.append("instructor_id", data.instructor);
-    formData.append("class_id", data.classId);
+    // formData.append("class_id", data.classId);
     formData.append("price", data.price);
     formData.append("total_hours", data.totalHours);
     formData.append("max_student", data.maxStudents);
@@ -187,11 +187,13 @@ const Page = () => {
                 isLoading={coursesLoading}
                 options={coursesData?.data?.data}
                 error={errors.course?.message}
-                className="flex-1"
+                className="flex-1 max-md:col-span-2"
               />
             )}
           />
-          <FormInput name="classId" label="Class Id" placeholder="Class Id" />
+          {/* <div className="flex-1 max-md:col-span-2">
+            <FormInput name="classId" label="Class Id" placeholder="Class Id" />
+          </div> */}
           <Controller
             name="client"
             control={control}
@@ -205,7 +207,7 @@ const Page = () => {
                 isLoading={clientDataLoading}
                 options={clientData?.data?.data}
                 error={errors.client?.message}
-                className={"flex-1"}
+                className="flex-1 max-md:col-span-2"
               />
             )}
           />
@@ -222,7 +224,7 @@ const Page = () => {
                 isLoading={locationDataLoading}
                 options={locationData?.data?.data}
                 error={errors.location?.message}
-                className={"flex-1"}
+                className="flex-1 max-md:col-span-2"
               />
             )}
           />
@@ -239,13 +241,13 @@ const Page = () => {
                 isLoading={instructorDataLoading}
                 options={instructorData?.data?.data}
                 error={errors.instructor?.message}
-                className={"flex-1"}
+                className="flex-1 max-md:col-span-2"
               />
             )}
           />
 
           {/* Multiple Assistants Selection */}
-          <div className="flex flex-col gap-2">
+          <div className="flex flex-col gap-2 w-full max-md:col-span-2">
             {/* Dropdown to add more assistants */}
             <Controller
               name="assistantSelector"
@@ -301,11 +303,14 @@ const Page = () => {
           </div>
 
           {/* Class Times Section */}
-          <div className="col-span-2 bg-neutral-50 border px-2 pt-2 pb-4 rounded-md">
+          <div className="col-span-2 bg-neutral-50 border px-1 sm:px-2 pt-2 pb-4 rounded-md">
             <h6 className="text-xl mb-1">Set Class Times</h6>
             {fields.map((field, index) => (
-              <div key={field.id} className="flex items-center gap-4 mt-3">
-                <div className="grid grid-cols-3 gap-4 flex-1">
+              <div
+                key={field.id}
+                className="flex items-center gap-1 sm:gap-4 mt-3 border-b pb-3"
+              >
+                <div className="grid sm:grid-cols-3 gap-2 sm:gap-4 flex-1">
                   {/* <Controller
                     name={`classTimes.${index}.day`}
                     control={control}
@@ -359,20 +364,26 @@ const Page = () => {
           </div>
 
           {/* Pricing and Capacity Section */}
-          <div className="md:col-span-2">
+          <div className="col-span-2">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-              <FormInput name="price" label="Price" placeholder="e.g., 100" />
-              <FormInput
-                name="totalHours"
-                label="Total Hours"
-                placeholder="e.g., 8"
-              />
-              <FormInput
-                name="maxStudents"
-                label="Max Students"
-                placeholder="e.g., 25"
-              />
-              <div>
+              <div className="flex-1 max-md:col-span-2">
+                <FormInput name="price" label="Price" placeholder="e.g., 100" />
+              </div>
+              <div className="flex-1 max-md:col-span-2">
+                <FormInput
+                  name="totalHours"
+                  label="Total Hours"
+                  placeholder="e.g., 8"
+                />
+              </div>
+              <div className="flex-1 max-md:col-span-2">
+                <FormInput
+                  name="maxStudents"
+                  label="Max Students"
+                  placeholder="e.g., 25"
+                />
+              </div>
+              <div className="flex-1 max-md:col-span-2">
                 <Controller
                   name="studentManikinRatio"
                   control={control}
@@ -404,7 +415,7 @@ const Page = () => {
             </div>
           </div>
 
-          <div>
+          <div className="flex-1 max-md:col-span-2">
             <FormInput
               name="closeRegistrationEarly"
               label="Close Registration Early"
@@ -414,7 +425,7 @@ const Page = () => {
               days and hours before class start date
             </p>
           </div>
-          <div className="flex flex-col gap-2 mt-2">
+          <div className="flex flex-col gap-2 mt-2 max-md:col-span-2">
             <label className="leading-[1.45] font-medium text-sm sm:text-base text-gray-700">
               Listing
             </label>
@@ -435,10 +446,10 @@ const Page = () => {
           </div>
 
           {/* Notes Section */}
-          <div className="md:col-span-2">
+          <div className="col-span-2">
             <FormTextarea name="publicNotes" label="Public Notes" />
           </div>
-          <div className="md:col-span-2">
+          <div className="col-span-2">
             <FormTextarea name="internalNotes" label="Internal Notes" />
           </div>
         </div>
