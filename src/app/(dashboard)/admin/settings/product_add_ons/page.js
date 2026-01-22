@@ -17,7 +17,6 @@ import TableSkeleton from "@/components/common/TableSkelation";
 import Link from "next/link";
 
 const Page = () => {
-  const [selectedShow, setSelectedShow] = useState(50);
   const [page, setPage] = useState(1);
   const [perPage, setPerPage] = useState(10);
 
@@ -74,8 +73,8 @@ const Page = () => {
               </thead>
 
               <tbody>
-                {productAddOns?.data?.length > 0 ? (
-                  productAddOns?.data?.map((item, index) => (
+                {productAddOns?.data?.data?.length > 0 ? (
+                  productAddOns?.data?.data?.map((item, index) => (
                     <tr
                       key={index}
                       className="border-b hover:bg-gray-50 transition-all"

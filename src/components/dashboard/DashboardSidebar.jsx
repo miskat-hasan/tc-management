@@ -8,6 +8,8 @@ import CustomSelect from "../shared/form/CustomSelect";
 import useAuth from "@/hooks/useAuth";
 
 import { useLogout } from "@/hooks/api/authApi";
+import { getallTrainingsite } from "@/hooks/api/dashboardApi";
+import { Controller } from "react-hook-form";
 
 const menuItems = [
   {
@@ -23,14 +25,14 @@ const menuItems = [
         href: "/admin/class_and_students/schedule_class",
       },
       { label: "Past Classes", href: "/admin/class_and_students/past_class" },
-      {
-        label: "Instructor Bidding",
-        href: "/admin/class_and_students/instructor_bidding",
-      },
-      {
-        label: "Keycode Sales",
-        href: "/admin/class_and_students/keycode_sales",
-      },
+      // {
+      //   label: "Instructor Bidding",
+      //   href: "/admin/class_and_students/instructor_bidding",
+      // },
+      // {
+      //   label: "Keycode Sales",
+      //   href: "/admin/class_and_students/keycode_sales",
+      // },
       {
         label: "Student Search",
         href: "/admin/class_and_students/student_search",
@@ -219,6 +221,11 @@ const DashboardSidebar = () => {
     }
   }, [pathname, selectOption]);
 
+  const { data: trainingSiteData, isLoading: trainingSiteDataLoading } =
+    getallTrainingsite();
+
+  console.log(trainingSiteData);
+
   const handleSelectChange = (val) => {
     setSelectOption(val);
   };
@@ -254,17 +261,20 @@ const DashboardSidebar = () => {
       </div>
 
       <div className="flex flex-col">
+        {/* <Controller
+          name="training-site"
+          control={control}
+          render={({ field }) => ( */}
         <CustomSelect
+          // {...field}
           id="training-site"
-          value={selectOption}
-          options={[
-            { value: "admin", label: "Primary Site" },
-            { value: "training_site", label: "Training 2" },
-          ]}
-          onChange={handleSelectChange}
+          options={trainingSiteData?.data}
+          isLoading={trainingSiteDataLoading}
+          placeholder="select training site"
           className="flex-1 mb-2"
         />
-
+        {/* )}
+        /> */}
         <div className="flex items-center gap-[12px] px-[20px] py-[10px]">
           <DashboardIcon />
           <h6>Dashboard</h6>
@@ -339,7 +349,7 @@ const DashboardSidebar = () => {
                     )}
                   </li>
                 );
-              }
+              },
             )}
 
             <button
