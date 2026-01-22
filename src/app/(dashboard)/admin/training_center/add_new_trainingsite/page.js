@@ -218,7 +218,7 @@ const Page = () => {
                   {...field}
                   label="Country"
                   placeholder="Country"
-                  options={countryData?.data?.data}
+                  options={countryData?.data}
                   error={errors.country?.message}
                 />
               )}

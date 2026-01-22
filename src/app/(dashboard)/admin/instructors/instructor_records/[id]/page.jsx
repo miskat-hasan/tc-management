@@ -48,7 +48,7 @@ const Page = ({ params }) => {
   React.useEffect(() => {
     if (
       instructorData?.data &&
-      countryData?.data?.data &&
+      countryData?.data &&
       trainingSitesData?.data &&
       userRoles?.data
     ) {
@@ -214,7 +214,7 @@ const Page = ({ params }) => {
                       label="Country"
                       placeholder="Country"
                       isLoading={countryDataLoading}
-                      options={countryData?.data?.data}
+                      options={countryData?.data}
                       error={errors.country?.message}
                       className="flex-1"
                     />

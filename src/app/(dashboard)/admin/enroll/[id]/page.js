@@ -3,7 +3,10 @@
 import CustomSelect from "@/components/shared/form/CustomSelect";
 import FormContainer from "@/components/shared/form/FormContainer";
 import FormInput from "@/components/shared/form/FormInput";
+import FormTextarea from "@/components/shared/form/FormTextarea";
+import { Textarea } from "@/components/ui/textarea";
 import { getAllCountry } from "@/hooks/api/dashboardApi";
+import Link from "next/link";
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 
@@ -120,7 +123,9 @@ const Page = () => {
                   placeholder="Promo Code"
                 />
               </div>
-              <h6 className="text-xl font-medium mb-1 mt-3">Student Information</h6>
+              <h6 className="text-xl font-medium mb-1 mt-3">
+                Student Information
+              </h6>
               <div className="grid gap-5 grid-cols-1 md:grid-cols-2 bg-neutral-50 border px-1 sm:px-2 pt-2 pb-4 rounded-md">
                 <FormInput
                   name={`first_name`}
@@ -187,16 +192,124 @@ const Page = () => {
                       label="Country"
                       placeholder="Country"
                       isLoading={countryDataLoading}
-                      options={countryData?.data?.data}
+                      options={countryData?.data}
                       error={errors.country?.message}
                       className="flex-1"
                     />
                   )}
                 />
                 <label className="flex items-center gap-1">
-                  <input type="checkbox" />
+                  <input {...register("new_billing_address")} type="checkbox" />
                   Use the above address as my billing address
                 </label>
+              </div>
+              <h6 className="text-xl font-medium mb-1 mt-3">Billing Address</h6>
+              <div className="grid gap-5 grid-cols-1 md:grid-cols-2 bg-neutral-50 border px-1 sm:px-2 pt-2 pb-4 rounded-md">
+                <FormInput
+                  name={`billing_address_1`}
+                  label="Address 1"
+                  placeholder="Address 1"
+                />
+                <FormInput
+                  name={`billing_address_2`}
+                  label="Address 2"
+                  placeholder="Address 2"
+                />
+                <FormInput name={`billing_city`} label="City" placeholder="City" />
+                <FormInput
+                  name={`billing_state`}
+                  label="State/Province/Region"
+                  placeholder="State/Province/Region"
+                />
+                <FormInput
+                  name={`billing_zip_code`}
+                  label="Zip/Postal Code"
+                  placeholder="Zip/Postal Code"
+                />
+                <Controller
+                  name="billing_country"
+                  control={control}
+                  rules={{ required: "Country is required" }}
+                  render={({ field }) => (
+                    <CustomSelect
+                      {...field}
+                      id="country"
+                      label="Country"
+                      placeholder="Country"
+                      isLoading={countryDataLoading}
+                      options={countryData?.data}
+                      error={errors.country?.message}
+                      className="flex-1"
+                    />
+                  )}
+                />
+              </div>
+              <h6 className="text-xl font-medium mb-1 mt-3">
+                Additional Information
+              </h6>
+              <div className="grid gap-5 grid-cols-1 md:grid-cols-2 bg-neutral-50 border px-1 sm:px-2 pt-2 pb-4 rounded-md">
+                <div className="flex flex-col gap-1 lg:gap-2  lg:mt-2">
+                  <p className="font-semibold text-[15px] text-gray-700">
+                    Would you like to receive text message class reminders?
+                  </p>
+                  <div className="flex flex-col gap-2">
+                    <label className="flex items-center gap-2 text-sm">
+                      <input
+                        type="radio"
+                        value="yes"
+                        {...register("receive_text_message")}
+                        className="accent-brown"
+                      />
+                      Yes
+                    </label>
+
+                    <label className="flex items-center gap-2 text-sm">
+                      <input
+                        type="radio"
+                        value="no"
+                        {...register("receive_text_message")}
+                        className="accent-brown"
+                      />
+                      No
+                    </label>
+                  </div>
+                </div>
+                <FormInput
+                  name={`about_us`}
+                  label="How Did You Hear About Us?"
+                />
+                <div className={"col-span-2"}>
+                  <FormInput
+                    name={`address_2`}
+                    label="Would you be interested in finding out more about how to become a CPR Instructor? If so, Please comment in the box more information and we will send you information about how to become a CPR Instructor,"
+                  />
+                </div>
+                <div className={"col-span-2"}>
+                  <FormTextarea
+                    name={`comments`}
+                    label="Please include any comments or special requests here:"
+                  />
+                </div>
+                {/* <p className="col-span-2 text-sm">
+                  By agreeing to receive SMS Account Notification messages, you
+                  agree to receive messages regarding class updates, schedules,
+                  and reminders at the number provided in the sign-up form.
+                  Consent is not a condition of purchase. You may reply STOP to
+                  unsubscribe. Message frequency varies. Msg & Data rates may
+                  apply. View our{" "}
+                  <Link href={``} className="text-brown">
+                    Privacy Policy
+                  </Link>{" "}
+                  and{" "}
+                  <Link href={``} className="text-brown">
+                    Terms and Conditions
+                  </Link>
+                  .
+                </p>
+                <label className="flex items-center gap-1 col-span-2">
+                  <input type="checkbox" />I have read and agree to the above
+                  terms and conditions
+                </label> */}
               </div>
             </FormContainer>
           </div>
