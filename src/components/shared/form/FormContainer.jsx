@@ -5,7 +5,7 @@ const FormContainer = ({ form, onSubmit, children, className }) => {
   return (
     <Form {...form}>
       <form
-        onSubmit={form.handleSubmit(onSubmit)}
+        onSubmit={form?.handleSubmit(onSubmit)}
         className={cn("space-y-2", className)}
       >
         {children}

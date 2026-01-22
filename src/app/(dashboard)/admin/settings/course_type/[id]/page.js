@@ -697,11 +697,24 @@ const Page = ({ params }) => {
                     key={option.id}
                     className="flex items-center gap-2 text-[12px] sm:text-sm"
                   >
-                    <input
-                      type="checkbox"
-                      value={option.id}
-                      className="accent-brown"
-                      {...register("selected_options")}
+                    <Controller
+                      name="selected_options"
+                      control={control}
+                      render={({ field }) => (
+                        <input
+                          type="checkbox"
+                          checked={field.value?.includes(option.id)}
+                          onChange={(e) => {
+                            const updatedOptions = e.target.checked
+                              ? [...(field.value || []), option.id]
+                              : (field.value || []).filter(
+                                  (id) => id !== option.id,
+                                );
+                            field.onChange(updatedOptions);
+                          }}
+                          className="accent-brown"
+                        />
+                      )}
                     />
                     {option.title}
                   </label>

@@ -43,7 +43,7 @@ const NewCertification = ({ instructorId }) => {
         });
         reset();
         queryClient.invalidateQueries({
-          queryKey: ["get-all-certification"],
+          queryKey: ["get-single-instructor"],
           exact: true,
         });
       },
@@ -77,7 +77,7 @@ const NewCertification = ({ instructorId }) => {
                   label="Discipline"
                   isLoading={loadingDiscipline}
                   placeholder="Chose Discipline"
-                  options={allDiscipline?.data}
+                  options={allDiscipline?.data?.data}
                   className="flex-1"
                 />
               )}

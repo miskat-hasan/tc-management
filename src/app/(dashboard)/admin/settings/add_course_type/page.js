@@ -83,18 +83,26 @@ const Page = () => {
     name: "priceLevel",
   });
 
-  const { mutate: storeCourseMutation, isPending: storeCoursePending } = storeCourse();
+  const { mutate: storeCourseMutation, isPending: storeCoursePending } =
+    storeCourse();
 
-  const { data: disciplineData, isLoading: disciplineLoading } = getAllDiscipline();
-  const { data: addOnsData, isLoading: addOnsDataLoading } = getAllProductAddOns();
-  const { data: keyCodeBank, isLoading: keyCodeBankLoading } = getAllKeyCodeBank();
-  const { data: cardTypeData, isLoading: cardTypeDataLoading } = getAllCardType();
-  const { data: secondCardTypeData, isLoading: secondCardTypeDataLoading } = getSecondCardType();
-  const { data: courseImageData, isLoading: courseImageDataLoading } = getCourseImage();
-  const { data: courseOptionData, isLoading: courseOptionLoading } = getCourseOptions();
+  const { data: disciplineData, isLoading: disciplineLoading } =
+    getAllDiscipline();
+  const { data: addOnsData, isLoading: addOnsDataLoading } =
+    getAllProductAddOns();
+  const { data: keyCodeBank, isLoading: keyCodeBankLoading } =
+    getAllKeyCodeBank();
+  const { data: cardTypeData, isLoading: cardTypeDataLoading } =
+    getAllCardType();
+  const { data: secondCardTypeData, isLoading: secondCardTypeDataLoading } =
+    getSecondCardType();
+  const { data: courseImageData, isLoading: courseImageDataLoading } =
+    getCourseImage();
+  const { data: courseOptionData, isLoading: courseOptionLoading } =
+    getCourseOptions();
 
   const imagePreview = courseImageData?.data?.data?.find(
-    (item) => Number(item?.id) === Number(watchFields?.course_image)
+    (item) => Number(item?.id) === Number(watchFields?.course_image),
   );
 
   const handleAddPriceLevel = () => {
@@ -120,12 +128,12 @@ const Page = () => {
     const numericId = Number(addOnsId);
     setValue(
       "add_ons",
-      watchFields?.add_ons?.filter((id) => Number(id) !== numericId)
+      watchFields?.add_ons?.filter((id) => Number(id) !== numericId),
     );
   };
 
   const availableAddOns = addOnsData?.data?.data?.filter(
-    (item) => !watchFields?.add_ons?.includes(Number(item.id))
+    (item) => !watchFields?.add_ons?.includes(Number(item.id)),
   );
 
   const onSubmit = (data) => {
@@ -147,10 +155,16 @@ const Page = () => {
 
     if (data.multiple_pricing) {
       data.priceLevel?.forEach((level, index) => {
-        formData.append(`multiple_price[${index}][price_level_prompt]`, data.price_level_prompt || "");
+        formData.append(
+          `multiple_price[${index}][price_level_prompt]`,
+          data.price_level_prompt || "",
+        );
         formData.append(`multiple_price[${index}][price]`, level.price || "");
         formData.append(`multiple_price[${index}][code]`, level.code || "");
-        formData.append(`multiple_price[${index}][description]`, level.description || "");
+        formData.append(
+          `multiple_price[${index}][description]`,
+          level.description || "",
+        );
       });
     } else {
       formData.append("price", data.price || "");
@@ -193,10 +207,22 @@ const Page = () => {
     formData.append("description", description || "");
     formData.append("email_body", emailBody || "");
 
-    formData.append("confirmation_email", data.courseConfirmationEmailCCS || "");
-    formData.append("course_confirmation_email_subject", data.courseConfirmationEmailSubject || "");
-    formData.append("payment_confirmation_email_subject", data.payloadConfirmationEmailSubject || "");
-    formData.append("use_general_email_body", data.use_email_for_payments ? "1" : "0");
+    formData.append(
+      "confirmation_email",
+      data.courseConfirmationEmailCCS || "",
+    );
+    formData.append(
+      "course_confirmation_email_subject",
+      data.courseConfirmationEmailSubject || "",
+    );
+    formData.append(
+      "payment_confirmation_email_subject",
+      data.payloadConfirmationEmailSubject || "",
+    );
+    formData.append(
+      "use_general_email_body",
+      data.use_email_for_payments ? "1" : "0",
+    );
 
     // Optional fields (if supported by backend)
     // formData.append("custom_sidebar", data.custom_sidebar ? "1" : "0");
@@ -231,10 +257,14 @@ const Page = () => {
     <section className="flex flex-col gap-4">
       <SectionTitle title="Add Course Type" />
 
-      <div className="p-[13px] lg:p-[26px] bg-white rounded-[14px] flex flex-col gap-[24px]">
+      <div className="px-1.5 py-3 min-[374px]:p-[13px] lg:p-[26px] bg-white rounded-[14px] flex flex-col gap-[24px]">
         <FormContainer form={form} onSubmit={onSubmit}>
           <div className="flex flex-col gap-3 lg:gap-6">
-            <FormInput name="course_name" label="Course Name" placeholder="Course name here" />
+            <FormInput
+              name="course_name"
+              label="Course Name"
+              placeholder="Course name here"
+            />
 
             {/* Mode */}
             <div className="flex flex-col gap-2">
@@ -248,12 +278,14 @@ const Page = () => {
                       {...register("mode")}
                       className="accent-brown"
                     />
-                    {mode.charAt(0).toUpperCase() + mode.slice(1).replace("-", " ")}:{" "}
+                    {mode.charAt(0).toUpperCase() +
+                      mode.slice(1).replace("-", " ")}
+                    :{" "}
                     {mode === "on-site"
                       ? "The course is taught in person at a physical location."
                       : mode === "blended"
-                      ? "The course has both online and in-person components."
-                      : "All class instruction, assignments, and tests are asynchronous and can be completed virtually."}
+                        ? "The course has both online and in-person components."
+                        : "All class instruction, assignments, and tests are asynchronous and can be completed virtually."}
                   </label>
                 ))}
               </div>
@@ -278,41 +310,74 @@ const Page = () => {
 
             {/* Price Options */}
             <div className="flex flex-col gap-2">
-              <p className="font-semibold text-[15px] text-gray-700">Price Options</p>
+              <p className="font-semibold text-[15px] text-gray-700">
+                Price Options
+              </p>
               <label className="flex items-center gap-2 text-sm">
-                <input {...register("deposit_registration")} type="checkbox" className="accent-brown" />
+                <input
+                  {...register("deposit_registration")}
+                  type="checkbox"
+                  className="accent-brown"
+                />
                 Allow registrations with a deposit
               </label>
               <label className="flex items-center gap-2 text-sm">
-                <input {...register("multiple_pricing")} type="checkbox" className="accent-brown" />
+                <input
+                  {...register("multiple_pricing")}
+                  type="checkbox"
+                  className="accent-brown"
+                />
                 Allow multiple pricing levels
               </label>
             </div>
 
             {watchFields.deposit_registration && (
-              <FormInput name="deposit_amounts" label="Deposit Amount" placeholder="$0.00" />
+              <FormInput
+                name="deposit_amounts"
+                label="Deposit Amount"
+                placeholder="$0.00"
+              />
             )}
 
             {watchFields.multiple_pricing ? (
               <div>
-                <FormTextarea name="price_level_prompt" label="Price Level Prompt" rows={3} />
-                <div className="bg-neutral-50 border px-2 pt-2 pb-4 rounded-md mt-3">
+                <FormTextarea
+                  name="price_level_prompt"
+                  label="Price Level Prompt"
+                  rows={3}
+                />
+                <div className="bg-neutral-50 border px-1 sm:px-2 pt-2 pb-4 rounded-md mt-3">
                   <h6 className="text-lg mb-1">Price Levels</h6>
                   {fields.map((field, index) => (
-                    <div key={field.id} className="flex items-center gap-4 mt-3">
-                      <div className="grid grid-cols-2 gap-2 flex-1">
-                        <div className="flex gap-2">
-                          <FormInput name={`priceLevel.${index}.price`} placeholder="Price" />
-                          <FormInput name={`priceLevel.${index}.code`} placeholder="Code" />
+                    <div
+                      key={field.id}
+                      className="flex items-center gap-1 sm:gap-4 mt-3"
+                    >
+                      <div className="grid grid-cols-2 gap-[2px] sm:gap-2 flex-1">
+                        <div className="flex gap-[2px] sm:gap-2">
+                          <FormInput
+                            name={`priceLevel.${index}.price`}
+                            placeholder="Price"
+                            className={"text-[13px] rounded-sm px-1"}
+                          />
+                          <FormInput
+                            name={`priceLevel.${index}.code`}
+                            placeholder="Code"
+                            className={"text-[13px] rounded-sm px-1"}
+                          />
                         </div>
-                        <FormInput name={`priceLevel.${index}.description`} placeholder="Description" />
+                        <FormInput
+                          name={`priceLevel.${index}.description`}
+                          placeholder="Description"
+                          className={"text-[13px] rounded-sm px-1"}
+                        />
                       </div>
                       {fields.length > 2 && (
                         <div
                           onClick={() => handleRemovePriceLevel(index)}
-                          className="bg-neutral-200 p-2 rounded-md cursor-pointer hover:bg-neutral-300"
+                          className="bg-neutral-200 p-1 sm:p-2 rounded sm:rounded-md cursor-pointer hover:bg-neutral-300"
                         >
-                          <LucideTrash2 className="size-4" />
+                          <LucideTrash2 className="size-[14px] sm:size-4" />
                         </div>
                       )}
                     </div>
@@ -331,7 +396,11 @@ const Page = () => {
 
             {/* Add-ons */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <FormTextarea name="addonPrompt" label="Add-on Prompt" placeholder="Prompt text for add-ons..." />
+              <FormTextarea
+                name="addonPrompt"
+                label="Add-on Prompt"
+                placeholder="Prompt text for add-ons..."
+              />
               <div className="flex flex-col gap-2">
                 <Controller
                   name="add_ons_selector"
@@ -357,7 +426,9 @@ const Page = () => {
                 {watchFields.add_ons?.length > 0 && (
                   <div className="flex flex-wrap gap-2">
                     {watchFields.add_ons.map((id) => {
-                      const addon = addOnsData?.data?.data?.find((a) => Number(a.id) === id);
+                      const addon = addOnsData?.data?.data?.find(
+                        (a) => Number(a.id) === id,
+                      );
                       return (
                         <div
                           key={id}
@@ -381,7 +452,11 @@ const Page = () => {
 
             {/* Shipping & Keycode */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <FormInput name="shipping_price" label="Shipping Price" placeholder="0.00" />
+              <FormInput
+                name="shipping_price"
+                label="Shipping Price"
+                placeholder="0.00"
+              />
               <Controller
                 name="keycode_bank"
                 control={control}
@@ -413,7 +488,10 @@ const Page = () => {
                     options={[
                       { id: "none", name: "None" },
                       { id: "American Red Cross", name: "American Red Cross" },
-                      { id: "American Heart Association", name: "American Heart Association" },
+                      {
+                        id: "American Heart Association",
+                        name: "American Heart Association",
+                      },
                     ]}
                     error={errors.course_certifying_body?.message}
                   />
@@ -438,7 +516,8 @@ const Page = () => {
               )}
             </div>
 
-            {watchFields.course_certifying_body === "American Heart Association" && (
+            {watchFields.course_certifying_body ===
+              "American Heart Association" && (
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <Controller
                   name="cardType"
@@ -489,7 +568,9 @@ const Page = () => {
                 )}
               />
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Preview</label>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Preview
+                </label>
                 {watchFields.course_image && imagePreview?.image ? (
                   <Image
                     src={imagePreview.image}
@@ -499,7 +580,7 @@ const Page = () => {
                     className="object-cover rounded border"
                   />
                 ) : (
-                  <div className="w-32 h-32 border-2 border-dashed border-gray-300 rounded flex items-center justify-center text-gray-400 text-sm">
+                  <div className="w-26 h-26 border-2 border-dashed border-gray-300 rounded flex items-center text-center justify-center text-gray-400 text-sm">
                     No image selected
                   </div>
                 )}
@@ -514,7 +595,10 @@ const Page = () => {
               ) : (
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
                   {courseOptionData?.data?.data?.map((option) => (
-                    <label key={option.id} className="flex items-center gap-2 text-sm">
+                    <label
+                      key={option.id}
+                      className="flex items-center gap-2 text-sm"
+                    >
                       <input
                         type="checkbox"
                         value={option.id}
@@ -528,7 +612,11 @@ const Page = () => {
               )}
             </div>
 
-            <FormInput name="ceu_credits" label="CEU Credits" placeholder="e.g. 8.0" />
+            <FormInput
+              name="ceu_credits"
+              label="CEU Credits"
+              placeholder="e.g. 8.0"
+            />
 
             <div>
               <h6 className="font-medium text-base mb-2">Description</h6>
@@ -555,19 +643,31 @@ const Page = () => {
             />
 
             <div>
-              <h6 className="font-medium text-base mb-2">Course Confirmation Email Body</h6>
+              <h6 className="font-medium text-base mb-2">
+                Course Confirmation Email Body
+              </h6>
               <RichTextEditor ref={emailBodyRef} />
             </div>
 
             <label className="flex items-center gap-2 text-sm">
-              <input {...register("use_email_for_payments")} type="checkbox" className="accent-brown" />
+              <input
+                {...register("use_email_for_payments")}
+                type="checkbox"
+                className="accent-brown"
+              />
               Use the same email body for payments / general registrations
             </label>
 
             <div className="flex flex-col gap-2">
-              <p className="font-semibold text-[15px] text-gray-700">SEO & Rich Results</p>
+              <p className="font-semibold text-[15px] text-gray-700">
+                SEO & Rich Results
+              </p>
               <label className="flex items-center gap-2 text-sm">
-                <input {...register("enable_seo")} type="checkbox" className="accent-brown" />
+                <input
+                  {...register("enable_seo")}
+                  type="checkbox"
+                  className="accent-brown"
+                />
                 Enable SEO rich results
               </label>
             </div>
@@ -576,7 +676,7 @@ const Page = () => {
               <FormTextarea
                 name="seoDescription"
                 label="SEO Description"
-                placeholder="Short description for search engines (max 500 characters recommended)"
+                placeholder="seo description"
                 rows={4}
               />
             )}

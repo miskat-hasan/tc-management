@@ -42,7 +42,7 @@ const Certification = ({ instructorId, CertificationData }) => {
                         className="border-b hover:bg-gray-50 transition-all"
                       >
                         <td className="px-3 sm:px-6 py-3 text-gray-800 whitespace-nowrap">
-                          {item?.discipline?.name}
+                          {item?.discipline_id}
                         </td>
                         <td className="px-3 sm:px-6 py-3 whitespace-nowrap">
                           {item?.initial}

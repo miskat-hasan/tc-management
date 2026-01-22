@@ -108,9 +108,9 @@ const Page = () => {
           placeholder="Select"
           value={searchBy}
           options={[
-            { value: "name", label: "Name" },
-            { value: "email", label: "Email" },
-            { value: "phone", label: "Phone Number" },
+            { id: "name", name: "Name" },
+            { id: "email", name: "Email" },
+            { id: "phone", name: "Phone Number" },
           ]}
           onChange={(val) => {
             setSearchBy(val);
