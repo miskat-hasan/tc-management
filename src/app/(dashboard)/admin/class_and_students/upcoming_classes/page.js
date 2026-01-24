@@ -12,6 +12,7 @@ import {
   getAllCourses,
   getAllInstructor,
   getAllLocation,
+  getAllUpcomingClasses,
 } from "@/hooks/api/dashboardApi";
 import { SearchIcon } from "@/svg/SvgContainer";
 import Link from "next/link";
@@ -31,16 +32,15 @@ const Page = () => {
     instructor: "",
     location: "",
   });
-
+  const handleSearch = () => {
+    console.log("clicked");
+  };
   const onSubmit = (data) => {
     // console.log(data)
   };
-  const [filteredData, setFilteredData] = useState(courseSchedule);
 
-  const { data: classData, isLoading: classDataLoading } = getAllClasses(
-    page,
-    perPage,
-  );
+  const { data: upcomingClassData, isLoading: upcomingClassDataLoading } =
+    getAllUpcomingClasses(page, perPage);
 
   const { data: locationData, isLoading: locationDataLoading } =
     getAllLocation();
@@ -49,35 +49,6 @@ const Page = () => {
     getAllInstructor();
 
   const { data: courseData, isLoading: courseDataLoading } = getAllCourses();
-
-  // Handle select changes
-  const handleSelectChange = (key, value) => {
-    setFilters((prev) => ({ ...prev, [key]: value }));
-  };
-
-  // Search / filter button logic
-  const handleSearch = () => {
-    const filtered = courseSchedule.filter((item) => {
-      const matchDate =
-        !filters.date ||
-        item.dateTime.toLowerCase().includes(filters.date.toLowerCase());
-      const matchCourse =
-        !filters.course ||
-        item.course.toLowerCase().includes(filters.course.toLowerCase());
-      const matchInstructor =
-        !filters.instructor ||
-        item.instructor
-          .toLowerCase()
-          .includes(filters.instructor.toLowerCase());
-      const matchLocation =
-        !filters.location ||
-        item.location.toLowerCase().includes(filters.location.toLowerCase());
-
-      return matchDate && matchCourse && matchInstructor && matchLocation;
-    });
-
-    setFilteredData(filtered);
-  };
 
   return (
     <div className="flex flex-col gap-[12.5px] lg:gap-[25px]">
@@ -96,56 +67,62 @@ const Page = () => {
       </div>
       <FormContainer form={form} onSubmit={onSubmit}>
         {/* Search filters */}
-        <div className="px-[16px] py-[16px] lg:px-[32px] lg:py-[32px] bg-white rounded-[16px] flex flex-wrap lg:flex-nowrap gap-[10px] xl:gap-[24px]">
-          <div className="flex-1">
-            <FormInput name="dateTime" label="Date/Time" type="date" />
+        <div className="px-[16px] py-[16px] lg:px-[32px] lg:py-[32px] bg-white rounded-[16px]">
+          <div className="flex flex-wrap lg:flex-nowrap gap-[10px] xl:gap-[24px]">
+            <div className="flex-1">
+              <FormInput name="dateTime" label="Date/Time" type="date" />
+            </div>
+            <Controller
+              name="courses"
+              control={control}
+              render={({ field }) => (
+                <CustomSelect
+                  {...field}
+                  id="Courses"
+                  label="Courses"
+                  placeholder="All courses"
+                  isLoading={courseDataLoading}
+                  options={courseData?.data?.data}
+                  className="flex-1"
+                />
+              )}
+            />
+            <Controller
+              name="instructor"
+              control={control}
+              render={({ field }) => (
+                <CustomSelect
+                  {...field}
+                  id="Instructor"
+                  label="Instructor"
+                  placeholder="All instructor"
+                  isLoading={instructorDataLoading}
+                  options={instructorData?.data?.data}
+                  className="flex-1"
+                />
+              )}
+            />
+            <Controller
+              name="location"
+              control={control}
+              render={({ field }) => (
+                <CustomSelect
+                  {...field}
+                  id="Location"
+                  label="Location"
+                  placeholder="All locations"
+                  isLoading={locationDataLoading}
+                  options={locationData?.data?.data}
+                  className="flex-1"
+                />
+              )}
+            />
           </div>
-          <Controller
-            name="courses"
-            control={control}
-            render={({ field }) => (
-              <CustomSelect
-                {...field}
-                id="Courses"
-                label="Courses"
-                placeholder="All courses"
-                isLoading={courseDataLoading}
-                options={courseData?.data?.data}
-                className="flex-1"
-              />
-            )}
-          />
-          <Controller
-            name="instructor"
-            control={control}
-            render={({ field }) => (
-              <CustomSelect
-                {...field}
-                id="Instructor"
-                label="Instructor"
-                placeholder="All instructor"
-                isLoading={instructorDataLoading}
-                options={instructorData?.data?.data}
-                className="flex-1"
-              />
-            )}
-          />
-          <Controller
-            name="location"
-            control={control}
-            render={({ field }) => (
-              <CustomSelect
-                {...field}
-                id="Location"
-                label="Location"
-                placeholder="All locations"
-                isLoading={locationDataLoading}
-                options={locationData?.data?.data}
-                className="flex-1"
-              />
-            )}
-          />
-          <div className="flex justify-end items-end">
+          <div className="flex items-end gap-5  mt-4">
+            <div>
+
+            <FormInput name="class_id" label="Class Id" />
+            </div>
             <Button
               onClick={handleSearch}
               className="py-[12px] lg:py-[24px] text-[13px] lg:text-base cursor-pointer bg-brown flex items-center gap-2"
@@ -160,7 +137,7 @@ const Page = () => {
       {/* Table */}
       <div className="p-[13px] lg:p-[26px]  bg-white rounded-[14px] flex flex-col gap-[12px] lg:gap-[24px]">
         <SubSectionTitle subtitle="All Lists" />
-        {classDataLoading ? (
+        {upcomingClassDataLoading ? (
           <TableSkeleton />
         ) : (
           <div className="overflow-x-auto">
@@ -178,8 +155,8 @@ const Page = () => {
               </thead>
 
               <tbody>
-                {classData?.data?.data?.length > 0 ? (
-                  classData?.data?.data?.map((item, index) => (
+                {upcomingClassData?.data?.data?.length > 0 ? (
+                  upcomingClassData?.data?.data?.map((item, index) => (
                     <tr
                       key={item.id}
                       className="border-b hover:bg-gray-50 transition-all"
@@ -249,7 +226,7 @@ const Page = () => {
 
           {/* Pagination */}
           <div className="flex items-center gap-2">
-            {classData?.data?.links?.map((link, index) => (
+            {upcomingClassData?.data?.links?.map((link, index) => (
               <button
                 key={index}
                 disabled={link.url === null || link.page === null}

@@ -185,7 +185,7 @@ const Page = () => {
                   label="Country"
                   placeholder="Country"
                   isLoading={countryDataLoading}
-                  options={countryData?.data?.data}
+                  options={countryData?.data}
                   error={errors.country?.message}
                   className="flex-1"
                 />

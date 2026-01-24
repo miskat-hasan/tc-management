@@ -30,7 +30,7 @@ const Page = ({
       location: null,
       instructor: null,
       assistants: [],
-      classId: "",
+      // classId: "",
       price: "",
       totalHours: "",
       maxStudents: "",
@@ -82,7 +82,7 @@ const Page = ({
         client: classInfo?.client_id || null,
         location: classInfo?.location_id || null,
         instructor: classInfo?.instructor_id || null,
-        classId: classInfo?.class_id || "",
+        // classId: classInfo?.class_id || "",
         price: classInfo?.price || "",
         totalHours: classInfo?.total_hours || "",
         maxStudents: classInfo?.max_student || "",
@@ -97,8 +97,8 @@ const Page = ({
           classInfo?.class_times?.length > 0
             ? classInfo.class_times.map((time) => ({
                 date: time.date || "",
-                timeFrom: time.from || "",
-                timeTo: time.to || "",
+                timeFrom: time.start || "",
+                timeTo: time.end || "",
               }))
             : [{ date: "", timeFrom: "", timeTo: "" }],
       });
@@ -132,7 +132,7 @@ const Page = ({
     formData.append("client_id", data.client);
     formData.append("location_id", data.location);
     formData.append("instructor_id", data.instructor);
-    formData.append("class_id", data.classId);
+    // formData.append("class_id", data.classId);
     formData.append("price", data.price);
     formData.append("total_hours", data.totalHours);
     formData.append("max_student", data.maxStudents);
@@ -241,7 +241,7 @@ const Page = ({
               />
             )}
           />
-          <FormInput name="classId" label="Class Id" placeholder="Class Id" />
+          {/* <FormInput name="classId" label="Class Id" placeholder="Class Id" /> */}
           <Controller
             name="client"
             control={control}

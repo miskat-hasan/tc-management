@@ -47,12 +47,12 @@ export const updateTrainingSite = (id) => {
   });
 };
 
-export const getAllCountry = (page = 1, perPage = 10) => {
+export const getAllCountry = () => {
   return useClientApi({
     method: "get",
-    key: ["get-all-country", page, perPage],
+    key: ["get-all-country"],
     isPrivate: true,
-    endpoint: `/api/country?page=${page}&per_page=${perPage}`,
+    endpoint: `/api/country`,
   });
 };
 
@@ -453,6 +453,24 @@ export const updateClass = () => {
   });
 };
 
+export const getAllUpcomingClasses = (page = 1, perPage = 10) => {
+  return useClientApi({
+    method: "get",
+    isPrivate: true,
+    key: ["get-all-upcoming-class", page, perPage],
+    endpoint: `/api/class/upcoming?page=${page}&per_page=${perPage}`,
+  });
+};
+
+export const getAllPastClasses = (page = 1, perPage = 10) => {
+  return useClientApi({
+    method: "get",
+    isPrivate: true,
+    key: ["get-all-past-class", page, perPage],
+    endpoint: `/api/class/past?page=${page}&per_page=${perPage}`,
+  });
+};
+
 export const getAllClasses = (page = 1, perPage = 10) => {
   return useClientApi({
     method: "get",
@@ -476,5 +494,31 @@ export const getCourseImage = () => {
     isPrivate: true,
     key: ["get-all-course-image"],
     endpoint: "/api/course_image/index",
+  });
+};
+
+export const searchStudent = (
+  first_name,
+  last_name,
+  email,
+  class_details_id,
+  is_enabled,
+) => {
+  return useClientApi({
+    method: "get",
+    isPrivate: true,
+    key: [
+      "get-searched-student",
+      first_name,
+      last_name,
+      email,
+      class_details_id,
+    ],
+    endpoint: "/api/student/search",
+    params: { first_name, last_name, email, class_details_id },
+    enabled: is_enabled,
+    queryOptions: {
+      retry: false,
+    },
   });
 };
