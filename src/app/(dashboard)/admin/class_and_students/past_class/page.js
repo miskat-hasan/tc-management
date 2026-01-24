@@ -12,6 +12,7 @@ import {
   getAllCourses,
   getAllInstructor,
   getAllLocation,
+  getAllPastClasses,
 } from "@/hooks/api/dashboardApi";
 import { SearchIcon } from "@/svg/SvgContainer";
 import Link from "next/link";
@@ -22,7 +23,6 @@ import { CiEdit } from "react-icons/ci";
 const Page = () => {
   const form = useForm();
   const { control } = form;
-  const [selectedShow, setSelectedShow] = useState(50);
   const [page, setPage] = useState(1);
   const [perPage, setPerPage] = useState(10);
   const [filters, setFilters] = useState({
@@ -37,10 +37,8 @@ const Page = () => {
   };
   const [filteredData, setFilteredData] = useState(courseSchedule);
 
-  const { data: classData, isLoading: classDataLoading } = getAllClasses(
-    page,
-    perPage,
-  );
+    const { data: pastClassData, isLoading: pastClassDataLoading } =
+      getAllPastClasses(page, perPage);
 
   const { data: locationData, isLoading: locationDataLoading } =
     getAllLocation();
@@ -160,7 +158,7 @@ const Page = () => {
       {/* Table */}
       <div className="p-[13px] lg:p-[26px]  bg-white rounded-[14px] flex flex-col gap-[12px] lg:gap-[24px]">
         <SubSectionTitle subtitle="All Lists" />
-        {classDataLoading ? (
+        {pastClassDataLoading ? (
           <TableSkeleton />
         ) : (
           <div className="overflow-x-auto">
@@ -178,8 +176,8 @@ const Page = () => {
               </thead>
 
               <tbody>
-                {classData?.data?.data?.length > 0 ? (
-                  classData?.data?.data?.map((item, index) => (
+                {pastClassData?.data?.data?.length > 0 ? (
+                  pastClassData?.data?.data?.map((item, index) => (
                     <tr
                       key={item.id}
                       className="border-b hover:bg-gray-50 transition-all"
@@ -247,7 +245,7 @@ const Page = () => {
 
           {/* Pagination */}
           <div className="flex items-center gap-2">
-            {classData?.data?.links?.map((link, index) => (
+            {pastClassData?.data?.links?.map((link, index) => (
               <button
                 key={index}
                 disabled={link.url === null || link.page === null}
