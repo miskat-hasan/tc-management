@@ -12,6 +12,8 @@ import { searchStudent } from "@/hooks/api/dashboardApi";
 import TableSkeleton from "@/components/common/TableSkelation";
 
 const Page = () => {
+  const [page, setPage] = useState(1);
+  const [perPage, setPerPage] = useState(10);
   // Filter states
   const [searchBy, setSearchBy] = useState("name");
   const [firstName, setFirstName] = useState("");
@@ -27,6 +29,8 @@ const Page = () => {
   };
 
   const { data: studentData, isLoading } = searchStudent(
+    page,
+    perPage,
     firstName.trim(),
     lastName.trim(),
     email.trim().toLowerCase(),

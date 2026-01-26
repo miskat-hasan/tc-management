@@ -37,8 +37,8 @@ const Page = () => {
   };
   const [filteredData, setFilteredData] = useState(courseSchedule);
 
-    const { data: pastClassData, isLoading: pastClassDataLoading } =
-      getAllPastClasses(page, perPage);
+  const { data: pastClassData, isLoading: pastClassDataLoading } =
+    getAllPastClasses(page, perPage);
 
   const { data: locationData, isLoading: locationDataLoading } =
     getAllLocation();
@@ -186,7 +186,8 @@ const Page = () => {
                         {index + 1}
                       </td>
                       <td className="px-3 sm:px-6 py-3 text-gray-800 whitespace-nowrap">
-                        {item.instructor_id}
+                        {item.instructor?.first_name}{" "}
+                        {item.instructor?.last_name}
                       </td>
                       <td className="px-3 sm:px-6 py-3 whitespace-nowrap">
                         {item.class_times[0]?.date || item.class_times[0]?.day}
@@ -195,16 +196,18 @@ const Page = () => {
                         {item.course?.course_name}
                       </td>
                       <td className="px-3 sm:px-6 py-3 truncate max-w-[140px] sm:max-w-[220px]">
-                        {item.location_id}
+                        {item.location?.name}
                       </td>
                       <td className="px-3 sm:px-6 py-3 text-gray-600">
                         {item.max_student}
                       </td>
                       <td className="px-3 sm:px-6 py-3 text-center">
-                        <Link href={`/admin/class_and_students/past_class/${item.id}`}>
-                        <button className="p-1.5 sm:p-2 bg-gray-100 rounded-lg hover:bg-gray-200 transition cursor-pointer">
-                          <CiEdit className="text-gray-600 text-[14px] sm:text-[16px]" />
-                        </button>
+                        <Link
+                          href={`/admin/class_and_students/past_class/${item.id}`}
+                        >
+                          <button className="p-1.5 sm:p-2 bg-gray-100 rounded-lg hover:bg-gray-200 transition cursor-pointer">
+                            <CiEdit className="text-gray-600 text-[14px] sm:text-[16px]" />
+                          </button>
                         </Link>
                       </td>
                     </tr>

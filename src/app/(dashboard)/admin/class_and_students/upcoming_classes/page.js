@@ -165,7 +165,8 @@ const Page = () => {
                         {index + 1}
                       </td>
                       <td className="px-3 sm:px-6 py-3 text-gray-800 whitespace-nowrap">
-                        {item.instructor_id}
+                       {item.instructor?.first_name}{" "}
+                        {item.instructor?.last_name}
                       </td>
                       <td className="px-3 sm:px-6 py-3 whitespace-nowrap">
                         {item.class_times[0]?.date || item.class_times[0]?.day}
@@ -174,7 +175,7 @@ const Page = () => {
                         {item.course?.course_name}
                       </td>
                       <td className="px-3 sm:px-6 py-3 truncate max-w-[140px] sm:max-w-[220px]">
-                        {item.location_id}
+                    {item.location?.name}
                       </td>
                       <td className="px-3 sm:px-6 py-3 text-gray-600">
                         {item.max_student}
