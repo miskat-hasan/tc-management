@@ -498,6 +498,8 @@ export const getCourseImage = () => {
 };
 
 export const searchStudent = (
+  page = 1,
+  perPage = 10,
   first_name,
   last_name,
   email,
@@ -509,16 +511,47 @@ export const searchStudent = (
     isPrivate: true,
     key: [
       "get-searched-student",
+      page,
+      perPage,
       first_name,
       last_name,
       email,
       class_details_id,
     ],
-    endpoint: "/api/student/search",
+    endpoint: `/api/student/search?page=${page}&per_page=${perPage}`,
     params: { first_name, last_name, email, class_details_id },
     enabled: is_enabled,
     queryOptions: {
       retry: false,
     },
+  });
+};
+
+// reports
+
+export const getClassReport = (page = 1, perPage = 10) => {
+  return useClientApi({
+    method: "get",
+    isPrivate: true,
+    key: ["get-class-report", page, perPage],
+    endpoint: `/api/reports/class-report?page=${page}&per_page=${perPage}`,
+  });
+};
+
+export const getEventLog = (page = 1, perPage = 10) => {
+  return useClientApi({
+    method: "get",
+    isPrivate: true,
+    key: ["get-event-log", page, perPage],
+    endpoint: `/api/reports/event-log?page=${page}&per_page=${perPage}`,
+  });
+};
+
+export const getProductAddOnsReport = (page = 1, perPage = 10) => {
+  return useClientApi({
+    method: "get",
+    isPrivate: true,
+    key: ["get-product-add-ons-report", page, perPage],
+    endpoint: `/api/reports/addon-report?page=${page}&per_page=${perPage}`,
   });
 };

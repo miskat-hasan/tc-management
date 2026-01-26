@@ -1,9 +1,11 @@
 "use client";
 import SectionTitle from "@/components/common/SectionTitle";
 import SubSectionTitle from "@/components/common/SubSectionTitle";
+import TableSkeleton from "@/components/common/TableSkelation";
 import CustomSelect from "@/components/shared/form/CustomSelect";
 import { Button } from "@/components/ui/button";
 import { courseSchedule } from "@/data/data";
+import { getClassReport } from "@/hooks/api/dashboardApi";
 import { SearchIcon } from "@/svg/SvgContainer";
 import React, { useState } from "react";
 
@@ -16,6 +18,9 @@ const Page = () => {
     location: "",
   });
 
+  const { data: classReportData, isLoading: classReportDataLoading } =
+    getClassReport();
+    
   const [filteredData, setFilteredData] = useState(courseSchedule);
 
   // Handle select changes
@@ -138,6 +143,8 @@ const Page = () => {
       {/* Table */}
       <div className="p-[13px] lg:p-[26px] bg-white rounded-[14px] flex flex-col gap-[12px] lg:gap-[24px]">
         <SubSectionTitle subtitle="All Lists" />
+        {classReportDataLoading ? (<TableSkeleton />): (
+
         <div className="overflow-x-auto">
           <table className="min-w-[600px] w-full text-sm text-left text-gray-700">
             <thead className="bg-gray-50 text-black capitalize text-[16px] sm:text-[18px] lg:text-[20px] font-semibold">
@@ -157,29 +164,30 @@ const Page = () => {
               </tr>
             </thead>
             <tbody>
-              {filteredData.length > 0 ? (
-                filteredData.map((item) => (
+              {classReportData?.data?.data?.length > 0 ? (
+                classReportData?.data?.data?.map((item) => (
                   <tr
                     key={item.id}
                     className="border-b hover:bg-gray-50 transition-all"
                   >
                     <td className="px-3 sm:px-6 py-4 text-gray-800 whitespace-nowrap">
-                      {item.dateTime}
+                      {item.class_times[0]?.date}
                     </td>
                     <td className="px-3 sm:px-6 py-4 text-gray-800 whitespace-nowrap">
-                      {item.instructor}
+                      {item.instructor?.first_name} {" "}
+                      {item.instructor?.last_name}
                     </td>
                     <td className="px-3 sm:px-6 py-4 truncate max-w-[200px]">
-                      {item.course}
+                      {item.course_id}
                     </td>
                     <td className="px-3 sm:px-6 py-4 truncate max-w-[200px]">
-                      {item.location}
+                      {item.location_name}
                     </td>
                     <td className="px-3 sm:px-6 py-4 text-gray-600 whitespace-nowrap">
                       {item.enrolled}
                     </td>
                     <td className="px-3 sm:px-6 py-4 text-gray-600 whitespace-nowrap">
-                      {item.hour}
+                      {item.total_hours}
                     </td>
                   </tr>
                 ))
@@ -196,38 +204,46 @@ const Page = () => {
             </tbody>
           </table>
         </div>
+        )}
 
-        {/* Footer controls */}
-        <div className="flex flex-col md:flex-row items-center justify-between mt-3 lg:mt-6 gap-3">
-          <div className="flex items-center gap-2">
+       {/* Footer controls */}
+        <div className="flex flex-col md:flex-row items-center justify-end mt-3 lg:mt-6 gap-3">
+          {/* Show per page */}
+          {/* <div className="flex items-center gap-2">
             <span className="text-gray-600 text-sm">Show:</span>
             <select
-              value={selectedShow}
-              onChange={(e) => setSelectedShow(e.target.value)}
-              className="border border-gray-300 rounded-md px-2 py-1 text-sm text-gray-700 focus:outline-none"
+              value={perPage}
+              onChange={(e) => {
+                setPerPage(Number(e.target.value));
+                setPage(1);
+              }}
+              className="border border-gray-300 rounded-md px-2 py-1 text-sm"
             >
-              <option value="10">10</option>
-              <option value="25">25</option>
-              <option value="50">50</option>
+              <option value={10}>10</option>
+              <option value={25}>25</option>
+              <option value={50}>50</option>
             </select>
-          </div>
+          </div> */}
 
+          {/* Pagination */}
           <div className="flex items-center gap-2">
-            <button className="px-3 py-1 text-sm text-gray-500 border rounded-md hover:bg-gray-100">
-              Previous
-            </button>
-            <button className="px-3 py-1 text-sm border border-blue-500 rounded-md text-blue-600">
-              1
-            </button>
-            <button className="px-3 py-1 text-sm border rounded-md hover:bg-gray-100">
-              2
-            </button>
-            <button className="px-3 py-1 text-sm border rounded-md hover:bg-gray-100">
-              3
-            </button>
-            <button className="px-3 py-1 text-sm text-gray-500 border rounded-md hover:bg-gray-100">
-              Next
-            </button>
+            {classReportData?.data?.links?.map((link, index) => (
+              <button
+                key={index}
+                disabled={link.url === null || link.page === null}
+                onClick={() => link.page && setPage(link.page)}
+                className={`px-3 py-1 text-sm border rounded-md ${
+                  link.active
+                    ? "border-blue-500 text-blue-600 bg-blue-50"
+                    : "hover:bg-gray-100"
+                } ${
+                  link.url === null || link.page === null
+                    ? "text-gray-400 cursor-not-allowed"
+                    : "cursor-pointer"
+                }`}
+                dangerouslySetInnerHTML={{ __html: link.label }}
+              />
+            ))}
           </div>
         </div>
       </div>

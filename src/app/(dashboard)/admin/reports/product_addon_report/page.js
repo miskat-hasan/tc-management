@@ -1,48 +1,20 @@
 "use client";
 import SectionTitle from "@/components/common/SectionTitle";
 import SubSectionTitle from "@/components/common/SubSectionTitle";
+import TableSkeleton from "@/components/common/TableSkelation";
 import CustomSelect from "@/components/shared/form/CustomSelect";
 import { Button } from "@/components/ui/button";
+import { getProductAddOnsReport } from "@/hooks/api/dashboardApi";
 import { SearchIcon } from "@/svg/SvgContainer";
 import React, { useState } from "react";
 
-const products = [
-  {
-    productCode: "BLOODBORNE PATHOGENS TRAINING",
-    productName: "Bloodborne Pathogens Training",
-    quantity: 1,
-    totalSales: "$25.00",
-  },
-  {
-    productCode: "CHILD AND INFANT CPR CERTIFICATION",
-    productName: "Child and Infant CPR Certification",
-    quantity: 1,
-    totalSales: "$20.00",
-  },
-  {
-    productCode:
-      "LIFE-THREATENING BLEEDING & TOURNIQUET APPLICATION CERTIFICATION",
-    productName:
-      "Life-Threatening Bleeding & Tourniquet Application Certification",
-    quantity: 0,
-    totalSales: "$00.00",
-  },
-  {
-    productCode: "CODE BLUE BACKPACK PACKAGE",
-    productName: "Code Blue CPR Services Backpack Package",
-    quantity: 0,
-    totalSales: "$00.00",
-  },
-  {
-    productCode: "REDCROSS BACKPACK PACKAGE COLOR",
-    productName: "Redcross CPR Services Backpack Package Color",
-    quantity: 0,
-    totalSales: "$00.00",
-  },
-];
 const Page = () => {
-  const [selectedShow, setSelectedShow] = useState(50);
+  const [page, setPage] = useState(1);
+
   const [filters, setFilters] = useState({ month: "" });
+
+  const { data: productAddOnsReport, isLoading: productAddOnsReportLoading } =
+    getProductAddOnsReport(page);
 
   const handleSelectChange = (key, value) => {
     setFilters((prev) => ({ ...prev, [key]: value }));
@@ -95,90 +67,101 @@ const Page = () => {
       {/* Table */}
       <div className="p-[13px] lg:p-[26px] bg-white rounded-[14px] flex flex-col gap-[12px] lg:gap-[24px]">
         <SubSectionTitle subtitle="All Lists" />
-        <div className="overflow-x-auto">
-          <table className="min-w-[600px] w-full text-sm text-left text-gray-700">
-            <thead className="bg-gray-50 text-black capitalize text-[14px] sm:text-[16px] font-semibold">
-              <tr>
-                <th className="px-3 sm:px-6 py-3 whitespace-nowrap">
-                  Product Code
-                </th>
-                <th className="px-3 sm:px-6 py-3 whitespace-nowrap">
-                  Product Name
-                </th>
-                <th className="px-3 sm:px-6 py-3 whitespace-nowrap">
-                  Quantity
-                </th>
-                <th className="px-3 sm:px-6 py-3 whitespace-nowrap">
-                  Total Sales
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {products.length > 0 ? (
-                products.map((item, index) => (
-                  <tr
-                    key={index}
-                    className="border-b hover:bg-gray-50 transition-all"
-                  >
-                    <td className="px-3 sm:px-6 py-4 text-gray-800 whitespace-nowrap">
-                      {item.productCode}
-                    </td>
-                    <td className="px-3 sm:px-6 py-4 text-gray-800 truncate max-w-[220px]">
-                      {item.productName}
-                    </td>
-                    <td className="px-3 sm:px-6 py-4 whitespace-nowrap">
-                      {item.quantity}
-                    </td>
-                    <td className="px-3 sm:px-6 py-4 whitespace-nowrap">
-                      {item.totalSales}
+        {productAddOnsReportLoading ? (
+          <TableSkeleton />
+        ) : (
+          <div className="overflow-x-auto">
+            <table className="min-w-[600px] w-full text-sm text-left text-gray-700">
+              <thead className="bg-gray-50 text-black capitalize text-[14px] sm:text-[16px] font-semibold">
+                <tr>
+                  <th className="px-3 sm:px-6 py-3 whitespace-nowrap">
+                    Product Code
+                  </th>
+                  <th className="px-3 sm:px-6 py-3 whitespace-nowrap">
+                    Product Name
+                  </th>
+                  <th className="px-3 sm:px-6 py-3 whitespace-nowrap">
+                    Quantity
+                  </th>
+                  <th className="px-3 sm:px-6 py-3 whitespace-nowrap">
+                    Total Sales
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {productAddOnsReport?.data?.data?.length > 0 ? (
+                  productAddOnsReport?.data?.data?.map((item, index) => (
+                    <tr
+                      key={index}
+                      className="border-b hover:bg-gray-50 transition-all"
+                    >
+                      <td className="px-3 sm:px-6 py-4 text-gray-800 whitespace-nowrap">
+                        {item.productCode}
+                      </td>
+                      <td className="px-3 sm:px-6 py-4 text-gray-800 truncate max-w-[220px]">
+                        {item.productName}
+                      </td>
+                      <td className="px-3 sm:px-6 py-4 whitespace-nowrap">
+                        {item.quantity}
+                      </td>
+                      <td className="px-3 sm:px-6 py-4 whitespace-nowrap">
+                        {item.totalSales}
+                      </td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
+                    <td
+                      colSpan="4"
+                      className="text-center py-6 text-gray-500 italic"
+                    >
+                      No results found
                     </td>
                   </tr>
-                ))
-              ) : (
-                <tr>
-                  <td
-                    colSpan="4"
-                    className="text-center py-6 text-gray-500 italic"
-                  >
-                    No results found
-                  </td>
-                </tr>
-              )}
-            </tbody>
-          </table>
-        </div>
+                )}
+              </tbody>
+            </table>
+          </div>
+        )}
 
         {/* Footer controls */}
-        <div className="flex flex-col md:flex-row items-center justify-between mt-6 gap-3">
-          <div className="flex items-center gap-2">
+        <div className="flex flex-col md:flex-row items-center justify-end mt-3 lg:mt-6 gap-3">
+          {/* Show per page */}
+          {/* <div className="flex items-center gap-2">
             <span className="text-gray-600 text-sm">Show:</span>
             <select
-              value={selectedShow}
-              onChange={(e) => setSelectedShow(e.target.value)}
-              className="border border-gray-300 rounded-md px-2 py-1 text-sm text-gray-700 focus:outline-none"
+              value={perPage}
+              onChange={(e) => {
+                setPerPage(Number(e.target.value));
+                setPage(1);
+              }}
+              className="border border-gray-300 rounded-md px-2 py-1 text-sm"
             >
-              <option value="10">10</option>
-              <option value="25">25</option>
-              <option value="50">50</option>
+              <option value={10}>10</option>
+              <option value={25}>25</option>
+              <option value={50}>50</option>
             </select>
-          </div>
+          </div> */}
 
+          {/* Pagination */}
           <div className="flex items-center gap-2">
-            <button className="px-3 py-1 text-sm text-gray-500 border rounded-md hover:bg-gray-100">
-              Previous
-            </button>
-            <button className="px-3 py-1 text-sm border border-blue-500 rounded-md text-blue-600">
-              1
-            </button>
-            <button className="px-3 py-1 text-sm border rounded-md hover:bg-gray-100">
-              2
-            </button>
-            <button className="px-3 py-1 text-sm border rounded-md hover:bg-gray-100">
-              3
-            </button>
-            <button className="px-3 py-1 text-sm text-gray-500 border rounded-md hover:bg-gray-100">
-              Next
-            </button>
+            {productAddOnsReport?.data?.links?.map((link, index) => (
+              <button
+                key={index}
+                disabled={link.url === null || link.page === null}
+                onClick={() => link.page && setPage(link.page)}
+                className={`px-3 py-1 text-sm border rounded-md ${
+                  link.active
+                    ? "border-blue-500 text-blue-600 bg-blue-50"
+                    : "hover:bg-gray-100"
+                } ${
+                  link.url === null || link.page === null
+                    ? "text-gray-400 cursor-not-allowed"
+                    : "cursor-pointer"
+                }`}
+                dangerouslySetInnerHTML={{ __html: link.label }}
+              />
+            ))}
           </div>
         </div>
       </div>

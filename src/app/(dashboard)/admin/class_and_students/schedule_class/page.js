@@ -288,7 +288,10 @@ const Page = () => {
                       key={assistantId}
                       className="inline-flex items-center gap-1 bg-neutral-200 text-neutral-800 px-3 py-1 rounded-full text-sm"
                     >
-                      <span>{assistant?.name || assistant?.username}</span>
+                      <span>
+                        {assistant?.first_name} {assistant?.middle_name}{" "}
+                        {assistant?.last_name}
+                      </span>
                       <div
                         onClick={() => handleRemoveAssistant(assistantId)}
                         className="hover:bg-blue-200 rounded-full p-0.5 cursor-pointer"
