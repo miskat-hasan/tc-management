@@ -62,7 +62,10 @@ const Page = () => {
     getAllInstructor();
 
   const selectedAssistants = watch("assistants") || [];
+  const selectedCertifyingBody = watch("course_certifying_body") || [];
 
+  const filteredCourseData = coursesData?.data?.data?.filter((item)=> item.course_certifying_body === selectedCertifyingBody)
+  
   // const dayOptions = [
   //   { id: "monday", name: "Monday" },
   //   { id: "tuesday", name: "Tuesday" },
@@ -174,6 +177,29 @@ const Page = () => {
       >
         {/* Main form layout grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4">
+          <div className="flex-1 max-md:col-span-2">
+            <Controller
+              name="course_certifying_body"
+              control={control}
+              rules={{ required: "Course Certifying Body is required" }}
+              render={({ field }) => (
+                <CustomSelect
+                  {...field}
+                  label="Course Certifying Body"
+                  placeholder="Select certifying body"
+                  options={[
+                    { id: "none", name: "None" },
+                    { id: "american_red_cross", name: "American Red Cross" },
+                    {
+                      id: "american_heart_association",
+                      name: "American Heart Association",
+                    },
+                  ]}
+                  error={errors.course_certifying_body?.message}
+                />
+              )}
+            />
+          </div>
           <Controller
             name="course"
             control={control}
@@ -185,7 +211,7 @@ const Page = () => {
                 label="Course"
                 placeholder="Course"
                 isLoading={coursesLoading}
-                options={coursesData?.data?.data}
+                options={filteredCourseData}
                 error={errors.course?.message}
                 className="flex-1 max-md:col-span-2"
               />
