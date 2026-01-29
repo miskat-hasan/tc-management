@@ -23,7 +23,6 @@ import { CiEdit } from "react-icons/ci";
 const Page = () => {
   const form = useForm();
   const { control } = form;
-  const [selectedShow, setSelectedShow] = useState(50);
   const [page, setPage] = useState(1);
   const [perPage, setPerPage] = useState(10);
   const [filters, setFilters] = useState({
@@ -120,8 +119,7 @@ const Page = () => {
           </div>
           <div className="flex items-end gap-5  mt-4">
             <div>
-
-            <FormInput name="class_id" label="Class Id" />
+              <FormInput name="class_id" label="Class Id" />
             </div>
             <Button
               onClick={handleSearch}
@@ -144,7 +142,7 @@ const Page = () => {
             <table className="w-full min-w-[800px] text-sm sm:text-base text-left text-gray-700">
               <thead className="bg-gray-50 text-black capitalize text-[16px] sm:text-[18px] font-semibold">
                 <tr>
-                  <th className="px-3 sm:px-6 py-3 w-[40px]">SL</th>
+                  <th className="px-3 sm:px-6 py-3 w-[40px] text-nowrap">Class ID</th>
                   <th className="px-3 sm:px-6 py-3">Instructor</th>
                   <th className="px-3 sm:px-6 py-3">Date/Time</th>
                   <th className="px-3 sm:px-6 py-3">Course</th>
@@ -165,7 +163,7 @@ const Page = () => {
                         {index + 1}
                       </td>
                       <td className="px-3 sm:px-6 py-3 text-gray-800 whitespace-nowrap">
-                       {item.instructor?.first_name}{" "}
+                        {item.instructor?.first_name}{" "}
                         {item.instructor?.last_name}
                       </td>
                       <td className="px-3 sm:px-6 py-3 whitespace-nowrap">
@@ -175,7 +173,7 @@ const Page = () => {
                         {item.course?.course_name}
                       </td>
                       <td className="px-3 sm:px-6 py-3 truncate max-w-[140px] sm:max-w-[220px]">
-                    {item.location?.name}
+                        {item.location?.name}
                       </td>
                       <td className="px-3 sm:px-6 py-3 text-gray-600">
                         {item.max_student}
