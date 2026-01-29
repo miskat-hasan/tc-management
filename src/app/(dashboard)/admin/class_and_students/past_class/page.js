@@ -165,7 +165,7 @@ const Page = () => {
             <table className="w-full min-w-[800px] text-sm sm:text-base text-left text-gray-700">
               <thead className="bg-gray-50 text-black capitalize text-[16px] sm:text-[18px] font-semibold">
                 <tr>
-                  <th className="px-3 sm:px-6 py-3 w-[40px]">SL</th>
+                  <th className="px-3 sm:px-6 py-3 w-[40px] text-nowrap">Class ID</th>
                   <th className="px-3 sm:px-6 py-3">Instructor</th>
                   <th className="px-3 sm:px-6 py-3">Date/Time</th>
                   <th className="px-3 sm:px-6 py-3">Course</th>

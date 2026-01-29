@@ -84,8 +84,8 @@ const Page = () => {
             />
 
             <FormInput
-              name="rcicUsername"
-              label="RCIC Username"
+              name="rclcUsername"
+              label="RCLC Username"
               placeholder="Description"
             />
             <FormInput
