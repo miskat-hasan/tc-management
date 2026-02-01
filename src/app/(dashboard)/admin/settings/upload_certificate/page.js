@@ -3,6 +3,8 @@
 import React, { useState } from "react";
 import { Upload } from "lucide-react";
 import SectionTitle from "@/components/common/SectionTitle";
+import { uploadCertification } from "@/hooks/api/dashboardApi";
+import Swal from "sweetalert2";
 
 const Page = () => {
   const [file, setFile] = useState(null);
@@ -14,11 +16,38 @@ const Page = () => {
     }
   };
 
-  const handleUpload = () => {
-    if (!file) return alert("Please select a file first.");
+  const {
+    mutate: uploadCertificateMutation,
+    isPending: uploadCertificatePending,
+  } = uploadCertification();
 
-    console.log("Uploading:", file.name);
-    alert(`File "${file.name}" uploaded successfully!`);
+  const handleUpload = () => {
+    if (!file) {
+      return Swal.fire({
+        text: "Please select a file first.",
+        icon: "error",
+      });
+    }
+
+    const formData = new FormData();
+
+    formData.append("file", file);
+
+    uploadCertificateMutation(formData, {
+      onSuccess: (data) => {
+        setFile(null);
+        Swal.fire({
+          text: data?.message,
+          icon: "success",
+        });
+      },
+      onError: (err) => {
+        Swal.fire({
+          text: err?.response?.data?.message,
+          icon: "error",
+        });
+      },
+    });
   };
 
   return (
@@ -56,10 +85,10 @@ const Page = () => {
 
           <button
             onClick={handleUpload}
-            className="mt-4 bg-brown text-white text-sm lg:text-base px-3 lg:px-6 py-2 rounded-lg hover:bg-brown-hover transition disabled:opacity-50 cursor-pointer"
-            disabled={!file}
+            className={`mt-4 bg-brown text-white text-sm lg:text-base px-3 lg:px-6 py-2 rounded-lg hover:bg-brown-hover transition disabled:opacity-50 ${file || uploadCertificatePending ? "cursor-pointer" : "cursor-not-allowed"}`}
+            disabled={!file || uploadCertificatePending}
           >
-            Upload
+            {uploadCertificatePending ? "Uploading..." : "Upload"}
           </button>
         </div>
       </div>

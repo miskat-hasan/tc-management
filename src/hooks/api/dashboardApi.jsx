@@ -555,3 +555,29 @@ export const getProductAddOnsReport = (page = 1, perPage = 10) => {
     endpoint: `/api/reports/addon-report?page=${page}&per_page=${perPage}`,
   });
 };
+
+// certification file
+export const uploadCertification = () => {
+  return useClientApi({
+    method: "post",
+    isPrivate: true,
+    endpoint: "/api/certificates/store",
+  });
+};
+
+export const getAllCertificationFile = (page = 1, perPage = 10) => {
+  return useClientApi({
+    method: "get",
+    isPrivate: true,
+    key: ["get-all-certification-file", page, perPage],
+    endpoint: `/api/certificates/index?page=${page}&per_page=${perPage}`,
+  });
+};
+
+export const deleteSingleCertificationFile = (id) => {
+  return useClientApi ({
+    method: "delete",
+    isPrivate: true,
+    endpoint: `/api/certificates/delete?id=${id}`
+  })
+}
