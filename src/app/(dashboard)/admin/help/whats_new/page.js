@@ -2,15 +2,12 @@
 import SectionTitle from "@/components/common/SectionTitle";
 import SubSectionTitle from "@/components/common/SubSectionTitle";
 import NotFound from "@/components/shared/NotFound";
-import { Button } from "@/components/ui/button";
-import { assestsInstallation, whatsnewData } from "@/data/data";
-import { PlusIcon } from "@/svg/SvgContainer";
 import React, { useState } from "react";
-import { CiEdit } from "react-icons/ci";
-import { useRouter } from "next/navigation";
+import { getWhatsNew } from "@/hooks/api/dashboardApi";
+import TableSkeleton from "@/components/common/TableSkelation";
 
 const Page = () => {
-  const [selectedShow, setSelectedShow] = useState(50);
+  const { data: whatsNewData, isLoading: whatsNewDataLoading } = getWhatsNew();
 
   return (
     <div className="flex flex-col gap-[12.5px] lg:gap-[25px]">
@@ -25,48 +22,54 @@ const Page = () => {
           <SubSectionTitle subtitle="All Lists" />
         </div>
 
-        <div className="overflow-x-auto">
-          <table className="min-w-full text-sm text-left text-gray-700">
-            <thead className="bg-gray-50 text-black capitalize text-[16px] md:text-[20px] font-semibold">
-              <tr>
-                <th className="px-3 py-3 md:px-6 w-[150px] md:w-[200px] whitespace-nowrap">
-                  Date
-                </th>
-                <th className="px-3 py-3 md:px-6 whitespace-nowrap">Update</th>
-              </tr>
-            </thead>
+        {whatsNewDataLoading ? (
+          <TableSkeleton />
+        ) : (
+          <div className="overflow-x-auto">
+            <table className="min-w-full text-sm text-left text-gray-700">
+              <thead className="bg-gray-50 text-black capitalize text-[16px] md:text-[20px] font-semibold">
+                <tr>
+                  <th className="px-3 py-3 md:px-6 w-[150px] md:w-[200px] whitespace-nowrap">
+                    Date
+                  </th>
+                  <th className="px-3 py-3 md:px-6 whitespace-nowrap">
+                    Update
+                  </th>
+                </tr>
+              </thead>
 
-            <tbody>
-              {whatsnewData.length > 0 ? (
-                whatsnewData.map((item, index) => (
-                  <tr
-                    key={index}
-                    className="border-b hover:bg-gray-50 transition-all"
-                  >
-                    <td className="px-3 py-3 md:px-6 text-gray-800 whitespace-nowrap">
-                      {item.date}
-                    </td>
-                    <td className="px-3 py-3 md:px-6 text-gray-800">
-                      {item.update}
+              <tbody>
+                {whatsNewData?.data?.length > 0 ? (
+                  whatsNewData?.data?.map((item, index) => (
+                    <tr
+                      key={item?.id}
+                      className="border-b hover:bg-gray-50 transition-all"
+                    >
+                      <td className="px-3 py-3 md:px-6 text-gray-800 whitespace-nowrap">
+                        {item?.date}
+                      </td>
+                      <td className="px-3 py-3 md:px-6 text-gray-800">
+                        {item?.title}
+                      </td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
+                    <td
+                      colSpan="2"
+                      className="text-center py-3 lg:py-6 text-gray-500 italic"
+                    >
+                      <NotFound title="No Record Found" />
                     </td>
                   </tr>
-                ))
-              ) : (
-                <tr>
-                  <td
-                    colSpan="2"
-                    className="text-center py-3 lg:py-6 text-gray-500 italic"
-                  >
-                    <NotFound title="No Record Found" />
-                  </td>
-                </tr>
-              )}
-            </tbody>
-          </table>
-        </div>
+                )}
+              </tbody>
+            </table>
+          </div>
+        )}
 
         {/* Footer controls */}
-        <div className="flex flex-col md:flex-row items-center justify-between mt-3 lg:mt-6 gap-3">
+        {/* <div className="flex flex-col md:flex-row items-center justify-between mt-3 lg:mt-6 gap-3">
           <div className="flex items-center gap-2">
             <span className="text-gray-600 text-sm">Show:</span>
             <select
@@ -97,7 +100,7 @@ const Page = () => {
               Next
             </button>
           </div>
-        </div>
+        </div> */}
       </div>
     </div>
   );

@@ -575,9 +575,41 @@ export const getAllCertificationFile = (page = 1, perPage = 10) => {
 };
 
 export const deleteSingleCertificationFile = (id) => {
-  return useClientApi ({
+  return useClientApi({
     method: "delete",
     isPrivate: true,
-    endpoint: `/api/certificates/delete?id=${id}`
-  })
-}
+    endpoint: `/api/certificates/delete?id=${id}`,
+  });
+};
+
+export const downloadCertificationFile = () => {
+  return useClientApi({
+    method: "post",
+    key: ["download-certification-file"],
+    isPrivate: true,
+    endpoint: `/api/certificates/download`,
+    axiosOptions: {
+      responseType: "blob",
+    },
+  });
+};
+
+// help
+// what's new
+export const getWhatsNew = () => {
+  return useClientApi({
+    method: "get",
+    isPrivate: true,
+    key: ["get-whats-new"],
+    endpoint: "/api/whats_new/index",
+  });
+};
+
+// support request
+export const storeSupportRequest = () => {
+  return useClientApi({
+    method: "post",
+    isPrivate: true,
+    endpoint: "/api/support_request/request",
+  });
+};
