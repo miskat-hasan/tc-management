@@ -52,8 +52,9 @@ const CustomSelect = ({
         </SelectTrigger>
 
         <SelectContent className="max-h-60 overflow-y-auto">
-          {isLoading && <div>Loading ....</div>}
-          {options?.length > 0 ? (
+          {isLoading ? (
+            <div>Loading ....</div>
+          ) : options?.length > 0 ? (
             options.map((opt) => (
               <SelectItem
                 key={opt.id}

@@ -6,8 +6,10 @@ import { Button } from "@/components/ui/button";
 import { keycodeSales } from "@/data/data";
 import {
   deleteSingleCertificationFile,
+  downloadCertificationFile,
   getAllCertificationFile,
 } from "@/hooks/api/dashboardApi";
+import { useQueryClient } from "@tanstack/react-query";
 
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
@@ -35,20 +37,15 @@ const Page = () => {
     isPending: deleteCertificationFilePending,
   } = deleteSingleCertificationFile(selectedFileId);
 
+  const queryClient = useQueryClient();
   // delete a single certification file
-  const handleDeleteCertificationFileMutation = (id) => {
+  const handleDeleteCertificationFile = (id) => {
     setSelectedFileId(id);
 
-    if (!selectedFileId) {
-      return Swal.fire({
-        text: "File id not found",
-        icon: "error",
-      });
-    }
-// console.log(selectedFileId)
-    deleteCertificationFileMutation({
+    deleteCertificationFileMutation(id, {
       onSuccess: (data) => {
         setSelectedFileId(null);
+        queryClient.invalidateQueries("get-all-certification-file");
         Swal.fire({
           text: data?.message,
           icon: "success",
@@ -63,9 +60,38 @@ const Page = () => {
     });
   };
 
+  // download certification api
+  const {
+    mutate: downloadCertificationFileMutation,
+    isPending: downloadCertificationFilePending,
+  } = downloadCertificationFile();
+
+  const handleDownloadCertificationFile = (id) => {
+    downloadCertificationFileMutation(
+      { id },
+      {
+        onSuccess: (blob) => {
+          const file = new Blob([blob], {
+            type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+          });
+          console.log(file);
+          const url = window.URL.createObjectURL(file);
+          const link = document.createElement("a");
+          link.href = url;
+          link.setAttribute("download", `certificate.docx`);
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+          window.URL.revokeObjectURL(url);
+        },
+      },
+    );
+  };
+
   const handleNavigation = () => {
     router.push("/admin/settings/upload_certificate");
   };
+
   return (
     <div className="flex flex-col gap-[12.5px] lg:gap-[25px]">
       {/* Header */}
@@ -107,13 +133,16 @@ const Page = () => {
                       </td>
 
                       <td className="px-3 md:px-6 py-4 flex gap-2.5 justify-end">
-                        <button className="p-2 cursor-pointer bg-gray-100 rounded-lg hover:bg-gray-200 transition">
+                        <button
+                          onClick={() =>
+                            handleDownloadCertificationFile(item?.id)
+                          }
+                          className="p-2 cursor-pointer bg-gray-100 rounded-lg hover:bg-gray-200 transition"
+                        >
                           <HiOutlineDownload className="text-gray-600 text-[16px]" />
                         </button>
                         <button
-                          onClick={() =>
-                            handleDeleteCertificationFileMutation(item.id)
-                          }
+                          onClick={() => handleDeleteCertificationFile(item.id)}
                           className="p-2 bg-gray-100 cursor-pointer rounded-lg hover:bg-red-300 transition"
                         >
                           <HiOutlineTrash className="text-gray-600 text-[16px]" />
