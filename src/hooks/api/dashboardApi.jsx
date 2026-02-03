@@ -613,3 +613,31 @@ export const storeSupportRequest = () => {
     endpoint: "/api/support_request/request",
   });
 };
+
+// External SKU
+// get all data
+export const getAllExternalSKU = (page = 1, perPage = 10) => {
+  return useClientApi({
+    method: "get",
+    isPrivate: true,
+    key: ["get-all-external-sku", page, perPage],
+    endpoint: `/api/external_sku/index?page=${page}&per_page=${perPage}`,
+  });
+};
+
+// delete a data
+export const deleteSingleExternalSKU = () => {
+  return useClientApi({
+    method: "delete",
+    isPrivate: true,
+  });
+};
+
+// store external SKU
+export const storeExternalSKU = () => {
+  return useClientApi({
+    method: "post",
+    isPrivate: true,
+    endpoint: "/api/external_sku/store",
+  });
+};
