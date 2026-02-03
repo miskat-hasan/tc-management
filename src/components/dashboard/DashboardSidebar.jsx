@@ -168,7 +168,7 @@ const menuItems = [
       { label: "Site Manager", href: "/admin/settings/site_manager" },
       { label: "Card Settings", href: "/admin/settings/cards_settings" },
       { label: "Certificates", href: "/admin/settings/certificates" },
-      { label: "External SKu's", href: "/admin/settings/external_skills" },
+      { label: "External SKu's", href: "/admin/settings/external_sku" },
       { label: "Email Campaigns", href: "/admin/settings/emails_campaigns" },
       { label: "Text Messaging", href: "/admin/settings/text_messaging" },
       { label: "Users", href: "/admin/settings/users" },
@@ -210,7 +210,7 @@ const menuItems2 = [
       { label: "Site Manager", href: "/admin/settings/site_manager" },
       { label: "Card Settings", href: "/admin/settings/cards_settings" },
       { label: "Certificates", href: "/admin/settings/certificates" },
-      { label: "External SKu's", href: "/admin/settings/external_skills" },
+      { label: "External SKu's", href: "/admin/settings/external_sku" },
       { label: "Email Campaigns", href: "/admin/settings/emails_campaigns" },
       { label: "Text Messaging", href: "/admin/settings/text_messaging" },
       { label: "Users", href: "/admin/settings/users" },
@@ -266,18 +266,18 @@ const DashboardSidebar = () => {
     // console.log("val", val);
   };
 
-  useEffect(() => {
+  // useEffect(() => {
     // if (initialRender.current) {
     //   initialRender.current = false;
     //   return;
     // }
 
-    if (user?.role_name === "Admin") {
-      router.push("/admin/class_and_students/upcoming_classes");
-    } else {
-      router.push("/admin/class_and_students/classes");
-    }
-  }, [user, token]);
+  //   if (user?.role_name === "Admin") {
+  //     router.push("/admin/class_and_students/upcoming_classes");
+  //   } else {
+  //     router.push("/admin/class_and_students/classes");
+  //   }
+  // }, [user, token]);
 
   const toggleMenu = (label) => {
     setOpenMenu((prev) => (prev === label ? null : label));

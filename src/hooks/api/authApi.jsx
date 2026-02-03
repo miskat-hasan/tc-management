@@ -21,7 +21,10 @@ export const useLogin = () => {
           confirmButtonText: "Go To Dashboard",
           allowOutsideClick: true,
         }).then(() => {
-          router.push("/admin/class_and_students/upcoming_classes");
+          if (data?.data?.role_name === "Admin") {
+            return router.push("/admin/class_and_students/upcoming_classes");
+          }
+          router.push("/admin/class_and_students/classes");
         });
       }
     },
