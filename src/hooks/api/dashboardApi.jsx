@@ -625,7 +625,7 @@ export const getAllExternalSKU = (page = 1, perPage = 10) => {
   });
 };
 
-// delete a data
+// delete a data 
 export const deleteSingleExternalSKU = () => {
   return useClientApi({
     method: "delete",

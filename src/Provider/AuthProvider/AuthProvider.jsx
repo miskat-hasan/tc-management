@@ -1,6 +1,7 @@
 "use client";
 
 import { useGetUserData } from "@/hooks/api/authApi";
+import { getallTrainingsite } from "@/hooks/api/dashboardApi";
 import useLocalStorage from "@/hooks/useLocalStorage";
 import { createContext, useEffect, useState } from "react";
 
@@ -12,6 +13,11 @@ export default function AuthProvider({ children }) {
   const [token, setToken, clearToken] = useLocalStorage("token", null);
 
   const { data: userData, isLoading: loadingUserData } = useGetUserData(token);
+
+  const { data: trainingSiteData, isLoading: trainingSiteDataLoading } =
+    getallTrainingsite();
+
+  const [selectedTrainingSiteId, setSelectedTrainingSiteId] = useState(null);
 
   useEffect(() => {
     if (!token) {
@@ -31,7 +37,11 @@ export default function AuthProvider({ children }) {
     } else {
       setUser(null);
     }
-  }, [token, userData, loadingUserData]);
+
+    if(trainingSiteData?.data){
+      setSelectedTrainingSiteId(trainingSiteData?.data[0]?.id)
+    }
+  }, [token, userData, loadingUserData, trainingSiteData]);
 
   const contextValue = {
     loading,
@@ -41,6 +51,10 @@ export default function AuthProvider({ children }) {
     clearToken,
     userData,
     loadingUserData,
+    selectedTrainingSiteId,
+    setSelectedTrainingSiteId,
+    trainingSiteData,
+    trainingSiteDataLoading,
   };
 
   return (
