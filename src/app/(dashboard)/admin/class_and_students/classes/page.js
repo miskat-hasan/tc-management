@@ -1,21 +1,55 @@
 "use client";
 import SectionTitle from "@/components/common/SectionTitle";
 import SubSectionTitle from "@/components/common/SubSectionTitle";
+import TableSkeleton from "@/components/common/TableSkelation";
 import CustomSelect from "@/components/shared/form/CustomSelect";
 import { Button } from "@/components/ui/button";
 import { courseSchedule } from "@/data/data";
+import { getAllInstructor } from "@/hooks/api/dashboardApi";
+import useAuth from "@/hooks/useAuth";
 import { SearchIcon } from "@/svg/SvgContainer";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { CiEdit } from "react-icons/ci";
 
 const Page = () => {
   const [selectedShow, setSelectedShow] = useState(50);
+
+  const {
+    trainingSiteData,
+    trainingSiteDataLoading,
+    selectedTrainingSiteId,
+  } = useAuth();
+
   const [filters, setFilters] = useState({
     date: "",
     course: "",
     instructor: "",
     location: "",
   });
+
+  // console.log("trainingSiteData", trainingSiteData?.data?.[0]?.classes);
+
+  const {data: instructorData, isLoading: instructorDataLoading} = getAllInstructor()
+
+  const [selectedTrainingSiteData, setSelectedTrainingSiteData] =
+    useState(null);
+
+  useEffect(() => {
+    let data = null;
+    if (selectedTrainingSiteId) {
+      data = trainingSiteData?.data?.find(
+        (item) => item?.id == selectedTrainingSiteId,
+      );
+    }
+
+    if (trainingSiteData?.data && !trainingSiteDataLoading) {
+      setSelectedTrainingSiteData(
+        data?.classes ?? trainingSiteData?.data?.[0]?.classes,
+      );
+    }
+    // console.log("trainingSiteData", data);
+    // console.log("selectedTrainingSiteId", selectedTrainingSiteId);
+  }, [trainingSiteData, trainingSiteDataLoading, selectedTrainingSiteId]);
 
   const [filteredData, setFilteredData] = useState(courseSchedule);
 
@@ -48,6 +82,8 @@ const Page = () => {
     setFilteredData(filtered);
   };
 
+  console.log("selectedTrainingSiteData", selectedTrainingSiteData);
+
   return (
     <div className="flex flex-col gap-[12.5px] lg:gap-[25px]">
       {/* Header */}
@@ -61,10 +97,8 @@ const Page = () => {
           id="Instructor"
           label="Instructor"
           placeholder="All instructor"
-          options={[
-            { value: "c. myers", label: "C. Myers" },
-            { value: "m. clark", label: "M. Clark" },
-          ]}
+          options={instructorData?.data?.data}
+          isLoading={instructorDataLoading}
           onChange={(val) => handleSelectChange("instructor", val)}
           className="flex-1"
         />
@@ -83,64 +117,68 @@ const Page = () => {
       {/* Table */}
       <div className="p-[13px] lg:p-[26px] bg-white rounded-[14px] flex flex-col gap-[12px] lg:gap-[24px]">
         <SubSectionTitle subtitle="All Lists" />
-        <div className="overflow-x-auto">
-          <table className="w-full  text-sm sm:text-base text-left text-gray-700 min-w-[800px]">
-            <thead className="bg-gray-50 text-black capitalize text-[16px] sm:text-[18px] font-semibold">
-              <tr>
-                <th className="px-3 sm:px-6 py-3">Date/Time</th>
-                <th className="px-3 sm:px-6 py-3">Course</th>
-                <th className="px-3 sm:px-6 py-3">Instructor</th>
-                <th className="px-3 sm:px-6 py-3">Location</th>
-                <th className="px-3 sm:px-6 py-3">Students</th>
-                <th className="px-3 sm:px-6 py-3 text-center">Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              {filteredData.length > 0 ? (
-                filteredData.map((item, index) => (
-                  <tr
-                    key={item.id}
-                    className="border-b hover:bg-gray-50 transition-all"
-                  >
-                    <td className="px-3 sm:px-6 py-3 whitespace-nowrap">
-                      {item.dateTime}
-                    </td>
-                    <td className="px-3 sm:px-6 py-3 text-gray-800 whitespace-nowrap">
-                      {item.instructor}
-                    </td>
+        {trainingSiteDataLoading ? (
+          <TableSkeleton />
+        ) : (
+          <div className="overflow-x-auto">
+            <table className="w-full  text-sm sm:text-base text-left text-gray-700 min-w-[800px]">
+              <thead className="bg-gray-50 text-black capitalize text-[16px] sm:text-[18px] font-semibold">
+                <tr>
+                  <th className="px-3 sm:px-6 py-3">Date/Time</th>
+                  <th className="px-3 sm:px-6 py-3">Course</th>
+                  <th className="px-3 sm:px-6 py-3">Instructor</th>
+                  <th className="px-3 sm:px-6 py-3">Location</th>
+                  <th className="px-3 sm:px-6 py-3">Students</th>
+                  <th className="px-3 sm:px-6 py-3 text-center">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                {selectedTrainingSiteData?.length > 0 ? (
+                  selectedTrainingSiteData?.map((item, index) => (
+                    <tr
+                      key={item.id}
+                      className="border-b hover:bg-gray-50 transition-all"
+                    >
+                      <td className="px-3 sm:px-6 py-3 whitespace-nowrap">
+                        {item.dateTime}
+                      </td>
+                      <td className="px-3 sm:px-6 py-3 text-gray-800 whitespace-nowrap">
+                        {item.instructor}
+                      </td>
 
-                    <td className="px-3 sm:px-6 py-3 truncate max-w-[160px] sm:max-w-[220px]">
-                      {item.course}
-                    </td>
-                    <td className="px-3 sm:px-6 py-3 truncate max-w-[160px] sm:max-w-[220px]">
-                      {item.location}
-                    </td>
-                    <td className="px-3 sm:px-6 py-3 text-gray-600">
-                      {item.student}
-                    </td>
-                    <td className="px-3 sm:px-6 py-3 text-center">
-                      <button className="p-1.5 sm:p-2 bg-gray-100 rounded-lg hover:bg-gray-200 transition">
-                        <CiEdit className="text-gray-600 text-[14px] sm:text-[16px]" />
-                      </button>
+                      <td className="px-3 sm:px-6 py-3 truncate max-w-[160px] sm:max-w-[220px]">
+                        {item.course}
+                      </td>
+                      <td className="px-3 sm:px-6 py-3 truncate max-w-[160px] sm:max-w-[220px]">
+                        {item.location_name}
+                      </td>
+                      <td className="px-3 sm:px-6 py-3 text-gray-600">
+                        {item.student}
+                      </td>
+                      <td className="px-3 sm:px-6 py-3 text-center">
+                        <button className="p-1.5 sm:p-2 bg-gray-100 rounded-lg hover:bg-gray-200 transition">
+                          <CiEdit className="text-gray-600 text-[14px] sm:text-[16px]" />
+                        </button>
+                      </td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
+                    <td
+                      colSpan="7"
+                      className="text-center py-6 text-gray-500 italic"
+                    >
+                      No results found
                     </td>
                   </tr>
-                ))
-              ) : (
-                <tr>
-                  <td
-                    colSpan="7"
-                    className="text-center py-6 text-gray-500 italic"
-                  >
-                    No results found
-                  </td>
-                </tr>
-              )}
-            </tbody>
-          </table>
-        </div>
+                )}
+              </tbody>
+            </table>
+          </div>
+        )}
 
         {/* Footer controls */}
-        <div className="flex flex-col md:flex-row items-center justify-between mt-3 lg:mt-6 gap-3">
+        {/* <div className="flex flex-col md:flex-row items-center justify-between mt-3 lg:mt-6 gap-3">
           <div className="flex flex-wrap items-center gap-2 sm:gap-3">
             <span className="text-gray-600 text-sm sm:text-base">Show:</span>
             <select
@@ -178,7 +216,7 @@ const Page = () => {
               Next
             </button>
           </div>
-        </div>
+        </div> */}
       </div>
     </div>
   );
