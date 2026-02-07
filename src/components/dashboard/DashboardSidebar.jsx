@@ -253,20 +253,31 @@ const DashboardSidebar = () => {
   // if (user?.role_name === "Admin") {
   //   setSelectOption("admin");
   // }
-  // useEffect(() => {
-  //   const activeMenus =
-  //     selectOption === "training_site" ? menuItems2 : menuItems;
+  useEffect(() => {
+    if (selectedTrainingSiteId == "1") {
+      return router.push("/admin/class_and_students/upcoming_classes");
+    } else {
+      return router.push("/admin/class_and_students/classes");
+    }
+  }, [selectedTrainingSiteId]);
 
-  //   for (const item of activeMenus) {
-  //     if (
-  //       item.submenu &&
-  //       item.submenu.some((sub) => pathname.startsWith(sub.href))
-  //     ) {
-  //       setOpenMenu(item.label);
-  //       return;
-  //     }
-  //   }
-  // }, [pathname, selectOption]);
+  useEffect(() => {
+    const activeMenus = user?.roles?.find((item) => item.name === "Admin") &&
+            selectedTrainingSiteId == "1"
+              ? menuItems
+              : menuItems2
+      // selectOption === "training_site" ? menuItems2 : menuItems;
+
+    for (const item of activeMenus) {
+      if (
+        item.submenu &&
+        item.submenu.some((sub) => pathname.startsWith(sub.href))
+      ) {
+        setOpenMenu(item.label);
+        return;
+      }
+    }
+  }, [pathname, user, selectedTrainingSiteId]);
 
   const handleSelectChange = (val) => {
     // setSelectOption(val);
@@ -290,7 +301,7 @@ const DashboardSidebar = () => {
     setOpenMenu((prev) => (prev === label ? null : label));
   };
 
-  const { mutateAsync: logoutAsync, isPending } = useLogout();
+  const { mutateAsync: logoutAsync, isPending: logoutPending } = useLogout();
 
   const handleLogout = async () => {
     await logoutAsync();
@@ -402,8 +413,9 @@ const DashboardSidebar = () => {
             <button
               onClick={handleLogout}
               className="text-sm font-semibold mt-10 cursor-pointer px-[20px] py-[10px] bg-brown rounded-[10px] text-white text-center"
+              disabled={logoutPending}
             >
-              Log Out
+              {logoutPending ? "logging out ..." : "Log Out"}
             </button>
           </ul>
         </nav>

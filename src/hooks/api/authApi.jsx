@@ -12,19 +12,32 @@ export const useLogin = () => {
     key: ["login"],
     endpoint: "/api/users/login",
     onSuccess: (data) => {
-      if (data?.success) {
+      if (data?.status) {
         setToken(data?.data?.token);
-
+        console.log(data)
+        
         Swal.fire({
           title: data?.message || "Login Successful",
           icon: "success",
           confirmButtonText: "Go To Dashboard",
           allowOutsideClick: true,
         }).then(() => {
-          if (data?.data?.role_name === "Admin") {
+          // if (data?.data?.roles?.name === "Admin") {
+          // if (data?.data?.roles[0]?.name === "Admin") {
+          if (data?.data?.roles?.find((item) => item.name === "Admin")) {
             return router.push("/admin/class_and_students/upcoming_classes");
           }
-          router.push("/admin/class_and_students/classes");
+           router.push("/admin/class_and_students/classes");
+          
+          // const isAdmin = data?.data?.roles?.some(
+          //   (role) => role.name === "Admin",
+          // );
+
+          // router.push(
+          //   isAdmin
+          //     ? "/admin/class_and_students/upcoming_classes"
+          //     : "/admin/class_and_students/classes",
+          // );
         });
       }
     },

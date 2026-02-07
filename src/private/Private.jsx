@@ -8,6 +8,7 @@ import Loader from "@/components/common/Loader";
 const PrivateLayout = ({ children }) => {
   const router = useRouter();
   const { user, token, loading } = useAuth();
+  console.log(user)
 
   useEffect(() => {
     if (!token && !user) {
