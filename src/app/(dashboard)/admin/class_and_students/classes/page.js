@@ -3,36 +3,36 @@ import SectionTitle from "@/components/common/SectionTitle";
 import SubSectionTitle from "@/components/common/SubSectionTitle";
 import TableSkeleton from "@/components/common/TableSkelation";
 import CustomSelect from "@/components/shared/form/CustomSelect";
+import FormContainer from "@/components/shared/form/FormContainer";
 import { Button } from "@/components/ui/button";
+import { Form } from "@/components/ui/form";
 import { courseSchedule } from "@/data/data";
-import { getAllInstructor } from "@/hooks/api/dashboardApi";
+import { getAllInstructor, searchClasses } from "@/hooks/api/dashboardApi";
 import useAuth from "@/hooks/useAuth";
 import { SearchIcon } from "@/svg/SvgContainer";
 import React, { useEffect, useState } from "react";
+import { Controller, useForm } from "react-hook-form";
 import { CiEdit } from "react-icons/ci";
 
 const Page = () => {
-  const [selectedShow, setSelectedShow] = useState(50);
-
-  const {
-    trainingSiteData,
-    trainingSiteDataLoading,
-    selectedTrainingSiteId,
-  } = useAuth();
-
-  const [filters, setFilters] = useState({
-    date: "",
-    course: "",
-    instructor: "",
-    location: "",
+  const form = useForm({
+    defaultValues: {
+      instructorId: "",
+    },
   });
 
-  // console.log("trainingSiteData", trainingSiteData?.data?.[0]?.classes);
+  const { control } = form;
 
-  const {data: instructorData, isLoading: instructorDataLoading} = getAllInstructor()
+  const { trainingSiteData, trainingSiteDataLoading, selectedTrainingSiteId } =
+    useAuth();
+
+  const { data: instructorData, isLoading: instructorDataLoading } =
+    getAllInstructor();
 
   const [selectedTrainingSiteData, setSelectedTrainingSiteData] =
     useState(null);
+
+  const [filteredClasses, setFilteredClasses] = useState(null);
 
   useEffect(() => {
     let data = null;
@@ -47,42 +47,28 @@ const Page = () => {
         data?.classes ?? trainingSiteData?.data?.[0]?.classes,
       );
     }
-    // console.log("trainingSiteData", data);
-    // console.log("selectedTrainingSiteId", selectedTrainingSiteId);
-  }, [trainingSiteData, trainingSiteDataLoading, selectedTrainingSiteId]);
+    if (selectedTrainingSiteData) {
+      setFilteredClasses(selectedTrainingSiteData);
+    }
+  }, [
+    trainingSiteData,
+    trainingSiteDataLoading,
+    selectedTrainingSiteId,
+    selectedTrainingSiteData,
+  ]);
 
-  const [filteredData, setFilteredData] = useState(courseSchedule);
+  const onSubmit = (data) => {
+    const selectedInstructor = instructorData?.data?.data?.find(
+      (item) => String(item.id) === String(data?.instructorId),
+    );
 
-  // Handle select changes
-  const handleSelectChange = (key, value) => {
-    setFilters((prev) => ({ ...prev, [key]: value }));
+    const classData = selectedTrainingSiteData.filter(
+      (item) =>
+        item?.instructor?.first_name === selectedInstructor?.first_name &&
+        item?.instructor?.last_name === selectedInstructor?.last_name,
+    );
+    setFilteredClasses(classData);
   };
-
-  // Search / filter button logic
-  const handleSearch = () => {
-    const filtered = courseSchedule.filter((item) => {
-      const matchDate =
-        !filters.date ||
-        item.dateTime.toLowerCase().includes(filters.date.toLowerCase());
-      const matchCourse =
-        !filters.course ||
-        item.course.toLowerCase().includes(filters.course.toLowerCase());
-      const matchInstructor =
-        !filters.instructor ||
-        item.instructor
-          .toLowerCase()
-          .includes(filters.instructor.toLowerCase());
-      const matchLocation =
-        !filters.location ||
-        item.location.toLowerCase().includes(filters.location.toLowerCase());
-
-      return matchDate && matchCourse && matchInstructor && matchLocation;
-    });
-
-    setFilteredData(filtered);
-  };
-
-  console.log("selectedTrainingSiteData", selectedTrainingSiteData);
 
   return (
     <div className="flex flex-col gap-[12.5px] lg:gap-[25px]">
@@ -92,27 +78,32 @@ const Page = () => {
       </div>
 
       {/* Search filters */}
-      <div className=" px-[16px] py-[16px] lg:px-[32px] lg:py-[32px] bg-white rounded-[16px] flex flex-wrap lg:flex-nowrap gap-[10px] xl:gap-[24px]">
-        <CustomSelect
-          id="Instructor"
-          label="Instructor"
-          placeholder="All instructor"
-          options={instructorData?.data?.data}
-          isLoading={instructorDataLoading}
-          onChange={(val) => handleSelectChange("instructor", val)}
-          className="flex-1"
-        />
+      <FormContainer form={form} onSubmit={onSubmit}>
+        <div className=" px-[16px] py-[16px] lg:px-[32px] lg:py-[32px] bg-white rounded-[16px] flex flex-wrap lg:flex-nowrap gap-[10px] xl:gap-[24px]">
+          <Controller
+            name="instructorId"
+            control={control}
+            render={({ field }) => (
+              <CustomSelect
+                {...field}
+                id="Instructor"
+                label="Instructor"
+                placeholder="All instructor"
+                options={instructorData?.data?.data}
+                isLoading={instructorDataLoading}
+                className="flex-1"
+              />
+            )}
+          />
 
-        <div className="flex justify-end items-end">
-          <Button
-            onClick={handleSearch}
-            className="py-[12px] lg:py-[24px] text-[13px] lg:text-base cursor-pointer bg-brown flex items-center gap-2"
-          >
-            <SearchIcon />
-            Search
-          </Button>
+          <div className="flex justify-end items-end">
+            <Button className="py-[12px] lg:py-[24px] text-[13px] lg:text-base cursor-pointer bg-brown flex items-center gap-2">
+              <SearchIcon />
+              Search
+            </Button>
+          </div>
         </div>
-      </div>
+      </FormContainer>
 
       {/* Table */}
       <div className="p-[13px] lg:p-[26px] bg-white rounded-[14px] flex flex-col gap-[12px] lg:gap-[24px]">
@@ -133,27 +124,28 @@ const Page = () => {
                 </tr>
               </thead>
               <tbody>
-                {selectedTrainingSiteData?.length > 0 ? (
-                  selectedTrainingSiteData?.map((item, index) => (
+                {filteredClasses?.length > 0 ? (
+                  filteredClasses?.map((item, index) => (
                     <tr
-                      key={item.id}
+                      key={item?.id}
                       className="border-b hover:bg-gray-50 transition-all"
                     >
                       <td className="px-3 sm:px-6 py-3 whitespace-nowrap">
-                        {item.dateTime}
+                        {item?.class_times?.[0]?.date}
                       </td>
                       <td className="px-3 sm:px-6 py-3 text-gray-800 whitespace-nowrap">
-                        {item.instructor}
+                        {item?.course?.course_name}
                       </td>
 
                       <td className="px-3 sm:px-6 py-3 truncate max-w-[160px] sm:max-w-[220px]">
-                        {item.course}
+                        {item?.instructor?.first_name}{" "}
+                        {item?.instructor?.last_name}
                       </td>
                       <td className="px-3 sm:px-6 py-3 truncate max-w-[160px] sm:max-w-[220px]">
-                        {item.location_name}
+                        {item?.location_name}
                       </td>
                       <td className="px-3 sm:px-6 py-3 text-gray-600">
-                        {item.student}
+                        {item?.student}
                       </td>
                       <td className="px-3 sm:px-6 py-3 text-center">
                         <button className="p-1.5 sm:p-2 bg-gray-100 rounded-lg hover:bg-gray-200 transition">
