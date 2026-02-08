@@ -458,7 +458,7 @@ export const getAllUpcomingClasses = (page = 1, perPage = 10) => {
     method: "get",
     isPrivate: true,
     key: ["get-all-upcoming-class", page, perPage],
-    endpoint: `/api/class/upcoming?page=${page}&per_page=${perPage}`,
+    endpoint: `/api/class/upcoming`,
   });
 };
 
@@ -479,6 +479,36 @@ export const getAllClasses = (page = 1, perPage = 10) => {
     endpoint: `/api/class/index?page=${page}&per_page=${perPage}`,
   });
 };
+
+// class search
+
+export const searchClasses = (
+  is_enabled,
+  course_id,
+  instructor_id,
+  location_id,
+  id
+) => {
+  return useClientApi({
+    method: "get",
+    isPrivate: true,
+    key: [
+      "get-searched-classes",
+      course_id,
+      instructor_id,
+      location_id,
+      id
+    ],
+    params: { course_id, instructor_id, location_id, id },
+    endpoint: "/api/class/search",
+    enabled: is_enabled,
+    queryOptions: {
+      retry: false,
+    },
+  });
+};
+
+// card type
 export const getSecondCardType = () => {
   return useClientApi({
     method: "get",
@@ -611,5 +641,33 @@ export const storeSupportRequest = () => {
     method: "post",
     isPrivate: true,
     endpoint: "/api/support_request/request",
+  });
+};
+
+// External SKU
+// get all data
+export const getAllExternalSKU = (page = 1, perPage = 10) => {
+  return useClientApi({
+    method: "get",
+    isPrivate: true,
+    key: ["get-all-external-sku", page, perPage],
+    endpoint: `/api/external_sku/index?page=${page}&per_page=${perPage}`,
+  });
+};
+
+// delete a data
+export const deleteSingleExternalSKU = () => {
+  return useClientApi({
+    method: "delete",
+    isPrivate: true,
+  });
+};
+
+// store external SKU
+export const storeExternalSKU = () => {
+  return useClientApi({
+    method: "post",
+    isPrivate: true,
+    endpoint: "/api/external_sku/store",
   });
 };

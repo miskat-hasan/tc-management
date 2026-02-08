@@ -1,7 +1,7 @@
 "use client";
 import { DashboardIcon, Logo } from "@/svg/SvgContainer";
 import { FaChevronRight } from "react-icons/fa";
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, useContext } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import CustomSelect from "../shared/form/CustomSelect";
@@ -10,6 +10,7 @@ import useAuth from "@/hooks/useAuth";
 import { useLogout } from "@/hooks/api/authApi";
 import { getallTrainingsite } from "@/hooks/api/dashboardApi";
 import { Controller, useForm } from "react-hook-form";
+import { AuthContextProvider } from "@/Provider/AuthProvider/AuthProvider";
 
 const menuItems = [
   {
@@ -37,11 +38,11 @@ const menuItems = [
         label: "Student Search",
         href: "/admin/class_and_students/student_search",
       },
-      {
-        label: "Unscheduled Students",
-        href: "/admin/class_and_students/unscheduled_students",
-      },
-      { label: "Shipping", href: "/admin/class_and_students/shipping" },
+      // {
+      //   label: "Unscheduled Students",
+      //   href: "/admin/class_and_students/unscheduled_students",
+      // },
+      // { label: "Shipping", href: "/admin/class_and_students/shipping" },
     ],
   },
   {
@@ -50,10 +51,10 @@ const menuItems = [
     submenu: [
       { label: "Manage Clients", href: "/admin/clients/manage_clients" },
       { label: "Add Clients", href: "/admin/clients/add_client" },
-      {
-        label: "Client Activity Reports",
-        href: "/admin/clients/client_activity_reports",
-      },
+      // {
+      //   label: "Client Activity Reports",
+      //   href: "/admin/clients/client_activity_reports",
+      // },
     ],
   },
   {
@@ -164,13 +165,13 @@ const menuItems = [
       { label: "Online Keycodes", href: "/admin/settings/online_keycodes" },
       { label: "Promo Codes", href: "/admin/settings/promo_codes" },
       { label: "Locations", href: "/admin/settings/location" },
-      { label: "File Manager", href: "/admin/settings/file_manager" },
+      // { label: "File Manager", href: "/admin/settings/file_manager" },
       { label: "Site Manager", href: "/admin/settings/site_manager" },
       { label: "Card Settings", href: "/admin/settings/cards_settings" },
       { label: "Certificates", href: "/admin/settings/certificates" },
-      { label: "External SKu's", href: "/admin/settings/external_skills" },
-      { label: "Email Campaigns", href: "/admin/settings/emails_campaigns" },
-      { label: "Text Messaging", href: "/admin/settings/text_messaging" },
+      { label: "External SKu's", href: "/admin/settings/external_sku" },
+      // { label: "Email Campaigns", href: "/admin/settings/emails_campaigns" },
+      // { label: "Text Messaging", href: "/admin/settings/text_messaging" },
       { label: "Users", href: "/admin/settings/users" },
     ],
   },
@@ -182,10 +183,10 @@ const menuItems2 = [
     href: "#",
     submenu: [
       { label: "Classes", href: "/admin/class_and_students/classes" },
-      {
-        label: "Schedule a Class",
-        href: "/admin/class_and_students/schedule_class",
-      },
+      // {
+      //   label: "Schedule a Class",
+      //   href: "/admin/class_and_students/schedule_class",
+      // },
       {
         label: "Student Search",
         href: "/admin/class_and_students/student_search",
@@ -202,17 +203,17 @@ const menuItems2 = [
     href: "#",
     submenu: [
       { label: "Course Type", href: "/admin/settings/course_type" },
-      { label: "Product Add-ons", href: "/admin/settings/product_add_ons" },
-      { label: "Online Keycodes", href: "/admin/settings/online_keycodes" },
-      { label: "Promo Codes", href: "/admin/settings/promo_codes" },
+      // { label: "Product Add-ons", href: "/admin/settings/product_add_ons" },
+      // { label: "Online Keycodes", href: "/admin/settings/online_keycodes" },
+      // { label: "Promo Codes", href: "/admin/settings/promo_codes" },
       { label: "Locations", href: "/admin/settings/location" },
-      { label: "File Manager", href: "/admin/settings/file_manager" },
-      { label: "Site Manager", href: "/admin/settings/site_manager" },
+      // { label: "File Manager", href: "/admin/settings/file_manager" },
+      // { label: "Site Manager", href: "/admin/settings/site_manager" },
       { label: "Card Settings", href: "/admin/settings/cards_settings" },
-      { label: "Certificates", href: "/admin/settings/certificates" },
-      { label: "External SKu's", href: "/admin/settings/external_skills" },
-      { label: "Email Campaigns", href: "/admin/settings/emails_campaigns" },
-      { label: "Text Messaging", href: "/admin/settings/text_messaging" },
+      // { label: "Certificates", href: "/admin/settings/certificates" },
+      // { label: "External SKu's", href: "/admin/settings/external_sku" },
+      // { label: "Email Campaigns", href: "/admin/settings/emails_campaigns" },
+      // { label: "Text Messaging", href: "/admin/settings/text_messaging" },
       { label: "Users", href: "/admin/settings/users" },
     ],
   },
@@ -229,61 +230,78 @@ const menuItems2 = [
 
 const DashboardSidebar = () => {
   const pathname = usePathname();
+  // const { selectedTrainingSiteId, setSelectedTrainingSiteId } =
+  //   useContext(AuthContextProvider);
 
   const form = useForm();
 
   const { control } = form;
 
   const [openMenu, setOpenMenu] = useState(null);
-  const [selectOption, setSelectOption] = useState(null);
+  // const [selectOption, setSelectOption] = useState(null);
   const router = useRouter();
   const initialRender = useRef(true);
-  const { user, token } = useAuth();
+  const {
+    user,
+    token,
+    trainingSiteData,
+    trainingSiteDataLoading,
+    selectedTrainingSiteId,
+    setSelectedTrainingSiteId,
+  } = useAuth();
 
   // if (user?.role_name === "Admin") {
   //   setSelectOption("admin");
   // }
   // useEffect(() => {
-  //   const activeMenus =
-  //     selectOption === "training_site" ? menuItems2 : menuItems;
-
-  //   for (const item of activeMenus) {
-  //     if (
-  //       item.submenu &&
-  //       item.submenu.some((sub) => pathname.startsWith(sub.href))
-  //     ) {
-  //       setOpenMenu(item.label);
-  //       return;
-  //     }
+  //   if (selectedTrainingSiteId == "1") {
+  //     return router.push("/admin/class_and_students/upcoming_classes");
+  //   } else {
+  //     return router.push("/admin/class_and_students/classes");
   //   }
-  // }, [pathname, selectOption]);
-
-  const { data: trainingSiteData, isLoading: trainingSiteDataLoading } =
-    getallTrainingsite();
-
-  const handleSelectChange = (val) => {
-    setSelectOption(val);
-    // console.log("val", val);
-  };
+  // }, [selectedTrainingSiteId]);
 
   useEffect(() => {
-    // if (initialRender.current) {
-    //   initialRender.current = false;
-    //   return;
-    // }
+    const activeMenus = user?.roles?.find((item) => item.name === "Admin") &&
+            selectedTrainingSiteId == "1"
+              ? menuItems
+              : menuItems2
+      // selectOption === "training_site" ? menuItems2 : menuItems;
 
-    if (user?.role_name === "Admin") {
-      router.push("/admin/class_and_students/upcoming_classes");
-    } else {
-      router.push("/admin/class_and_students/classes");
+    for (const item of activeMenus) {
+      if (
+        item.submenu &&
+        item.submenu.some((sub) => pathname.startsWith(sub.href))
+      ) {
+        setOpenMenu(item.label);
+        return;
+      }
     }
-  }, [user, token]);
+  }, [pathname, user, selectedTrainingSiteId]);
+
+  const handleSelectChange = (val) => {
+    // setSelectOption(val);
+    setSelectedTrainingSiteId(val);
+  };
+
+  // useEffect(() => {
+  // if (initialRender.current) {
+  //   initialRender.current = false;
+  //   return;
+  // }
+
+  //   if (user?.role_name === "Admin") {
+  //     router.push("/admin/class_and_students/upcoming_classes");
+  //   } else {
+  //     router.push("/admin/class_and_students/classes");
+  //   }
+  // }, [user, token]);
 
   const toggleMenu = (label) => {
     setOpenMenu((prev) => (prev === label ? null : label));
   };
 
-  const { mutateAsync: logoutAsync, isPending } = useLogout();
+  const { mutateAsync: logoutAsync, isPending: logoutPending } = useLogout();
 
   const handleLogout = async () => {
     await logoutAsync();
@@ -304,6 +322,7 @@ const DashboardSidebar = () => {
             <CustomSelect
               {...field}
               id="training-site"
+              value={selectedTrainingSiteId}
               options={trainingSiteData?.data}
               isLoading={trainingSiteDataLoading}
               onChange={handleSelectChange}
@@ -320,7 +339,11 @@ const DashboardSidebar = () => {
         {/* Dynamic Menu */}
         <nav className="flex-grow">
           <ul>
-            {(user?.role_name === "Admin" ? menuItems : menuItems2).map((item) => {
+            {(user?.roles?.find((item) => item.name === "Admin") &&
+            selectedTrainingSiteId == "1"
+              ? menuItems
+              : menuItems2
+            ).map((item) => {
               const hasSubmenu = item.submenu && item.submenu.length > 0;
               const isOpen = openMenu === item.label;
 
@@ -390,8 +413,9 @@ const DashboardSidebar = () => {
             <button
               onClick={handleLogout}
               className="text-sm font-semibold mt-10 cursor-pointer px-[20px] py-[10px] bg-brown rounded-[10px] text-white text-center"
+              disabled={logoutPending}
             >
-              Log Out
+              {logoutPending ? "logging out ..." : "Log Out"}
             </button>
           </ul>
         </nav>

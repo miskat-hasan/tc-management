@@ -13,6 +13,7 @@ import {
   getAllInstructor,
   getAllLocation,
   getAllUpcomingClasses,
+  searchClasses,
 } from "@/hooks/api/dashboardApi";
 import { SearchIcon } from "@/svg/SvgContainer";
 import Link from "next/link";
@@ -25,17 +26,25 @@ const Page = () => {
   const { control } = form;
   const [page, setPage] = useState(1);
   const [perPage, setPerPage] = useState(10);
-  const [filters, setFilters] = useState({
-    date: "",
-    course: "",
-    instructor: "",
-    location: "",
-  });
-  const handleSearch = () => {
-    console.log("clicked");
-  };
+  const [enableSearch, setEnableSearch] = useState(false);
+  const [courseId, setCourseId] = useState(null);
+  const [instructorId, setInstructorId] = useState(null);
+  const [locationId, setLocationId] = useState(null);
+  const [classId, setClassId] = useState(null);
+
+  // search class
+  const { data: searchedClassData, isLoading: searchedClassDataLoading } =
+    searchClasses(enableSearch, courseId, instructorId, locationId, classId);
+
   const onSubmit = (data) => {
-    // console.log(data)
+    if (data) {
+      setEnableSearch(true);
+      setInstructorId(data?.instructor_id);
+      setClassId(data?.class_id);
+      setLocationId(data?.location_id);
+      setCourseId(data?.course_id);
+    }
+    // setEnableSearch(false)
   };
 
   const { data: upcomingClassData, isLoading: upcomingClassDataLoading } =
@@ -54,7 +63,7 @@ const Page = () => {
       {/* Header */}
       <div className="flex justify-between">
         <SectionTitle title={"Upcoming Classes"} />
-        <div className="flex items-center gap-1 lg:gap-2 text-[#8C8C8C]">
+        {/* <div className="flex items-center gap-1 lg:gap-2 text-[#8C8C8C]">
           <input
             type="checkbox"
             className="w-3.5 h-3.5 bg-transparent accent-[#8C8C8C]"
@@ -62,17 +71,17 @@ const Page = () => {
           <label className="text-[10px] md:text-[12px]">
             Hide Empty Classes
           </label>
-        </div>
+        </div> */}
       </div>
       <FormContainer form={form} onSubmit={onSubmit}>
         {/* Search filters */}
         <div className="px-[16px] py-[16px] lg:px-[32px] lg:py-[32px] bg-white rounded-[16px]">
           <div className="flex flex-wrap lg:flex-nowrap gap-[10px] xl:gap-[24px]">
-            <div className="flex-1">
+            {/* <div className="flex-1">
               <FormInput name="dateTime" label="Date/Time" type="date" />
-            </div>
+            </div> */}
             <Controller
-              name="courses"
+              name="course_id,"
               control={control}
               render={({ field }) => (
                 <CustomSelect
@@ -87,7 +96,7 @@ const Page = () => {
               )}
             />
             <Controller
-              name="instructor"
+              name="instructor_id"
               control={control}
               render={({ field }) => (
                 <CustomSelect
@@ -102,7 +111,7 @@ const Page = () => {
               )}
             />
             <Controller
-              name="location"
+              name="location_id"
               control={control}
               render={({ field }) => (
                 <CustomSelect
@@ -116,18 +125,15 @@ const Page = () => {
                 />
               )}
             />
-          </div>
-          <div className="flex items-end gap-5  mt-4">
             <div>
               <FormInput name="class_id" label="Class Id" />
             </div>
-            <Button
-              onClick={handleSearch}
-              className="py-[12px] lg:py-[24px] text-[13px] lg:text-base cursor-pointer bg-brown flex items-center gap-2"
-            >
-              <SearchIcon />
-              Search
-            </Button>
+            <div className="flex items-end gap-5  mt-4">
+              <Button className="py-[12px] lg:py-[24px] text-[13px] lg:text-base cursor-pointer bg-brown flex items-center gap-2">
+                <SearchIcon />
+                Search
+              </Button>
+            </div>
           </div>
         </div>
       </FormContainer>
@@ -142,7 +148,9 @@ const Page = () => {
             <table className="w-full min-w-[800px] text-sm sm:text-base text-left text-gray-700">
               <thead className="bg-gray-50 text-black capitalize text-[16px] sm:text-[18px] font-semibold">
                 <tr>
-                  <th className="px-3 sm:px-6 py-3 w-[40px] text-nowrap">Class ID</th>
+                  <th className="px-3 sm:px-6 py-3 w-[40px] text-nowrap">
+                    Class ID
+                  </th>
                   <th className="px-3 sm:px-6 py-3">Instructor</th>
                   <th className="px-3 sm:px-6 py-3">Date/Time</th>
                   <th className="px-3 sm:px-6 py-3">Course</th>

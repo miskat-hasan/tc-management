@@ -11,7 +11,7 @@ import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 
 const Page = () => {
-  const [isEnrollmentFormOpen, setIsEnrollmentFormOpen] = useState(true);
+  const [isEnrollmentFormOpen, setIsEnrollmentFormOpen] = useState(false);
 
   const form = useForm();
 
