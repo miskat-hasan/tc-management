@@ -39,6 +39,7 @@ export default function AuthProvider({ children }) {
     if(trainingSiteData?.data){
       setSelectedTrainingSiteId(trainingSiteData?.data[0]?.id)
     }
+    
   }, [token, userData, loadingUserData, trainingSiteData]);
 
   const contextValue = {

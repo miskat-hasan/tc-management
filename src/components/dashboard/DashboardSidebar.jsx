@@ -38,11 +38,11 @@ const menuItems = [
         label: "Student Search",
         href: "/admin/class_and_students/student_search",
       },
-      {
-        label: "Unscheduled Students",
-        href: "/admin/class_and_students/unscheduled_students",
-      },
-      { label: "Shipping", href: "/admin/class_and_students/shipping" },
+      // {
+      //   label: "Unscheduled Students",
+      //   href: "/admin/class_and_students/unscheduled_students",
+      // },
+      // { label: "Shipping", href: "/admin/class_and_students/shipping" },
     ],
   },
   {
@@ -51,10 +51,10 @@ const menuItems = [
     submenu: [
       { label: "Manage Clients", href: "/admin/clients/manage_clients" },
       { label: "Add Clients", href: "/admin/clients/add_client" },
-      {
-        label: "Client Activity Reports",
-        href: "/admin/clients/client_activity_reports",
-      },
+      // {
+      //   label: "Client Activity Reports",
+      //   href: "/admin/clients/client_activity_reports",
+      // },
     ],
   },
   {
@@ -165,13 +165,13 @@ const menuItems = [
       { label: "Online Keycodes", href: "/admin/settings/online_keycodes" },
       { label: "Promo Codes", href: "/admin/settings/promo_codes" },
       { label: "Locations", href: "/admin/settings/location" },
-      { label: "File Manager", href: "/admin/settings/file_manager" },
+      // { label: "File Manager", href: "/admin/settings/file_manager" },
       { label: "Site Manager", href: "/admin/settings/site_manager" },
       { label: "Card Settings", href: "/admin/settings/cards_settings" },
       { label: "Certificates", href: "/admin/settings/certificates" },
       { label: "External SKu's", href: "/admin/settings/external_sku" },
-      { label: "Email Campaigns", href: "/admin/settings/emails_campaigns" },
-      { label: "Text Messaging", href: "/admin/settings/text_messaging" },
+      // { label: "Email Campaigns", href: "/admin/settings/emails_campaigns" },
+      // { label: "Text Messaging", href: "/admin/settings/text_messaging" },
       { label: "Users", href: "/admin/settings/users" },
     ],
   },
@@ -253,13 +253,13 @@ const DashboardSidebar = () => {
   // if (user?.role_name === "Admin") {
   //   setSelectOption("admin");
   // }
-  useEffect(() => {
-    if (selectedTrainingSiteId == "1") {
-      return router.push("/admin/class_and_students/upcoming_classes");
-    } else {
-      return router.push("/admin/class_and_students/classes");
-    }
-  }, [selectedTrainingSiteId]);
+  // useEffect(() => {
+  //   if (selectedTrainingSiteId == "1") {
+  //     return router.push("/admin/class_and_students/upcoming_classes");
+  //   } else {
+  //     return router.push("/admin/class_and_students/classes");
+  //   }
+  // }, [selectedTrainingSiteId]);
 
   useEffect(() => {
     const activeMenus = user?.roles?.find((item) => item.name === "Admin") &&

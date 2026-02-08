@@ -14,7 +14,6 @@ import {
   updateClass,
 } from "@/hooks/api/dashboardApi";
 import { LucideTrash2, X } from "lucide-react";
-import Link from "next/link";
 import React, { useEffect } from "react";
 import { Controller, useForm, useFieldArray } from "react-hook-form";
 import { FaPlus } from "react-icons/fa";
@@ -82,7 +81,7 @@ const Page = ({ params }) => {
         client: classInfo?.client_id || null,
         location: classInfo?.location_id || null,
         instructor: classInfo?.instructor_id || null,
-        // classId: classInfo?.class_id || "",
+        classId: classInfo?.class_id || "",
         price: classInfo?.price || "",
         totalHours: classInfo?.total_hours || "",
         maxStudents: classInfo?.max_student || "",
@@ -144,9 +143,9 @@ const Page = ({ params }) => {
     formData.append("training_site_id", 1);
 
     // assistants array
-    data.assistants.forEach((id, index) => {
-      formData.append(`assistant_ids[]`, id);
-    });
+    // data.assistants.forEach((id, index) => {
+    //   formData.append(`assistant_ids[]`, id);
+    // });
 
     // classTimes array
     data.classTimes.forEach((item, index) => {
@@ -216,14 +215,14 @@ const Page = ({ params }) => {
 
   return (
     <div className="flex flex-col gap-[10px] lg:gap-[20px]">
-      <SectionTitle title={"Schedule a Class"} />
+      <SectionTitle title={"Update a Class"} />
       <FormContainer
         form={form}
         onSubmit={onSubmit}
         className="bg-white p-4 lg:p-6 rounded-lg shadow"
       >
         {/* Main form layout grid */}
-        <div className="flex flex-col md:grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4">
           <Controller
             name="course"
             control={control}
@@ -349,7 +348,7 @@ const Page = ({ params }) => {
               </div>
             )}
           </div>
-          <div className="flex flex-col justify-center"><p>Registration Link: <Link href={`/admin/enroll/${id}`} className="text-brown">link</Link></p></div>
+
           {/* Class Times Section */}
           <div className="col-span-2 bg-neutral-50 border px-2 pt-2 pb-4 rounded-md">
             <h6 className="text-xl mb-1">Set Class Times</h6>

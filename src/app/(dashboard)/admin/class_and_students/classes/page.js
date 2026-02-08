@@ -10,6 +10,7 @@ import { courseSchedule } from "@/data/data";
 import { getAllInstructor, searchClasses } from "@/hooks/api/dashboardApi";
 import useAuth from "@/hooks/useAuth";
 import { SearchIcon } from "@/svg/SvgContainer";
+import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { CiEdit } from "react-icons/ci";
@@ -148,9 +149,13 @@ const Page = () => {
                         {item?.student}
                       </td>
                       <td className="px-3 sm:px-6 py-3 text-center">
-                        <button className="p-1.5 sm:p-2 bg-gray-100 rounded-lg hover:bg-gray-200 transition">
-                          <CiEdit className="text-gray-600 text-[14px] sm:text-[16px]" />
-                        </button>
+                         <Link
+                          href={`/admin/class_and_students/classes/${item.id}`}
+                        >
+                          <button className="p-1.5 sm:p-2 bg-gray-100 rounded-lg hover:bg-gray-200 transition cursor-pointer">
+                            <CiEdit className="text-gray-600 text-[14px] sm:text-[16px]" />
+                          </button>
+                        </Link>
                       </td>
                     </tr>
                   ))

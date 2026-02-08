@@ -482,24 +482,31 @@ export const getAllClasses = (page = 1, perPage = 10) => {
 
 // class search
 
-// export const searchClasses = (
-//   is_enabled,
-//   first_name,
-//   last_name,
-//   course_name,
-// ) => {
-//   return useClientApi({
-//     method: "get",
-//     isPrivate: true,
-//     key: ["get-searched-classes", first_name, last_name, course_name],
-//     params: { first_name, last_name, course_name },
-//     endpoint: "/api/class/search",
-//     enabled: is_enabled,
-//     queryOptions: {
-//       retry: false,
-//     },
-//   });
-// };
+export const searchClasses = (
+  is_enabled,
+  course_id,
+  instructor_id,
+  location_id,
+  id
+) => {
+  return useClientApi({
+    method: "get",
+    isPrivate: true,
+    key: [
+      "get-searched-classes",
+      course_id,
+      instructor_id,
+      location_id,
+      id
+    ],
+    params: { course_id, instructor_id, location_id, id },
+    endpoint: "/api/class/search",
+    enabled: is_enabled,
+    queryOptions: {
+      retry: false,
+    },
+  });
+};
 
 // card type
 export const getSecondCardType = () => {

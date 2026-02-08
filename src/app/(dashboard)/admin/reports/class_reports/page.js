@@ -57,7 +57,7 @@ const Page = () => {
       {/* Header */}
       <div className="flex justify-between">
         <SectionTitle title={"Class Reports"} />
-        <div className="flex items-center gap-2 text-[#8C8C8C]">
+        {/* <div className="flex items-center gap-2 text-[#8C8C8C]">
           <input
             type="checkbox"
             className="w-3.5 h-3.5 bg-transparent accent-[#8C8C8C]"
@@ -65,7 +65,7 @@ const Page = () => {
           <label className="text-[10px] lg:text-[12px]">
             Hide Empty Classes
           </label>
-        </div>
+        </div> */}
       </div>
 
       {/* Search filters */}

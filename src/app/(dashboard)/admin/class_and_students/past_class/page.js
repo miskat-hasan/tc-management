@@ -16,17 +16,18 @@ import {
 } from "@/hooks/api/dashboardApi";
 import { SearchIcon } from "@/svg/SvgContainer";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { CiEdit } from "react-icons/ci";
+import { X } from "lucide-react";
 
 const Page = () => {
   const form = useForm();
-  const { control } = form;
+  const { control, watch, setValue } = form;
   const [page, setPage] = useState(1);
   const [perPage, setPerPage] = useState(10);
   const [filters, setFilters] = useState({
-    date: "",
+    class_id: "",
     course: "",
     instructor: "",
     location: "",
@@ -35,7 +36,6 @@ const Page = () => {
   const onSubmit = (data) => {
     // console.log(data)
   };
-  const [filteredData, setFilteredData] = useState(courseSchedule);
 
   const { data: pastClassData, isLoading: pastClassDataLoading } =
     getAllPastClasses(page, perPage);
@@ -48,33 +48,67 @@ const Page = () => {
 
   const { data: courseData, isLoading: courseDataLoading } = getAllCourses();
 
-  // Handle select changes
-  const handleSelectChange = (key, value) => {
-    setFilters((prev) => ({ ...prev, [key]: value }));
-  };
+  // Watch form values for filtering
+  const watchedClassId = watch("class_id");
+  const watchedCourse = watch("courses");
+  const watchedInstructor = watch("instructor");
+  const watchedLocation = watch("location");
 
-  // Search / filter button logic
-  const handleSearch = () => {
-    const filtered = courseSchedule.filter((item) => {
-      const matchDate =
-        !filters.date ||
-        item.dateTime.toLowerCase().includes(filters.date.toLowerCase());
-      const matchCourse =
-        !filters.course ||
-        item.course.toLowerCase().includes(filters.course.toLowerCase());
-      const matchInstructor =
-        !filters.instructor ||
-        item.instructor
-          .toLowerCase()
-          .includes(filters.instructor.toLowerCase());
-      const matchLocation =
-        !filters.location ||
-        item.location.toLowerCase().includes(filters.location.toLowerCase());
-
-      return matchDate && matchCourse && matchInstructor && matchLocation;
+  // Update filters whenever form values change
+  useEffect(() => {
+    setFilters({
+      class_id: watchedClassId || "",
+      course: watchedCourse || "",
+      instructor: watchedInstructor || "",
+      location: watchedLocation || "",
     });
+  }, [watchedClassId, watchedCourse, watchedInstructor, watchedLocation]);
 
-    setFilteredData(filtered);
+  // Filter data based on current filters
+  const filteredData = useMemo(() => {
+    if (!pastClassData?.data?.data) return [];
+
+    return pastClassData.data.data.filter((item) => {
+      // Filter by class ID (search by index + 1 or item.id)
+      const matchClassId =
+        !filters.class_id ||
+        item.id?.toString().includes(filters.class_id) ||
+        (pastClassData.data.data.indexOf(item) + 1)
+          .toString()
+          .includes(filters.class_id);
+
+      // Filter by course
+      const matchCourse =
+        !filters.course || item.course?.id === filters.course;
+
+      // Filter by instructor
+      const matchInstructor =
+        !filters.instructor || item.instructor?.id === filters.instructor;
+
+      // Filter by location
+      const matchLocation =
+        !filters.location || item.location?.id === filters.location;
+
+      return matchClassId && matchCourse && matchInstructor && matchLocation;
+    });
+  }, [pastClassData, filters]);
+
+  // Check if any filter is active
+  const hasActiveFilters =
+    filters.class_id || filters.course || filters.instructor || filters.location;
+
+  // Clear all filters
+  const handleClearFilters = () => {
+    setValue("class_id", "");
+    setValue("courses", "");
+    setValue("instructor", "");
+    setValue("location", "");
+    setFilters({
+      class_id: "",
+      course: "",
+      instructor: "",
+      location: "",
+    });
   };
 
   return (
@@ -82,7 +116,7 @@ const Page = () => {
       {/* Header */}
       <div className="flex justify-between">
         <SectionTitle title={"Past Classes"} />
-        <div className="flex items-center gap-1 lg:gap-2 text-[#8C8C8C]">
+        {/* <div className="flex items-center gap-1 lg:gap-2 text-[#8C8C8C]">
           <input
             type="checkbox"
             className="w-3.5 h-3.5 bg-transparent accent-[#8C8C8C]"
@@ -90,14 +124,11 @@ const Page = () => {
           <label className="text-[10px] md:text-[12px]">
             Hide Empty Classes
           </label>
-        </div>
+        </div> */}
       </div>
       <FormContainer form={form} onSubmit={onSubmit}>
         {/* Search filters */}
         <div className="px-[16px] py-[16px] lg:px-[32px] lg:py-[32px] bg-white rounded-[16px] flex flex-wrap lg:flex-nowrap gap-[10px] xl:gap-[24px]">
-          <div className="flex-1">
-            <FormInput name="dateTime" label="Date/Time" type="date" />
-          </div>
           <Controller
             name="courses"
             control={control}
@@ -143,21 +174,41 @@ const Page = () => {
               />
             )}
           />
-          <div className="flex justify-end items-end">
-            <Button
-              onClick={handleSearch}
-              className="py-[12px] lg:py-[24px] text-[13px] lg:text-base cursor-pointer bg-brown flex items-center gap-2"
-            >
-              <SearchIcon />
-              Search
-            </Button>
+          <div className="flex-1">
+            <FormInput
+              name="class_id"
+              label="Class Id"
+              placeholder={"search by class id"}
+            />
           </div>
+
+          {/* Clear Filters Button */}
+          {hasActiveFilters && (
+            <div className="flex items-end">
+              <Button
+                type="button"
+                onClick={handleClearFilters}
+                className="py-[12px] lg:py-[24px] text-[13px] lg:text-base cursor-pointer bg-red-500 hover:bg-red-600 flex items-center gap-2"
+              >
+                <X className="w-4 h-4" />
+                Clear Filters
+              </Button>
+            </div>
+          )}
         </div>
       </FormContainer>
 
       {/* Table */}
       <div className="p-[13px] lg:p-[26px]  bg-white rounded-[14px] flex flex-col gap-[12px] lg:gap-[24px]">
-        <SubSectionTitle subtitle="All Lists" />
+        <div className="flex justify-between items-center">
+          <SubSectionTitle subtitle="All Lists" />
+          {hasActiveFilters && (
+            <span className="text-sm text-gray-600">
+              Showing {filteredData.length} of{" "}
+              {pastClassData?.data?.data?.length || 0} results
+            </span>
+          )}
+        </div>
         {pastClassDataLoading ? (
           <TableSkeleton />
         ) : (
@@ -165,7 +216,9 @@ const Page = () => {
             <table className="w-full min-w-[800px] text-sm sm:text-base text-left text-gray-700">
               <thead className="bg-gray-50 text-black capitalize text-[16px] sm:text-[18px] font-semibold">
                 <tr>
-                  <th className="px-3 sm:px-6 py-3 w-[40px] text-nowrap">Class ID</th>
+                  <th className="px-3 sm:px-6 py-3 w-[40px] text-nowrap">
+                    Class ID
+                  </th>
                   <th className="px-3 sm:px-6 py-3">Instructor</th>
                   <th className="px-3 sm:px-6 py-3">Date/Time</th>
                   <th className="px-3 sm:px-6 py-3">Course</th>
@@ -176,14 +229,14 @@ const Page = () => {
               </thead>
 
               <tbody>
-                {pastClassData?.data?.data?.length > 0 ? (
-                  pastClassData?.data?.data?.map((item, index) => (
+                {filteredData?.length > 0 ? (
+                  filteredData?.map((item, index) => (
                     <tr
                       key={item.id}
                       className="border-b hover:bg-gray-50 transition-all"
                     >
                       <td className="px-3 sm:px-6 py-3 text-gray-800">
-                        {index + 1}
+                        {item.class_id}
                       </td>
                       <td className="px-3 sm:px-6 py-3 text-gray-800 whitespace-nowrap">
                         {item.instructor?.first_name}{" "}
@@ -218,7 +271,9 @@ const Page = () => {
                       colSpan="7"
                       className="text-center py-6 text-gray-500 italic"
                     >
-                      No results found
+                      {hasActiveFilters
+                        ? "No results match your filters"
+                        : "No results found"}
                     </td>
                   </tr>
                 )}
@@ -229,23 +284,6 @@ const Page = () => {
 
         {/* Footer controls */}
         <div className="flex flex-col md:flex-row items-center justify-end mt-3 lg:mt-6 gap-3">
-          {/* Show per page */}
-          {/* <div className="flex items-center gap-2">
-            <span className="text-gray-600 text-sm">Show:</span>
-            <select
-              value={perPage}
-              onChange={(e) => {
-                setPerPage(Number(e.target.value));
-                setPage(1);
-              }}
-              className="border border-gray-300 rounded-md px-2 py-1 text-sm"
-            >
-              <option value={10}>10</option>
-              <option value={25}>25</option>
-              <option value={50}>50</option>
-            </select>
-          </div> */}
-
           {/* Pagination */}
           <div className="flex items-center gap-2">
             {pastClassData?.data?.links?.map((link, index) => (
