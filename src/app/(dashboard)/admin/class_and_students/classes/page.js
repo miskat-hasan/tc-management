@@ -1,51 +1,74 @@
 "use client";
 import SectionTitle from "@/components/common/SectionTitle";
 import SubSectionTitle from "@/components/common/SubSectionTitle";
+import TableSkeleton from "@/components/common/TableSkelation";
 import CustomSelect from "@/components/shared/form/CustomSelect";
+import FormContainer from "@/components/shared/form/FormContainer";
 import { Button } from "@/components/ui/button";
+import { Form } from "@/components/ui/form";
 import { courseSchedule } from "@/data/data";
+import { getAllInstructor, searchClasses } from "@/hooks/api/dashboardApi";
+import useAuth from "@/hooks/useAuth";
 import { SearchIcon } from "@/svg/SvgContainer";
-import React, { useState } from "react";
+import Link from "next/link";
+import React, { useEffect, useState } from "react";
+import { Controller, useForm } from "react-hook-form";
 import { CiEdit } from "react-icons/ci";
 
 const Page = () => {
-  const [selectedShow, setSelectedShow] = useState(50);
-  const [filters, setFilters] = useState({
-    date: "",
-    course: "",
-    instructor: "",
-    location: "",
+  const form = useForm({
+    defaultValues: {
+      instructorId: "",
+    },
   });
 
-  const [filteredData, setFilteredData] = useState(courseSchedule);
+  const { control } = form;
 
-  // Handle select changes
-  const handleSelectChange = (key, value) => {
-    setFilters((prev) => ({ ...prev, [key]: value }));
-  };
+  const { trainingSiteData, trainingSiteDataLoading, selectedTrainingSiteId } =
+    useAuth();
 
-  // Search / filter button logic
-  const handleSearch = () => {
-    const filtered = courseSchedule.filter((item) => {
-      const matchDate =
-        !filters.date ||
-        item.dateTime.toLowerCase().includes(filters.date.toLowerCase());
-      const matchCourse =
-        !filters.course ||
-        item.course.toLowerCase().includes(filters.course.toLowerCase());
-      const matchInstructor =
-        !filters.instructor ||
-        item.instructor
-          .toLowerCase()
-          .includes(filters.instructor.toLowerCase());
-      const matchLocation =
-        !filters.location ||
-        item.location.toLowerCase().includes(filters.location.toLowerCase());
+  const { data: instructorData, isLoading: instructorDataLoading } =
+    getAllInstructor();
 
-      return matchDate && matchCourse && matchInstructor && matchLocation;
-    });
+  const [selectedTrainingSiteData, setSelectedTrainingSiteData] =
+    useState(null);
 
-    setFilteredData(filtered);
+  const [filteredClasses, setFilteredClasses] = useState(null);
+
+  useEffect(() => {
+    let data = null;
+    if (selectedTrainingSiteId) {
+      data = trainingSiteData?.data?.find(
+        (item) => item?.id == selectedTrainingSiteId,
+      );
+    }
+
+    if (trainingSiteData?.data && !trainingSiteDataLoading) {
+      setSelectedTrainingSiteData(
+        data?.classes ?? trainingSiteData?.data?.[0]?.classes,
+      );
+    }
+    if (selectedTrainingSiteData) {
+      setFilteredClasses(selectedTrainingSiteData);
+    }
+  }, [
+    trainingSiteData,
+    trainingSiteDataLoading,
+    selectedTrainingSiteId,
+    selectedTrainingSiteData,
+  ]);
+
+  const onSubmit = (data) => {
+    const selectedInstructor = instructorData?.data?.data?.find(
+      (item) => String(item.id) === String(data?.instructorId),
+    );
+
+    const classData = selectedTrainingSiteData.filter(
+      (item) =>
+        item?.instructor?.first_name === selectedInstructor?.first_name &&
+        item?.instructor?.last_name === selectedInstructor?.last_name,
+    );
+    setFilteredClasses(classData);
   };
 
   return (
@@ -56,91 +79,103 @@ const Page = () => {
       </div>
 
       {/* Search filters */}
-      <div className=" px-[16px] py-[16px] lg:px-[32px] lg:py-[32px] bg-white rounded-[16px] flex flex-wrap lg:flex-nowrap gap-[10px] xl:gap-[24px]">
-        <CustomSelect
-          id="Instructor"
-          label="Instructor"
-          placeholder="All instructor"
-          options={[
-            { value: "c. myers", label: "C. Myers" },
-            { value: "m. clark", label: "M. Clark" },
-          ]}
-          onChange={(val) => handleSelectChange("instructor", val)}
-          className="flex-1"
-        />
+      <FormContainer form={form} onSubmit={onSubmit}>
+        <div className=" px-[16px] py-[16px] lg:px-[32px] lg:py-[32px] bg-white rounded-[16px] flex flex-wrap lg:flex-nowrap gap-[10px] xl:gap-[24px]">
+          <Controller
+            name="instructorId"
+            control={control}
+            render={({ field }) => (
+              <CustomSelect
+                {...field}
+                id="Instructor"
+                label="Instructor"
+                placeholder="All instructor"
+                options={instructorData?.data?.data}
+                isLoading={instructorDataLoading}
+                className="flex-1"
+              />
+            )}
+          />
 
-        <div className="flex justify-end items-end">
-          <Button
-            onClick={handleSearch}
-            className="py-[12px] lg:py-[24px] text-[13px] lg:text-base cursor-pointer bg-brown flex items-center gap-2"
-          >
-            <SearchIcon />
-            Search
-          </Button>
+          <div className="flex justify-end items-end">
+            <Button className="py-[12px] lg:py-[24px] text-[13px] lg:text-base cursor-pointer bg-brown flex items-center gap-2">
+              <SearchIcon />
+              Search
+            </Button>
+          </div>
         </div>
-      </div>
+      </FormContainer>
 
       {/* Table */}
       <div className="p-[13px] lg:p-[26px] bg-white rounded-[14px] flex flex-col gap-[12px] lg:gap-[24px]">
         <SubSectionTitle subtitle="All Lists" />
-        <div className="overflow-x-auto">
-          <table className="w-full  text-sm sm:text-base text-left text-gray-700 min-w-[800px]">
-            <thead className="bg-gray-50 text-black capitalize text-[16px] sm:text-[18px] font-semibold">
-              <tr>
-                <th className="px-3 sm:px-6 py-3">Date/Time</th>
-                <th className="px-3 sm:px-6 py-3">Course</th>
-                <th className="px-3 sm:px-6 py-3">Instructor</th>
-                <th className="px-3 sm:px-6 py-3">Location</th>
-                <th className="px-3 sm:px-6 py-3">Students</th>
-                <th className="px-3 sm:px-6 py-3 text-center">Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              {filteredData.length > 0 ? (
-                filteredData.map((item, index) => (
-                  <tr
-                    key={item.id}
-                    className="border-b hover:bg-gray-50 transition-all"
-                  >
-                    <td className="px-3 sm:px-6 py-3 whitespace-nowrap">
-                      {item.dateTime}
-                    </td>
-                    <td className="px-3 sm:px-6 py-3 text-gray-800 whitespace-nowrap">
-                      {item.instructor}
-                    </td>
+        {trainingSiteDataLoading ? (
+          <TableSkeleton />
+        ) : (
+          <div className="overflow-x-auto">
+            <table className="w-full  text-sm sm:text-base text-left text-gray-700 min-w-[800px]">
+              <thead className="bg-gray-50 text-black capitalize text-[16px] sm:text-[18px] font-semibold">
+                <tr>
+                  <th className="px-3 sm:px-6 py-3">Date/Time</th>
+                  <th className="px-3 sm:px-6 py-3">Course</th>
+                  <th className="px-3 sm:px-6 py-3">Instructor</th>
+                  <th className="px-3 sm:px-6 py-3">Location</th>
+                  <th className="px-3 sm:px-6 py-3">Students</th>
+                  <th className="px-3 sm:px-6 py-3 text-center">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                {filteredClasses?.length > 0 ? (
+                  filteredClasses?.map((item, index) => (
+                    <tr
+                      key={item?.id}
+                      className="border-b hover:bg-gray-50 transition-all"
+                    >
+                      <td className="px-3 sm:px-6 py-3 whitespace-nowrap">
+                        {item?.class_times?.[0]?.date}
+                      </td>
+                      <td className="px-3 sm:px-6 py-3 text-gray-800 whitespace-nowrap">
+                        {item?.course?.course_name}
+                      </td>
 
-                    <td className="px-3 sm:px-6 py-3 truncate max-w-[160px] sm:max-w-[220px]">
-                      {item.course}
-                    </td>
-                    <td className="px-3 sm:px-6 py-3 truncate max-w-[160px] sm:max-w-[220px]">
-                      {item.location}
-                    </td>
-                    <td className="px-3 sm:px-6 py-3 text-gray-600">
-                      {item.student}
-                    </td>
-                    <td className="px-3 sm:px-6 py-3 text-center">
-                      <button className="p-1.5 sm:p-2 bg-gray-100 rounded-lg hover:bg-gray-200 transition">
-                        <CiEdit className="text-gray-600 text-[14px] sm:text-[16px]" />
-                      </button>
+                      <td className="px-3 sm:px-6 py-3 truncate max-w-[160px] sm:max-w-[220px]">
+                        {item?.instructor?.first_name}{" "}
+                        {item?.instructor?.last_name}
+                      </td>
+                      <td className="px-3 sm:px-6 py-3 truncate max-w-[160px] sm:max-w-[220px]">
+                        {item?.location_name}
+                      </td>
+                      <td className="px-3 sm:px-6 py-3 text-gray-600">
+                        {item?.student}
+                      </td>
+                      <td className="px-3 sm:px-6 py-3 text-center">
+                         <Link
+                          href={`/admin/class_and_students/classes/${item.id}`}
+                        >
+                          <button className="p-1.5 sm:p-2 bg-gray-100 rounded-lg hover:bg-gray-200 transition cursor-pointer">
+                            <CiEdit className="text-gray-600 text-[14px] sm:text-[16px]" />
+                          </button>
+                        </Link>
+                      </td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
+                    <td
+                      colSpan="7"
+                      className="text-center py-6 text-gray-500 italic"
+                    >
+                      No results found
                     </td>
                   </tr>
-                ))
-              ) : (
-                <tr>
-                  <td
-                    colSpan="7"
-                    className="text-center py-6 text-gray-500 italic"
-                  >
-                    No results found
-                  </td>
-                </tr>
-              )}
-            </tbody>
-          </table>
-        </div>
+                )}
+              </tbody>
+            </table>
+          </div>
+        )}
 
         {/* Footer controls */}
-        <div className="flex flex-col md:flex-row items-center justify-between mt-3 lg:mt-6 gap-3">
+        {/* <div className="flex flex-col md:flex-row items-center justify-between mt-3 lg:mt-6 gap-3">
           <div className="flex flex-wrap items-center gap-2 sm:gap-3">
             <span className="text-gray-600 text-sm sm:text-base">Show:</span>
             <select
@@ -178,7 +213,7 @@ const Page = () => {
               Next
             </button>
           </div>
-        </div>
+        </div> */}
       </div>
     </div>
   );

@@ -62,7 +62,7 @@ const Page = ({ params }) => {
     updateSingleClient(id);
 
   useEffect(() => {
-    if (clientData?.data) {
+    if (clientData?.data && countryData?.data) {
       reset({
         company: clientData.data.company ?? "",
         abbreviation: clientData.data.abbreviation ?? "",
@@ -88,7 +88,7 @@ const Page = ({ params }) => {
         clientData.data.internal_notes ?? ""
       );
     }
-  }, [clientData, reset]);
+  }, [clientData, reset, countryData]);
 
   const onSubmit = async (data) => {
     const sharedNotes = sharedNotesRef.current?.getContent();

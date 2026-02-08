@@ -10,15 +10,18 @@ import {
   getAllCourses,
   getAllInstructor,
   getAllLocation,
-  storeClass,
+  getSingleClass,
+  updateClass,
 } from "@/hooks/api/dashboardApi";
 import { LucideTrash2, X } from "lucide-react";
-import React from "react";
+import React, { useEffect } from "react";
 import { Controller, useForm, useFieldArray } from "react-hook-form";
 import { FaPlus } from "react-icons/fa";
 import Swal from "sweetalert2";
 
-const Page = () => {
+const Page = ({ params }) => {
+  const { id } = params;
+
   const form = useForm({
     defaultValues: {
       course: null,
@@ -48,11 +51,12 @@ const Page = () => {
     formState: { errors },
   } = form;
 
-  // Use useFieldArray for dynamic class times
   const { fields, append, remove } = useFieldArray({
     control,
     name: "classTimes",
   });
+
+  const { data: classData, isLoading: classDataLoading } = getSingleClass(id);
 
   const { data: coursesData, isLoading: coursesLoading } = getAllCourses();
   const { data: clientData, isLoading: clientDataLoading } = getAllClient();
@@ -62,10 +66,51 @@ const Page = () => {
     getAllInstructor();
 
   const selectedAssistants = watch("assistants") || [];
-  const selectedCertifyingBody = watch("course_certifying_body") || [];
+  useEffect(() => {
+    if (
+      classData?.data &&
+      coursesData?.data?.data &&
+      clientData?.data?.data &&
+      locationData?.data?.data &&
+      instructorData?.data?.data
+    ) {
+      const classInfo = classData.data;
 
-  const filteredCourseData = coursesData?.data?.data?.filter((item)=> item.course_certifying_body === selectedCertifyingBody)
-  
+      reset({
+        course: classInfo?.course_id || null,
+        client: classInfo?.client_id || null,
+        location: classInfo?.location_id || null,
+        instructor: classInfo?.instructor_id || null,
+        classId: classInfo?.class_id || "",
+        price: classInfo?.price || "",
+        totalHours: classInfo?.total_hours || "",
+        maxStudents: classInfo?.max_student || "",
+        studentManikinRatio: classInfo?.ratio || "",
+        closeRegistrationEarly: classInfo?.close_registration || "",
+        listing: Boolean(classInfo?.listing),
+        publicNotes: classInfo?.public_notes || "",
+        internalNotes: classInfo?.internal_notes || "",
+        assistants:
+          classInfo?.assistants?.map((assistant) => assistant.id) || [],
+        classTimes:
+          classInfo?.class_times?.length > 0
+            ? classInfo.class_times.map((time) => ({
+                date: time.date || "",
+                timeFrom: time.from || "",
+                timeTo: time.to || "",
+              }))
+            : [{ date: "", timeFrom: "", timeTo: "" }],
+      });
+    }
+  }, [
+    reset,
+    classData?.data,
+    coursesData?.data?.data,
+    clientData?.data?.data,
+    instructorData?.data?.data,
+    locationData?.data?.data,
+  ]);
+
   // const dayOptions = [
   //   { id: "monday", name: "Monday" },
   //   { id: "tuesday", name: "Tuesday" },
@@ -76,11 +121,12 @@ const Page = () => {
   //   { id: "sunday", name: "Sunday" },
   // ];
 
-  const { mutate, isPending } = storeClass();
+  const { mutate, isPending } = updateClass();
 
   const onSubmit = (data) => {
     const formData = new FormData();
 
+    formData.append("id", params.id);
     formData.append("course_id", data.course);
     formData.append("client_id", data.client);
     formData.append("location_id", data.location);
@@ -97,9 +143,9 @@ const Page = () => {
     formData.append("training_site_id", 1);
 
     // assistants array
-    data.assistants.forEach((id, index) => {
-      formData.append(`assistant_ids[]`, id);
-    });
+    // data.assistants.forEach((id, index) => {
+    //   formData.append(`assistant_ids[]`, id);
+    // });
 
     // classTimes array
     data.classTimes.forEach((item, index) => {
@@ -169,7 +215,7 @@ const Page = () => {
 
   return (
     <div className="flex flex-col gap-[10px] lg:gap-[20px]">
-      <SectionTitle title={"Schedule a Class"} />
+      <SectionTitle title={"Update a Class"} />
       <FormContainer
         form={form}
         onSubmit={onSubmit}
@@ -177,29 +223,6 @@ const Page = () => {
       >
         {/* Main form layout grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4">
-          <div className="flex-1 max-md:col-span-2">
-            <Controller
-              name="course_certifying_body"
-              control={control}
-              rules={{ required: "Course Certifying Body is required" }}
-              render={({ field }) => (
-                <CustomSelect
-                  {...field}
-                  label="Course Certifying Body"
-                  placeholder="Select certifying body"
-                  options={[
-                    { id: "none", name: "None" },
-                    { id: "american_red_cross", name: "American Red Cross" },
-                    {
-                      id: "american_heart_association",
-                      name: "American Heart Association",
-                    },
-                  ]}
-                  error={errors.course_certifying_body?.message}
-                />
-              )}
-            />
-          </div>
           <Controller
             name="course"
             control={control}
@@ -211,15 +234,13 @@ const Page = () => {
                 label="Course"
                 placeholder="Course"
                 isLoading={coursesLoading}
-                options={filteredCourseData}
+                options={coursesData?.data?.data}
                 error={errors.course?.message}
-                className="flex-1 max-md:col-span-2"
+                className="flex-1"
               />
             )}
           />
-          {/* <div className="flex-1 max-md:col-span-2">
-            <FormInput name="classId" label="Class Id" placeholder="Class Id" />
-          </div> */}
+          {/* <FormInput name="classId" label="Class Id" placeholder="Class Id" /> */}
           <Controller
             name="client"
             control={control}
@@ -233,7 +254,7 @@ const Page = () => {
                 isLoading={clientDataLoading}
                 options={clientData?.data?.data}
                 error={errors.client?.message}
-                className="flex-1 max-md:col-span-2"
+                className={"flex-1"}
               />
             )}
           />
@@ -250,7 +271,7 @@ const Page = () => {
                 isLoading={locationDataLoading}
                 options={locationData?.data?.data}
                 error={errors.location?.message}
-                className="flex-1 max-md:col-span-2"
+                className={"flex-1"}
               />
             )}
           />
@@ -267,13 +288,13 @@ const Page = () => {
                 isLoading={instructorDataLoading}
                 options={instructorData?.data?.data}
                 error={errors.instructor?.message}
-                className="flex-1 max-md:col-span-2"
+                className={"flex-1"}
               />
             )}
           />
 
           {/* Multiple Assistants Selection */}
-          <div className="flex flex-col gap-2 w-full max-md:col-span-2">
+          <div className="flex flex-col gap-2">
             {/* Dropdown to add more assistants */}
             <Controller
               name="assistantSelector"
@@ -314,10 +335,7 @@ const Page = () => {
                       key={assistantId}
                       className="inline-flex items-center gap-1 bg-neutral-200 text-neutral-800 px-3 py-1 rounded-full text-sm"
                     >
-                      <span>
-                        {assistant?.first_name} {assistant?.middle_name}{" "}
-                        {assistant?.last_name}
-                      </span>
+                      <span>{assistant?.name || assistant?.username}</span>
                       <div
                         onClick={() => handleRemoveAssistant(assistantId)}
                         className="hover:bg-blue-200 rounded-full p-0.5 cursor-pointer"
@@ -332,14 +350,11 @@ const Page = () => {
           </div>
 
           {/* Class Times Section */}
-          <div className="col-span-2 bg-neutral-50 border px-1 sm:px-2 pt-2 pb-4 rounded-md">
+          <div className="col-span-2 bg-neutral-50 border px-2 pt-2 pb-4 rounded-md">
             <h6 className="text-xl mb-1">Set Class Times</h6>
             {fields.map((field, index) => (
-              <div
-                key={field.id}
-                className="flex items-center gap-1 sm:gap-4 mt-3 border-b pb-3"
-              >
-                <div className="grid sm:grid-cols-3 gap-2 sm:gap-4 flex-1">
+              <div key={field.id} className="flex items-center gap-4 mt-3">
+                <div className="grid grid-cols-3 gap-4 flex-1">
                   {/* <Controller
                     name={`classTimes.${index}.day`}
                     control={control}
@@ -393,26 +408,20 @@ const Page = () => {
           </div>
 
           {/* Pricing and Capacity Section */}
-          <div className="col-span-2">
+          <div className="md:col-span-2">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-              <div className="flex-1 max-md:col-span-2">
-                <FormInput name="price" label="Price" placeholder="e.g., 100" />
-              </div>
-              <div className="flex-1 max-md:col-span-2">
-                <FormInput
-                  name="totalHours"
-                  label="Total Hours"
-                  placeholder="e.g., 8"
-                />
-              </div>
-              <div className="flex-1 max-md:col-span-2">
-                <FormInput
-                  name="maxStudents"
-                  label="Max Students"
-                  placeholder="e.g., 25"
-                />
-              </div>
-              <div className="flex-1 max-md:col-span-2">
+              <FormInput name="price" label="Price" placeholder="e.g., 100" />
+              <FormInput
+                name="totalHours"
+                label="Total Hours"
+                placeholder="e.g., 8"
+              />
+              <FormInput
+                name="maxStudents"
+                label="Max Students"
+                placeholder="e.g., 25"
+              />
+              <div>
                 <Controller
                   name="studentManikinRatio"
                   control={control}
@@ -444,7 +453,7 @@ const Page = () => {
             </div>
           </div>
 
-          <div className="flex-1 max-md:col-span-2">
+          <div>
             <FormInput
               name="closeRegistrationEarly"
               label="Close Registration Early"
@@ -454,7 +463,7 @@ const Page = () => {
               days and hours before class start date
             </p>
           </div>
-          <div className="flex flex-col gap-2 mt-2 max-md:col-span-2">
+          <div className="flex flex-col gap-2 mt-2">
             <label className="leading-[1.45] font-medium text-sm sm:text-base text-gray-700">
               Listing
             </label>
@@ -475,10 +484,10 @@ const Page = () => {
           </div>
 
           {/* Notes Section */}
-          <div className="col-span-2">
+          <div className="md:col-span-2">
             <FormTextarea name="publicNotes" label="Public Notes" />
           </div>
-          <div className="col-span-2">
+          <div className="md:col-span-2">
             <FormTextarea name="internalNotes" label="Internal Notes" />
           </div>
         </div>
@@ -489,7 +498,7 @@ const Page = () => {
             type="submit"
             className="px-6 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium cursor-pointer text-white bg-brown cursor hover:bg-brown-hover focus:outline-none"
           >
-            {isPending ? "Adding..." : "Add Class"}
+            {isPending ? "Updating..." : "Update Class"}
           </Button>
         </div>
       </FormContainer>

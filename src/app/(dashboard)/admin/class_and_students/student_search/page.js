@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import SectionTitle from "@/components/common/SectionTitle";
 import SubSectionTitle from "@/components/common/SubSectionTitle";
 import CustomSelect from "@/components/shared/form/CustomSelect";
@@ -8,89 +8,39 @@ import CustomInput from "@/components/shared/form/CustomInput";
 import { Button } from "@/components/ui/button";
 import { SearchIcon } from "@/svg/SvgContainer";
 import { CiEdit } from "react-icons/ci";
-
-export const StudentSearchResults = [
-  {
-    name: "Hardwick, Leah",
-    email: "abiga@gmail.com",
-    reg_date: "05/04/25",
-    phone: "615 710 0172",
-    class: "(American Heart Association) Adult and Pediatric First...",
-    status: "Complete",
-  },
-  {
-    name: "Nathan, Jayashree",
-    email: "kjordan@thewellnessway.com",
-    reg_date: "09/26/25",
-    phone: "615 710 0172",
-    class: "(American Heart Association) Basic Life Support Provider...",
-    status: "Complete",
-  },
-  {
-    name: "Nathan, Melissa",
-    email: "corylgory@gmail.com",
-    reg_date: "09/26/25",
-    phone: "615 710 0172",
-    class: "(American Heart Association) BLS INSTRUCTOR COURSE",
-    status: "Complete",
-  },
-  {
-    name: "Nathan, Jayashree",
-    email: "andrewhalcombe8@gmail.com",
-    reg_date: "09/26/25",
-    phone: "615 710 0172",
-    class: "(American Heart Association) Adult CPR/AED-BL-r.21",
-    status: "Complete",
-  },
-  {
-    name: "Nathan, Tiffanie",
-    email: "dowens@dmsm.org",
-    reg_date: "11/05/22",
-    phone: "615 710 0172",
-    class: "(American Heart Association) Basic Life Support...",
-    status: "Complete",
-  },
-];
+import { searchStudent } from "@/hooks/api/dashboardApi";
+import TableSkeleton from "@/components/common/TableSkelation";
 
 const Page = () => {
-  const [selectedShow, setSelectedShow] = useState(50);
-
+  const [page, setPage] = useState(1);
+  const [perPage, setPerPage] = useState(10);
   // Filter states
   const [searchBy, setSearchBy] = useState("name");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
-  const [singleInput, setSingleInput] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [classId, setClassId] = useState("");
 
-  const [filteredData, setFilteredData] = useState(StudentSearchResults);
+  const [searchTriggered, setSearchTriggered] = useState(false);
 
   const handleSearch = () => {
-    const filtered = StudentSearchResults.filter((item) => {
-      let match = true; // ✅ define match at the start
-
-      // Name search
-      if (searchBy === "name") {
-        const fullName = item.name.toLowerCase();
-        if (firstName && !fullName.includes(firstName.toLowerCase()))
-          match = false;
-        if (lastName && !fullName.includes(lastName.toLowerCase()))
-          match = false;
-      }
-
-      // Email search
-      if (searchBy === "email" && singleInput) {
-        match = item.email.toLowerCase().includes(singleInput.toLowerCase());
-      }
-
-      // Phone search
-      if (searchBy === "phone" && singleInput) {
-        match = item.phone.toLowerCase().includes(singleInput.toLowerCase());
-      }
-
-      return match; // ✅ return the match result
-    });
-
-    setFilteredData(filtered);
+    setSearchTriggered(true);
   };
+
+  const { data: studentData, isLoading } = searchStudent(
+    page,
+    perPage,
+    firstName.trim(),
+    lastName.trim(),
+    email.trim().toLowerCase(),
+    classId.trim(),
+    searchTriggered,
+  );
+
+  useEffect(() => {
+    setSearchTriggered(false);
+  }, [studentData, firstName, lastName, email, phone, classId]);
 
   return (
     <div className="flex flex-col gap-[12.5px] lg:gap-[25px]">
@@ -100,7 +50,7 @@ const Page = () => {
       </div>
 
       {/* Search Filters */}
-      <div className="px-[16px] py-[16px] lg:px-[32px] lg:py-[32px] bg-white rounded-[16px] flex flex-wrap lg:flex-nowrap gap-[10px] xl:gap-[24px">
+      <div className="px-[16px] py-[16px] lg:px-[32px] lg:py-[32px] bg-white rounded-[16px] flex flex-wrap lg:flex-nowrap gap-[10px] xl:gap-[24px]">
         {/* Search By Dropdown */}
         <CustomSelect
           id="searchBy"
@@ -108,15 +58,18 @@ const Page = () => {
           placeholder="Select"
           value={searchBy}
           options={[
-            { value: "name", label: "Name" },
-            { value: "email", label: "Email" },
-            { value: "phone", label: "Phone Number" },
+            { id: "name", name: "Name" },
+            { id: "email", name: "Email" },
+            { id: "phone", name: "Phone Number" },
+            { id: "class_id", name: "Class Id" },
           ]}
           onChange={(val) => {
             setSearchBy(val);
             setFirstName("");
             setLastName("");
-            setSingleInput("");
+            setEmail("");
+            setPhone("");
+            setClassId("");
           }}
           className="w-[200px]"
         />
@@ -141,27 +94,44 @@ const Page = () => {
               className="w-[200px]"
             />
           </>
-        ) : (
+        ) : searchBy === "email" ? (
           <CustomInput
-            id={searchBy}
-            label={searchBy === "email" ? "Email" : "Phone Number"}
-            placeholder={`Enter ${
-              searchBy === "email" ? "email" : "phone number"
-            }`}
-            value={singleInput}
-            onChange={setSingleInput}
+            id="email"
+            label="Email"
+            placeholder="Enter email"
+            value={email}
+            onChange={setEmail}
             className="w-[250px]"
           />
-        )}
+        ) : searchBy === "phone" ? (
+          <CustomInput
+            id="phone"
+            label="Phone Number"
+            placeholder="Enter phone number"
+            value={phone}
+            onChange={setPhone}
+            className="w-[250px]"
+          />
+        ) : searchBy === "class_id" ? (
+          <CustomInput
+            id="class_id"
+            label="Class ID"
+            placeholder="Enter class ID"
+            value={classId}
+            onChange={setClassId}
+            className="w-[250px]"
+          />
+        ) : null}
 
         {/* Search Button */}
         <div className="flex justify-end items-end">
           <Button
             onClick={handleSearch}
             className="py-[11px] lg:py-[22px] cursor-pointer bg-brown flex items-center gap-2"
+            disabled={isLoading}
           >
             <SearchIcon />
-            Search
+            {isLoading ? "Searching..." : "Search"}
           </Button>
         </div>
       </div>
@@ -169,117 +139,132 @@ const Page = () => {
       {/* Table */}
       <div className="p-[13px] lg:p-[26px] bg-white rounded-[14px] flex flex-col gap-[12px] lg:gap-[24px]">
         <SubSectionTitle subtitle="All List" />
-        <div className="overflow-x-auto">
-          <table className="min-w-[850px] w-full text-sm sm:text-base text-left text-gray-700">
-            <thead className="bg-gray-50 text-black capitalize text-[16px] sm:text-[20px] font-semibold">
-              <tr>
-                <th className="px-3 sm:px-6 py-3 w-[40px]">SL</th>
-                <th className="px-3 sm:px-6 py-3">Name</th>
-                <th className="px-3 sm:px-6 py-3">Reg Date</th>
-                <th className="px-3 sm:px-6 py-3">Phone</th>
-                <th className="px-3 sm:px-6 py-3">Class</th>
-                <th className="px-3 sm:px-6 py-3">Status</th>
-                <th className="px-3 sm:px-6 py-3 text-center">Action</th>
-              </tr>
-            </thead>
+        {isLoading ? (
+          <TableSkeleton />
+        ) : (
+          <div className="overflow-x-auto">
+            <table className="min-w-[850px] w-full text-sm sm:text-base text-left text-gray-700">
+              <thead className="bg-gray-50 text-black capitalize text-[16px] sm:text-[20px] font-semibold">
+                <tr>
+                  <th className="px-3 sm:px-6 py-3 w-[40px]">SL</th>
+                  <th className="px-3 sm:px-6 py-3">Name</th>
+                  <th className="px-3 sm:px-6 py-3">Reg Date</th>
+                  <th className="px-3 sm:px-6 py-3">Phone</th>
+                  <th className="px-3 sm:px-6 py-3">Class</th>
+                  <th className="px-3 sm:px-6 py-3">Status</th>
+                  {/* <th className="px-3 sm:px-6 py-3 text-center">Action</th> */}
+                </tr>
+              </thead>
 
-            <tbody>
-              {filteredData.length > 0 ? (
-                filteredData.map((item, index) => (
-                  <tr
-                    key={index}
-                    className="border-b hover:bg-gray-50 transition-all"
-                  >
-                    <td className="px-3 sm:px-6 py-3 text-gray-800">
-                      {index + 1}
-                    </td>
-                    <td className="px-3 sm:px-6 py-3 text-gray-800 whitespace-nowrap">
-                      <div>
-                        <p className="font-medium">{item.name}</p>
-                        <p className="text-xs sm:text-sm text-gray-500 truncate">
-                          {item.email}
-                        </p>
-                      </div>
-                    </td>
-                    <td className="px-3 sm:px-6 py-3 whitespace-nowrap">
-                      {item.reg_date}
-                    </td>
-                    <td className="px-3 sm:px-6 py-3 whitespace-nowrap">
-                      {item.phone}
-                    </td>
-                    <td className="px-3 sm:px-6 py-3 truncate max-w-[150px] sm:max-w-[250px]">
-                      {item.class}
-                    </td>
-                    <td className="px-3 sm:px-6 py-3">
-                      <span
-                        className={`px-3 py-1 rounded-full text-xs font-medium ${
-                          item.status === "Complete"
-                            ? "bg-green-100 text-green-700"
-                            : "bg-blue-100 text-blue-700"
-                        }`}
-                      >
-                        {item.status}
-                      </span>
-                    </td>
-                    <td className="px-3 sm:px-6 py-3 text-center">
-                      <button className="p-1.5 sm:p-2 bg-gray-100 rounded-lg hover:bg-gray-200 transition">
-                        <CiEdit className="text-gray-600 text-[14px] sm:text-[16px]" />
-                      </button>
+              <tbody>
+                {studentData?.data?.length > 0 ? (
+                  studentData.data.map((item, index) => (
+                    <tr
+                      key={index}
+                      className="border-b hover:bg-gray-50 transition-all"
+                    >
+                      <td className="px-3 sm:px-6 py-3 text-gray-800">
+                        {index + 1}
+                      </td>
+                      <td className="px-3 sm:px-6 py-3 text-gray-800 whitespace-nowrap">
+                        <div>
+                          <p className="font-medium">
+                            {item.first_name} {item.last_name}
+                          </p>
+                          <p className="text-xs sm:text-sm text-gray-500 truncate">
+                            {item.email}
+                          </p>
+                        </div>
+                      </td>
+                      <td className="px-3 sm:px-6 py-3 whitespace-nowrap">
+                        {item.reg_date}
+                      </td>
+                      <td className="px-3 sm:px-6 py-3 whitespace-nowrap">
+                        {item.primary_phone}
+                      </td>
+                      <td className="px-3 sm:px-6 py-3 truncate max-w-[150px] sm:max-w-[250px]">
+                        {item.class}
+                      </td>
+                      <td className="px-3 sm:px-6 py-3">
+                        <span
+                          className={`px-3 py-1 rounded-full text-xs font-medium ${
+                            item.status === "Complete"
+                              ? "bg-green-100 text-green-700"
+                              : "bg-blue-100 text-blue-700"
+                          }`}
+                        >
+                          {item.status}
+                        </span>
+                      </td>
+                      {/* <td className="px-3 sm:px-6 py-3 text-center">
+                        <button className="p-1.5 sm:p-2 bg-gray-100 rounded-lg hover:bg-gray-200 transition">
+                          <CiEdit className="text-gray-600 text-[14px] sm:text-[16px]" />
+                        </button>
+                      </td> */}
+                    </tr>
+                  ))
+                ) : searchTriggered ? (
+                  <tr>
+                    <td
+                      colSpan={7}
+                      className="text-center py-6 text-gray-500 italic"
+                    >
+                      No results found
                     </td>
                   </tr>
-                ))
-              ) : (
-                <tr>
-                  <td
-                    colSpan="7"
-                    className="text-center py-6 text-gray-500 italic"
-                  >
-                    No results found
-                  </td>
-                </tr>
-              )}
-            </tbody>
-          </table>
-        </div>
+                ) : (
+                  <tr>
+                    <td
+                      colSpan={7}
+                      className="text-center py-6 text-gray-500 italic"
+                    >
+                      Click Search to find students
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+          </div>
+        )}
 
         {/* Footer controls */}
-        <div className="flex flex-col md:flex-row items-center justify-between mt-3 lg:mt-6 gap-3">
-          <div className="flex flex-wrap items-center gap-2 sm:gap-3">
-            <span className="text-gray-600 text-sm sm:text-base">Show:</span>
+        <div className="flex flex-col md:flex-row items-center justify-end mt-3 lg:mt-6 gap-3">
+          {/* Show per page */}
+          {/* <div className="flex items-center gap-2">
+            <span className="text-gray-600 text-sm">Show:</span>
             <select
-              value={selectedShow}
-              onChange={(e) => setSelectedShow(e.target.value)}
-              className="
-      border border-gray-300 rounded-md 
-      px-2 md:px-3 py-1.5 sm:py-2 
-      text-sm md:text-base text-gray-700 
-      bg-white
-      focus:outline-none focus:ring-2 focus:ring-gray-300
-      transition-all duration-150
-    "
+              value={perPage}
+              onChange={(e) => {
+                setPerPage(Number(e.target.value));
+                setPage(1);
+              }}
+              className="border border-gray-300 rounded-md px-2 py-1 text-sm"
             >
-              <option value="10">10</option>
-              <option value="25">25</option>
-              <option value="50">50</option>
+              <option value={10}>10</option>
+              <option value={25}>25</option>
+              <option value={50}>50</option>
             </select>
-          </div>
+          </div> */}
 
+          {/* Pagination */}
           <div className="flex items-center gap-2">
-            <button className="px-3 py-1 text-sm text-gray-500 border rounded-md hover:bg-gray-100">
-              Previous
-            </button>
-            <button className="px-3 py-1 text-sm border border-blue-500 rounded-md text-blue-600">
-              1
-            </button>
-            <button className="px-3 py-1 text-sm border rounded-md hover:bg-gray-100">
-              2
-            </button>
-            <button className="px-3 py-1 text-sm border rounded-md hover:bg-gray-100">
-              3
-            </button>
-            <button className="px-3 py-1 text-sm text-gray-500 border rounded-md hover:bg-gray-100">
-              Next
-            </button>
+            {studentData?.data?.links?.map((link, index) => (
+              <button
+                key={index}
+                disabled={link.url === null || link.page === null}
+                onClick={() => link.page && setPage(link.page)}
+                className={`px-3 py-1 text-sm border rounded-md ${
+                  link.active
+                    ? "border-blue-500 text-blue-600 bg-blue-50"
+                    : "hover:bg-gray-100"
+                } ${
+                  link.url === null || link.page === null
+                    ? "text-gray-400 cursor-not-allowed"
+                    : "cursor-pointer"
+                }`}
+                dangerouslySetInnerHTML={{ __html: link.label }}
+              />
+            ))}
           </div>
         </div>
       </div>

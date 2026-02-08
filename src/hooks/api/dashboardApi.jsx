@@ -47,12 +47,12 @@ export const updateTrainingSite = (id) => {
   });
 };
 
-export const getAllCountry = (page = 1, perPage = 10) => {
+export const getAllCountry = () => {
   return useClientApi({
     method: "get",
-    key: ["get-all-country", page, perPage],
+    key: ["get-all-country"],
     isPrivate: true,
-    endpoint: `/api/country?page=${page}&per_page=${perPage}`,
+    endpoint: `/api/country`,
   });
 };
 
@@ -175,15 +175,6 @@ export const getSingleInstructor = (id) => {
   });
 };
 
-export const getAllCourses = (page = 1, perPage = 10) => {
-  return useClientApi({
-    method: "get",
-    key: ["get-all-course", page, perPage],
-    isPrivate: true,
-    endpoint: `/api/couese/index?page=${page}&per_page=${perPage}`,
-  });
-};
-
 export const getAllDiscipline = (page = 1, perPage = 10) => {
   return useClientApi({
     method: "get",
@@ -261,6 +252,7 @@ export const getAllUserRole = (page = 1, perPage = 10) => {
   });
 };
 
+// product add ons
 export const storeProductAddOns = () => {
   return useClientApi({
     method: "post",
@@ -295,6 +287,7 @@ export const getAllProductAddOns = (page = 1, perPage = 10) => {
   });
 };
 
+// promo code
 export const storePromoCode = () => {
   return useClientApi({
     method: "post",
@@ -329,6 +322,7 @@ export const getAllPromoCode = (page = 1, perPage = 10) => {
   });
 };
 
+// key code
 export const addKeyCodeBank = () => {
   return useClientApi({
     method: "post",
@@ -363,6 +357,7 @@ export const getAllKeyCodeBank = (page = 1, perPage = 10) => {
   });
 };
 
+// course
 export const storeCourse = () => {
   return useClientApi({
     method: "post",
@@ -371,6 +366,41 @@ export const storeCourse = () => {
   });
 };
 
+export const getSingleCourse = (id) => {
+  return useClientApi({
+    method: "get",
+    key: ["get-single-course"],
+    isPrivate: true,
+    endpoint: `/api/couese/show?id=${id}`,
+  });
+};
+
+export const updateCourse = () => {
+  return useClientApi({
+    method: "post",
+    isPrivate: true,
+    endpoint: "/api/couese/update",
+  });
+};
+export const getAllCourses = (page = 1, perPage = 10) => {
+  return useClientApi({
+    method: "get",
+    key: ["get-all-course", page, perPage],
+    isPrivate: true,
+    endpoint: `/api/couese/index?page=${page}&per_page=${perPage}`,
+  });
+};
+
+// course
+export const getCourseOptions = () => {
+  return useClientApi({
+    method: "get",
+    isPrivate: true,
+    key: ["get-all-course-type"],
+    endpoint: `/api/course_option/index`,
+  });
+};
+// card type
 export const getAllCardType = () => {
   return useClientApi({
     method: "get",
@@ -397,6 +427,7 @@ export const updateCardSettings = () => {
   });
 };
 
+// class
 export const storeClass = () => {
   return useClientApi({
     method: "post",
@@ -405,6 +436,79 @@ export const storeClass = () => {
   });
 };
 
+export const getSingleClass = (id) => {
+  return useClientApi({
+    method: "get",
+    isPrivate: true,
+    key: ["get-single-class"],
+    endpoint: `/api/class/show?id=${id}`,
+  });
+};
+
+export const updateClass = () => {
+  return useClientApi({
+    method: "post",
+    isPrivate: true,
+    endpoint: "/api/class/update",
+  });
+};
+
+export const getAllUpcomingClasses = (page = 1, perPage = 10) => {
+  return useClientApi({
+    method: "get",
+    isPrivate: true,
+    key: ["get-all-upcoming-class", page, perPage],
+    endpoint: `/api/class/upcoming`,
+  });
+};
+
+export const getAllPastClasses = (page = 1, perPage = 10) => {
+  return useClientApi({
+    method: "get",
+    isPrivate: true,
+    key: ["get-all-past-class", page, perPage],
+    endpoint: `/api/class/past?page=${page}&per_page=${perPage}`,
+  });
+};
+
+export const getAllClasses = (page = 1, perPage = 10) => {
+  return useClientApi({
+    method: "get",
+    isPrivate: true,
+    key: ["get-all-classes", page, perPage],
+    endpoint: `/api/class/index?page=${page}&per_page=${perPage}`,
+  });
+};
+
+// class search
+
+export const searchClasses = (
+  is_enabled,
+  course_id,
+  instructor_id,
+  location_id,
+  id
+) => {
+  return useClientApi({
+    method: "get",
+    isPrivate: true,
+    key: [
+      "get-searched-classes",
+      course_id,
+      instructor_id,
+      location_id,
+      id
+    ],
+    params: { course_id, instructor_id, location_id, id },
+    endpoint: "/api/class/search",
+    enabled: is_enabled,
+    queryOptions: {
+      retry: false,
+    },
+  });
+};
+
+// card type
 export const getSecondCardType = () => {
   return useClientApi({
     method: "get",
@@ -420,5 +524,150 @@ export const getCourseImage = () => {
     isPrivate: true,
     key: ["get-all-course-image"],
     endpoint: "/api/course_image/index",
+  });
+};
+
+export const searchStudent = (
+  page = 1,
+  perPage = 10,
+  first_name,
+  last_name,
+  email,
+  class_details_id,
+  is_enabled,
+) => {
+  return useClientApi({
+    method: "get",
+    isPrivate: true,
+    key: [
+      "get-searched-student",
+      page,
+      perPage,
+      first_name,
+      last_name,
+      email,
+      class_details_id,
+    ],
+    endpoint: `/api/student/search?page=${page}&per_page=${perPage}`,
+    params: { first_name, last_name, email, class_details_id },
+    enabled: is_enabled,
+    queryOptions: {
+      retry: false,
+    },
+  });
+};
+
+// reports
+
+export const getClassReport = (page = 1, perPage = 10) => {
+  return useClientApi({
+    method: "get",
+    isPrivate: true,
+    key: ["get-class-report", page, perPage],
+    endpoint: `/api/reports/class-report?page=${page}&per_page=${perPage}`,
+  });
+};
+
+export const getEventLog = (page = 1, perPage = 10) => {
+  return useClientApi({
+    method: "get",
+    isPrivate: true,
+    key: ["get-event-log", page, perPage],
+    endpoint: `/api/reports/event-log?page=${page}&per_page=${perPage}`,
+  });
+};
+
+export const getProductAddOnsReport = (page = 1, perPage = 10) => {
+  return useClientApi({
+    method: "get",
+    isPrivate: true,
+    key: ["get-product-add-ons-report", page, perPage],
+    endpoint: `/api/reports/addon-report?page=${page}&per_page=${perPage}`,
+  });
+};
+
+// certification file
+export const uploadCertification = () => {
+  return useClientApi({
+    method: "post",
+    isPrivate: true,
+    endpoint: "/api/certificates/store",
+  });
+};
+
+export const getAllCertificationFile = (page = 1, perPage = 10) => {
+  return useClientApi({
+    method: "get",
+    isPrivate: true,
+    key: ["get-all-certification-file", page, perPage],
+    endpoint: `/api/certificates/index?page=${page}&per_page=${perPage}`,
+  });
+};
+
+export const deleteSingleCertificationFile = (id) => {
+  return useClientApi({
+    method: "delete",
+    isPrivate: true,
+    endpoint: `/api/certificates/delete?id=${id}`,
+  });
+};
+
+export const downloadCertificationFile = () => {
+  return useClientApi({
+    method: "post",
+    key: ["download-certification-file"],
+    isPrivate: true,
+    endpoint: `/api/certificates/download`,
+    axiosOptions: {
+      responseType: "blob",
+    },
+  });
+};
+
+// help
+// what's new
+export const getWhatsNew = () => {
+  return useClientApi({
+    method: "get",
+    isPrivate: true,
+    key: ["get-whats-new"],
+    endpoint: "/api/whats_new/index",
+  });
+};
+
+// support request
+export const storeSupportRequest = () => {
+  return useClientApi({
+    method: "post",
+    isPrivate: true,
+    endpoint: "/api/support_request/request",
+  });
+};
+
+// External SKU
+// get all data
+export const getAllExternalSKU = (page = 1, perPage = 10) => {
+  return useClientApi({
+    method: "get",
+    isPrivate: true,
+    key: ["get-all-external-sku", page, perPage],
+    endpoint: `/api/external_sku/index?page=${page}&per_page=${perPage}`,
+  });
+};
+
+// delete a data
+export const deleteSingleExternalSKU = () => {
+  return useClientApi({
+    method: "delete",
+    isPrivate: true,
+  });
+};
+
+// store external SKU
+export const storeExternalSKU = () => {
+  return useClientApi({
+    method: "post",
+    isPrivate: true,
+    endpoint: "/api/external_sku/store",
   });
 };

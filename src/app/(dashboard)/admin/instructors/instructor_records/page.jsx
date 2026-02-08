@@ -84,8 +84,8 @@ const Page = () => {
               </thead>
 
               <tbody>
-                {isLoading || allInstructor?.data?.length > 0 ? (
-                  allInstructor?.data?.map((item, index) => (
+                {isLoading || allInstructor?.data?.data?.length > 0 ? (
+                  allInstructor?.data?.data?.map((item, index) => (
                     <tr
                       key={index}
                       className="border-b hover:bg-gray-50 transition-all"

@@ -12,7 +12,6 @@ import { CiEdit } from "react-icons/ci";
 const Page = () => {
   const router = useRouter();
 
-  const [selectedShow, setSelectedShow] = useState(50);
   const [page, setPage] = useState(1);
   const [perPage, setPerPage] = useState(10);
   const [filters, setFilters] = useState({
@@ -79,7 +78,7 @@ const Page = () => {
                         {item.email}
                       </td>
                       <td className="px-3 sm:px-6 py-3 whitespace-nowrap">
-                        {item.level}
+                        {item.price_level}
                       </td>
                       <td className="px-3 sm:px-6 py-3 text-center">
                         <Link
