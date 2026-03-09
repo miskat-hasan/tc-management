@@ -150,7 +150,7 @@ const Page = () => {
                       </td>
                       <td className="px-3 sm:px-6 py-3 text-center">
                          <Link
-                          href={`/admin/class_and_students/classes/${item.id}`}
+                          href={`classes/${item.id}`}
                         >
                           <button className="p-1.5 sm:p-2 bg-gray-100 rounded-lg hover:bg-gray-200 transition cursor-pointer">
                             <CiEdit className="text-gray-600 text-[14px] sm:text-[16px]" />

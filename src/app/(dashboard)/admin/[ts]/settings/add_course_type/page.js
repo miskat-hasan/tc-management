@@ -53,7 +53,7 @@ const Page = () => {
       cardType: "",
       secondCardType: "",
       course_image: "",
-      selected_option_ids: [], // dynamic options
+      selected_option_ids: [],
       ceu_credits: "",
       courseConfirmationEmailCCS: "",
       courseConfirmationEmailSubject: "",
@@ -683,7 +683,7 @@ const Page = () => {
 
             <div className="flex justify-end gap-4 mt-8">
               <Button variant="outline" asChild>
-                <Link href="/admin/settings/course_type">Cancel</Link>
+                <Link href="course_type">Cancel</Link>
               </Button>
               <Button
                 type="submit"

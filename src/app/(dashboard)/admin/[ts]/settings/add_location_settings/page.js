@@ -213,7 +213,7 @@ const Page = () => {
               asChild={true}
               className="px-6 py-2 bg-transparent border border-gray-300 rounded-md text-sm font-medium text-black hover:bg-gray-50"
             >
-              <Link href={'/admin/settings/location'}>
+              <Link href={'location'}>
               Back
               </Link>
             </Button>

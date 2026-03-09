@@ -113,31 +113,31 @@ const Page = ({ params }) => {
 
   useEffect(() => {
     if (
-      courseData?.data &&
-      disciplineData?.data?.data &&
-      addOnsData?.data?.data &&
-      keyCodeBank?.data?.data &&
-      cardTypeData?.data?.data &&
-      secondCardTypeData?.data?.data &&
-      courseImageData?.data?.data &&
+      courseData?.data ||
+      disciplineData?.data?.data ||
+      addOnsData?.data?.data ||
+      keyCodeBank?.data?.data ||
+      cardTypeData?.data?.data ||
+      secondCardTypeData?.data?.data ||
+      courseImageData?.data?.data ||
       courseOptionData?.data?.data
     ) {
-      const course = courseData.data;
-
+       const course = courseData?.data;
+      
       reset({
-        course_name: course.course_name || "",
-        mode: course.mode === "onsite" ? "on-site" : course.mode || "on-site",
-        discipline: course.discipline || "",
+        course_name: course?.course_name || "",
+        mode: course?.mode === "onsite" ? "on-site" : course?.mode || "on-site",
+        discipline: course?.discipline || "",
 
-        deposit_registration: !!course.allow_deposit,
-        deposit_amounts: course.deposit_amount || "",
-        multiple_pricing: !!course.allow_multiple,
+        deposit_registration: !!course?.allow_deposit,
+        deposit_amounts: course?.deposit_amount || "",
+        multiple_pricing: !!course?.allow_multiple,
 
-        price: course.price || "",
-        price_level_prompt: course.deposits?.[0]?.price_level_prompt || "",
+        price: course?.price || "",
+        price_level_prompt: course?.deposits?.[0]?.price_level_prompt || "",
         priceLevel:
-          course.allow_multiple && course.deposits?.length > 0
-            ? course.deposits.map((dep) => ({
+          course?.allow_multiple && course?.deposits?.length > 0
+            ? course?.deposits.map((dep) => ({
                 price: dep.price_levels?.price?.toString() || "",
                 code: dep.price_levels?.code || "",
                 description: dep.price_levels?.description || "",
@@ -147,46 +147,46 @@ const Page = ({ params }) => {
                 { price: "", code: "", description: "" },
               ],
 
-        addonPrompt: course.prompt || "",
-        add_ons: course.addons?.map((addon) => Number(addon.id)) || [],
+        addonPrompt: course?.prompt || "",
+        add_ons: course?.addons?.map((addon) => Number(addon.id)) || [],
 
-        shipping_price: course.shipping_price?.toString() || "",
-        keycode_bank: course.keycode_bank_id || "",
+        shipping_price: course?.shipping_price?.toString() || "",
+        keycode_bank: course?.keycode_bank_id || "",
 
         course_certifying_body:
-          course.course_certifying_body === "american_red_cross"
+          course?.course_certifying_body === "american_red_cross"
             ? "American Red Cross"
-            : course.course_certifying_body === "american_heart_association"
+            : course?.course_certifying_body === "american_heart_association"
               ? "American Heart Association"
               : "none",
 
-        courseSKUs: course.course_skus || "",
-        cardType: course.card_type_id?.toString() || "",
-        secondCardType: course.second_card_type_id?.toString() || "",
+        courseSKUs: course?.course_skus || "",
+        cardType: course?.card_type_id?.toString() || "",
+        secondCardType: course?.second_card_type_id?.toString() || "",
 
-        course_image: course.course_image_id || "",
+        course_image: course?.course_image_id || "",
 
-        selected_options: course.options?.map((opt) => Number(opt.id)) || [],
+        selected_options: course?.options?.map((opt) => Number(opt.id)) || [],
 
-        ceu_credits: course.ecu_credits || "",
+        ceu_credits: course?.ecu_credits || "",
 
-        courseConfirmationEmailCCS: course.confirmation_email || "",
+        courseConfirmationEmailCCS: course?.confirmation_email || "",
         courseConfirmationEmailSubject:
-          course.course_confirmation_email_subject || "",
+          course?.course_confirmation_email_subject || "",
         payloadConfirmationEmailSubject:
-          course.payment_confirmation_email_subject || "",
-        use_email_for_payments: !!course.use_general_email_body,
+          course?.payment_confirmation_email_subject || "",
+        use_email_for_payments: !!course?.use_general_email_body,
 
-        enable_seo: !!course.seo_rich_results,
-        seoDescription: course.seo_description || "",
+        enable_seo: !!course?.seo_rich_results,
+        seoDescription: course?.seo_description || "",
       });
 
       // Set rich text content separately
       if (descriptionRef.current) {
-        descriptionRef.current.setContents(course.description || "");
+        descriptionRef.current.setContents(course?.description || "");
       }
       if (emailBodyRef.current) {
-        emailBodyRef.current.setContents(course.email_body || "");
+        emailBodyRef.current.setContents(course?.email_body || "");
       }
     }
   }, [
@@ -802,7 +802,7 @@ const Page = ({ params }) => {
             <div className="flex items-center justify-end">
               <div className="flex justify-end gap-4 mt-4 lg:mt-8">
                 <Button asChild type="button" variant="outline">
-                  <Link href="/admin/settings/course_type">Back</Link>
+                  <Link href="../course_type">Back</Link>
                 </Button>
                 <Button
                   type="submit"

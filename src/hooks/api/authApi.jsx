@@ -17,42 +17,6 @@ export const useLogin = () => {
         setToken(data?.data?.token);
         toast.success(data?.message || "Login Successful");
         return router.push("/");
-        // Swal.fire({
-        //   title: data?.message || "Login Successful",
-        //   icon: "success",
-        //   confirmButtonText: "Go To Dashboard",
-        //   allowOutsideClick: true,
-        // });
-        // .then(() => {
-        //   // if (data?.data?.roles?.name === "Admin") {
-        //   // if (data?.data?.roles[0]?.name === "Admin") {
-        //   if (
-        //     data?.data?.roles?.find((item) => item.role_name === "Super Admin")
-        //   ) {
-        //     return router.push(
-        //       "/super-admin",
-        //     );
-        //   } else if (
-        //     data?.data?.roles?.find((item) => item.role_name === "Admin")
-        //   ) {
-        //     return router.push("/admin");
-        //   } else if (
-        //     data?.data?.roles?.find((item) => item.role_name === "Instructor")
-        //   ) {
-        //     return router.push("/instructor");
-        //   }
-        //   // router.push("/admin/class_and_students/classes");
-
-        //   // const isAdmin = data?.data?.roles?.some(
-        //   //   (role) => role.name === "Admin",
-        //   // );
-
-        //   // router.push(
-        //   //   isAdmin
-        //   //     ? "/admin/class_and_students/upcoming_classes"
-        //   //     : "/admin/class_and_students/classes",
-        //   // );
-        // });
       }
     },
     onError: (err) => {

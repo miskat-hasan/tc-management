@@ -33,25 +33,22 @@ const Page = () => {
     }
   };
 
-  const handleNavigation = () => {
-    router.push("/admin/settings/add_course_type");
-  };
-
   return (
     <div>
       <SectionTitle title={"Course Type"} />
       <div className="py-[10px] lg:py-[20px] rounded-[16px] flex flex-col gap-2.5">
         <div className="flex w-full items-center justify-between">
-          <div className="flex items-center gap-2 text-[#8C8C8C]">
+          {/* <div className="flex items-center gap-2 text-[#8C8C8C]">
             <input
               type="checkbox"
               className="w-3.5 h-3.5 bg-transparent accent-[#8C8C8C]"
             />
             <label className="text-[12px]">Show Archived Courses</label>
-          </div>
-          <div className="flex gap-2.5">
+          </div> */}
+          <div className="flex gap-2.5 ml-auto">
             <Button
-              onClick={handleNavigation}
+              type="button"
+              onClick={() => router.push("add_course_type")}
               className="py-[11px] text-[12px] lg:text-base lg:py-[22px] cursor-pointer bg-brown flex items-center gap-2"
             >
               Add Course Type
@@ -132,7 +129,7 @@ const Page = () => {
                         {item.eCard}
                       </td>
                       <td className="px-3 py-4 md:px-6 text-center whitespace-nowrap">
-                        <Link href={`/admin/settings/course_type/${item.id}`}>
+                        <Link href={`course_type/${item.id}`}>
                           <button className="p-2 bg-gray-100 rounded-lg hover:bg-gray-200 transition cursor-pointer">
                             <CiEdit className="text-gray-600 text-[16px]" />
                           </button>

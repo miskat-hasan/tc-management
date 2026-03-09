@@ -16,16 +16,12 @@ const Page = () => {
 
   const { data: allLocation, isLoading } = getAllLocation(page, perPage);
 
-  const handleNavigate = () => {
-    router.push("/admin/settings/add_location_settings");
-  };
-
   return (
     <section className="flex flex-col gap-[12.5px] lg:gap-[25px] ">
       <div className="flex justify-between">
         <SectionTitle title={"Locations"} />
         <Button
-          onClick={handleNavigate}
+          onClick={()=> router.push("add_location_settings")}
           className="py-[11px] lg:py-[22px] cursor-pointer bg-brown flex items-center gap-2"
         >
           Add Locations <PlusIcon />
@@ -76,7 +72,7 @@ const Page = () => {
                         {item.default}
                       </td>
                       <td className="px-3 md:px-6 py-4 text-center whitespace-nowrap">
-                        <Link href={`/admin/settings/location/${item.id}`}>
+                        <Link href={`location/${item.id}`}>
                           <button className="p-2 bg-gray-100 rounded-lg hover:bg-gray-200 transition cursor-pointer">
                             <CiEdit className="text-gray-600 text-[16px]" />
                           </button>
