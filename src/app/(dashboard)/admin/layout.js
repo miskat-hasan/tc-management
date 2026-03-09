@@ -1,6 +1,6 @@
 import DashboardContent from "@/components/common/DashboardContent";
-import DashboardSidebar from "@/components/dashboard/DashboardSidebar";
-import PrivateLayout from "@/private/Private";
+import AdminDashboardSidebar from "@/components/dashboard/admin/AdminDashboardSidebar";
+import AdminPrivateLayout from "@/private/PrivateAdmin";
 
 import { Poppins } from "next/font/google";
 
@@ -17,11 +17,11 @@ export const metadata = {
 
 export default function DashboardLayout({ children }) {
   return (
-    <PrivateLayout>
+    <AdminPrivateLayout>
       <section className={`${poppins.variable} flex`}>
-        <DashboardSidebar />
+        <AdminDashboardSidebar />
         <DashboardContent content={children} />
       </section>
-    </PrivateLayout>
+    </AdminPrivateLayout>
   );
 }

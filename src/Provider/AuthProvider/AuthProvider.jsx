@@ -13,7 +13,7 @@ export default function AuthProvider({ children }) {
   const { data: userData, isLoading: loadingUserData } = useGetUserData(token);
 
   const { data: trainingSiteData, isLoading: trainingSiteDataLoading } =
-    getallTrainingsite();
+    getallTrainingsite(token);
 
   const [selectedTrainingSiteId, setSelectedTrainingSiteId] = useState(null);
 

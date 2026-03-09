@@ -7,8 +7,7 @@ import Loader from "@/components/common/Loader";
 
 const PrivateLayout = ({ children }) => {
   const router = useRouter();
-  const { user, token, loading } = useAuth();
-  console.log(user)
+  const { user, token, loading, trainingSiteData } = useAuth();
 
   useEffect(() => {
     if (!token && !user) {
@@ -16,7 +15,7 @@ const PrivateLayout = ({ children }) => {
     }
   }, [token, user, router]);
 
-  if (loading) {
+  if (loading && !trainingSiteData) {
     return (
       <div className="h-screen w-full flex justify-center items-center">
         <Loader />
@@ -24,7 +23,7 @@ const PrivateLayout = ({ children }) => {
     );
   }
 
-  if (token && user) {
+  if (token && user && trainingSiteData && user?.roles?.find((item) => item.role_name === "Super Admin")) {
     return <>{children}</>;
   }
 

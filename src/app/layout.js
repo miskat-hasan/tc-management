@@ -2,6 +2,7 @@ import { Poppins } from "next/font/google";
 import "./globals.css";
 import AuthProvider from "@/Provider/AuthProvider/AuthProvider";
 import ReactQueryProvider from "@/Provider/QueryProvider/QueryProvider";
+import { Toaster } from "sonner";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -18,6 +19,7 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body className={`${poppins.variable} antialiased overflow-hidden`}>
         <ReactQueryProvider>
+          <Toaster position="top-center" theme="light" />
           <AuthProvider>{children}</AuthProvider>
         </ReactQueryProvider>
       </body>
