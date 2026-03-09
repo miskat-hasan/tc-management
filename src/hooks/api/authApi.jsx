@@ -2,6 +2,7 @@ import { useRouter } from "next/navigation";
 import useAuth from "../useAuth";
 import useClientApi from "../useClientApi";
 import Swal from "sweetalert2";
+import { toast } from "sonner";
 
 export const useLogin = () => {
   const router = useRouter();
@@ -14,31 +15,44 @@ export const useLogin = () => {
     onSuccess: (data) => {
       if (data?.status) {
         setToken(data?.data?.token);
-        console.log(data)
-        
-        Swal.fire({
-          title: data?.message || "Login Successful",
-          icon: "success",
-          confirmButtonText: "Go To Dashboard",
-          allowOutsideClick: true,
-        }).then(() => {
-          // if (data?.data?.roles?.name === "Admin") {
-          // if (data?.data?.roles[0]?.name === "Admin") {
-          if (data?.data?.roles?.find((item) => item.name === "Admin")) {
-            return router.push("/admin/class_and_students/upcoming_classes");
-          }
-           router.push("/admin/class_and_students/classes");
-          
-          // const isAdmin = data?.data?.roles?.some(
-          //   (role) => role.name === "Admin",
-          // );
+        toast.success(data?.message || "Login Successful");
+        return router.push("/");
+        // Swal.fire({
+        //   title: data?.message || "Login Successful",
+        //   icon: "success",
+        //   confirmButtonText: "Go To Dashboard",
+        //   allowOutsideClick: true,
+        // });
+        // .then(() => {
+        //   // if (data?.data?.roles?.name === "Admin") {
+        //   // if (data?.data?.roles[0]?.name === "Admin") {
+        //   if (
+        //     data?.data?.roles?.find((item) => item.role_name === "Super Admin")
+        //   ) {
+        //     return router.push(
+        //       "/super-admin",
+        //     );
+        //   } else if (
+        //     data?.data?.roles?.find((item) => item.role_name === "Admin")
+        //   ) {
+        //     return router.push("/admin");
+        //   } else if (
+        //     data?.data?.roles?.find((item) => item.role_name === "Instructor")
+        //   ) {
+        //     return router.push("/instructor");
+        //   }
+        //   // router.push("/admin/class_and_students/classes");
 
-          // router.push(
-          //   isAdmin
-          //     ? "/admin/class_and_students/upcoming_classes"
-          //     : "/admin/class_and_students/classes",
-          // );
-        });
+        //   // const isAdmin = data?.data?.roles?.some(
+        //   //   (role) => role.name === "Admin",
+        //   // );
+
+        //   // router.push(
+        //   //   isAdmin
+        //   //     ? "/admin/class_and_students/upcoming_classes"
+        //   //     : "/admin/class_and_students/classes",
+        //   // );
+        // });
       }
     },
     onError: (err) => {
@@ -76,6 +90,62 @@ export const useLogout = () => {
     onError: () => {
       clearToken();
       router.push("/login");
+    },
+  });
+};
+
+export const useVerifyEmail = () => {
+  return useClientApi({
+    method: "post",
+    isPrivate: false,
+    endpoint: "/api/users/login/email-verify",
+    onError: (error) => {
+      Swal.fire({
+        text: error?.response?.data?.message,
+        icon: "error",
+      });
+    },
+  });
+};
+
+export const useVerifyOTP = () => {
+  return useClientApi({
+    method: "post",
+    isPrivate: false,
+    endpoint: "/api/users/login/otp-verify",
+    onError: (error) => {
+      Swal.fire({
+        text: error?.response?.data?.message,
+        icon: "error",
+      });
+    },
+  });
+};
+
+export const useResendOTP = () => {
+  return useClientApi({
+    method: "post",
+    isPrivate: false,
+    endpoint: "/api/users/login/otp-resend",
+    onError: (error) => {
+      Swal.fire({
+        text: error?.response?.data?.message,
+        icon: "error",
+      });
+    },
+  });
+};
+
+export const useResetPassword = () => {
+  return useClientApi({
+    method: "post",
+    isPrivate: false,
+    endpoint: "/api/users/login/reset-password",
+    onError: (error) => {
+      Swal.fire({
+        text: error?.response?.data?.message,
+        icon: "error",
+      });
     },
   });
 };

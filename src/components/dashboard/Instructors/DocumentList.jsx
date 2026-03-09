@@ -1,9 +1,13 @@
 import SectionTitle from "@/components/common/SectionTitle";
 import FormContainer from "@/components/shared/form/FormContainer";
-import { getAllDocuments, storeDocument } from "@/hooks/api/dashboardApi";
+import {
+  deleteDocument,
+  getAllDocuments,
+  storeDocument,
+} from "@/hooks/api/dashboardApi";
 import { Button } from "@nolesh/react-file-manager";
 import { useQueryClient } from "@tanstack/react-query";
-import { Download, PlusIcon, Trash2 } from "lucide-react";
+import { Download, Loader2, PlusIcon, Trash2 } from "lucide-react";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
@@ -48,8 +52,13 @@ const DocumentList = ({ instructorId, documentData }) => {
     });
   };
 
-  console.log("documentData", documentData);
+  // delete document mutation
+  const { mutate: deleteDocumentMutation, isPending: deleteDocumentPending } =
+    deleteDocument();
 
+  const handleDelete = (id) => {
+    deleteDocumentMutation({ endpoint: `/api/documents/delete?id=${id}` });
+  };
   return (
     <div>
       <div className="mt-8">
@@ -121,12 +130,18 @@ const DocumentList = ({ instructorId, documentData }) => {
                             >
                               <Download size={16} />
                             </Link>
-                            <Link
-                              href={`/documents/delete?id=${item?.id}`}
-                              className="p-1.5 sm:p-2 bg-gray-100 rounded-lg inline-block hover:bg-gray-200 transition"
+                            <button
+                              type="button"
+                              onClick={() => handleDelete(item?.id)}
+                              className="p-1.5 sm:p-2 bg-gray-100 rounded-lg cursor-pointer inline-block hover:bg-gray-200 transition disabled:opacity-60 disabled:cursor-not-allowed"
+                              disabled={deleteDocumentPending}
                             >
-                              <Trash2 size={16} />
-                            </Link>
+                              {deleteDocumentPending ? (
+                                <Loader2 size={16} className="animate-spin" />
+                              ) : (
+                                <Trash2 size={16} />
+                              )}
+                            </button>
                           </div>
                         </td>
                       </tr>

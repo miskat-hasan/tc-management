@@ -1,5 +1,7 @@
 import Swal from "sweetalert2";
 import useClientApi from "../useClientApi";
+import { toast } from "sonner";
+import { useQueryClient } from "@tanstack/react-query";
 
 export const createSingleTrainingSite = () => {
   return useClientApi({
@@ -9,11 +11,12 @@ export const createSingleTrainingSite = () => {
   });
 };
 
-export const getallTrainingsite = (page = 1, perPage = 10) => {
+export const getallTrainingsite = (token, page = 1, perPage = 10) => {
   return useClientApi({
     method: "get",
     key: ["get-all-training-site", page, perPage],
     isPrivate: true,
+    enabled: !!token,
     endpoint: `/api/training-sites?page=${page}&per_page=${perPage}`,
   });
 };
@@ -235,11 +238,18 @@ export const getAllDocuments = (page = 1, perPage = 10) => {
   });
 };
 
-export const deleteDocument = (id) => {
+export const deleteDocument = () => {
+  const queryClient = useQueryClient();
   return useClientApi({
     method: "delete",
     isPrivate: true,
-    endpoint: `/documents/delete?id=${id}`,
+    onSuccess: (data) => {
+      queryClient.invalidateQueries(["get-single-instructor"]);
+      toast.success(data?.message || "Document deleted successfully");
+    },
+    onError: (err) => {
+      toast.error(err?.response?.data?.message || "Something went wrong!");
+    },
   });
 };
 
@@ -487,18 +497,12 @@ export const searchClasses = (
   course_id,
   instructor_id,
   location_id,
-  id
+  id,
 ) => {
   return useClientApi({
     method: "get",
     isPrivate: true,
-    key: [
-      "get-searched-classes",
-      course_id,
-      instructor_id,
-      location_id,
-      id
-    ],
+    key: ["get-searched-classes", course_id, instructor_id, location_id, id],
     params: { course_id, instructor_id, location_id, id },
     endpoint: "/api/class/search",
     enabled: is_enabled,
@@ -669,5 +673,35 @@ export const storeExternalSKU = () => {
     method: "post",
     isPrivate: true,
     endpoint: "/api/external_sku/store",
+    onError: (error) => {
+      Swal.fire({
+        text: error?.response?.data?.message,
+        icon: "error",
+      });
+    },
+  });
+};
+
+// get class-course details for enrolment
+export const getEnrollmentDetails = (id) => {
+  return useClientApi({
+    method: "get",
+    isPrivate: true,
+    endpoint: `/api/show/course/info?id=${id}`,
+  });
+};
+
+// student registration
+export const useStudentEnrollment = (id) => {
+  return useClientApi({
+    method: "post",
+    isPrivate: true,
+    endpoint: `/api/student/registration?id=${id}`,
+    onError: (err) => {
+      Swal.fire({
+        text: err?.response?.data?.message,
+        icon: "error",
+      });
+    },
   });
 };
