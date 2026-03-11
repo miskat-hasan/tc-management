@@ -104,11 +104,10 @@ const AdminDashboardSidebar = () => {
     }, [pathname, user]);
 
   const handleSelectChange = (val) => {
-    // setSelectOption(val);
     setSelectedTrainingSiteId(val);
 
     return router.push(
-      `/admin/${selectedTrainingSiteId}/class_and_students/classes`,
+      `/admin/${val}/class_and_students/classes`,
     );
   };
 

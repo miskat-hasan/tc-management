@@ -14,6 +14,7 @@ import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { CiEdit } from "react-icons/ci";
+import { GoArrowUpRight } from "react-icons/go";
 
 const Page = () => {
   const form = useForm({
@@ -148,12 +149,15 @@ const Page = () => {
                       <td className="px-3 sm:px-6 py-3 text-gray-600">
                         {item?.student}
                       </td>
-                      <td className="px-3 sm:px-6 py-3 text-center">
-                         <Link
-                          href={`classes/${item.id}`}
-                        >
+                      <td className="px-3 sm:px-6 py-3 text-center space-x-2">
+                        <Link href={`classes/${item.id}`}>
                           <button className="p-1.5 sm:p-2 bg-gray-100 rounded-lg hover:bg-gray-200 transition cursor-pointer">
                             <CiEdit className="text-gray-600 text-[14px] sm:text-[16px]" />
+                          </button>
+                        </Link>
+                        <Link href={`classes/roster/${item.id}`}>
+                          <button className="p-1.5 sm:p-2 bg-gray-100 rounded-lg hover:bg-gray-200 transition cursor-pointer">
+                            <GoArrowUpRight className="text-gray-600 text-[14px] sm:text-[16px]" />
                           </button>
                         </Link>
                       </td>

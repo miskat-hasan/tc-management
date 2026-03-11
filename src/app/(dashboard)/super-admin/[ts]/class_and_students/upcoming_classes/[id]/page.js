@@ -53,7 +53,7 @@ const Page = ({ params }) => {
     formState: { errors },
   } = form;
 
-  const {selectedTrainingSiteId} = useAuth();
+  const { selectedTrainingSiteId } = useAuth();
   const { fields, append, remove } = useFieldArray({
     control,
     name: "classTimes",
@@ -243,7 +243,7 @@ const Page = ({ params }) => {
         className="bg-white p-4 lg:p-6 rounded-lg shadow"
       >
         {/* Main form layout grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4">
+        <div className="flex flex-col md:grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4">
           <Controller
             name="course"
             control={control}
@@ -372,18 +372,23 @@ const Page = ({ params }) => {
           <div className="flex flex-col justify-center">
             <p>
               Registration Link:{" "}
-              <Link href={`../../enroll/${id}`} className="text-brown">
-                {window.location.origin}/super-admin/{selectedTrainingSiteId}/enroll/{id}
+              <Link
+                target="_blank"
+                href={`/enroll/${id}`}
+                className="text-brown"
+              >
+                {window.location.origin}/enroll/{id}
               </Link>
             </p>
           </div>
           {/* Class Times Section */}
-          <div className="col-span-2 bg-neutral-50 border px-2 pt-2 pb-4 rounded-md">
-            <h6 className="text-xl mb-1">Set Class Times</h6>
-            {fields.map((field, index) => (
-              <div key={field.id} className="flex items-center gap-4 mt-3">
-                <div className="grid grid-cols-3 gap-4 flex-1">
-                  {/* <Controller
+          <div className="overflow-x-auto">
+            <div className="col-span-2 min-w-[500px] bg-neutral-50 border px-2 pt-2 pb-4 rounded-md">
+              <h6 className="text-xl mb-1">Set Class Times</h6>
+              {fields.map((field, index) => (
+                <div key={field.id} className="flex items-center gap-4 mt-3">
+                  <div className="grid grid-cols-3 gap-4 flex-1">
+                    {/* <Controller
                     name={`classTimes.${index}.day`}
                     control={control}
                     rules={{ required: "Day is required" }}
@@ -397,41 +402,42 @@ const Page = ({ params }) => {
                       />
                     )}
                   /> */}
-                  <FormInput
-                    name={`classTimes.${index}.date`}
-                    label="Date"
-                    placeholder="Date"
-                    type="date"
-                  />
-                  <FormInput
-                    name={`classTimes.${index}.timeFrom`}
-                    label="From"
-                    placeholder="from"
-                    type="time"
-                  />
-                  <FormInput
-                    name={`classTimes.${index}.timeTo`}
-                    label="To"
-                    placeholder="to"
-                    type="time"
-                  />
-                </div>
-                {fields.length > 1 && (
-                  <div
-                    onClick={() => handleRemoveClassTime(index)}
-                    className="bg-neutral-200 p-2 -mb-6 rounded-md cursor-pointer hover:bg-neutral-300"
-                  >
-                    <LucideTrash2 className="size-4" />
+                    <FormInput
+                      name={`classTimes.${index}.date`}
+                      label="Date"
+                      placeholder="Date"
+                      type="date"
+                    />
+                    <FormInput
+                      name={`classTimes.${index}.timeFrom`}
+                      label="From"
+                      placeholder="from"
+                      type="time"
+                    />
+                    <FormInput
+                      name={`classTimes.${index}.timeTo`}
+                      label="To"
+                      placeholder="to"
+                      type="time"
+                    />
                   </div>
-                )}
+                  {fields.length > 1 && (
+                    <div
+                      onClick={() => handleRemoveClassTime(index)}
+                      className="bg-neutral-200 p-2 -mb-6 rounded-md cursor-pointer hover:bg-neutral-300"
+                    >
+                      <LucideTrash2 className="size-4" />
+                    </div>
+                  )}
+                </div>
+              ))}
+              <div
+                onClick={handleAddClassTime}
+                className="mt-4 px-2 py-1.5 inline-flex items-center gap-1 border rounded-md text-sm bg-neutral-700 text-neutral-100 cursor-pointer hover:bg-neutral-600 shadow-sm"
+              >
+                <FaPlus className="size-3" />
+                Add more
               </div>
-            ))}
-            <div
-              onClick={handleAddClassTime}
-              className="mt-4 px-2 py-1.5 inline-flex items-center gap-1 border rounded-md text-sm bg-neutral-700 text-neutral-100 cursor-pointer hover:bg-neutral-600 shadow-sm"
-            >
-              <FaPlus className="size-3" />
-              Add more
             </div>
           </div>
 
