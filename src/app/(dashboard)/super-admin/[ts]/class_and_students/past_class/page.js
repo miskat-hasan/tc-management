@@ -13,6 +13,7 @@ import {
   getAllInstructor,
   getAllLocation,
   getAllPastClasses,
+  searchClasses,
 } from "@/hooks/api/dashboardApi";
 import { SearchIcon } from "@/svg/SvgContainer";
 import Link from "next/link";
@@ -21,95 +22,127 @@ import { Controller, useForm } from "react-hook-form";
 import { CiEdit } from "react-icons/ci";
 import { X } from "lucide-react";
 import useAuth from "@/hooks/useAuth";
+import { IoClose } from "react-icons/io5";
 
 const Page = () => {
   const form = useForm();
-  const { control, watch, setValue } = form;
+  const { reset } = form;
+  const [enableSearch, setEnableSearch] = useState(false);
+  const [classId, setClassId] = useState(null);
+  const [courseId, setCourseId] = useState(null);
+  const [instructorId, setInstructorId] = useState(null);
+  const [locationId, setLocationId] = useState(null);
   const [page, setPage] = useState(1);
   const [perPage, setPerPage] = useState(10);
-  const [filters, setFilters] = useState({
-    class_id: "",
-    course: "",
-    instructor: "",
-    location: "",
-  });
+  // const [filters, setFilters] = useState({
+  //   class_id: "",
+  //   course: "",
+  //   instructor: "",
+  //   location: "",
+  // });
 
-  const {selectedTrainingSiteId} = useAuth()
-  const onSubmit = (data) => {
-    // console.log(data)
-  };
+  // const { selectedTrainingSiteId } = useAuth();
 
   const { data: pastClassData, isLoading: pastClassDataLoading } =
     getAllPastClasses(page, perPage);
 
-  const { data: locationData, isLoading: locationDataLoading } =
-    getAllLocation();
+  // const { data: locationData, isLoading: locationDataLoading } =
+  //   getAllLocation();
 
-  const { data: instructorData, isLoading: instructorDataLoading } =
-    getAllInstructor();
+  // const { data: instructorData, isLoading: instructorDataLoading } =
+  //   getAllInstructor();
 
-  const { data: courseData, isLoading: courseDataLoading } = getAllCourses();
+  // const { data: courseData, isLoading: courseDataLoading } = getAllCourses();
 
   // Watch form values for filtering
-  const watchedClassId = watch("class_id");
-  const watchedCourse = watch("courses");
-  const watchedInstructor = watch("instructor");
-  const watchedLocation = watch("location");
+  // const watchedClassId = watch("class_id");
+  // const watchedCourse = watch("courses");
+  // const watchedInstructor = watch("instructor");
+  // const watchedLocation = watch("location");
 
   // Update filters whenever form values change
-  useEffect(() => {
-    setFilters({
-      class_id: watchedClassId || "",
-      course: watchedCourse || "",
-      instructor: watchedInstructor || "",
-      location: watchedLocation || "",
-    });
-  }, [watchedClassId, watchedCourse, watchedInstructor, watchedLocation]);
+  // useEffect(() => {
+  //   setFilters({
+  //     class_id: watchedClassId || "",
+  //     course: watchedCourse || "",
+  //     instructor: watchedInstructor || "",
+  //     location: watchedLocation || "",
+  //   });
+  // }, [watchedClassId, watchedCourse, watchedInstructor, watchedLocation]);
 
   // Filter data based on current filters
-  const filteredData = useMemo(() => {
-    if (!pastClassData?.data?.data) return [];
+  // const filteredData = useMemo(() => {
+  //   if (!pastClassData?.data?.data) return [];
 
-    return pastClassData.data.data.filter((item) => {
-      // Filter by class ID (search by index + 1 or item.id)
-      const matchClassId =
-        !filters.class_id ||
-        item.id?.toString().includes(filters.class_id) ||
-        (pastClassData.data.data.indexOf(item) + 1)
-          .toString()
-          .includes(filters.class_id);
+  //   return pastClassData.data.data.filter((item) => {
+  //     // Filter by class ID (search by index + 1 or item.id)
+  //     const matchClassId =
+  //       !filters.class_id ||
+  //       item.id?.toString().includes(filters.class_id) ||
+  //       (pastClassData.data.data.indexOf(item) + 1)
+  //         .toString()
+  //         .includes(filters.class_id);
 
-      // Filter by course
-      const matchCourse =
-        !filters.course || item.course?.id === filters.course;
+  //     // Filter by course
+  //     const matchCourse = !filters.course || item.course?.id === filters.course;
 
-      // Filter by instructor
-      const matchInstructor =
-        !filters.instructor || item.instructor?.id === filters.instructor;
+  //     // Filter by instructor
+  //     const matchInstructor =
+  //       !filters.instructor || item.instructor?.id === filters.instructor;
 
-      // Filter by location
-      const matchLocation =
-        !filters.location || item.location?.id === filters.location;
+  //     // Filter by location
+  //     const matchLocation =
+  //       !filters.location || item.location?.id === filters.location;
 
-      return matchClassId && matchCourse && matchInstructor && matchLocation;
-    });
-  }, [pastClassData, filters]);
+  //     return matchClassId && matchCourse && matchInstructor && matchLocation;
+  //   });
+  // }, [pastClassData, filters]);
 
   // Check if any filter is active
-  const hasActiveFilters =
-    filters.class_id || filters.course || filters.instructor || filters.location;
+  // const hasActiveFilters =
+  //   filters.class_id ||
+  //   filters.course ||
+  //   filters.instructor ||
+  //   filters.location;
 
   // Clear all filters
-  const handleClearFilters = () => {
-    setValue("class_id", "");
-    setValue("courses", "");
-    setValue("instructor", "");
-    setValue("location", "");
-    setFilters({
+  // const handleClearFilters = () => {
+  //   setValue("class_id", "");
+  //   setValue("courses", "");
+  //   setValue("instructor", "");
+  //   setValue("location", "");
+  //   setFilters({
+  //     class_id: "",
+  //     course: "",
+  //     instructor: "",
+  //     location: "",
+  //   });
+  // };
+
+  const { data: searchedClassData, isLoading: searchedClassDataLoading } =
+    searchClasses(enableSearch, courseId, instructorId, locationId, classId);
+
+  const tableData = enableSearch
+    ? searchedClassData?.data?.data
+    : pastClassData?.data?.data;
+
+  const tableLoading = enableSearch
+    ? searchedClassDataLoading
+    : pastClassDataLoading;
+
+  const onSubmit = (data) => {
+    if (data?.class_id) {
+      setClassId(data.class_id);
+      setEnableSearch(true);
+    }
+  };
+
+  const handleClearSearch = () => {
+    setEnableSearch(false);
+    setClassId(null);
+
+    reset({
       class_id: "",
-      course: "",
-      instructor: "",
-      location: "",
     });
   };
 
@@ -130,73 +163,79 @@ const Page = () => {
       </div>
       <FormContainer form={form} onSubmit={onSubmit}>
         {/* Search filters */}
-        <div className="px-[16px] py-[16px] lg:px-[32px] lg:py-[32px] bg-white rounded-[16px] flex flex-wrap lg:flex-nowrap gap-[10px] xl:gap-[24px]">
-          <Controller
-            name="courses"
-            control={control}
-            render={({ field }) => (
-              <CustomSelect
-                {...field}
-                id="Courses"
-                label="Courses"
-                placeholder="All courses"
-                isLoading={courseDataLoading}
-                options={courseData?.data?.data}
-                className="flex-1"
-              />
-            )}
-          />
-          <Controller
-            name="instructor"
-            control={control}
-            render={({ field }) => (
-              <CustomSelect
-                {...field}
-                id="Instructor"
-                label="Instructor"
-                placeholder="All instructor"
-                isLoading={instructorDataLoading}
-                options={instructorData?.data?.data}
-                className="flex-1"
-              />
-            )}
-          />
-          <Controller
-            name="location"
-            control={control}
-            render={({ field }) => (
-              <CustomSelect
-                {...field}
-                id="Location"
-                label="Location"
-                placeholder="All locations"
-                isLoading={locationDataLoading}
-                options={locationData?.data?.data}
-                className="flex-1"
-              />
-            )}
-          />
-          <div className="flex-1">
-            <FormInput
-              name="class_id"
-              label="Class Id"
-              placeholder={"search by class id"}
+        <div className="px-[16px] py-[16px] lg:px-[32px] lg:py-[32px] bg-white rounded-[16px]">
+          <div className="flex flex-wrap lg:flex-nowrap gap-[10px] xl:gap-[24px]">
+            {/* <div className="flex-1">
+              <FormInput name="dateTime" label="Date/Time" type="date" />
+            </div> */}
+            {/* <Controller
+              name="course_id,"
+              control={control}
+              render={({ field }) => (
+                <CustomSelect
+                  {...field}
+                  id="Courses"
+                  label="Courses"
+                  placeholder="All courses"
+                  isLoading={courseDataLoading}
+                  options={courseData?.data?.data}
+                  className="flex-1"
+                />
+              )}
             />
-          </div>
-
-          {/* Clear Filters Button */}
-          {hasActiveFilters && (
-            <div className="flex items-end">
-              <Button
-                type="button"
-                onClick={handleClearFilters}
-                className="py-[12px] lg:py-[24px] text-[13px] lg:text-base cursor-pointer bg-red-500 hover:bg-red-600 flex items-center gap-2"
-              >
-                <X className="w-4 h-4" />
-                Clear Filters
-              </Button>
+            <Controller
+              name="instructor_id"
+              control={control}
+              render={({ field }) => (
+                <CustomSelect
+                  {...field}
+                  id="Instructor"
+                  label="Instructor"
+                  placeholder="All instructor"
+                  isLoading={instructorDataLoading}
+                  options={instructorData?.data?.data}
+                  className="flex-1"
+                />
+              )}
+            />
+            <Controller
+              name="location_id"
+              control={control}
+              render={({ field }) => (
+                <CustomSelect
+                  {...field}
+                  id="Location"
+                  label="Location"
+                  placeholder="All locations"
+                  isLoading={locationDataLoading}
+                  options={locationData?.data?.data}
+                  className="flex-1"
+                />
+              )}
+            /> */}
+            <div>
+              <FormInput name="class_id" label="Class Id" />
             </div>
-          )}
+            <div className="flex items-end gap-3 mt-4">
+              <Button
+                type="submit"
+                className="py-[12px] lg:py-[24px] text-[13px] lg:text-base cursor-pointer bg-brown flex items-center gap-2"
+              >
+                <SearchIcon />
+                Search
+              </Button>
+
+              {enableSearch && (
+                <button
+                  type="button"
+                  onClick={handleClearSearch}
+                  className="p-2 rounded-md bg-gray-100 hover:bg-gray-200 transition cursor-pointer"
+                >
+                  <IoClose size={18} />
+                </button>
+              )}
+            </div>
+          </div>
         </div>
       </FormContainer>
 
@@ -204,14 +243,14 @@ const Page = () => {
       <div className="p-[13px] lg:p-[26px]  bg-white rounded-[14px] flex flex-col gap-[12px] lg:gap-[24px]">
         <div className="flex justify-between items-center">
           <SubSectionTitle subtitle="All Lists" />
-          {hasActiveFilters && (
+          {/* {hasActiveFilters && (
             <span className="text-sm text-gray-600">
               Showing {filteredData.length} of{" "}
               {pastClassData?.data?.data?.length || 0} results
             </span>
-          )}
+          )} */}
         </div>
-        {pastClassDataLoading ? (
+        {tableLoading ? (
           <TableSkeleton />
         ) : (
           <div className="overflow-x-auto">
@@ -231,8 +270,8 @@ const Page = () => {
               </thead>
 
               <tbody>
-                {filteredData?.length > 0 ? (
-                  filteredData?.map((item, index) => (
+                {tableData?.length > 0 ? (
+                  tableData?.map((item, index) => (
                     <tr
                       key={item.id}
                       className="border-b hover:bg-gray-50 transition-all"
@@ -257,9 +296,7 @@ const Page = () => {
                         {item.max_student}
                       </td>
                       <td className="px-3 sm:px-6 py-3 text-center">
-                        <Link
-                          href={`past_class/${item.id}`}
-                        >
+                        <Link href={`past_class/${item.id}`}>
                           <button className="p-1.5 sm:p-2 bg-gray-100 rounded-lg hover:bg-gray-200 transition cursor-pointer">
                             <CiEdit className="text-gray-600 text-[14px] sm:text-[16px]" />
                           </button>

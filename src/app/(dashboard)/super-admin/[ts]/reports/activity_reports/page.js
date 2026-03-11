@@ -6,6 +6,11 @@ import CustomSelect from "@/components/shared/form/CustomSelect";
 import { SearchIcon } from "@/svg/SvgContainer";
 import { Button } from "@/components/ui/button";
 import SectionTitle from "@/components/common/SectionTitle";
+import {
+  useGetClassAndStudentByDiscipline,
+  useGetClassAndStudentReport,
+  useGetInstructorByDiscipline,
+} from "@/hooks/api/dashboardApi";
 
 const ReportCard = ({ title, children }) => {
   return (
@@ -84,8 +89,25 @@ export default function ActivityReportPage() {
       acc.students += item.students;
       return acc;
     },
-    { classes: 0, students: 0 }
+    { classes: 0, students: 0 },
   );
+
+  // get Instructor by discipline
+  const {
+    data: instructorByDisciplineData,
+    isLoading: instructorByDisciplineDataLoading,
+  } = useGetInstructorByDiscipline();
+  const {
+    data: classAndStudentReport,
+    isLoading: classAndStudentReportLoading,
+  } = useGetClassAndStudentReport();
+
+  console.log(classAndStudentReport?.data);
+
+  const {
+    data: classAndStudentByDiscipline,
+    isLoading: classAndStudentByDisciplineLoading,
+  } = useGetClassAndStudentByDiscipline();
 
   return (
     <main className="min-h-screen space-y-2.5 lg:space-y-5 ">
@@ -144,13 +166,19 @@ export default function ActivityReportPage() {
           </div>
           {/* Rows */}
           <div className="mt-2">
-            {instructorData.map((item) => (
-              <DataRow
-                key={item.discipline}
-                label={item.discipline}
-                value1={item.instructors}
-              />
-            ))}
+            {instructorByDisciplineData?.data?.disciplines?.map(
+              (item, index) => (
+                <div
+                  key={index}
+                  className={`grid grid-cols-2 gap-4 py-3 border-b border-gray-100 last:border-b-0`}
+                >
+                  <span className="text-sm text-gray-700">{item?.name}</span>
+                  <span className="text-sm text-gray-900 text-right">
+                    {item?.instructors}
+                  </span>
+                </div>
+              ),
+            )}
           </div>
         </ReportCard>
 
@@ -161,7 +189,7 @@ export default function ActivityReportPage() {
             <span className="text-sm font-semibold text-gray-500 col-span-1">
               Course Type
             </span>
-            <span className="text-sm font-semibold text-gray-500 text-right">
+            <span className="text-sm font-semibold text-gray-500 text-center">
               Classes
             </span>
             <span className="text-sm font-semibold text-gray-500 text-right">
@@ -170,17 +198,25 @@ export default function ActivityReportPage() {
           </div>
           {/* Rows */}
           <div className="mt-2">
-            {courseData.map((item) => (
-              <DataRow
-                key={item.name}
-                label={item.name}
-                value1={item.classes}
-                value2={item.students}
-              />
+            {classAndStudentReport?.data?.map((item, index) => (
+              <div
+                key={index}
+                className={`grid grid-cols-3 gap-4 py-3 border-b border-gray-100 last:border-b-0`}
+              >
+                <span className="text-sm text-gray-700">
+                  {item?.course_type}
+                </span>
+                <span className="text-sm text-gray-900 text-center">
+                  {item?.classes}
+                </span>
+                <span className="text-sm text-gray-900 text-right">
+                  {item?.students}
+                </span>
+              </div>
             ))}
           </div>
           {/* Footer */}
-          <div className="grid grid-cols-3 gap-4 pt-3 mt-3 border-t border-gray-200">
+          {/* <div className="grid grid-cols-3 gap-4 pt-3 mt-3 border-t border-gray-200">
             <span className="text-sm font-bold text-gray-900">Grand Total</span>
             <span className="text-sm font-bold text-gray-900 text-right">
               {grandTotal.classes}
@@ -188,35 +224,56 @@ export default function ActivityReportPage() {
             <span className="text-sm font-bold text-gray-900 text-right">
               {grandTotal.students}
             </span>
-          </div>
+          </div> */}
         </ReportCard>
 
         {/* Card 3: Classes and Students by Discipline */}
-        <ReportCard title="Classes and Students by Discipline">
-          {/* Headings */}
-          <div className="grid grid-cols-3 gap-4 pb-2 border-b border-gray-200">
-            <span className="text-sm font-semibold text-gray-500">
-              Discipline
-            </span>
-            <span className="text-sm font-semibold text-gray-500 text-right">
-              Classes
-            </span>
-            <span className="text-sm font-semibold text-gray-500 text-right">
-              Students
-            </span>
+        <div className="bg-white rounded-lg   overflow-hidden">
+          {/* Card Header */}
+          <div className="flex justify-between items-center p-4 border-b border-gray-200">
+            <h2 className="text-lg font-semibold text-gray-800">
+              Classes and Students by Discipline
+            </h2>
+            <button className="text-gray-400 hover:text-gray-600 transition-colors">
+              <Download size={20} />
+            </button>
           </div>
-          {/* Rows */}
-          <div className="mt-2">
-            {disciplineData.map((item) => (
-              <DataRow
-                key={item.discipline}
-                label={item.discipline}
-                value1={item.classes}
-                value2={item.students}
-              />
-            ))}
+
+          {/* Card Body */}
+          <div className="p-4">
+            {/* Headings */}
+            <div className="grid grid-cols-3 gap-4 pb-2 border-b border-gray-200">
+              <span className="text-sm font-semibold text-gray-500">
+                Discipline
+              </span>
+              <span className="text-sm font-semibold text-gray-500 text-center">
+                Classes
+              </span>
+              <span className="text-sm font-semibold text-gray-500 text-right">
+                Students
+              </span>
+            </div>
+            {/* Rows */}
+            <div className="mt-2">
+              {classAndStudentByDiscipline?.data?.map((item, index) => (
+                <div
+                  key={index}
+                  className={`grid grid-cols-3 gap-4 py-3 border-b border-gray-100 last:border-b-0`}
+                >
+                  <span className="text-sm text-gray-700">
+                    {item?.discipline}
+                  </span>
+                  <span className="text-sm text-gray-900 text-center">
+                    {item?.classes}
+                  </span>
+                  <span className="text-sm text-gray-900 text-right">
+                    {item?.students}
+                  </span>
+                </div>
+              ))}
+            </div>
           </div>
-        </ReportCard>
+        </div>
       </div>
     </main>
   );

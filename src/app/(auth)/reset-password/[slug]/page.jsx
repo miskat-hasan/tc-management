@@ -15,7 +15,9 @@ const ResetPassword = ({ params }) => {
 
   const router = useRouter();
 
-  const decodedEmail = Buffer.from(slug, "base64").toString("utf-8");
+  const decodedData = Buffer.from(slug, "base64").toString("utf-8");
+  const decodedEmail = decodedData.split(".com")[0];
+  const decodedToken = decodedData.split(".com")[1];
 
   // reset password mutation
   const { mutate, isPending } = useResetPassword();
@@ -29,7 +31,11 @@ const ResetPassword = ({ params }) => {
   });
 
   const onSubmit = (data) => {
-    const payload = { email: decodedEmail, ...data };
+    const payload = {
+      email: decodedEmail + ".com",
+      token: decodedToken,
+      ...data,
+    };
     mutate(payload, {
       onSuccess: (data) => {
         if (data?.status) {

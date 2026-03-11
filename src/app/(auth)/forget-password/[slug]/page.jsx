@@ -38,8 +38,9 @@ const ForgetPassword = ({ params }) => {
   const onSubmit = (data) => {
     const payload = { email: decodedEmail, ...data };
     mutate(payload, {
-      onSuccess: () => {
-        router.push(`/reset-password/${slug}`);
+      onSuccess: (data) => {
+        const encodedToken = Buffer.from(data?.data?.reset_token).toString("base64");
+        router.push(`/reset-password/${slug}${encodedToken}`);
       },
     });
   };

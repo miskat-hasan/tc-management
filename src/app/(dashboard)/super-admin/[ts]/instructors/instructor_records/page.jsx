@@ -21,21 +21,21 @@ const Page = () => {
       <div className="flex justify-between">
         <SectionTitle title={"Instructors"} />
       </div>
-      <div className="px-[13px] py-[13px] lg:px-[26px] lg:py-[32px] bg-white rounded-[16px] flex flex-col gap-2.5 ">
+      {/* <div className="px-[13px] py-[13px] lg:px-[26px] lg:py-[32px] bg-white rounded-[16px] flex flex-col gap-2.5 ">
         <div className="flex w-full justify-between">
           <SectionTitle
             className={"!text-base lg:!text-[20px]"}
             title={"Training Site"}
-          />
-          {/* <div className="flex items-center gap-1 lg:gap-2 text-[#8C8C8C]">
+          /> */}
+      {/* <div className="flex items-center gap-1 lg:gap-2 text-[#8C8C8C]">
             <input
               type="checkbox"
               className="w-3.5 h-3.5 bg-transparent accent-[#8C8C8C]"
             />
             <label className="text-[12px]">Show Inactive Users</label>
           </div> */}
-        </div>
-        <div className="flex justify-center items-center gap-2.5">
+      {/* </div> */}
+      {/* <div className="flex justify-center items-center gap-2.5">
           <CustomSelect
             id="Courses"
             placeholder="All courses"
@@ -61,8 +61,8 @@ const Page = () => {
             <SearchIcon />
             Search
           </Button>
-        </div>
-      </div>
+        </div> */}
+      {/* </div> */}
 
       <div className="p-[13px] lg:p-[26px] bg-white rounded-[14px] flex flex-col gap-[24px]">
         <div className="flex items-center justify-between">
