@@ -1,5 +1,9 @@
 import AuthLayout from "@/components/dashboard/layout/AuthLayout";
 
 export default function DashboardLayout({ children }) {
-  return <AuthLayout>{children}</AuthLayout>;
+  return (
+    <AuthLayout>
+      <div className="px-2">{children}</div>
+    </AuthLayout>
+  );
 }

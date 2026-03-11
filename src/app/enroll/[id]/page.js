@@ -4,27 +4,28 @@ import CustomSelect from "@/components/shared/form/CustomSelect";
 import FormContainer from "@/components/shared/form/FormContainer";
 import FormInput from "@/components/shared/form/FormInput";
 import FormTextarea from "@/components/shared/form/FormTextarea";
-import { Textarea } from "@/components/ui/textarea";
 import {
   getAllCountry,
   getEnrollmentDetails,
   useStudentEnrollment,
 } from "@/hooks/api/dashboardApi";
-import Link from "next/link";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
+import { toast } from "sonner";
 import Swal from "sweetalert2";
 
 const Page = () => {
   const { id } = useParams("id");
 
+  const router = useRouter();
   const [isEnrollmentFormOpen, setIsEnrollmentFormOpen] = useState(false);
 
   const form = useForm();
 
   const {
     control,
+    reset,
     register,
     formState: { errors },
   } = form;
@@ -67,11 +68,9 @@ const Page = () => {
 
     mutate(formData, {
       onSuccess: (data) => {
-        // reset();
-        Swal.fire({
-          text: data?.message,
-          icon: "success",
-        });
+        reset();
+        toast.success(data?.message);
+        router.push(`${id}/payment`);
       },
     });
   };
@@ -394,9 +393,10 @@ const Page = () => {
               <div className="flex justify-center my-4">
                 <button
                   type="submit"
-                  className="border bg-neutral-100 cursor-pointer hover:bg-neutral-200 rounded-md px-3 py-1.5"
+                  className="border bg-neutral-100 cursor-pointer hover:bg-neutral-200 rounded-md px-3 py-1.5 disabled:opacity-60 disabled:cursor-not-allowed"
+                  disabled={isPending}
                 >
-                  Continue with Registration
+                  {isPending ? "Processing ..." : "Continue with Registration"}
                 </button>
               </div>
             </FormContainer>

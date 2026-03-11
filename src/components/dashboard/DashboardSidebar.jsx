@@ -26,7 +26,7 @@ const DashboardSidebar = () => {
   const [openMenu, setOpenMenu] = useState(null);
   // const [selectOption, setSelectOption] = useState(null);
   const router = useRouter();
-  const initialRender = useRef(true);
+  // const initialRender = useRef(true);
   const {
     user,
     token,

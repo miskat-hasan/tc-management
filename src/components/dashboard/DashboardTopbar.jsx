@@ -6,10 +6,11 @@ import React, { useState } from "react";
 import { CgMenuLeft } from "react-icons/cg";
 import MobileSidebar from "../common/MobileSidebar";
 import useAuth from "@/hooks/useAuth";
+import AdminMobileSidebar from "../common/AdminMobileSidebar";
 
 const DashboardTopbar = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const { userData, loadingUserData } = useAuth();
+  const { user, userData, loadingUserData } = useAuth();
 
   const handleSidebar = () => {
     setIsSidebarOpen((prev) => !prev);
@@ -76,7 +77,13 @@ const DashboardTopbar = () => {
       </div>
 
       {/* Mobile Sidebar */}
-      <MobileSidebar isSidebarOpen={isSidebarOpen} onClose={handleSidebar} />
+      {user?.roles?.find((item) => item?.role_name === "Super Admin") && (
+        <MobileSidebar isSidebarOpen={isSidebarOpen} onClose={handleSidebar} />
+      )}
+
+      {user?.roles?.find((item) => item?.role_name === "Admin") && (
+        <AdminMobileSidebar isSidebarOpen={isSidebarOpen} onClose={handleSidebar} />
+      )}
 
       {isSidebarOpen && (
         <div

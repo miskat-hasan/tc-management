@@ -7,6 +7,7 @@ import FormContainer from "@/components/shared/form/FormContainer";
 import FormInput from "@/components/shared/form/FormInput";
 import { Button } from "@/components/ui/button";
 import { courseSchedule } from "@/data/data";
+import { IoClose } from "react-icons/io5";
 import {
   getAllClasses,
   getAllCourses,
@@ -22,8 +23,12 @@ import { Controller, useForm } from "react-hook-form";
 import { CiEdit } from "react-icons/ci";
 
 const Page = () => {
-  const form = useForm();
-  const { control } = form;
+  const form = useForm({
+    defaultValues: {
+      class_id: "",
+    },
+  });
+  const { control, reset } = form;
   const [page, setPage] = useState(1);
   const [perPage, setPerPage] = useState(10);
   const [enableSearch, setEnableSearch] = useState(false);
@@ -36,27 +41,51 @@ const Page = () => {
   const { data: searchedClassData, isLoading: searchedClassDataLoading } =
     searchClasses(enableSearch, courseId, instructorId, locationId, classId);
 
+  // const onSubmit = (data) => {
+  //   if (data) {
+  //     setEnableSearch(true);
+  //     setInstructorId(data?.instructor_id);
+  //     setClassId(data?.class_id);
+  //     setLocationId(data?.location_id);
+  //     setCourseId(data?.course_id);
+  //   }
+  //   // setEnableSearch(false)
+  // };
+
   const onSubmit = (data) => {
-    if (data) {
+    if (data?.class_id) {
+      setClassId(data.class_id);
       setEnableSearch(true);
-      setInstructorId(data?.instructor_id);
-      setClassId(data?.class_id);
-      setLocationId(data?.location_id);
-      setCourseId(data?.course_id);
     }
-    // setEnableSearch(false)
   };
 
   const { data: upcomingClassData, isLoading: upcomingClassDataLoading } =
     getAllUpcomingClasses(page, perPage);
 
-  const { data: locationData, isLoading: locationDataLoading } =
-    getAllLocation();
+  // const { data: locationData, isLoading: locationDataLoading } =
+  //   getAllLocation();
 
-  const { data: instructorData, isLoading: instructorDataLoading } =
-    getAllInstructor();
+  // const { data: instructorData, isLoading: instructorDataLoading } =
+  //   getAllInstructor();
 
-  const { data: courseData, isLoading: courseDataLoading } = getAllCourses();
+  // const { data: courseData, isLoading: courseDataLoading } = getAllCourses();
+
+  const tableData = enableSearch
+    ? searchedClassData?.data?.data
+    : upcomingClassData?.data?.data;
+
+  const tableLoading = enableSearch
+    ? searchedClassDataLoading
+    : upcomingClassDataLoading;
+
+  const handleClearSearch = () => {
+    setEnableSearch(false);
+    setClassId(null);
+
+    reset({
+      class_id: "",
+    });
+  };
 
   return (
     <div className="flex flex-col gap-[12.5px] lg:gap-[25px]">
@@ -80,7 +109,7 @@ const Page = () => {
             {/* <div className="flex-1">
               <FormInput name="dateTime" label="Date/Time" type="date" />
             </div> */}
-            <Controller
+            {/* <Controller
               name="course_id,"
               control={control}
               render={({ field }) => (
@@ -124,15 +153,28 @@ const Page = () => {
                   className="flex-1"
                 />
               )}
-            />
+            /> */}
             <div>
               <FormInput name="class_id" label="Class Id" />
             </div>
-            <div className="flex items-end gap-5  mt-4">
-              <Button className="py-[12px] lg:py-[24px] text-[13px] lg:text-base cursor-pointer bg-brown flex items-center gap-2">
+            <div className="flex items-end gap-3 mt-4">
+              <Button
+                type="submit"
+                className="py-[12px] lg:py-[24px] text-[13px] lg:text-base cursor-pointer bg-brown flex items-center gap-2"
+              >
                 <SearchIcon />
                 Search
               </Button>
+
+              {enableSearch && (
+                <button
+                  type="button"
+                  onClick={handleClearSearch}
+                  className="p-2 rounded-md bg-gray-100 hover:bg-gray-200 transition cursor-pointer"
+                >
+                  <IoClose size={18} />
+                </button>
+              )}
             </div>
           </div>
         </div>
@@ -141,7 +183,7 @@ const Page = () => {
       {/* Table */}
       <div className="p-[13px] lg:p-[26px]  bg-white rounded-[14px] flex flex-col gap-[12px] lg:gap-[24px]">
         <SubSectionTitle subtitle="All Lists" />
-        {upcomingClassDataLoading ? (
+        {tableLoading ? (
           <TableSkeleton />
         ) : (
           <div className="overflow-x-auto">
@@ -161,14 +203,14 @@ const Page = () => {
               </thead>
 
               <tbody>
-                {upcomingClassData?.data?.data?.length > 0 ? (
-                  upcomingClassData?.data?.data?.map((item, index) => (
+                {tableData?.length > 0 ? (
+                  tableData?.map((item, index) => (
                     <tr
-                      key={item.id}
+                      key={item?.id}
                       className="border-b hover:bg-gray-50 transition-all"
                     >
                       <td className="px-3 sm:px-6 py-3 text-gray-800">
-                        {index + 1}
+                        {item?.id}
                       </td>
                       <td className="px-3 sm:px-6 py-3 text-gray-800 whitespace-nowrap">
                         {item.instructor?.first_name}{" "}
@@ -187,9 +229,7 @@ const Page = () => {
                         {item.max_student}
                       </td>
                       <td className="px-3 sm:px-6 py-3 text-center">
-                        <Link
-                          href={`upcoming_classes/${item.id}`}
-                        >
+                        <Link href={`upcoming_classes/${item.id}`}>
                           <button className="p-1.5 sm:p-2 bg-gray-100 rounded-lg hover:bg-gray-200 transition cursor-pointer">
                             <CiEdit className="text-gray-600 text-[14px] sm:text-[16px]" />
                           </button>

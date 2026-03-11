@@ -699,9 +699,150 @@ export const useStudentEnrollment = (id) => {
     endpoint: `/api/student/registration?id=${id}`,
     onError: (err) => {
       Swal.fire({
+        text: err?.response?.data?.message || "Payment failed",
+        icon: "error",
+      });
+    },
+  });
+};
+
+// payment process
+export const usePaymentProcess = () => {
+  return useClientApi({
+    method: "post",
+    isPrivate: false,
+    endpoint: `/api/student/payment/process`,
+    onError: (err) => {
+      Swal.fire({
         text: err?.response?.data?.message,
         icon: "error",
       });
+    },
+  });
+};
+
+// get student
+export const useGetStudentByClassId = (id) => {
+  return useClientApi({
+    method: "get",
+    isPrivate: true,
+    key: ["get-student-by-class", id],
+    endpoint: `/api/student/by_course?course_id=${id}`,
+  });
+};
+
+export const useGetInstructorByDiscipline = () => {
+  return useClientApi({
+    method: "get",
+    isPrivate: true,
+    key: ["get-instructor-by-discipline"],
+    endpoint: `/api/reports/instructors-and-discipline`,
+  });
+};
+
+export const useGetClassAndStudentReport = () => {
+  return useClientApi({
+    method: "get",
+    isPrivate: true,
+    key: ["get-class-and-student"],
+    endpoint: `/api/reports/classes-and-students`,
+  });
+};
+
+export const useGetClassAndStudentByDiscipline = () => {
+  return useClientApi({
+    method: "get",
+    isPrivate: true,
+    key: ["get-class-and-student-by-discipline"],
+    endpoint: `/api/reports/classes-students-discipline`,
+  });
+};
+
+export const useStoreStudentData = () => {
+  return useClientApi({
+    method: "post",
+    isPrivate: true,
+    endpoint: "/api/student/store",
+    onError: (error) => {
+      Swal.fire({
+        text: error?.response?.data?.message,
+        icon: "error",
+      });
+    },
+  });
+};
+
+export const useUpdateStudentData = () => {
+  return useClientApi({
+    method: "post",
+    isPrivate: true,
+    endpoint: "/api/student/by_course",
+    onError: (error) => {
+      Swal.fire({
+        text: error?.response?.data?.message,
+        icon: "error",
+      });
+    },
+  });
+};
+
+// get student data
+export const useGetStudent = (id) => {
+  return useClientApi({
+    method: "get",
+    isPrivate: true,
+    key: ["get-student", id],
+    endpoint: `/api/student/show?id=${id}`,
+  });
+};
+
+// update student score data
+export const useUpdateStudentScore = () => {
+  return useClientApi({
+    method: "post",
+    isPrivate: true,
+    endpoint: `/api/score/update`,
+    onError: (error) => {
+      Swal.fire({
+        text: error?.response?.data?.message,
+        icon: "error",
+      });
+    },
+  });
+};
+
+export const useFinalizeRoster = () => {
+  return useClientApi({
+    method: "post",
+    isPrivate: true,
+    endpoint: `/api/student/finalize`,
+    onError: (error) => {
+      Swal.fire({
+        text: error?.response?.data?.message,
+        icon: "error",
+      });
+    },
+  });
+};
+
+export const useDownloadStudentListPDF = () => {
+  return useClientApi({
+    method: "post",
+    isPrivate: true,
+    endpoint: `/api/student/export-pdf`,
+    axiosOptions: {
+      responseType: "blob",
+    },
+  });
+};
+
+export const useDownloadRoster = (id) => {
+  return useClientApi({
+    method: "post",
+    isPrivate: true,
+    endpoint: `/api/student/${id}`,
+    axiosOptions: {
+      responseType: "blob",
     },
   });
 };

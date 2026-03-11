@@ -128,7 +128,7 @@ const UserManager = () => {
             <Download size={20} />
           </button>
           <Link
-            href="/admin/settings/users/add_user"
+            href="users/add_user"
             className="flex items-center gap-2 py-2.5 px-4 bg-brown text-white font-semibold rounded-md hover:bg-brown transition-colors cursor-pointer"
           >
             <Plus size={20} />

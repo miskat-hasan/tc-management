@@ -5,7 +5,9 @@ import TableSkeleton from "@/components/common/TableSkelation";
 import CustomSelect from "@/components/shared/form/CustomSelect";
 import FormContainer from "@/components/shared/form/FormContainer";
 import { Button } from "@/components/ui/button";
-import { getAllInstructor } from "@/hooks/api/dashboardApi";
+import { Form } from "@/components/ui/form";
+import { courseSchedule } from "@/data/data";
+import { getAllInstructor, searchClasses } from "@/hooks/api/dashboardApi";
 import useAuth from "@/hooks/useAuth";
 import { SearchIcon } from "@/svg/SvgContainer";
 import Link from "next/link";
@@ -78,7 +80,7 @@ const Page = () => {
       </div>
 
       {/* Search filters */}
-      {/* <FormContainer form={form} onSubmit={onSubmit}>
+      <FormContainer form={form} onSubmit={onSubmit}>
         <div className=" px-[16px] py-[16px] lg:px-[32px] lg:py-[32px] bg-white rounded-[16px] flex flex-wrap lg:flex-nowrap gap-[10px] xl:gap-[24px]">
           <Controller
             name="instructorId"
@@ -103,7 +105,7 @@ const Page = () => {
             </Button>
           </div>
         </div>
-      </FormContainer> */}
+      </FormContainer>
 
       {/* Table */}
       <div className="p-[13px] lg:p-[26px] bg-white rounded-[14px] flex flex-col gap-[12px] lg:gap-[24px]">
@@ -175,6 +177,47 @@ const Page = () => {
             </table>
           </div>
         )}
+
+        {/* Footer controls */}
+        {/* <div className="flex flex-col md:flex-row items-center justify-between mt-3 lg:mt-6 gap-3">
+          <div className="flex flex-wrap items-center gap-2 sm:gap-3">
+            <span className="text-gray-600 text-sm sm:text-base">Show:</span>
+            <select
+              value={selectedShow}
+              onChange={(e) => setSelectedShow(e.target.value)}
+              className="
+      border border-gray-300 rounded-md 
+      px-2 md:px-3 py-1.5 sm:py-2 
+      text-sm md:text-base text-gray-700 
+      bg-white
+      focus:outline-none focus:ring-2 focus:ring-gray-300
+      transition-all duration-150
+    "
+            >
+              <option value="10">10</option>
+              <option value="25">25</option>
+              <option value="50">50</option>
+            </select>
+          </div>
+
+          <div className="flex items-center gap-2">
+            <button className="px-3 py-1 text-sm text-gray-500 border rounded-md hover:bg-gray-100">
+              Previous
+            </button>
+            <button className="px-3 py-1 text-sm border border-blue-500 rounded-md text-blue-600">
+              1
+            </button>
+            <button className="px-3 py-1 text-sm border rounded-md hover:bg-gray-100">
+              2
+            </button>
+            <button className="px-3 py-1 text-sm border rounded-md hover:bg-gray-100">
+              3
+            </button>
+            <button className="px-3 py-1 text-sm text-gray-500 border rounded-md hover:bg-gray-100">
+              Next
+            </button>
+          </div>
+        </div> */}
       </div>
     </div>
   );

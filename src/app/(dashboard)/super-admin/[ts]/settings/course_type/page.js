@@ -35,8 +35,8 @@ const Page = () => {
 
   return (
     <div>
-      <SectionTitle title={"Course Type"} />
-      <div className="py-[10px] lg:py-[20px] rounded-[16px] flex flex-col gap-2.5">
+      {/* <SectionTitle title={"Course Type"} /> */}
+      <div className="py-[10px] lg:pb-[20px] rounded-[16px] flex flex-col gap-2.5">
         <div className="flex w-full items-center justify-between">
           {/* <div className="flex items-center gap-2 text-[#8C8C8C]">
             <input
@@ -45,7 +45,12 @@ const Page = () => {
             />
             <label className="text-[12px]">Show Archived Courses</label>
           </div> */}
-          <div className="flex gap-2.5">
+          <div className="flex justify-between items-center w-full">
+            <div
+              className={`text-black text-[20px] lg:text-[24px] font-semibold leading-[32.5px]`}
+            >
+              Course Type
+            </div>
             <Button
               onClick={() => router.push("add_course_type")}
               className="py-[11px] text-[12px] lg:text-base lg:py-[22px] cursor-pointer bg-brown flex items-center gap-2"
@@ -65,7 +70,7 @@ const Page = () => {
             <table className="min-w-full text-sm text-left text-gray-700">
               <thead className="bg-gray-50 text-black text-[14px] md:text-[16px] font-semibold">
                 <tr>
-                  <th className="px-3 py-3 md:px-6">
+                  {/* <th className="px-3 py-3 md:px-6">
                     <input
                       type="checkbox"
                       className="w-4 h-4 accent-[#8C8C8C]"
@@ -75,7 +80,7 @@ const Page = () => {
                         coursesTypeData?.data?.data?.length
                       }
                     />
-                  </th>
+                  </th> */}
                   <th className="px-3 py-3 md:px-6 whitespace-nowrap">Name</th>
                   <th className="px-3 py-3 md:px-6 whitespace-nowrap">
                     Discipline
@@ -101,14 +106,14 @@ const Page = () => {
                         selectedRows.includes(index) ? "bg-gray-100" : ""
                       }`}
                     >
-                      <td className="px-3 py-4 md:px-6">
+                      {/* <td className="px-3 py-4 md:px-6">
                         <input
                           type="checkbox"
                           className="w-4 h-4 accent-[#8C8C8C]"
                           checked={selectedRows.includes(index)}
                           onChange={() => toggleRow(index)}
                         />
-                      </td>
+                      </td> */}
                       <td className="px-3 py-4 md:px-6 whitespace-nowrap">
                         {item.course_name}
                       </td>
