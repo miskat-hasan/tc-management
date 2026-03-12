@@ -846,3 +846,115 @@ export const useDownloadRoster = (id) => {
     },
   });
 };
+
+// ----- tc product ------
+
+// get all
+export const useGetTCProduct = (page = 1, perPage = 10) => {
+  return useClientApi({
+    method: "get",
+    isPrivate: true,
+    key: ["get-tc-product", page, perPage],
+    endpoint: `/api/tc-product?page=${page}&per_page=${perPage}`,
+  });
+};
+
+// store
+export const useStoreTCProduct = () => {
+  return useClientApi({
+    method: "post",
+    isPrivate: true,
+    endpoint: `/api/tc-product`,
+    onError: (err) => {
+      Swal.fire({
+        text: err?.response?.data?.message,
+        icon: "error",
+      });
+    },
+  });
+};
+
+// show
+export const useGetSingleTCProduct = (id) => {
+  return useClientApi({
+    method: "get",
+    isPrivate: true,
+    key: ["get-single-tc-product", id],
+    endpoint: `/api/tc-product/${id}`,
+  });
+};
+
+// update
+export const useUpdateTCProduct = (id) => {
+  return useClientApi({
+    method: "put",
+    isPrivate: true,
+    endpoint: `/api/tc-product/${id}`,
+    onSuccess: (data) => {
+      Swal.fire({
+        text: data?.message,
+        icon: "success",
+      });
+    },
+    onError: (err) => {
+      Swal.fire({
+        text: err?.response?.data?.message,
+        icon: "error",
+      });
+    },
+  });
+};
+
+// ======== tc product order
+export const useGetTCProductOrder = (page = 1, perPage = 10) => {
+  return useClientApi({
+    method: "get",
+    isPrivate: true,
+    key: ["get-tc-product-order", page, perPage],
+    endpoint: `/api/tc-product-orders?page=${page}`,
+  });
+};
+
+export const useGetSingleTCProductOrder = (id) => {
+  return useClientApi({
+    method: "get",
+    isPrivate: true,
+    key: ["get-single-tc-product-order", id],
+    endpoint: `/api/tc-product-order/${id}`,
+  });
+};
+
+export const useChangeOrderStatus = (id) => {
+  return useClientApi({
+    method: "post",
+    isPrivate: true,
+    key: ["change-order-status", id],
+    endpoint: `/api/tc-product-orders/${id}/status`,
+  });
+};
+
+export const useMarkAsPaid = (id) => {
+  const queryClient = useQueryClient();
+  return useClientApi({
+    method: "post",
+    isPrivate: true,
+    key: ["mark-as-paid", id],
+    endpoint: `/api/tc-product-orders/${id}/mark-paid`,
+    onSuccess: (data) => {
+      queryClient.invalidateQueries(["change-order-status"]);
+      toast.success(data?.message || "Document deleted successfully");
+    },
+    onError: (err) => {
+      toast.error(err?.response?.data?.message || "Something went wrong!");
+    },
+  });
+};
+
+export const useGetTSProductOrder = (id, page = 1, perPage = 10) => {
+  return useClientApi({
+    method: "get",
+    isPrivate: true,
+    key: ["get-ts-product-order",id, page, perPage],
+    endpoint: `/api/my/tc-product-orders/${id}?page=${page}`,
+  });
+};
