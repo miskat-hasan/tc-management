@@ -310,9 +310,7 @@ const Page = () => {
                       colSpan="7"
                       className="text-center py-6 text-gray-500 italic"
                     >
-                      {hasActiveFilters
-                        ? "No results match your filters"
-                        : "No results found"}
+                      No results found
                     </td>
                   </tr>
                 )}
