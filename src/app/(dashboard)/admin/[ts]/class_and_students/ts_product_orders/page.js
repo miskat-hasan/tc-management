@@ -1,27 +1,43 @@
 "use client";
 
 import SectionTitle from "@/components/common/SectionTitle";
+import { Button } from "@/components/ui/button";
+import { PlusIcon } from "@/svg/SvgContainer";
 import React, { useState } from "react";
 import { CiEdit } from "react-icons/ci";
 import {
+  useGetTCProduct,
   useGetTCProductOrder,
+  useGetTSProductOrder,
 } from "@/hooks/api/dashboardApi";
 import TableSkeleton from "@/components/common/TableSkelation";
 import Link from "next/link";
 
-const Page = () => {
+const Page = ({params}) => {
+  const {ts} = params
   const [page, setPage] = useState(1);
   const [perPage, setPerPage] = useState(10);
   
 
-  const { data: tcProductOrderData, isLoading: tcProductOrderLoading } =
-    useGetTCProductOrder(page, perPage);
+  const { data: tsProductOrderData, isLoading: tsProductOrderLoading } =
+    useGetTSProductOrder(ts, page, perPage);
 
   return (
     <section className="flex flex-col gap-[12.5px] lg:gap-[25px] ">
-        <SectionTitle title={"TC Product Orders"} />
+         <div className="flex justify-between">
+        <SectionTitle title={"TS Product Orders"} />
+        <Button
+          asChild
+          className="py-[11px] lg:py-[22px] cursor-pointer bg-brown flex items-center gap-2"
+        >
+          <Link href={"ts_product_orders/add"}>
+            Add New Product
+            <PlusIcon />
+          </Link>
+        </Button>
+      </div>
 
-      {tcProductOrderLoading ? (
+      {tsProductOrderLoading ? (
         <TableSkeleton />
       ) : (
         <div className="p-[13px] lg:p-[26px] bg-white rounded-[14px] flex flex-col gap-[12px] lg:gap-[24px]">
@@ -31,15 +47,11 @@ const Page = () => {
                 <tr>
                   <th className="px-3 md:px-6 py-3 whitespace-nowrap">Date</th>
                   <th className="px-3 md:px-6 py-3 whitespace-nowrap">
-                    Site / Class
-                  </th>
-                  <th className="px-3 md:px-6 py-3 whitespace-nowrap">
-                    Ordered By
+                    Class
                   </th>
                   <th className="px-3 md:px-6 py-3 whitespace-nowrap">
                     Status
                   </th>
-                  <th className="px-3 md:px-6 py-3 whitespace-nowrap">Paid</th>
                   <th className="px-3 md:px-6 py-3 whitespace-nowrap">
                     Amount
                   </th>
@@ -50,8 +62,8 @@ const Page = () => {
               </thead>
 
               <tbody>
-                {tcProductOrderData?.data?.data?.length > 0 ? (
-                  tcProductOrderData?.data?.data?.map((item, index) => (
+                {tsProductOrderData?.data?.data?.length > 0 ? (
+                  tsProductOrderData?.data?.data?.map((item, index) => (
                     <tr
                       key={item?.id}
                       className="border-b hover:bg-gray-50 transition-all"
@@ -60,22 +72,10 @@ const Page = () => {
                         {item?.code}
                       </td>
                       <td className="px-3 md:px-6 py-4 whitespace-nowrap">
-                        <p>{item?.training_site?.training_center_name}</p>
-                        <p className="text-xs">{item?.associated_class}</p>
-                      </td>
-                      <td className="px-3 md:px-6 py-4 whitespace-nowrap">
-                        <p className="font-medium">
-                          {item?.first_name} {item?.last_name}
-                        </p>
-                        <p className="text-[13px] text-gray-500">
-                          {item?.email}
-                        </p>
+                        {item?.associated_class}
                       </td>
                       <td className="px-3 md:px-6 py-4 whitespace-nowrap">
                         {item?.status}
-                      </td>
-                      <td className="px-3 md:px-6 py-4 whitespace-nowrap">
-                        {item?.is_paid ? "Yes" : "No"}
                       </td>
                       <td className="px-3 md:px-6 py-4 whitespace-nowrap">
                         ${item?.total_amount}
@@ -109,7 +109,7 @@ const Page = () => {
           <div className="flex flex-col md:flex-row items-center justify-end mt-3 lg:mt-6 gap-3">
             {/* Pagination */}
             <div className="flex items-center gap-2">
-              {tcProductOrderData?.data?.links?.map((link, index) => (
+              {tsProductOrderData?.data?.links?.map((link, index) => (
                 <button
                   key={index}
                   disabled={link.url === null || link.page === null}

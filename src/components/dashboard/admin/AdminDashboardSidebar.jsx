@@ -44,11 +44,11 @@ const AdminDashboardSidebar = () => {
         },
         {
           label: "Student Export",
-          href: `/admin/${selectedTrainingSiteId}/student_export`,
+          href: `/admin/${selectedTrainingSiteId}/class_and_students/student_export`,
         },
         {
-          label: "TC Product Orders",
-          href: `/admin/${selectedTrainingSiteId}/tc_product_orders`,
+          label: "TS Product Orders",
+          href: `/admin/${selectedTrainingSiteId}/class_and_students/ts_product_orders`,
         },
       ],
     },

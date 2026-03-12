@@ -141,6 +141,10 @@ const DashboardSidebar = () => {
           href: `/super-admin/${trainingSiteId}/training_center/training_site_rosters`,
         },
         {
+          label: "TC Products",
+          href: `/super-admin/${trainingSiteId}/training_center/tc_products`,
+        },
+        {
           label: "TC Product Orders",
           href: `/super-admin/${trainingSiteId}/training_center/tc_product_orders`,
         },
@@ -286,7 +290,7 @@ const DashboardSidebar = () => {
           href: `/super-admin/${trainingSiteId}/reports/student_export`,
         },
         {
-          label: "TC Product Orders",
+          label: "TS Product Orders",
           href: `/super-admin/${trainingSiteId}/training_center/tc_product_orders`,
         },
       ],

@@ -1,27 +1,39 @@
 "use client";
 
 import SectionTitle from "@/components/common/SectionTitle";
+import { Button } from "@/components/ui/button";
+import { PlusIcon } from "@/svg/SvgContainer";
 import React, { useState } from "react";
 import { CiEdit } from "react-icons/ci";
-import {
-  useGetTCProductOrder,
-} from "@/hooks/api/dashboardApi";
+import { useGetTCProduct } from "@/hooks/api/dashboardApi";
 import TableSkeleton from "@/components/common/TableSkelation";
 import Link from "next/link";
 
 const Page = () => {
   const [page, setPage] = useState(1);
   const [perPage, setPerPage] = useState(10);
-  
 
-  const { data: tcProductOrderData, isLoading: tcProductOrderLoading } =
-    useGetTCProductOrder(page, perPage);
+  const { data: tcProductData, isLoading: tsProductLoading } = useGetTCProduct(
+    page,
+    perPage,
+  );
 
   return (
     <section className="flex flex-col gap-[12.5px] lg:gap-[25px] ">
-        <SectionTitle title={"TC Product Orders"} />
+      <div className="flex justify-between">
+        <SectionTitle title={"Training Center Products"} />
+        <Button
+          asChild
+          className="py-[11px] lg:py-[22px] cursor-pointer bg-brown flex items-center gap-2"
+        >
+          <Link href={"tc_products/add"}>
+            Add New Product
+            <PlusIcon />
+          </Link>
+        </Button>
+      </div>
 
-      {tcProductOrderLoading ? (
+      {tsProductLoading ? (
         <TableSkeleton />
       ) : (
         <div className="p-[13px] lg:p-[26px] bg-white rounded-[14px] flex flex-col gap-[12px] lg:gap-[24px]">
@@ -29,20 +41,14 @@ const Page = () => {
             <table className="min-w-full text-sm text-left text-gray-700">
               <thead className="bg-gray-50 text-black text-[14px] md:text-[16px] font-semibold">
                 <tr>
-                  <th className="px-3 md:px-6 py-3 whitespace-nowrap">Date</th>
                   <th className="px-3 md:px-6 py-3 whitespace-nowrap">
-                    Site / Class
+                    Product Code
                   </th>
+                  <th className="px-3 md:px-6 py-3 whitespace-nowrap">Name</th>
                   <th className="px-3 md:px-6 py-3 whitespace-nowrap">
-                    Ordered By
+                    Price Level
                   </th>
-                  <th className="px-3 md:px-6 py-3 whitespace-nowrap">
-                    Status
-                  </th>
-                  <th className="px-3 md:px-6 py-3 whitespace-nowrap">Paid</th>
-                  <th className="px-3 md:px-6 py-3 whitespace-nowrap">
-                    Amount
-                  </th>
+                  <th className="px-3 md:px-6 py-3 whitespace-nowrap">Price</th>
                   <th className="px-3 md:px-6 py-3 text-center whitespace-nowrap">
                     Action
                   </th>
@@ -50,8 +56,8 @@ const Page = () => {
               </thead>
 
               <tbody>
-                {tcProductOrderData?.data?.data?.length > 0 ? (
-                  tcProductOrderData?.data?.data?.map((item, index) => (
+                {tcProductData?.data?.data?.length > 0 ? (
+                  tcProductData?.data?.data?.map((item, index) => (
                     <tr
                       key={item?.id}
                       className="border-b hover:bg-gray-50 transition-all"
@@ -60,30 +66,18 @@ const Page = () => {
                         {item?.code}
                       </td>
                       <td className="px-3 md:px-6 py-4 whitespace-nowrap">
-                        <p>{item?.training_site?.training_center_name}</p>
-                        <p className="text-xs">{item?.associated_class}</p>
+                        {item?.name}
                       </td>
                       <td className="px-3 md:px-6 py-4 whitespace-nowrap">
-                        <p className="font-medium">
-                          {item?.first_name} {item?.last_name}
-                        </p>
-                        <p className="text-[13px] text-gray-500">
-                          {item?.email}
-                        </p>
+                        {item?.price_label}
                       </td>
                       <td className="px-3 md:px-6 py-4 whitespace-nowrap">
-                        {item?.status}
-                      </td>
-                      <td className="px-3 md:px-6 py-4 whitespace-nowrap">
-                        {item?.is_paid ? "Yes" : "No"}
-                      </td>
-                      <td className="px-3 md:px-6 py-4 whitespace-nowrap">
-                        ${item?.total_amount}
+                        {item?.price}
                       </td>
                       <td className="px-3 md:px-6 py-4 text-center whitespace-nowrap">
                         <div className="flex items-center justify-center">
                           <Link
-                            href={`tc_product_orders/${item.id}`}
+                            href={`tc_products/${item.id}`}
                             className="p-2 bg-gray-100 rounded-lg hover:bg-gray-200 transition "
                           >
                             <CiEdit className="text-gray-600 text-[16px]" />
@@ -106,10 +100,28 @@ const Page = () => {
             </table>
           </div>
 
+          {/* Footer controls */}
           <div className="flex flex-col md:flex-row items-center justify-end mt-3 lg:mt-6 gap-3">
+            {/* Show per page */}
+            {/* <div className="flex items-center gap-2">
+            <span className="text-gray-600 text-sm">Show:</span>
+            <select
+              value={perPage}
+              onChange={(e) => {
+                setPerPage(Number(e.target.value));
+                setPage(1);
+              }}
+              className="border border-gray-300 rounded-md px-2 py-1 text-sm"
+            >
+              <option value={10}>10</option>
+              <option value={25}>25</option>
+              <option value={50}>50</option>
+            </select>
+          </div> */}
+
             {/* Pagination */}
             <div className="flex items-center gap-2">
-              {tcProductOrderData?.data?.links?.map((link, index) => (
+              {tcProductData?.data?.links?.map((link, index) => (
                 <button
                   key={index}
                   disabled={link.url === null || link.page === null}

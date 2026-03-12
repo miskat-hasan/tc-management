@@ -53,16 +53,16 @@ const Page = ({ params }) => {
     useGetStudentByClassId(id);
 
   useEffect(() => {
-    if (!studentData?.data?.students) return;
-
-    form.reset({
-      students: studentData.data.students.map((s) => ({
-        id: s.id,
-        status: s.status,
-        score: s.score,
-      })),
-    });
-  }, [studentData, reset, form]);
+    if (studentData) {
+      reset({
+        students: studentData.data.students.map((s) => ({
+          id: s.id,
+          status: s.status,
+          score: s.score,
+        })),
+      });
+    }
+  }, [studentData, reset]);
 
   const { mutate, isPending } = useUpdateStudentScore();
 
@@ -118,18 +118,16 @@ const Page = ({ params }) => {
                           </p>
                         </td>
                         <td className="px-3 sm:px-6 py-3 text-gray-800 whitespace-nowrap">
-                          <Controller
-                            name={`students.${index}.status`}
-                            control={control}
-                            render={({ field }) => (
-                              <CustomSelect
-                                {...field}
-                                id={`status-${item.id}`}
-                                options={statusData}
-                                className="flex-1"
-                              />
-                            )}
-                          />
+                          <select
+                            {...register(`students.${index}.status`)}
+                            className="w-full rounded-xl sm:rounded-2xl px-3 py-2.5 text-sm sm:text-base font-normal leading-[1.45] placeholder:text-gray-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-gray-300 border border-border-secondary hover:border-gray-400 transition-all duration-150 cursor-pointer"
+                          >
+                            {statusData.map((item, index) => (
+                              <option key={index} value={item.id}>
+                                {item.name}
+                              </option>
+                            ))}
+                          </select>
                         </td>
                         <td className="px-3 sm:px-6 py-3 text-center space-x-2">
                           <FormInput name={`students.${index}.score`} />
