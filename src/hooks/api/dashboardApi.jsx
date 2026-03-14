@@ -954,7 +954,39 @@ export const useGetTSProductOrder = (id, page = 1, perPage = 10) => {
   return useClientApi({
     method: "get",
     isPrivate: true,
-    key: ["get-ts-product-order",id, page, perPage],
+    key: ["get-ts-product-order", id, page, perPage],
     endpoint: `/api/my/tc-product-orders/${id}?page=${page}`,
+  });
+};
+
+export const useTSProductCheckout = () => {
+  return useClientApi({
+    method: "post",
+    isPrivate: true,
+    endpoint: "/api/purchase-tc-product",
+    onSuccess: (data) => {
+      toast.success(data?.message);
+    },
+     onError: (err) => {
+        Swal.fire({
+          text: err?.response?.data?.message || "Something went wrong",
+          icon: "error",
+        });
+      },
+  });
+};
+
+// connect payment account
+export const useConnectAccount = () => {
+  return useClientApi({
+    method: "post",
+    isPrivate: true,
+    endpoint: `/api/instructor-account-connect`,
+    onError: (err) => {
+      Swal.fire({
+        text: err?.response?.data?.message,
+        icon: "error",
+      });
+    },
   });
 };

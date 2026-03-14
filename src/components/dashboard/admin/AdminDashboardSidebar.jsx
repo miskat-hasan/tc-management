@@ -3,7 +3,7 @@ import { DashboardIcon, Logo } from "@/svg/SvgContainer";
 import { FaChevronRight } from "react-icons/fa";
 import React, { useEffect, useState, useRef } from "react";
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import { useParams, usePathname, useRouter } from "next/navigation";
 import useAuth from "@/hooks/useAuth";
 
 import { useLogout } from "@/hooks/api/authApi";
@@ -12,6 +12,8 @@ import CustomSelect from "@/components/shared/form/CustomSelect";
 
 const AdminDashboardSidebar = () => {
   const pathname = usePathname();
+      const params = useParams();
+    const trainingSiteId = params.ts;
 
   const form = useForm();
 
@@ -36,19 +38,19 @@ const AdminDashboardSidebar = () => {
       submenu: [
         {
           label: "Classes",
-          href: `/admin/${selectedTrainingSiteId}/class_and_students/classes`,
+          href: `/admin/${trainingSiteId}/class_and_students/classes`,
         },
         {
           label: "Student Search",
-          href: `/admin/${selectedTrainingSiteId}/class_and_students/student_search`,
+          href: `/admin/${trainingSiteId}/class_and_students/student_search`,
         },
         {
           label: "Student Export",
-          href: `/admin/${selectedTrainingSiteId}/class_and_students/student_export`,
+          href: `/admin/${trainingSiteId}/class_and_students/student_export`,
         },
         {
           label: "TS Product Orders",
-          href: `/admin/${selectedTrainingSiteId}/class_and_students/ts_product_orders`,
+          href: `/admin/${trainingSiteId}/class_and_students/ts_product_orders`,
         },
       ],
     },
@@ -58,19 +60,23 @@ const AdminDashboardSidebar = () => {
       submenu: [
         {
           label: "Course Type",
-          href: `/admin/${selectedTrainingSiteId}/settings/course_type`,
+          href: `/admin/${trainingSiteId}/settings/course_type`,
         },
         {
           label: "Locations",
-          href: `/admin/${selectedTrainingSiteId}/settings/location`,
+          href: `/admin/${trainingSiteId}/settings/location`,
         },
         {
           label: "Card Settings",
-          href: `/admin/${selectedTrainingSiteId}/settings/cards_settings`,
+          href: `/admin/${trainingSiteId}/settings/cards_settings`,
+        },
+        {
+          label: "Connect Account",
+          href: `/admin/${trainingSiteId}/settings/connect-account`,
         },
         {
           label: "Users",
-          href: `/admin/${selectedTrainingSiteId}/settings/users`,
+          href: `/admin/${trainingSiteId}/settings/users`,
         },
       ],
     },
@@ -81,11 +87,11 @@ const AdminDashboardSidebar = () => {
         { label: "Search Help", href: "https://help.enrollware.com/" },
         {
           label: "Support Request",
-          href: `/admin/${selectedTrainingSiteId}/help/support_request`,
+          href: `/admin/${trainingSiteId}/help/support_request`,
         },
         {
           label: "Whats New",
-          href: `/admin/${selectedTrainingSiteId}/help/whats_new`,
+          href: `/admin/${trainingSiteId}/help/whats_new`,
         },
       ],
     },
@@ -101,7 +107,7 @@ const AdminDashboardSidebar = () => {
           return;
         }
       }
-    }, [pathname, user]);
+    }, [pathname, user, trainingSiteId]);
 
   const handleSelectChange = (val) => {
     setSelectedTrainingSiteId(val);

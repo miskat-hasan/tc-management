@@ -184,7 +184,6 @@ const MobileSidebar = ({ onClose, isSidebarOpen }) => {
 
   const {
     user,
-    token,
     trainingSiteData,
     trainingSiteDataLoading,
     selectedTrainingSiteId,
