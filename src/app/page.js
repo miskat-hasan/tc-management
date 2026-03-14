@@ -27,7 +27,7 @@ export default function Page() {
       }
       if (user?.roles?.find((item) => item.role_name === "Instructor")) {
         return router.push(
-          `/instructor/${selectedTrainingSiteId}/class_and_students/classes`,
+          `/admin/${selectedTrainingSiteId}/class_and_students/classes`,
         );
       }
     }

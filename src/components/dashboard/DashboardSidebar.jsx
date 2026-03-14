@@ -29,7 +29,6 @@ const DashboardSidebar = () => {
   // const initialRender = useRef(true);
   const {
     user,
-    token,
     trainingSiteData,
     trainingSiteDataLoading,
     selectedTrainingSiteId,

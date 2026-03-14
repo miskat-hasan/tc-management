@@ -69,6 +69,10 @@ const AdminMobileSidebar = ({ onClose, isSidebarOpen }) => {
           href: `/admin/${selectedTrainingSiteId}/settings/cards_settings`,
         },
         {
+          label: "Connect Account",
+          href: `/admin/${selectedTrainingSiteId}/settings/connect-account`,
+        },
+        {
           label: "Users",
           href: `/admin/${selectedTrainingSiteId}/settings/users`,
         },

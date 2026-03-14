@@ -72,7 +72,7 @@ const AdminPrivateLayout = ({ children }) => {
       token &&
       user &&
       trainingSiteData &&
-      !user?.roles?.some((item) => item.role_name === "Admin")
+      !user?.roles?.some((item) => item.role_name === "Admin" || "Instructor")
     ) {
       router.replace("/unauthorized");
     }
@@ -88,7 +88,7 @@ const AdminPrivateLayout = ({ children }) => {
   }
 
   // Allow render only if admin
-  const isAdmin = user?.roles?.some((role) => role.role_name === "Admin");
+  const isAdmin = user?.roles?.some((role) => role.role_name === "Admin" || "Instructor");
 
   if (!isAdmin) return null;
 
