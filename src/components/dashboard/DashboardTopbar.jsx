@@ -7,10 +7,15 @@ import { CgMenuLeft } from "react-icons/cg";
 import MobileSidebar from "../common/MobileSidebar";
 import useAuth from "@/hooks/useAuth";
 import AdminMobileSidebar from "../common/AdminMobileSidebar";
+import { FaRegUser } from "react-icons/fa";
+import { useParams } from "next/navigation";
 
 const DashboardTopbar = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const { user, userData, loadingUserData } = useAuth();
+
+  const params = useParams();
+  const trainingSiteId = params.ts;
 
   const handleSidebar = () => {
     setIsSidebarOpen((prev) => !prev);
@@ -25,7 +30,11 @@ const DashboardTopbar = () => {
       {/* Right-side icons */}
       <div className="flex items-center gap-2.5">
         <Link
-          href="/admin/notifications"
+           href={
+            user?.roles?.find((item) => item?.role_name === "Super Admin")
+              ? `/super-admin/${trainingSiteId}/notifications`
+              : `/admin/${trainingSiteId}/notifications`
+          }
           className="w-[40px] h-[40px] lg:w-[60px] lg:h-[60px] bg-white rounded-[14px] flex items-center justify-center"
         >
           <NotificationIcon />
@@ -33,23 +42,29 @@ const DashboardTopbar = () => {
 
         {/* User Info */}
         <Link
-          href="/admin/manage_profile"
+          href={
+            user?.roles?.find((item) => item?.role_name === "Super Admin")
+              ? `/super-admin/${trainingSiteId}/manage_profile`
+              : `/admin/${trainingSiteId}/manage_profile`
+          }
           className="h-auto lg:h-[60px] bg-white rounded-[14px] flex items-center p-1 w-auto gap-[11px]"
         >
           {/* Avatar */}
           <div className="w-[30px] h-[30px] lg:w-[50px] lg:h-[50px] overflow-hidden rounded-[11px]">
             {loadingUserData ? (
               <div className="w-full h-full bg-gray-200 animate-pulse rounded-[11px]" />
+            ) : user?.avatar ? (
+              <Image
+                src={user?.avatar}
+                width={64}
+                height={64}
+                alt="User picture"
+                className="object-cover w-full h-full"
+              />
             ) : (
-              userData?.data && (
-                <Image
-                  src={userData?.avatar || "/user_pic.jpg"}
-                  width={64}
-                  height={64}
-                  alt="User picture"
-                  className="object-cover w-full h-full"
-                />
-              )
+              <div className="border size-full rounded-2xl flex items-center justify-center">
+                <FaRegUser className="size-6" />
+              </div>
             )}
           </div>
 
@@ -61,13 +76,13 @@ const DashboardTopbar = () => {
                 <div className="h-[10px] lg:h-[12px] w-[90px] bg-gray-200 rounded animate-pulse" />
               </>
             ) : (
-              userData?.data && (
+              user && (
                 <>
                   <h6 className="text-[16px] lg:text-xl font-medium">
-                    {userData?.data?.name || "—"}
+                    {user?.name || "—"}
                   </h6>
                   <p className="text-[10px] lg:text-[12px] text-[#8C8C8C]">
-                    Client ID: {userData?.id || "—"}
+                    ID: {user?.id || "—"}
                   </p>
                 </>
               )
@@ -81,8 +96,13 @@ const DashboardTopbar = () => {
         <MobileSidebar isSidebarOpen={isSidebarOpen} onClose={handleSidebar} />
       )}
 
-      {user?.roles?.find((item) => item?.role_name === "Admin") && (
-        <AdminMobileSidebar isSidebarOpen={isSidebarOpen} onClose={handleSidebar} />
+      {user?.roles?.find(
+        (item) => item?.role_name === "Admin" || "Instructor",
+      ) && (
+        <AdminMobileSidebar
+          isSidebarOpen={isSidebarOpen}
+          onClose={handleSidebar}
+        />
       )}
 
       {isSidebarOpen && (

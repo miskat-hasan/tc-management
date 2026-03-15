@@ -38,7 +38,7 @@ const Page = () => {
       </div>
 
       {/* Search filters */}
-      <div className="lg:px-[32px] px-[16px] py-[16px] lg:py-[32px] bg-white rounded-[16px] flex gap-[12px] flex-wrap  lg:gap-[24px]">
+      {/* <div className="lg:px-[32px] px-[16px] py-[16px] lg:py-[32px] bg-white rounded-[16px] flex gap-[12px] flex-wrap  lg:gap-[24px]">
         <CustomSelect
           id="month"
           label="Month"
@@ -62,11 +62,11 @@ const Page = () => {
             Search
           </Button>
         </div>
-      </div>
+      </div> */}
 
       {/* Table */}
       <div className="p-[13px] lg:p-[26px] bg-white rounded-[14px] flex flex-col gap-[12px] lg:gap-[24px]">
-        <SubSectionTitle subtitle="All Lists" />
+        {/* <SubSectionTitle subtitle="All Lists" /> */}
         {productAddOnsReportLoading ? (
           <TableSkeleton />
         ) : (
@@ -84,31 +84,39 @@ const Page = () => {
                     Quantity
                   </th>
                   <th className="px-3 sm:px-6 py-3 whitespace-nowrap">
+                    Unit Price
+                  </th>
+                  <th className="px-3 sm:px-6 py-3 whitespace-nowrap">
                     Total Sales
                   </th>
                 </tr>
               </thead>
               <tbody>
-                {productAddOnsReport?.data?.data?.length > 0 ? (
-                  productAddOnsReport?.data?.data?.map((item, index) => (
-                    <tr
-                      key={index}
-                      className="border-b hover:bg-gray-50 transition-all"
-                    >
-                      <td className="px-3 sm:px-6 py-4 text-gray-800 whitespace-nowrap">
-                        {item.productCode}
-                      </td>
-                      <td className="px-3 sm:px-6 py-4 text-gray-800 truncate max-w-[220px]">
-                        {item.productName}
-                      </td>
-                      <td className="px-3 sm:px-6 py-4 whitespace-nowrap">
-                        {item.quantity}
-                      </td>
-                      <td className="px-3 sm:px-6 py-4 whitespace-nowrap">
-                        {item.totalSales}
-                      </td>
-                    </tr>
-                  ))
+                {productAddOnsReport?.data?.items_report?.length > 0 ? (
+                  productAddOnsReport?.data?.items_report?.map(
+                    (item, index) => (
+                      <tr
+                        key={item?.product_id}
+                        className="border-b hover:bg-gray-50 transition-all"
+                      >
+                        <td className="px-3 sm:px-6 py-4 text-gray-800 whitespace-nowrap">
+                          {item.code}
+                        </td>
+                        <td className="px-3 sm:px-6 py-4 text-gray-800 truncate max-w-[220px]">
+                          {item.name}
+                        </td>
+                        <td className="px-3 sm:px-6 py-4 whitespace-nowrap">
+                          {item.total_qty}
+                        </td>
+                        <td className="px-3 sm:px-6 py-4 whitespace-nowrap">
+                          {item.unit_price}
+                        </td>
+                        <td className="px-3 sm:px-6 py-4 whitespace-nowrap">
+                          {item.total_sales}
+                        </td>
+                      </tr>
+                    ),
+                  )
                 ) : (
                   <tr>
                     <td
@@ -121,11 +129,17 @@ const Page = () => {
                 )}
               </tbody>
             </table>
+            {productAddOnsReport?.data?.total_sell_sum && (
+              <div className="flex items-center gap-4 justify-end mt-3 mx-3">
+                <div>Total: </div>
+                <div>{productAddOnsReport?.data?.total_sell_sum}</div>
+              </div>
+            )}
           </div>
         )}
 
         {/* Footer controls */}
-        <div className="flex flex-col md:flex-row items-center justify-end mt-3 lg:mt-6 gap-3">
+        {/* <div className="flex flex-col md:flex-row items-center justify-end mt-3 lg:mt-6 gap-3"> */}
           {/* Show per page */}
           {/* <div className="flex items-center gap-2">
             <span className="text-gray-600 text-sm">Show:</span>
@@ -144,7 +158,7 @@ const Page = () => {
           </div> */}
 
           {/* Pagination */}
-          <div className="flex items-center gap-2">
+          {/* <div className="flex items-center gap-2">
             {productAddOnsReport?.data?.links?.map((link, index) => (
               <button
                 key={index}
@@ -163,7 +177,7 @@ const Page = () => {
               />
             ))}
           </div>
-        </div>
+        </div> */}
       </div>
     </div>
   );

@@ -57,7 +57,7 @@ const Page = ({ params }) => {
 
   const handleDownloadStudentList = () => {
     downloadStudentList(
-      { id },
+      { class_details_id: id },
       {
         onSuccess: (blob) => {
           const file = new Blob([blob], {
