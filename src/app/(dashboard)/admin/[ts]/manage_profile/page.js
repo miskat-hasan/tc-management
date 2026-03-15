@@ -8,14 +8,9 @@ import FormContainer from "@/components/shared/form/FormContainer";
 import FormInput from "@/components/shared/form/FormInput";
 import CustomSelect from "@/components/shared/form/CustomSelect";
 import { Button } from "@/components/ui/button";
-import { useChangePassword } from "@/hooks/api/dashboardApi";
-import Swal from "sweetalert2";
-import useAuth from "@/hooks/useAuth";
 
 const Page = () => {
   /* ================= PROFILE FORM ================= */
-  const { user } = useAuth();
-
   const profileForm = useForm({
     defaultValues: {
       username: "",
@@ -35,34 +30,12 @@ const Page = () => {
   };
 
   /* ================= PASSWORD FORM ================= */
-  const passwordForm = useForm({
-    defaultValues: {
-      old_password: "",
-      password: "",
-      password_confirmation: "",
-    },
-  });
+  const passwordForm = useForm();
 
-  const { reset } = passwordForm;
+  const newPassword = passwordForm.watch("newPassword");
 
-  const password = passwordForm.watch("password");
-
-  const { mutate: changePasswordMutation, isPending: changePasswordPending } =
-    useChangePassword();
-
-  const onPasswordSubmit = (data) => {
-    changePasswordMutation(
-      { user_id: user?.id, ...data },
-      {
-        onSuccess: (data) => {
-          reset();
-          Swal.fire({
-            text: data?.message,
-            icon: "success",
-          });
-        },
-      },
-    );
+  const onPasswordSubmit = (values) => {
+    console.log("Password Data:", values);
   };
 
   return (
@@ -79,6 +52,7 @@ const Page = () => {
               name="username"
               label="User Name"
               placeholder="User name"
+              
             />
 
             <FormInput name="firstName" label="First Name" />
@@ -187,35 +161,31 @@ const Page = () => {
         <FormContainer form={passwordForm} onSubmit={onPasswordSubmit}>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-5">
             <FormInput
-              name="old_password"
+              name="currentpassword"
               label="Current Password"
               type="password"
               rules={{ required: "Current Password is required" }}
             />
             <FormInput
-              name="password"
+              name="newPassword"
               label="New Password"
               type="password"
               rules={{ required: "Password is required" }}
             />
 
             <FormInput
-              name="password_confirmation"
+              name="confirmPassword"
               label="Confirm Password"
               type="password"
               rules={{
                 validate: (value) =>
-                  value === password || "Passwords do not match",
+                  value === newPassword || "Passwords do not match",
               }}
             />
 
             <div className="col-span-full flex justify-end mt-6">
-              <Button
-                disabled={changePasswordPending}
-                type="submit"
-                className="bg-brown hover:bg-brown-hover disabled:opacity-50"
-              >
-                {changePasswordPending ? "Processing..." : "Save Changes"}
+              <Button type="submit" className="bg-brown hover:bg-brown-hover">
+                Save Changes
               </Button>
             </div>
           </div>

@@ -173,10 +173,10 @@ const DashboardSidebar = () => {
           label: "Registration Report",
           href: `/super-admin/${trainingSiteId}/reports/registration_report`,
         },
-        {
-          label: "Student Export",
-          href: `/super-admin/${trainingSiteId}/reports/student_export`,
-        },
+        // {
+        //   label: "Student Export",
+        //   href: `/super-admin/${trainingSiteId}/reports/student_export`,
+        // },
         {
           label: "Event Log",
           href: `/super-admin/${trainingSiteId}/reports/event_log`,
@@ -195,10 +195,14 @@ const DashboardSidebar = () => {
           label: "Payment Report",
           href: `/super-admin/${trainingSiteId}/credit_card_services/payment_report`,
         },
-        {
-          label: "Virtual Report",
-          href: `/super-admin/${trainingSiteId}/credit_card_services/virtual_terminal`,
-        },
+        // {
+        //   label: "Funding Activity",
+        //   href: `/super-admin/${trainingSiteId}/credit_card_services/funding_reports`,
+        // },
+        // {
+        //   label: "Virtual Report",
+        //   href: `/super-admin/${trainingSiteId}/credit_card_services/virtual_terminal`,
+        // },
       ],
     },
     {
@@ -259,10 +263,10 @@ const DashboardSidebar = () => {
         },
         // { label: "Email Campaigns", href: `/super-admin/${trainingSiteId}/settings/emails_campaigns` },
         // { label: "Text Messaging", href: `/super-admin/${trainingSiteId}/settings/text_messaging` },
-        {
-          label: "Users",
-          href: `/super-admin/${trainingSiteId}/settings/users`,
-        },
+        // {
+        //   label: "Users",
+        //   href: `/super-admin/${trainingSiteId}/settings/users`,
+        // },
       ],
     },
   ];
@@ -319,10 +323,10 @@ const DashboardSidebar = () => {
         // { label: "External SKu's", href: `/super-admin/${trainingSiteId}/settings/external_sku` },
         // { label: "Email Campaigns", href: `/super-admin/${trainingSiteId}/settings/emails_campaigns` },
         // { label: "Text Messaging", href: `/super-admin/${trainingSiteId}/settings/text_messaging` },
-        {
-          label: "Users",
-          href: `/super-admin/${trainingSiteId}/settings/users`,
-        },
+        // {
+        //   label: "Users",
+        //   href: `/super-admin/${trainingSiteId}/settings/users`,
+        // },
       ],
     },
     {

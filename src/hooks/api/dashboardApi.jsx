@@ -3,6 +3,19 @@ import useClientApi from "../useClientApi";
 import { toast } from "sonner";
 import { useQueryClient } from "@tanstack/react-query";
 
+export const useChangePassword = () => {
+  return useClientApi({
+    method: "post",
+    endpoint: "/api/users/login/setnew-password",
+    isPrivate: true,
+    onError: (error) => {
+      Swal.fire({
+        text: error?.response?.data?.message,
+        icon: "error",
+      });
+    },
+  });
+};
 export const createSingleTrainingSite = () => {
   return useClientApi({
     method: "post",
@@ -172,7 +185,7 @@ export const getAllInstructor = (page = 1, perPage = 10) => {
 export const getSingleInstructor = (id) => {
   return useClientApi({
     method: "get",
-    key: ["get-single-instructor"],
+    key: ["get-single-instructor", id],
     isPrivate: true,
     endpoint: `/api/single-instructors?id=${id}`,
   });
@@ -590,6 +603,68 @@ export const getProductAddOnsReport = (page = 1, perPage = 10) => {
   });
 };
 
+export const getRegistrationReport = () => {
+  return useClientApi({
+    method: "get",
+    isPrivate: true,
+    key: ["get-registration-report"],
+    endpoint: `/api/reports/registration`,
+  });
+};
+
+export const getPromoCodeReport = () => {
+  return useClientApi({
+    method: "get",
+    isPrivate: true,
+    key: ["get-promo-code-report"],
+    endpoint: `/api/reports/promo-code`,
+  });
+};
+
+// --------- report download ----------
+
+export const useExportInstructorByDisciplinePDF = () => {
+  return useClientApi({
+    method: "post",
+    isPrivate: true,
+    endpoint: `/api/reports/export-Instructors-by-discipline`,
+    axiosOptions: {
+      responseType: "blob",
+    },
+    onError: (err) => {
+      toast.error(err?.response?.data?.message || "Something went wrong!");
+    },
+  });
+};
+
+export const useExportClassByStudentPDF = () => {
+  return useClientApi({
+    method: "post",
+    isPrivate: true,
+    endpoint: `/api/reports/export-classess-by-student`,
+    axiosOptions: {
+      responseType: "blob",
+    },
+    onError: (err) => {
+      toast.error(err?.response?.data?.message || "Something went wrong!");
+    },
+  });
+};
+
+export const useExportStudentDiscipline = () => {
+  return useClientApi({
+    method: "post",
+    isPrivate: true,
+    endpoint: `/api/reports/export-students-discipline`,
+    axiosOptions: {
+      responseType: "blob",
+    },
+    onError: (err) => {
+      toast.error(err?.response?.data?.message || "Something went wrong!");
+    },
+  });
+};
+
 // certification file
 export const uploadCertification = () => {
   return useClientApi({
@@ -833,6 +908,9 @@ export const useDownloadStudentListPDF = () => {
     axiosOptions: {
       responseType: "blob",
     },
+    onError: (err) => {
+      toast.error(err?.response?.data?.message || "Something went wrong!");
+    },
   });
 };
 
@@ -843,6 +921,9 @@ export const useDownloadRoster = (id) => {
     endpoint: `/api/student/${id}`,
     axiosOptions: {
       responseType: "blob",
+    },
+    onError: (err) => {
+      toast.error(err?.response?.data?.message || "Something went wrong!");
     },
   });
 };
@@ -967,12 +1048,12 @@ export const useTSProductCheckout = () => {
     onSuccess: (data) => {
       toast.success(data?.message);
     },
-     onError: (err) => {
-        Swal.fire({
-          text: err?.response?.data?.message || "Something went wrong",
-          icon: "error",
-        });
-      },
+    onError: (err) => {
+      Swal.fire({
+        text: err?.response?.data?.message || "Something went wrong",
+        icon: "error",
+      });
+    },
   });
 };
 
@@ -988,5 +1069,44 @@ export const useConnectAccount = () => {
         icon: "error",
       });
     },
+  });
+};
+
+export const useGetPaymentReport = () => {
+  return useClientApi({
+    method: "get",
+    isPrivate: true,
+    key: ["get-payment-report"],
+    endpoint: "/api/report/payment-report",
+  });
+};
+
+export const useGetDailyVolumeReport = () => {
+  return useClientApi({
+    method: "get",
+    isPrivate: true,
+    key: ["get-daily-volume-report"],
+    endpoint: "/api/report/daily-volume-report",
+  });
+};
+
+// notifications
+
+export const useGetNotifications = () => {
+  return useClientApi({
+    method: "get",
+    isPrivate: true,
+    key: ["get-notifications"],
+    endpoint: "/api/notifications",
+  });
+};
+
+// get all rosters
+export const useGetAllRosters = () => {
+  return useClientApi({
+    method: "get",
+    isPrivate: true,
+    key: ["get-training-site-rosters"],
+    endpoint: "/api/training-site-rosters",
   });
 };

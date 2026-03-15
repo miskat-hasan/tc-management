@@ -42,10 +42,10 @@ const AdminMobileSidebar = ({ onClose, isSidebarOpen }) => {
           label: "Student Search",
           href: `/admin/${selectedTrainingSiteId}/class_and_students/student_search`,
         },
-        {
-          label: "Student Export",
-          href: `/admin/${selectedTrainingSiteId}/student_export`,
-        },
+        // {
+        //   label: "Student Export",
+        //   href: `/admin/${selectedTrainingSiteId}/student_export`,
+        // },
         {
           label: "TC Product Orders",
           href: `/admin/${selectedTrainingSiteId}/tc_product_orders`,
@@ -72,10 +72,10 @@ const AdminMobileSidebar = ({ onClose, isSidebarOpen }) => {
           label: "Connect Account",
           href: `/admin/${selectedTrainingSiteId}/settings/connect-account`,
         },
-        {
-          label: "Users",
-          href: `/admin/${selectedTrainingSiteId}/settings/users`,
-        },
+        // {
+        //   label: "Users",
+        //   href: `/admin/${selectedTrainingSiteId}/settings/users`,
+        // },
       ],
     },
     {
