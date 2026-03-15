@@ -19,7 +19,6 @@ const Page = () => {
       {/* Table */}
       <div className="p-[13px] lg:p-[26px] bg-white rounded-[14px] flex flex-col gap-[12px] lg:gap-[24px]">
         <div className="flex items-center justify-between">
-          <SubSectionTitle subtitle="All Lists" />
         </div>
 
         {whatsNewDataLoading ? (
@@ -46,7 +45,7 @@ const Page = () => {
                       className="border-b hover:bg-gray-50 transition-all"
                     >
                       <td className="px-3 py-3 md:px-6 text-gray-800 whitespace-nowrap">
-                        {item?.date}
+                        {new Date(item?.created_at).toLocaleDateString("en-US", { day: "2-digit", month: "short", year: "numeric" })}
                       </td>
                       <td className="px-3 py-3 md:px-6 text-gray-800">
                         {item?.title}

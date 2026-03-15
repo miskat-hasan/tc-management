@@ -44,10 +44,10 @@ const AdminDashboardSidebar = () => {
           label: "Student Search",
           href: `/admin/${trainingSiteId}/class_and_students/student_search`,
         },
-        {
-          label: "Student Export",
-          href: `/admin/${trainingSiteId}/class_and_students/student_export`,
-        },
+        // {
+        //   label: "Student Export",
+        //   href: `/admin/${trainingSiteId}/class_and_students/student_export`,
+        // },
         {
           label: "TS Product Orders",
           href: `/admin/${trainingSiteId}/class_and_students/ts_product_orders`,
@@ -74,10 +74,10 @@ const AdminDashboardSidebar = () => {
           label: "Connect Account",
           href: `/admin/${trainingSiteId}/settings/connect-account`,
         },
-        {
-          label: "Users",
-          href: `/admin/${trainingSiteId}/settings/users`,
-        },
+        // {
+        //   label: "Users",
+        //   href: `/admin/${trainingSiteId}/settings/users`,
+        // },
       ],
     },
     {

@@ -1,12 +1,15 @@
 "use client";
 
 import React from "react";
-import { Search, ChevronDown, Download } from "lucide-react";
+import { Search, ChevronDown, Download, Loader2 } from "lucide-react";
 import CustomSelect from "@/components/shared/form/CustomSelect";
 import { SearchIcon } from "@/svg/SvgContainer";
 import { Button } from "@/components/ui/button";
 import SectionTitle from "@/components/common/SectionTitle";
 import {
+  useExportClassByStudentPDF,
+  useExportInstructorByDisciplinePDF,
+  useExportStudentDiscipline,
   useGetClassAndStudentByDiscipline,
   useGetClassAndStudentReport,
   useGetInstructorByDiscipline,
@@ -109,10 +112,95 @@ export default function ActivityReportPage() {
     isLoading: classAndStudentByDisciplineLoading,
   } = useGetClassAndStudentByDiscipline();
 
+  // Instructor By Discipline PDF
+  const {
+    mutate: instructorByDisciplinePDFMutation,
+    isPending: instructorByDisciplinePDFPending,
+  } = useExportInstructorByDisciplinePDF();
+
+  const handleInstructorByDisciplineExcel = (slug) => {
+    instructorByDisciplinePDFMutation(slug, {
+      onSuccess: (blob) => {
+        // Create Excel file instead of PDF
+        const file = new Blob([blob], {
+          type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+        });
+
+        const url = window.URL.createObjectURL(file);
+
+        const link = document.createElement("a");
+        link.href = url;
+        link.setAttribute("download", "instructors-by-discipline.xlsx");
+
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+
+        window.URL.revokeObjectURL(url);
+      },
+    });
+  };
+  
+  // download Class by student
+  const {
+    mutate: classByStudentPDFDownloadMutation,
+    isPending: classByStudentPDFDownloadPending,
+  } = useExportClassByStudentPDF();
+
+  const handleClassByStudentPDF = (slug) => {
+    classByStudentPDFDownloadMutation(slug, {
+      onSuccess: (blob) => {
+        const file = new Blob([blob], {
+          type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+        });
+
+        const url = window.URL.createObjectURL(file);
+
+        const link = document.createElement("a");
+        link.href = url;
+        link.setAttribute("download", "class-by-student.xlsx");
+
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+
+        window.URL.revokeObjectURL(url);
+      },
+    });
+  };
+
+  // download Class by student
+  const {
+    mutate: exportStudentDisciplineMutation,
+    isPending: exportStudentDisciplinePending,
+  } = useExportStudentDiscipline();
+
+  const handleExportStudentDiscipline = (slug) => {
+    exportStudentDisciplineMutation(slug, {
+      onSuccess: (blob) => {
+        const file = new Blob([blob], {
+          type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+        });
+
+        const url = window.URL.createObjectURL(file);
+
+        const link = document.createElement("a");
+        link.href = url;
+        link.setAttribute("download", "discipline-by-student.xlsx");
+
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+
+        window.URL.revokeObjectURL(url);
+      },
+    });
+  };
+
   return (
     <main className="min-h-screen space-y-2.5 lg:space-y-5 ">
       <SectionTitle title={"Activity Report"} />
-      <div className="px-[16px] py-[16px] lg:px-[32px] lg:py-[32px] bg-white rounded-[16px] flex flex-wrap lg:flex-nowrap gap-[10px] xl:gap-[24px]">
+      {/* <div className="px-[16px] py-[16px] lg:px-[32px] lg:py-[32px] bg-white rounded-[16px] flex flex-wrap lg:flex-nowrap gap-[10px] xl:gap-[24px]">
         <CustomSelect
           id="dates"
           label="Dates"
@@ -149,74 +237,117 @@ export default function ActivityReportPage() {
             Search
           </Button>
         </div>
-      </div>
+      </div> */}
 
       {/* Report Cards Grid */}
       <div className="space-y-3 lg:space-y-6">
         {/* Card 1: Instructor by Discipline */}
-        <ReportCard title="Instructor by Discipline">
-          {/* Headings */}
-          <div className="grid grid-cols-2 gap-4 pb-2 border-b border-gray-200">
-            <span className="text-sm font-semibold text-gray-500">
-              Discipline
-            </span>
-            <span className="text-sm font-semibold text-gray-500 text-right">
-              Instructors
-            </span>
+        <div className="bg-white rounded-lg   overflow-hidden">
+          {/* Card Header */}
+          <div className="flex justify-between items-center p-4 border-b border-gray-200">
+            <h2 className="text-lg font-semibold text-gray-800">
+              Instructor by Discipline
+            </h2>
+            <button
+              onClick={() =>
+                handleInstructorByDisciplineExcel("instructor-by-discipline")
+              }
+              disabled={instructorByDisciplinePDFPending}
+              className="text-gray-400 hover:text-gray-600 transition-colors cursor-pointer disabled:opacity-50"
+            >
+              {instructorByDisciplinePDFPending ? (
+                <Loader2 className="animate-spin" />
+              ) : (
+                <Download size={20} />
+              )}
+            </button>
           </div>
-          {/* Rows */}
-          <div className="mt-2">
-            {instructorByDisciplineData?.data?.disciplines?.map(
-              (item, index) => (
-                <div
-                  key={index}
-                  className={`grid grid-cols-2 gap-4 py-3 border-b border-gray-100 last:border-b-0`}
-                >
-                  <span className="text-sm text-gray-700">{item?.name}</span>
-                  <span className="text-sm text-gray-900 text-right">
-                    {item?.instructors}
-                  </span>
-                </div>
-              ),
-            )}
+
+          {/* Card Body */}
+          <div className="p-4">
+            {/* Headings */}
+            <div className="grid grid-cols-2 gap-4 pb-2 border-b border-gray-200">
+              <span className="text-sm font-semibold text-gray-500">
+                Discipline
+              </span>
+              <span className="text-sm font-semibold text-gray-500 text-right">
+                Instructors
+              </span>
+            </div>
+            {/* Rows */}
+            <div className="mt-2">
+              {instructorByDisciplineData?.data?.disciplines?.map(
+                (item, index) => (
+                  <div
+                    key={index}
+                    className={`grid grid-cols-2 gap-4 py-3 border-b border-gray-100 last:border-b-0`}
+                  >
+                    <span className="text-sm text-gray-700">{item?.name}</span>
+                    <span className="text-sm text-gray-900 text-right">
+                      {item?.instructors}
+                    </span>
+                  </div>
+                ),
+              )}
+            </div>
           </div>
-        </ReportCard>
+        </div>
 
         {/* Card 2: Classes and Students */}
-        <ReportCard title="Classes and Students">
-          {/* Headings */}
-          <div className="grid grid-cols-3 gap-4 pb-2 border-b border-gray-200">
-            <span className="text-sm font-semibold text-gray-500 col-span-1">
-              Course Type
-            </span>
-            <span className="text-sm font-semibold text-gray-500 text-center">
-              Classes
-            </span>
-            <span className="text-sm font-semibold text-gray-500 text-right">
-              Students
-            </span>
+        <div className="bg-white rounded-lg overflow-hidden">
+          {/* Card Header */}
+          <div className="flex justify-between items-center p-4 border-b border-gray-200">
+            <h2 className="text-lg font-semibold text-gray-800">
+              Classes and Students
+            </h2>
+            <button
+              onClick={() => handleClassByStudentPDF("Class-by-student")}
+              disabled={classByStudentPDFDownloadPending}
+              className="text-gray-400 hover:text-gray-600 transition-colors cursor-pointer disabled:opacity-50"
+            >
+              {classByStudentPDFDownloadPending ? (
+                <Loader2 className="animate-spin" />
+              ) : (
+                <Download size={20} />
+              )}
+            </button>
           </div>
-          {/* Rows */}
-          <div className="mt-2">
-            {classAndStudentReport?.data?.map((item, index) => (
-              <div
-                key={index}
-                className={`grid grid-cols-3 gap-4 py-3 border-b border-gray-100 last:border-b-0`}
-              >
-                <span className="text-sm text-gray-700">
-                  {item?.course_type}
-                </span>
-                <span className="text-sm text-gray-900 text-center">
-                  {item?.classes}
-                </span>
-                <span className="text-sm text-gray-900 text-right">
-                  {item?.students}
-                </span>
-              </div>
-            ))}
-          </div>
-          {/* Footer */}
-          {/* <div className="grid grid-cols-3 gap-4 pt-3 mt-3 border-t border-gray-200">
+
+          {/* Card Body */}
+          <div className="p-4">
+            {/* Headings */}
+            <div className="grid grid-cols-3 gap-4 pb-2 border-b border-gray-200">
+              <span className="text-sm font-semibold text-gray-500 col-span-1">
+                Course Type
+              </span>
+              <span className="text-sm font-semibold text-gray-500 text-center">
+                Classes
+              </span>
+              <span className="text-sm font-semibold text-gray-500 text-right">
+                Students
+              </span>
+            </div>
+            {/* Rows */}
+            <div className="mt-2">
+              {classAndStudentReport?.data?.map((item, index) => (
+                <div
+                  key={index}
+                  className={`grid grid-cols-3 gap-4 py-3 border-b border-gray-100 last:border-b-0`}
+                >
+                  <span className="text-sm text-gray-700">
+                    {item?.course_type}
+                  </span>
+                  <span className="text-sm text-gray-900 text-center">
+                    {item?.classes}
+                  </span>
+                  <span className="text-sm text-gray-900 text-right">
+                    {item?.students}
+                  </span>
+                </div>
+              ))}
+            </div>
+            {/* Footer */}
+            {/* <div className="grid grid-cols-3 gap-4 pt-3 mt-3 border-t border-gray-200">
             <span className="text-sm font-bold text-gray-900">Grand Total</span>
             <span className="text-sm font-bold text-gray-900 text-right">
               {grandTotal.classes}
@@ -225,7 +356,8 @@ export default function ActivityReportPage() {
               {grandTotal.students}
             </span>
           </div> */}
-        </ReportCard>
+          </div>
+        </div>
 
         {/* Card 3: Classes and Students by Discipline */}
         <div className="bg-white rounded-lg   overflow-hidden">
@@ -234,8 +366,16 @@ export default function ActivityReportPage() {
             <h2 className="text-lg font-semibold text-gray-800">
               Classes and Students by Discipline
             </h2>
-            <button className="text-gray-400 hover:text-gray-600 transition-colors">
-              <Download size={20} />
+            <button
+              onClick={() => handleExportStudentDiscipline("student-by-discipline")}
+              disabled={exportStudentDisciplinePending}
+              className="text-gray-400 hover:text-gray-600 transition-colors cursor-pointer disabled:opacity-50"
+            >
+              {exportStudentDisciplinePending ? (
+                <Loader2 className="animate-spin" />
+              ) : (
+                <Download size={20} />
+              )}
             </button>
           </div>
 

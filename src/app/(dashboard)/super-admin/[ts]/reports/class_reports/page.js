@@ -69,7 +69,7 @@ const Page = () => {
       </div>
 
       {/* Search filters */}
-      <div className="px-[16px] lg:px-[32px] py-[16px] lg:py-[32px] bg-white rounded-[16px] flex gap-[12px] flex-wrap lg:gap-[24px]">
+      {/* <div className="px-[16px] lg:px-[32px] py-[16px] lg:py-[32px] bg-white rounded-[16px] flex gap-[12px] flex-wrap lg:gap-[24px]">
         <CustomSelect
           id="dates"
           label="Dates"
@@ -138,7 +138,7 @@ const Page = () => {
             Search
           </Button>
         </div>
-      </div>
+      </div> */}
 
       {/* Table */}
       <div className="p-[13px] lg:p-[26px] bg-white rounded-[14px] flex flex-col gap-[12px] lg:gap-[24px]">
