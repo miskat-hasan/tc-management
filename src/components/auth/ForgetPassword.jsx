@@ -7,6 +7,7 @@ import { Controller, useForm } from "react-hook-form";
 import OTPInput from "react-otp-input";
 import FormContainer from "../shared/form/FormContainer";
 import { Button } from "../ui/button";
+
 const ForgetPassword = ({ slug }) => {
   const form = useForm();
   const {
@@ -28,7 +29,7 @@ const ForgetPassword = ({ slug }) => {
 
   const onSubmit = (data) => {
     console.log("OTP submitted:", data.otp);
-    router.push(`/auth/forget_password/${slug}/create_password`);
+    // router.push(`/auth/forget_password/${slug}/create_password`);
   };
 
   const handleResend = () => {
@@ -44,6 +45,7 @@ const ForgetPassword = ({ slug }) => {
   };
 
   const decodedEmail = Buffer.from(slug, "base64").toString("utf-8");
+  console.log(decodedEmail)
 
   return (
     <div className="flex items-center justify-center min-h-screen">

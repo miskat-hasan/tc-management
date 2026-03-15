@@ -2,6 +2,7 @@
 import FormContainer from "@/components/shared/form/FormContainer";
 import FormInput from "@/components/shared/form/FormInput";
 import { Button } from "@/components/ui/button";
+import { useVerifyEmail } from "@/hooks/api/authApi";
 import { Logo } from "@/svg/SvgContainer";
 import { useRouter } from "next/navigation";
 import React from "react";
@@ -11,13 +12,17 @@ const ForgetPassword = () => {
   const form = useForm();
   const router = useRouter();
 
-  const onSubmit = (values) => {
-    console.log(values);
-    const encodedEmail = Buffer.from("naymurrahmanshahed@gmail.com").toString(
-      "base64"
-    );
-    router.push(`/forget-password/${encodedEmail}`);
+  const { mutate, isPending } = useVerifyEmail();
+
+  const onSubmit = (data) => {
+    const encodedEmail = Buffer.from(data?.email).toString("base64");
+    mutate(data, {
+      onSuccess: () => {
+        router.push(`/forget-password/${encodedEmail}`);
+      },
+    });
   };
+
   return (
     <div className="min-h-screen flex items-center justify-center">
       <div className="bg-white max-w-[600px] w-full p-5 rounded-2xl border border-gray-100">
@@ -38,13 +43,21 @@ const ForgetPassword = () => {
             name="email"
             label="Email"
             placeholder="Enter Your Email"
+            rules={{
+              required: "Email is required",
+              pattern: {
+                value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                message: "Enter a valid email address",
+              },
+            }}
           />
 
           <Button
             type="submit"
-            className="px-6 h-[40px] border border-brown rounded-md shadow-sm text-sm font-medium cursor-pointer text-white hover:text-brown bg-brown hover:bg-transparent w-full duration-300"
+            disabled={isPending}
+            className="px-6 h-[40px] border border-brown rounded-md shadow-sm text-sm font-medium cursor-pointer text-white hover:text-brown bg-brown hover:bg-transparent w-full duration-300 disabled:opacity-70"
           >
-            Submit
+            {isPending ? "Submitting..." : "Submit"}
           </Button>
         </FormContainer>
       </div>

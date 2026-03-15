@@ -1,6 +1,21 @@
 import Swal from "sweetalert2";
 import useClientApi from "../useClientApi";
+import { toast } from "sonner";
+import { useQueryClient } from "@tanstack/react-query";
 
+export const useChangePassword = () => {
+  return useClientApi({
+    method: "post",
+    endpoint: "/api/users/login/setnew-password",
+    isPrivate: true,
+    onError: (error) => {
+      Swal.fire({
+        text: error?.response?.data?.message,
+        icon: "error",
+      });
+    },
+  });
+};
 export const createSingleTrainingSite = () => {
   return useClientApi({
     method: "post",
@@ -9,11 +24,12 @@ export const createSingleTrainingSite = () => {
   });
 };
 
-export const getallTrainingsite = (page = 1, perPage = 10) => {
+export const getallTrainingsite = (token, page = 1, perPage = 10) => {
   return useClientApi({
     method: "get",
     key: ["get-all-training-site", page, perPage],
     isPrivate: true,
+    enabled: !!token,
     endpoint: `/api/training-sites?page=${page}&per_page=${perPage}`,
   });
 };
@@ -169,7 +185,7 @@ export const getAllInstructor = (page = 1, perPage = 10) => {
 export const getSingleInstructor = (id) => {
   return useClientApi({
     method: "get",
-    key: ["get-single-instructor"],
+    key: ["get-single-instructor", id],
     isPrivate: true,
     endpoint: `/api/single-instructors?id=${id}`,
   });
@@ -235,11 +251,18 @@ export const getAllDocuments = (page = 1, perPage = 10) => {
   });
 };
 
-export const deleteDocument = (id) => {
+export const deleteDocument = () => {
+  const queryClient = useQueryClient();
   return useClientApi({
     method: "delete",
     isPrivate: true,
-    endpoint: `/documents/delete?id=${id}`,
+    onSuccess: (data) => {
+      queryClient.invalidateQueries(["get-single-instructor"]);
+      toast.success(data?.message || "Document deleted successfully");
+    },
+    onError: (err) => {
+      toast.error(err?.response?.data?.message || "Something went wrong!");
+    },
   });
 };
 
@@ -487,18 +510,12 @@ export const searchClasses = (
   course_id,
   instructor_id,
   location_id,
-  id
+  id,
 ) => {
   return useClientApi({
     method: "get",
     isPrivate: true,
-    key: [
-      "get-searched-classes",
-      course_id,
-      instructor_id,
-      location_id,
-      id
-    ],
+    key: ["get-searched-classes", course_id, instructor_id, location_id, id],
     params: { course_id, instructor_id, location_id, id },
     endpoint: "/api/class/search",
     enabled: is_enabled,
@@ -586,6 +603,68 @@ export const getProductAddOnsReport = (page = 1, perPage = 10) => {
   });
 };
 
+export const getRegistrationReport = () => {
+  return useClientApi({
+    method: "get",
+    isPrivate: true,
+    key: ["get-registration-report"],
+    endpoint: `/api/reports/registration`,
+  });
+};
+
+export const getPromoCodeReport = () => {
+  return useClientApi({
+    method: "get",
+    isPrivate: true,
+    key: ["get-promo-code-report"],
+    endpoint: `/api/reports/promo-code`,
+  });
+};
+
+// --------- report download ----------
+
+export const useExportInstructorByDisciplinePDF = () => {
+  return useClientApi({
+    method: "post",
+    isPrivate: true,
+    endpoint: `/api/reports/export-Instructors-by-discipline`,
+    axiosOptions: {
+      responseType: "blob",
+    },
+    onError: (err) => {
+      toast.error(err?.response?.data?.message || "Something went wrong!");
+    },
+  });
+};
+
+export const useExportClassByStudentPDF = () => {
+  return useClientApi({
+    method: "post",
+    isPrivate: true,
+    endpoint: `/api/reports/export-classess-by-student`,
+    axiosOptions: {
+      responseType: "blob",
+    },
+    onError: (err) => {
+      toast.error(err?.response?.data?.message || "Something went wrong!");
+    },
+  });
+};
+
+export const useExportStudentDiscipline = () => {
+  return useClientApi({
+    method: "post",
+    isPrivate: true,
+    endpoint: `/api/reports/export-students-discipline`,
+    axiosOptions: {
+      responseType: "blob",
+    },
+    onError: (err) => {
+      toast.error(err?.response?.data?.message || "Something went wrong!");
+    },
+  });
+};
+
 // certification file
 export const uploadCertification = () => {
   return useClientApi({
@@ -669,5 +748,365 @@ export const storeExternalSKU = () => {
     method: "post",
     isPrivate: true,
     endpoint: "/api/external_sku/store",
+    onError: (error) => {
+      Swal.fire({
+        text: error?.response?.data?.message,
+        icon: "error",
+      });
+    },
+  });
+};
+
+// get class-course details for enrolment
+export const getEnrollmentDetails = (id) => {
+  return useClientApi({
+    method: "get",
+    isPrivate: true,
+    endpoint: `/api/show/course/info?id=${id}`,
+  });
+};
+
+// student registration
+export const useStudentEnrollment = (id) => {
+  return useClientApi({
+    method: "post",
+    isPrivate: true,
+    endpoint: `/api/student/registration?id=${id}`,
+    onError: (err) => {
+      Swal.fire({
+        text: err?.response?.data?.message || "Payment failed",
+        icon: "error",
+      });
+    },
+  });
+};
+
+// payment process
+export const usePaymentProcess = () => {
+  return useClientApi({
+    method: "post",
+    isPrivate: false,
+    endpoint: `/api/student/payment/process`,
+    onError: (err) => {
+      Swal.fire({
+        text: err?.response?.data?.message,
+        icon: "error",
+      });
+    },
+  });
+};
+
+// get student
+export const useGetStudentByClassId = (id) => {
+  return useClientApi({
+    method: "get",
+    isPrivate: true,
+    key: ["get-student-by-class", id],
+    endpoint: `/api/student/by_course?course_id=${id}`,
+  });
+};
+
+export const useGetInstructorByDiscipline = () => {
+  return useClientApi({
+    method: "get",
+    isPrivate: true,
+    key: ["get-instructor-by-discipline"],
+    endpoint: `/api/reports/instructors-and-discipline`,
+  });
+};
+
+export const useGetClassAndStudentReport = () => {
+  return useClientApi({
+    method: "get",
+    isPrivate: true,
+    key: ["get-class-and-student"],
+    endpoint: `/api/reports/classes-and-students`,
+  });
+};
+
+export const useGetClassAndStudentByDiscipline = () => {
+  return useClientApi({
+    method: "get",
+    isPrivate: true,
+    key: ["get-class-and-student-by-discipline"],
+    endpoint: `/api/reports/classes-students-discipline`,
+  });
+};
+
+export const useStoreStudentData = () => {
+  return useClientApi({
+    method: "post",
+    isPrivate: true,
+    endpoint: "/api/student/store",
+    onError: (error) => {
+      Swal.fire({
+        text: error?.response?.data?.message,
+        icon: "error",
+      });
+    },
+  });
+};
+
+export const useUpdateStudentData = () => {
+  return useClientApi({
+    method: "post",
+    isPrivate: true,
+    endpoint: "/api/student/by_course",
+    onError: (error) => {
+      Swal.fire({
+        text: error?.response?.data?.message,
+        icon: "error",
+      });
+    },
+  });
+};
+
+// get student data
+export const useGetStudent = (id) => {
+  return useClientApi({
+    method: "get",
+    isPrivate: true,
+    key: ["get-student", id],
+    endpoint: `/api/student/show?id=${id}`,
+  });
+};
+
+// update student score data
+export const useUpdateStudentScore = () => {
+  return useClientApi({
+    method: "post",
+    isPrivate: true,
+    endpoint: `/api/score/update`,
+    onError: (error) => {
+      Swal.fire({
+        text: error?.response?.data?.message,
+        icon: "error",
+      });
+    },
+  });
+};
+
+export const useFinalizeRoster = () => {
+  return useClientApi({
+    method: "post",
+    isPrivate: true,
+    endpoint: `/api/student/finalize`,
+    onError: (error) => {
+      Swal.fire({
+        text: error?.response?.data?.message,
+        icon: "error",
+      });
+    },
+  });
+};
+
+export const useDownloadStudentListPDF = () => {
+  return useClientApi({
+    method: "post",
+    isPrivate: true,
+    endpoint: `/api/student/export-pdf`,
+    axiosOptions: {
+      responseType: "blob",
+    },
+    onError: (err) => {
+      toast.error(err?.response?.data?.message || "Something went wrong!");
+    },
+  });
+};
+
+export const useDownloadRoster = (id) => {
+  return useClientApi({
+    method: "post",
+    isPrivate: true,
+    endpoint: `/api/student/${id}`,
+    axiosOptions: {
+      responseType: "blob",
+    },
+    onError: (err) => {
+      toast.error(err?.response?.data?.message || "Something went wrong!");
+    },
+  });
+};
+
+// ----- tc product ------
+
+// get all
+export const useGetTCProduct = (page = 1, perPage = 10) => {
+  return useClientApi({
+    method: "get",
+    isPrivate: true,
+    key: ["get-tc-product", page, perPage],
+    endpoint: `/api/tc-product?page=${page}&per_page=${perPage}`,
+  });
+};
+
+// store
+export const useStoreTCProduct = () => {
+  return useClientApi({
+    method: "post",
+    isPrivate: true,
+    endpoint: `/api/tc-product`,
+    onError: (err) => {
+      Swal.fire({
+        text: err?.response?.data?.message,
+        icon: "error",
+      });
+    },
+  });
+};
+
+// show
+export const useGetSingleTCProduct = (id) => {
+  return useClientApi({
+    method: "get",
+    isPrivate: true,
+    key: ["get-single-tc-product", id],
+    endpoint: `/api/tc-product/${id}`,
+  });
+};
+
+// update
+export const useUpdateTCProduct = (id) => {
+  return useClientApi({
+    method: "put",
+    isPrivate: true,
+    endpoint: `/api/tc-product/${id}`,
+    onSuccess: (data) => {
+      Swal.fire({
+        text: data?.message,
+        icon: "success",
+      });
+    },
+    onError: (err) => {
+      Swal.fire({
+        text: err?.response?.data?.message,
+        icon: "error",
+      });
+    },
+  });
+};
+
+// ======== tc product order
+export const useGetTCProductOrder = (page = 1, perPage = 10) => {
+  return useClientApi({
+    method: "get",
+    isPrivate: true,
+    key: ["get-tc-product-order", page, perPage],
+    endpoint: `/api/tc-product-orders?page=${page}`,
+  });
+};
+
+export const useGetSingleTCProductOrder = (id) => {
+  return useClientApi({
+    method: "get",
+    isPrivate: true,
+    key: ["get-single-tc-product-order", id],
+    endpoint: `/api/tc-product-order/${id}`,
+  });
+};
+
+export const useChangeOrderStatus = (id) => {
+  return useClientApi({
+    method: "post",
+    isPrivate: true,
+    key: ["change-order-status", id],
+    endpoint: `/api/tc-product-orders/${id}/status`,
+  });
+};
+
+export const useMarkAsPaid = (id) => {
+  const queryClient = useQueryClient();
+  return useClientApi({
+    method: "post",
+    isPrivate: true,
+    key: ["mark-as-paid", id],
+    endpoint: `/api/tc-product-orders/${id}/mark-paid`,
+    onSuccess: (data) => {
+      queryClient.invalidateQueries(["change-order-status"]);
+      toast.success(data?.message || "Document deleted successfully");
+    },
+    onError: (err) => {
+      toast.error(err?.response?.data?.message || "Something went wrong!");
+    },
+  });
+};
+
+export const useGetTSProductOrder = (id, page = 1, perPage = 10) => {
+  return useClientApi({
+    method: "get",
+    isPrivate: true,
+    key: ["get-ts-product-order", id, page, perPage],
+    endpoint: `/api/my/tc-product-orders/${id}?page=${page}`,
+  });
+};
+
+export const useTSProductCheckout = () => {
+  return useClientApi({
+    method: "post",
+    isPrivate: true,
+    endpoint: "/api/purchase-tc-product",
+    onSuccess: (data) => {
+      toast.success(data?.message);
+    },
+    onError: (err) => {
+      Swal.fire({
+        text: err?.response?.data?.message || "Something went wrong",
+        icon: "error",
+      });
+    },
+  });
+};
+
+// connect payment account
+export const useConnectAccount = () => {
+  return useClientApi({
+    method: "post",
+    isPrivate: true,
+    endpoint: `/api/instructor-account-connect`,
+    onError: (err) => {
+      Swal.fire({
+        text: err?.response?.data?.message,
+        icon: "error",
+      });
+    },
+  });
+};
+
+export const useGetPaymentReport = () => {
+  return useClientApi({
+    method: "get",
+    isPrivate: true,
+    key: ["get-payment-report"],
+    endpoint: "/api/report/payment-report",
+  });
+};
+
+export const useGetDailyVolumeReport = () => {
+  return useClientApi({
+    method: "get",
+    isPrivate: true,
+    key: ["get-daily-volume-report"],
+    endpoint: "/api/report/daily-volume-report",
+  });
+};
+
+// notifications
+
+export const useGetNotifications = () => {
+  return useClientApi({
+    method: "get",
+    isPrivate: true,
+    key: ["get-notifications"],
+    endpoint: "/api/notifications",
+  });
+};
+
+// get all rosters
+export const useGetAllRosters = () => {
+  return useClientApi({
+    method: "get",
+    isPrivate: true,
+    key: ["get-training-site-rosters"],
+    endpoint: "/api/training-site-rosters",
   });
 };
