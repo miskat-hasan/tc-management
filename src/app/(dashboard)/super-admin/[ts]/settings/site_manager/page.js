@@ -64,7 +64,6 @@ const Page = () => {
 
             <FormInput name="website" label="Website" placeholder="Website" />
             <FormInput name="Phone" label="Phone" placeholder="Phone" />
-            <FormInput name="fax" label="Fax" placeholder="Fax here" />
 
             <FormInput
               name="address1"

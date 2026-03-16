@@ -30,26 +30,25 @@ const Page = () => {
 
               <tbody>
                 {data?.data?.length > 0 ? (
-                  data?.data?.map((item, index) => (
+                  data?.data?.map((item) => (
                     <tr
                       key={item.id}
                       className="border-b hover:bg-gray-50 transition-all"
                     >
                       <td className="px-3 sm:px-6 py-3 text-gray-800 whitespace-nowrap">
-                        {/* {item?.} */}
+                        {item?.finalized_at.split(" ")[0]}
                       </td>
                       <td className="px-3 sm:px-6 py-3 text-gray-800">
-                        {item.training_site?.training_center_name}
+                        {item.training_site}
                       </td>
                       <td className="px-3 sm:px-6 py-3">
-                        {/* {item?.instructor?.first_name} */}
+                        {item?.course_name}
                       </td>
                       <td className="px-3 sm:px-6 py-3">
-                        {item?.instructor?.first_name}{" "}
-                        {item?.instructor?.last_name}
+                        {item?.instructor_name}
                       </td>
                       <td className="px-3 sm:px-6 py-3 text-gray-600 whitespace-nowrap text-center">
-                        0/{item.max_student}
+                        {item?.enrolled_students}
                       </td>
                     </tr>
                   ))

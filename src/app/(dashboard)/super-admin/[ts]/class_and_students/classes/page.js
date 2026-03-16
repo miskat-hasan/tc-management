@@ -125,7 +125,7 @@ const Page = () => {
               </thead>
               <tbody>
                 {filteredClasses?.length > 0 ? (
-                  filteredClasses?.map((item, index) => (
+                  filteredClasses?.map((item) => (
                     <tr
                       key={item?.id}
                       className="border-b hover:bg-gray-50 transition-all"
