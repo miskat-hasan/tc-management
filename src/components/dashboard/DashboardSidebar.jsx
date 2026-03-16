@@ -245,10 +245,10 @@ const DashboardSidebar = () => {
           href: `/super-admin/${trainingSiteId}/settings/location`,
         },
         // { label: "File Manager", href: `/super-admin/${trainingSiteId}/settings/file_manager` },
-        {
-          label: "Site Manager",
-          href: `/super-admin/${trainingSiteId}/settings/site_manager`,
-        },
+        // {
+        //   label: "Site Manager",
+        //   href: `/super-admin/${trainingSiteId}/settings/site_manager`,
+        // },
         {
           label: "Card Settings",
           href: `/super-admin/${trainingSiteId}/settings/cards_settings`,
