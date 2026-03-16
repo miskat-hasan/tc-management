@@ -16,6 +16,7 @@ export const useChangePassword = () => {
     },
   });
 };
+
 export const createSingleTrainingSite = () => {
   return useClientApi({
     method: "post",
@@ -1108,5 +1109,20 @@ export const useGetAllRosters = () => {
     isPrivate: true,
     key: ["get-training-site-rosters"],
     endpoint: "/api/training-site-rosters",
+  });
+};
+
+// update user data
+export const useUpdateUserData = () => {
+  return useClientApi({
+    method: "post",
+    isPrivate: true,
+    endpoint: `/api/instructors/basic-info`,
+    onError: (err) => {
+      Swal.fire({
+        text: err?.response?.data?.message,
+        icon: "error",
+      });
+    },
   });
 };
