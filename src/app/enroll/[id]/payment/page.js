@@ -5,13 +5,16 @@ import FormInput from "@/components/shared/form/FormInput";
 import { Button } from "@/components/ui/button";
 import { usePaymentProcess } from "@/hooks/api/dashboardApi";
 import { Logo } from "@/svg/SvgContainer";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import React from "react";
 import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
 
 const PaymentPage = () => {
   const router = useRouter();
+  const params = useParams();
+  const id = params.id;
+
   const form = useForm({
     defaultValues: {
       card_number: "",
@@ -25,7 +28,8 @@ const PaymentPage = () => {
   const { mutate, isPending } = usePaymentProcess();
 
   const onSubmit = (data) => {
-    mutate(data, {
+    const payload = {id: id, ...data}
+    mutate(payload, {
       onSuccess: (res) => {
         reset();
         Swal.fire({
@@ -59,10 +63,10 @@ const PaymentPage = () => {
               placeholder="1234 5678 1234 5678"
               rules={{
                 required: "Card Number is required",
-                pattern: {
-                  value: /^\d{16}$/,
-                  message: "Must be 16 digits",
-                },
+                // pattern: {
+                //   value: /^\d{16}$/,
+                //   message: "Must be 16 digits",
+                // },
               }}
             />
 
@@ -73,10 +77,10 @@ const PaymentPage = () => {
                 placeholder="MM/YY"
                 rules={{
                   required: "Required",
-                  pattern: {
-                    value: /^(0[1-2]|1[0-2])\/?([0-9]{2})$/,
-                    message: "Use MM/YY",
-                  },
+                  // pattern: {
+                  //   value: /^(0[1-2]|1[0-2])\/?([0-9]{2})$/,
+                  //   message: "Use MM/YY",
+                  // },
                 }}
               />
               <FormInput

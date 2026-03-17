@@ -57,7 +57,7 @@ const Page = ({ params }) => {
 
   const handleDownloadStudentList = () => {
     downloadStudentList(
-  { class_details_id: id },
+      { class_details_id: id },
       {
         onSuccess: (blob) => {
           const file = new Blob([blob], {
@@ -101,13 +101,25 @@ const Page = ({ params }) => {
           >
             <Link href={`${id}/edit-score`}>Edit Scores</Link>
           </Button>
-          <Button
-            onClick={() => handleDownloadRoster()}
-            disabled={downloadRosterPending}
-            className="h-8 border border-transparent rounded-md shadow-sm text-sm font-medium cursor-pointer text-white bg-brown cursor hover:bg-brown-hover focus:outline-none disabled:opacity-60"
-          >
-            {downloadRosterPending ? "Downloading..." : "View Roster"}
-          </Button>
+          {studentData?.data?.students?.find(
+            (item) => item.is_finalized === 1,
+          ) ? (
+            <Button
+              onClick={() => handleDownloadRoster()}
+              disabled={downloadRosterPending}
+              className="h-8 border border-transparent rounded-md shadow-sm text-sm font-medium cursor-pointer text-white bg-brown cursor hover:bg-brown-hover focus:outline-none disabled:opacity-60"
+            >
+              {downloadRosterPending ? "Downloading..." : "View Roster"}
+            </Button>
+          ) : (
+            <Button
+              onClick={() => finalizeRosterMutation({course_id: id})}
+              disabled={finalizeRosterPending}
+              className="h-8 border border-transparent rounded-md shadow-sm text-sm font-medium cursor-pointer text-white bg-brown cursor hover:bg-brown-hover focus:outline-none disabled:opacity-60"
+            >
+              {finalizeRosterPending ? "Processing..." : "Finalized Roster"}
+            </Button>
+          )}
           <Button
             onClick={() => handleDownloadStudentList()}
             disabled={downloadStudentListPending}
