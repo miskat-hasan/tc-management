@@ -888,15 +888,17 @@ export const useUpdateStudentScore = () => {
 };
 
 export const useFinalizeRoster = () => {
+  const queryClient = useQueryClient();
   return useClientApi({
     method: "post",
     isPrivate: true,
     endpoint: `/api/student/finalize`,
-    onError: (error) => {
-      Swal.fire({
-        text: error?.response?.data?.message,
-        icon: "error",
-      });
+    onSuccess: (data) => {
+      queryClient.invalidateQueries(["get-student-by-class"]);
+      toast.success(data?.message || "Roster finalized successfully");
+    },
+    onError: (err) => {
+      toast.error(err?.response?.data?.message || "Something went wrong!");
     },
   });
 };

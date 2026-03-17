@@ -226,7 +226,7 @@ const Page = () => {
                         {item.location?.name}
                       </td>
                       <td className="px-3 sm:px-6 py-3 text-gray-600">
-                        {item.max_student}
+                        {item?.enrolled ?? "0"}/{item.max_student}
                       </td>
                       <td className="px-3 sm:px-6 py-3 text-center">
                         <Link href={`upcoming_classes/${item.id}`}>
