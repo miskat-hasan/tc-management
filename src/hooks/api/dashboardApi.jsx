@@ -509,6 +509,7 @@ export const getAllClasses = (page = 1, perPage = 10) => {
 export const searchClasses = (
   is_enabled,
   course_id,
+  type,
   instructor_id,
   location_id,
   id,
@@ -516,8 +517,15 @@ export const searchClasses = (
   return useClientApi({
     method: "get",
     isPrivate: true,
-    key: ["get-searched-classes", course_id, instructor_id, location_id, id],
-    params: { course_id, instructor_id, location_id, id },
+    key: [
+      "get-searched-classes",
+      course_id,
+      type,
+      instructor_id,
+      location_id,
+      id,
+    ],
+    params: { course_id, type, instructor_id, location_id, id },
     endpoint: "/api/class/search",
     enabled: is_enabled,
     queryOptions: {

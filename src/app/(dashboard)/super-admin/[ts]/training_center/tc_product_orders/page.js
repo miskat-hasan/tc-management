@@ -3,23 +3,20 @@
 import SectionTitle from "@/components/common/SectionTitle";
 import React, { useState } from "react";
 import { CiEdit } from "react-icons/ci";
-import {
-  useGetTCProductOrder,
-} from "@/hooks/api/dashboardApi";
+import { useGetTCProductOrder } from "@/hooks/api/dashboardApi";
 import TableSkeleton from "@/components/common/TableSkelation";
 import Link from "next/link";
 
 const Page = () => {
   const [page, setPage] = useState(1);
   const [perPage, setPerPage] = useState(10);
-  
 
   const { data: tcProductOrderData, isLoading: tcProductOrderLoading } =
     useGetTCProductOrder(page, perPage);
 
   return (
     <section className="flex flex-col gap-[12.5px] lg:gap-[25px] ">
-        <SectionTitle title={"TC Product Orders"} />
+      <SectionTitle title={"TC Product Orders"} />
 
       {tcProductOrderLoading ? (
         <TableSkeleton />
@@ -57,7 +54,7 @@ const Page = () => {
                       className="border-b hover:bg-gray-50 transition-all"
                     >
                       <td className="px-3 md:px-6 py-4 whitespace-nowrap">
-                        {item?.code}
+                        {new Date(item?.created_at).toLocaleString()}
                       </td>
                       <td className="px-3 md:px-6 py-4 whitespace-nowrap">
                         <p>{item?.training_site?.training_center_name}</p>
