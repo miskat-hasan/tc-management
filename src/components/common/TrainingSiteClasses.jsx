@@ -2,6 +2,7 @@
 import SectionTitle from "@/components/common/SectionTitle";
 import SubSectionTitle from "@/components/common/SubSectionTitle";
 import TableSkeleton from "@/components/common/TableSkelation";
+import { getAllClasses } from "@/hooks/api/dashboardApi";
 import useAuth from "@/hooks/useAuth";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
@@ -11,6 +12,8 @@ import { GoArrowUpRight } from "react-icons/go";
 const TrainingSiteClasses = () => {
   const { trainingSiteData, trainingSiteDataLoading, selectedTrainingSiteId } =
     useAuth();
+
+    const {data: classData, isLoading: classLoading} = getAllClasses()
 
   const [selectedTrainingSiteData, setSelectedTrainingSiteData] =
     useState(null);
@@ -66,8 +69,8 @@ const TrainingSiteClasses = () => {
                 </tr>
               </thead>
               <tbody>
-                {filteredClasses?.length > 0 ? (
-                  filteredClasses?.map((item) => (
+                {classData?.data?.data?.length > 0 ? (
+                  classData?.data?.data?.map((item) => (
                     <tr
                       key={item?.id}
                       className="border-b hover:bg-gray-50 transition-all"
@@ -87,10 +90,11 @@ const TrainingSiteClasses = () => {
                         {item?.location_name}
                       </td>
                       <td className="px-3 sm:px-6 py-3 text-gray-600">
-                        {item?.student}
+                        {item?.enrollments_count ?? "0"}/{item?.max_student}
                       </td>
                       <td className="px-3 sm:px-6 py-3 text-center space-x-2">
-                          
+                          <div className="flex items-center flex-nowrap gap-2 justify-center">
+
                         <Link href={`classes/${item.id}`}>
                           <button className="p-1.5 sm:p-2 bg-gray-100 rounded-lg hover:bg-gray-200 transition cursor-pointer">
                             <CiEdit className="text-gray-600 text-[14px] sm:text-[16px]" />
@@ -101,6 +105,7 @@ const TrainingSiteClasses = () => {
                             <GoArrowUpRight className="text-gray-600 text-[14px] sm:text-[16px]" />
                           </button>
                         </Link>
+                          </div>
                       </td>
                     </tr>
                   ))

@@ -1,17 +1,8 @@
 "use client";
 import SectionTitle from "@/components/common/SectionTitle";
-import SubSectionTitle from "@/components/common/SubSectionTitle";
-
-import { Button } from "@/components/ui/button";
-import { paymentReport } from "@/data/data";
 import { useGetPaymentReport } from "@/hooks/api/dashboardApi";
-import Link from "next/link";
-
-import { useRouter } from "next/navigation";
-import React, { useState } from "react";
 
 const Page = () => {
-  const router = useRouter();
 
   const { data: paymentReport, isLoading: paymentReportLoading } =
     useGetPaymentReport();

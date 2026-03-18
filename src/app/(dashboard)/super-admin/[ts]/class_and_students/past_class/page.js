@@ -2,26 +2,18 @@
 import SectionTitle from "@/components/common/SectionTitle";
 import SubSectionTitle from "@/components/common/SubSectionTitle";
 import TableSkeleton from "@/components/common/TableSkelation";
-import CustomSelect from "@/components/shared/form/CustomSelect";
 import FormContainer from "@/components/shared/form/FormContainer";
 import FormInput from "@/components/shared/form/FormInput";
 import { Button } from "@/components/ui/button";
-import { courseSchedule } from "@/data/data";
 import {
-  getAllClasses,
-  getAllCourses,
-  getAllInstructor,
-  getAllLocation,
   getAllPastClasses,
   searchClasses,
 } from "@/hooks/api/dashboardApi";
 import { SearchIcon } from "@/svg/SvgContainer";
 import Link from "next/link";
-import React, { useState, useEffect, useMemo } from "react";
-import { Controller, useForm } from "react-hook-form";
+import React, { useState } from "react";
+import { useForm } from "react-hook-form";
 import { CiEdit } from "react-icons/ci";
-import { X } from "lucide-react";
-import useAuth from "@/hooks/useAuth";
 import { IoClose } from "react-icons/io5";
 
 const Page = () => {
@@ -34,93 +26,20 @@ const Page = () => {
   const [locationId, setLocationId] = useState(null);
   const [page, setPage] = useState(1);
   const [perPage, setPerPage] = useState(10);
-  // const [filters, setFilters] = useState({
-  //   class_id: "",
-  //   course: "",
-  //   instructor: "",
-  //   location: "",
-  // });
-
-  // const { selectedTrainingSiteId } = useAuth();
+  const type = "past";
 
   const { data: pastClassData, isLoading: pastClassDataLoading } =
     getAllPastClasses(page, perPage);
 
-  // const { data: locationData, isLoading: locationDataLoading } =
-  //   getAllLocation();
-
-  // const { data: instructorData, isLoading: instructorDataLoading } =
-  //   getAllInstructor();
-
-  // const { data: courseData, isLoading: courseDataLoading } = getAllCourses();
-
-  // Watch form values for filtering
-  // const watchedClassId = watch("class_id");
-  // const watchedCourse = watch("courses");
-  // const watchedInstructor = watch("instructor");
-  // const watchedLocation = watch("location");
-
-  // Update filters whenever form values change
-  // useEffect(() => {
-  //   setFilters({
-  //     class_id: watchedClassId || "",
-  //     course: watchedCourse || "",
-  //     instructor: watchedInstructor || "",
-  //     location: watchedLocation || "",
-  //   });
-  // }, [watchedClassId, watchedCourse, watchedInstructor, watchedLocation]);
-
-  // Filter data based on current filters
-  // const filteredData = useMemo(() => {
-  //   if (!pastClassData?.data?.data) return [];
-
-  //   return pastClassData.data.data.filter((item) => {
-  //     // Filter by class ID (search by index + 1 or item.id)
-  //     const matchClassId =
-  //       !filters.class_id ||
-  //       item.id?.toString().includes(filters.class_id) ||
-  //       (pastClassData.data.data.indexOf(item) + 1)
-  //         .toString()
-  //         .includes(filters.class_id);
-
-  //     // Filter by course
-  //     const matchCourse = !filters.course || item.course?.id === filters.course;
-
-  //     // Filter by instructor
-  //     const matchInstructor =
-  //       !filters.instructor || item.instructor?.id === filters.instructor;
-
-  //     // Filter by location
-  //     const matchLocation =
-  //       !filters.location || item.location?.id === filters.location;
-
-  //     return matchClassId && matchCourse && matchInstructor && matchLocation;
-  //   });
-  // }, [pastClassData, filters]);
-
-  // Check if any filter is active
-  // const hasActiveFilters =
-  //   filters.class_id ||
-  //   filters.course ||
-  //   filters.instructor ||
-  //   filters.location;
-
-  // Clear all filters
-  // const handleClearFilters = () => {
-  //   setValue("class_id", "");
-  //   setValue("courses", "");
-  //   setValue("instructor", "");
-  //   setValue("location", "");
-  //   setFilters({
-  //     class_id: "",
-  //     course: "",
-  //     instructor: "",
-  //     location: "",
-  //   });
-  // };
-
   const { data: searchedClassData, isLoading: searchedClassDataLoading } =
-    searchClasses(enableSearch, courseId, instructorId, locationId, classId);
+    searchClasses(
+      enableSearch,
+      courseId,
+      type,
+      instructorId,
+      locationId,
+      classId,
+    );
 
   const tableData = enableSearch
     ? searchedClassData?.data?.data

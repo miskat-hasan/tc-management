@@ -69,7 +69,7 @@ const Page = ({params}) => {
                       className="border-b hover:bg-gray-50 transition-all"
                     >
                       <td className="px-3 md:px-6 py-4 whitespace-nowrap">
-                        {item?.code}
+                        {new Date(item?.created_at).toLocaleString()}
                       </td>
                       <td className="px-3 md:px-6 py-4 whitespace-nowrap">
                         {item?.associated_class}
