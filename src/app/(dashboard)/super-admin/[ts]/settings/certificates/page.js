@@ -3,7 +3,6 @@ import SectionTitle from "@/components/common/SectionTitle";
 import TableSkeleton from "@/components/common/TableSkelation";
 
 import { Button } from "@/components/ui/button";
-import { keycodeSales } from "@/data/data";
 import {
   deleteSingleCertificationFile,
   downloadCertificationFile,

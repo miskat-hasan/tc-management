@@ -2,24 +2,18 @@
 import SectionTitle from "@/components/common/SectionTitle";
 import SubSectionTitle from "@/components/common/SubSectionTitle";
 import TableSkeleton from "@/components/common/TableSkelation";
-import CustomSelect from "@/components/shared/form/CustomSelect";
 import FormContainer from "@/components/shared/form/FormContainer";
 import FormInput from "@/components/shared/form/FormInput";
 import { Button } from "@/components/ui/button";
-import { courseSchedule } from "@/data/data";
 import { IoClose } from "react-icons/io5";
 import {
-  getAllClasses,
-  getAllCourses,
-  getAllInstructor,
-  getAllLocation,
   getAllUpcomingClasses,
   searchClasses,
 } from "@/hooks/api/dashboardApi";
 import { SearchIcon } from "@/svg/SvgContainer";
 import Link from "next/link";
 import React, { useState } from "react";
-import { Controller, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { CiEdit } from "react-icons/ci";
 
 const Page = () => {
@@ -36,21 +30,19 @@ const Page = () => {
   const [instructorId, setInstructorId] = useState(null);
   const [locationId, setLocationId] = useState(null);
   const [classId, setClassId] = useState(null);
+  const type = "upcoming";
 
   // search class
   const { data: searchedClassData, isLoading: searchedClassDataLoading } =
-    searchClasses(enableSearch, courseId, instructorId, locationId, classId);
+    searchClasses(
+      enableSearch,
+      courseId,
+      type,
+      instructorId,
+      locationId,
+      classId,
+    );
 
-  // const onSubmit = (data) => {
-  //   if (data) {
-  //     setEnableSearch(true);
-  //     setInstructorId(data?.instructor_id);
-  //     setClassId(data?.class_id);
-  //     setLocationId(data?.location_id);
-  //     setCourseId(data?.course_id);
-  //   }
-  //   // setEnableSearch(false)
-  // };
 
   const onSubmit = (data) => {
     if (data?.class_id) {
@@ -61,14 +53,6 @@ const Page = () => {
 
   const { data: upcomingClassData, isLoading: upcomingClassDataLoading } =
     getAllUpcomingClasses(page, perPage);
-
-  // const { data: locationData, isLoading: locationDataLoading } =
-  //   getAllLocation();
-
-  // const { data: instructorData, isLoading: instructorDataLoading } =
-  //   getAllInstructor();
-
-  // const { data: courseData, isLoading: courseDataLoading } = getAllCourses();
 
   const tableData = enableSearch
     ? searchedClassData?.data?.data
@@ -92,68 +76,11 @@ const Page = () => {
       {/* Header */}
       <div className="flex justify-between">
         <SectionTitle title={"Upcoming Classes"} />
-        {/* <div className="flex items-center gap-1 lg:gap-2 text-[#8C8C8C]">
-          <input
-            type="checkbox"
-            className="w-3.5 h-3.5 bg-transparent accent-[#8C8C8C]"
-          />
-          <label className="text-[10px] md:text-[12px]">
-            Hide Empty Classes
-          </label>
-        </div> */}
       </div>
       <FormContainer form={form} onSubmit={onSubmit}>
         {/* Search filters */}
         <div className="px-[16px] py-[16px] lg:px-[32px] lg:py-[32px] bg-white rounded-[16px]">
           <div className="flex flex-wrap lg:flex-nowrap gap-[10px] xl:gap-[24px]">
-            {/* <div className="flex-1">
-              <FormInput name="dateTime" label="Date/Time" type="date" />
-            </div> */}
-            {/* <Controller
-              name="course_id,"
-              control={control}
-              render={({ field }) => (
-                <CustomSelect
-                  {...field}
-                  id="Courses"
-                  label="Courses"
-                  placeholder="All courses"
-                  isLoading={courseDataLoading}
-                  options={courseData?.data?.data}
-                  className="flex-1"
-                />
-              )}
-            />
-            <Controller
-              name="instructor_id"
-              control={control}
-              render={({ field }) => (
-                <CustomSelect
-                  {...field}
-                  id="Instructor"
-                  label="Instructor"
-                  placeholder="All instructor"
-                  isLoading={instructorDataLoading}
-                  options={instructorData?.data?.data}
-                  className="flex-1"
-                />
-              )}
-            />
-            <Controller
-              name="location_id"
-              control={control}
-              render={({ field }) => (
-                <CustomSelect
-                  {...field}
-                  id="Location"
-                  label="Location"
-                  placeholder="All locations"
-                  isLoading={locationDataLoading}
-                  options={locationData?.data?.data}
-                  className="flex-1"
-                />
-              )}
-            /> */}
             <div>
               <FormInput name="class_id" label="Class Id" />
             </div>
@@ -226,7 +153,7 @@ const Page = () => {
                         {item.location?.name}
                       </td>
                       <td className="px-3 sm:px-6 py-3 text-gray-600">
-                        {item?.enrolled ?? "0"}/{item.max_student}
+                        {item?.enrollments_count ?? "0"}/{item.max_student}
                       </td>
                       <td className="px-3 sm:px-6 py-3 text-center">
                         <Link href={`upcoming_classes/${item.id}`}>
