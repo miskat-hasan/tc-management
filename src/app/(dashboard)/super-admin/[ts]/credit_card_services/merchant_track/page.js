@@ -7,6 +7,11 @@ import React from "react";
 
 const Page = () => {
   const { data, isLoading } = useGetDailyVolumeReport();
+  const Skeleton = ({ className }) => (
+    <div className={`animate-pulse bg-gray-200 rounded-md ${className}`} />
+  );
+
+
   return (
     <section className="flex flex-col gap-2.5 lg:gap-5">
       {/* <div className="flex flex-col gap-2.5 lg:gap-5">
@@ -45,7 +50,37 @@ const Page = () => {
         </div>
       </div> */}
       {isLoading ? (
-        "Loading..."
+         <div className="flex flex-col lg:flex-row gap-2.5 lg:gap-5">
+          {/* LEFT SIDE */}
+          <div className="flex grow flex-col gap-2.5 xl:gap-5">
+            {/* Title */}
+            <Skeleton className="h-6 w-40" />
+
+            {/* Chart Card */}
+            <div className="w-full h-[350px] lg:h-[450px] bg-white rounded-[20px] p-[20px]">
+              <Skeleton className="w-full h-full rounded-[12px]" />
+            </div>
+          </div>
+
+          {/* RIGHT SIDE */}
+          <div className="flex w-full lg:w-[500px] flex-col gap-2.5 lg:gap-5">
+            {/* Title */}
+            <Skeleton className="h-6 w-32" />
+
+            {/* Overview Card */}
+            <div className="w-full h-auto lg:h-[450px] bg-white rounded-[20px] p-[15px] lg:p-[20px] flex flex-col gap-[18px]">
+              {Array.from({ length: 5 }).map((_, i) => (
+                <div
+                  key={i}
+                  className="flex items-center justify-between"
+                >
+                  <Skeleton className="h-4 w-40" />
+                  <Skeleton className="h-4 w-24" />
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
       ) : (
         <div className="flex flex-col lg:flex-row gap-2.5 lg:gap-5">
           <div className="flex grow flex-col gap-2.5 xl:gap-5">
