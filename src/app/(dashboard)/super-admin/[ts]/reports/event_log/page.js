@@ -2,7 +2,6 @@
 import React from "react";
 import SectionTitle from "@/components/common/SectionTitle";
 import SubSectionTitle from "@/components/common/SubSectionTitle";
-import { StudentSearchResultsdemoone } from "@/data/data";
 import { getEventLog } from "@/hooks/api/dashboardApi";
 import TableSkeleton from "@/components/common/TableSkelation";
 

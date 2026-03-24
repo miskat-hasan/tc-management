@@ -406,10 +406,10 @@ const MobileSidebar = ({ onClose, isSidebarOpen }) => {
           href: `/super-admin/${trainingSiteId}/settings/location`,
         },
         // { label: "File Manager", href: `/super-admin/${trainingSiteId}/settings/file_manager` },
-        {
-          label: "Site Manager",
-          href: `/super-admin/${trainingSiteId}/settings/site_manager`,
-        },
+        // {
+        //   label: "Site Manager",
+        //   href: `/super-admin/${trainingSiteId}/settings/site_manager`,
+        // },
         {
           label: "Card Settings",
           href: `/super-admin/${trainingSiteId}/settings/cards_settings`,
@@ -449,10 +449,10 @@ const MobileSidebar = ({ onClose, isSidebarOpen }) => {
           label: "Student Search",
           href: `/super-admin/${trainingSiteId}/class_and_students/student_search`,
         },
-        {
-          label: "Student Export",
-          href: `/super-admin/${trainingSiteId}/reports/student_export`,
-        },
+        // {
+        //   label: "Student Export",
+        //   href: `/super-admin/${trainingSiteId}/reports/student_export`,
+        // },
         {
           label: "TC Product Orders",
           href: `/super-admin/${trainingSiteId}/training_center/tc_product_orders`,

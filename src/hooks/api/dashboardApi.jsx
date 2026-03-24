@@ -16,6 +16,7 @@ export const useChangePassword = () => {
     },
   });
 };
+
 export const createSingleTrainingSite = () => {
   return useClientApi({
     method: "post",
@@ -508,6 +509,7 @@ export const getAllClasses = (page = 1, perPage = 10) => {
 export const searchClasses = (
   is_enabled,
   course_id,
+  type,
   instructor_id,
   location_id,
   id,
@@ -515,8 +517,15 @@ export const searchClasses = (
   return useClientApi({
     method: "get",
     isPrivate: true,
-    key: ["get-searched-classes", course_id, instructor_id, location_id, id],
-    params: { course_id, instructor_id, location_id, id },
+    key: [
+      "get-searched-classes",
+      course_id,
+      type,
+      instructor_id,
+      location_id,
+      id,
+    ],
+    params: { course_id, type, instructor_id, location_id, id },
     endpoint: "/api/class/search",
     enabled: is_enabled,
     queryOptions: {
@@ -887,15 +896,17 @@ export const useUpdateStudentScore = () => {
 };
 
 export const useFinalizeRoster = () => {
+  const queryClient = useQueryClient();
   return useClientApi({
     method: "post",
     isPrivate: true,
     endpoint: `/api/student/finalize`,
-    onError: (error) => {
-      Swal.fire({
-        text: error?.response?.data?.message,
-        icon: "error",
-      });
+    onSuccess: (data) => {
+      queryClient.invalidateQueries(["get-student-by-class"]);
+      toast.success(data?.message || "Roster finalized successfully");
+    },
+    onError: (err) => {
+      toast.error(err?.response?.data?.message || "Something went wrong!");
     },
   });
 };
@@ -1108,5 +1119,20 @@ export const useGetAllRosters = () => {
     isPrivate: true,
     key: ["get-training-site-rosters"],
     endpoint: "/api/training-site-rosters",
+  });
+};
+
+// update user data
+export const useUpdateUserData = () => {
+  return useClientApi({
+    method: "post",
+    isPrivate: true,
+    endpoint: `/api/instructors/basic-info`,
+    onError: (err) => {
+      Swal.fire({
+        text: err?.response?.data?.message,
+        icon: "error",
+      });
+    },
   });
 };
