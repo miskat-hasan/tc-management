@@ -97,7 +97,7 @@ const DashboardTopbar = () => {
       )}
 
       {user?.roles?.find(
-        (item) => item?.role_name === "Admin" || "Instructor",
+        (item) => item?.role_name !== "Super Admin",
       ) && (
         <AdminMobileSidebar
           isSidebarOpen={isSidebarOpen}
