@@ -53,11 +53,11 @@ const Page = () => {
   return (
     <section className="flex flex-col gap-4">
       {/* Title */}
-      <SectionTitle title="New Asset Location" />
+      <SectionTitle title="Support Request" />
       <div className="bg-white rounded-[14px] p-4 lg:p-8 shadow-sm">
         <p className="text-gray-500">
-          Have a te&lical issue or an enhancement request? You can send an emai
-          to <b className="text-black">support@enrolhvare.com</b> or fill out
+          Have an issue or an enhancement request? You can send an emai
+          to <b className="text-black">Training@codebluecprservices.com</b> or fill out
           the form below We will be in touch as soon as possible.
         </p>
       </div>

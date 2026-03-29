@@ -53,6 +53,7 @@ const Page = () => {
       cardType: "",
       secondCardType: "",
       course_image: "",
+      upload_image: null,
       selected_option_ids: [],
       ceu_credits: "",
       courseConfirmationEmailCCS: "",
@@ -195,15 +196,17 @@ const Page = () => {
       formData.append("second_card_type_id", data.secondCardType || "");
     }
 
-    formData.append("course_image_id", data.course_image || "");
+    if (data.upload_image) {
+      formData.append("course_image", data.upload_image);
+    } else {
+      formData.append("course_image_id", data.course_image || "");
+    }
 
-    // Dynamic course options
     (data.selected_option_ids || []).forEach((optionId) => {
       formData.append("selected_options[]", optionId);
     });
 
     formData.append("ecu_credits", data.ceu_credits || "");
-
     formData.append("description", description || "");
     formData.append("email_body", emailBody || "");
 
@@ -224,10 +227,6 @@ const Page = () => {
       data.use_email_for_payments ? "1" : "0",
     );
 
-    // Optional fields (if supported by backend)
-    // formData.append("custom_sidebar", data.custom_sidebar ? "1" : "0");
-    // formData.append("calendar_icon_color", data.calendar_icon_color || "#000000");
-
     formData.append("seo_rich_results", data.enable_seo ? "1" : "0");
     if (data.enable_seo) {
       formData.append("seo_description", data.seoDescription || "");
@@ -240,8 +239,6 @@ const Page = () => {
           text: res?.message || "Course created successfully",
           icon: "success",
         });
-        // Optional: reset form after success
-        // form.reset();
       },
       onError: (err) => {
         Swal.fire({
@@ -266,7 +263,6 @@ const Page = () => {
               placeholder="Course name here"
             />
 
-            {/* Mode */}
             <div className="flex flex-col gap-2">
               <p className="font-semibold text-[15px] text-gray-700">Mode</p>
               <div className="flex flex-col gap-2">
@@ -308,7 +304,6 @@ const Page = () => {
               )}
             />
 
-            {/* Price Options */}
             <div className="flex flex-col gap-2">
               <p className="font-semibold text-[15px] text-gray-700">
                 Price Options
@@ -394,7 +389,6 @@ const Page = () => {
               <FormInput name="price" label="Price" placeholder="Price" />
             )}
 
-            {/* Add-ons */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <FormTextarea
                 name="addonPrompt"
@@ -450,7 +444,6 @@ const Page = () => {
               </div>
             </div>
 
-            {/* Shipping & Keycode */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <FormInput
                 name="shipping_price"
@@ -460,7 +453,6 @@ const Page = () => {
               <Controller
                 name="keycode_bank"
                 control={control}
-                rules={{ required: "Keycode Bank is required" }}
                 render={({ field }) => (
                   <CustomSelect
                     {...field}
@@ -474,7 +466,6 @@ const Page = () => {
               />
             </div>
 
-            {/* Certifying Body & related */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <Controller
                 name="course_certifying_body"
@@ -536,7 +527,6 @@ const Page = () => {
                 <Controller
                   name="secondCardType"
                   control={control}
-                  rules={{ required: "Second Card Type is required" }}
                   render={({ field }) => (
                     <CustomSelect
                       {...field}
@@ -550,28 +540,55 @@ const Page = () => {
               </div>
             )}
 
-            {/* Course Image */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-              <Controller
-                name="course_image"
-                control={control}
-                rules={{ required: "Course image is required" }}
-                render={({ field }) => (
-                  <CustomSelect
-                    {...field}
-                    label="Course Image"
-                    placeholder="Select course image"
-                    isLoading={courseImageDataLoading}
-                    options={courseImageData?.data?.data}
-                    error={errors.course_image?.message}
+              <div className="flex flex-col gap-4">
+                <Controller
+                  name="course_image"
+                  control={control}
+                  render={({ field }) => (
+                    <CustomSelect
+                      {...field}
+                      label="Course Image"
+                      placeholder="Select course image"
+                      isLoading={courseImageDataLoading}
+                      options={courseImageData?.data?.data}
+                      onChange={(val) => {
+                        field.onChange(val);
+                        setValue("upload_image", null);
+                      }}
+                      error={errors.course_image?.message}
+                    />
+                  )}
+                />
+                <div className="flex flex-col gap-2">
+                  <label className="text-sm font-medium text-gray-700">Or Upload Image</label>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    className="text-sm file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:bg-neutral-100 hover:file:bg-neutral-200 cursor-pointer"
+                    onChange={(e) => {
+                      const file = e.target.files?.[0];
+                      if (file) {
+                        setValue("upload_image", file);
+                        setValue("course_image", "");
+                      }
+                    }}
                   />
-                )}
-              />
+                </div>
+              </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   Preview
                 </label>
-                {watchFields.course_image && imagePreview?.image ? (
+                {watchFields.upload_image ? (
+                  <Image
+                    src={URL.createObjectURL(watchFields.upload_image)}
+                    width={120}
+                    height={120}
+                    alt="Upload preview"
+                    className="object-cover rounded border"
+                  />
+                ) : watchFields.course_image && imagePreview?.image ? (
                   <Image
                     src={imagePreview.image}
                     width={120}
@@ -587,7 +604,6 @@ const Page = () => {
               </div>
             </div>
 
-            {/* Dynamic Options */}
             <div className="flex flex-col gap-2">
               <p className="font-semibold text-[15px] text-gray-700">Options</p>
               {courseOptionLoading ? (
