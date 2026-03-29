@@ -460,7 +460,6 @@ const Page = () => {
               <Controller
                 name="keycode_bank"
                 control={control}
-                rules={{ required: "Keycode Bank is required" }}
                 render={({ field }) => (
                   <CustomSelect
                     {...field}
@@ -536,7 +535,6 @@ const Page = () => {
                 <Controller
                   name="secondCardType"
                   control={control}
-                  rules={{ required: "Second Card Type is required" }}
                   render={({ field }) => (
                     <CustomSelect
                       {...field}

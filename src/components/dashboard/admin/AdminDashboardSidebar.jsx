@@ -84,7 +84,7 @@ const AdminDashboardSidebar = () => {
       label: "Help",
       href: "#",
       submenu: [
-        { label: "Search Help", href: "https://help.enrollware.com/" },
+        // { label: "Search Help", href: "https://help.enrollware.com/" },
         {
           label: "Support Request",
           href: `/admin/${trainingSiteId}/help/support_request`,

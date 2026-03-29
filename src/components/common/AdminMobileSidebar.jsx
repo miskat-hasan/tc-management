@@ -82,7 +82,7 @@ const AdminMobileSidebar = ({ onClose, isSidebarOpen }) => {
       label: "Help",
       href: "#",
       submenu: [
-        { label: "Search Help", href: "https://help.enrollware.com/" },
+        // { label: "Search Help", href: "https://help.enrollware.com/" },
         {
           label: "Support Request",
           href: `/admin/${selectedTrainingSiteId}/help/support_request`,

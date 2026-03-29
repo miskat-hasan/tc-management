@@ -209,7 +209,7 @@ const DashboardSidebar = () => {
       label: "Help",
       href: "#",
       submenu: [
-        { label: "Search Help", href: "https://help.enrollware.com/" },
+        // { label: "Search Help", href: "https://help.enrollware.com/" },
         {
           label: "Support Request",
           href: `/super-admin/${trainingSiteId}/help/support_request`,
@@ -263,10 +263,10 @@ const DashboardSidebar = () => {
         },
         // { label: "Email Campaigns", href: `/super-admin/${trainingSiteId}/settings/emails_campaigns` },
         // { label: "Text Messaging", href: `/super-admin/${trainingSiteId}/settings/text_messaging` },
-        // {
-        //   label: "Users",
-        //   href: `/super-admin/${trainingSiteId}/settings/users`,
-        // },
+        {
+          label: "Users",
+          href: `/super-admin/${trainingSiteId}/settings/users`,
+        },
       ],
     },
   ];
@@ -333,7 +333,7 @@ const DashboardSidebar = () => {
       label: "Help",
       href: "#",
       submenu: [
-        { label: "Search Help", href: "https://help.enrollware.com/" },
+        // { label: "Search Help", href: "https://help.enrollware.com/" },
         {
           label: "Support Request",
           href: `/super-admin/${trainingSiteId}/help/support_request`,
