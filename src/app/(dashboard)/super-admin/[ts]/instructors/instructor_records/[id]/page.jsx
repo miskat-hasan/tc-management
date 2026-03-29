@@ -18,8 +18,12 @@ import Link from "next/link";
 import Certification from "../../certifications/page";
 import DocumentList from "@/components/dashboard/Instructors/DocumentList";
 import Swal from "sweetalert2";
+import { useRouter } from "next/navigation";
 
 const Page = ({ params }) => {
+
+  const router = useRouter();
+  
   const form = useForm({
     defaultValues: {},
   });
@@ -138,7 +142,7 @@ const Page = ({ params }) => {
       ) : (
         <section className="flex flex-col gap-2 lg:gap-4">
           {/* Title */}
-          <SectionTitle title="Edit Instructor" />
+          <SectionTitle title="Edit User" />
 
           {/* White Form Card */}
           <div className="bg-white rounded-[14px] p-4 lg:p-8 shadow-sm">
@@ -326,12 +330,10 @@ const Page = ({ params }) => {
               {/* Footer Buttons */}
               <div className="flex justify-end gap-2 lg:gap-4 mt-5 lg:mt-10">
                 <Button
-                  asChild={true}
+                onClick={() => router.back()}
                   className="px-6 py-2 bg-transparent border border-gray-300 rounded-md text-sm font-medium text-black hover:bg-gray-50"
                 >
-                  <Link href={"../instructor_records"}>
                     Back
-                  </Link>
                 </Button>
                 <Button
                   type="submit"

@@ -66,11 +66,7 @@ const CustomSelect = ({
                   opt?.company ??
                   opt?.course_name ??
                   opt?.title ??
-                  opt?.first_name +
-                    " " +
-                    opt?.middle_name +
-                    " " +
-                    opt?.last_name}
+                  opt?.first_name + " " + opt?.last_name}
               </SelectItem>
             ))
           ) : (
