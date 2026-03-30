@@ -455,7 +455,7 @@ const MobileSidebar = ({ onClose, isSidebarOpen }) => {
         // },
         {
           label: "TC Product Orders",
-          href: `/super-admin/${trainingSiteId}/training_center/tc_product_orders`,
+          href: `/super-admin/${trainingSiteId}/class_and_students/ts_product_orders`,
         },
       ],
     },

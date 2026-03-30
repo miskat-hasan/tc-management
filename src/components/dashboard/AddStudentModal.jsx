@@ -4,30 +4,31 @@ import FormInput from "../shared/form/FormInput";
 import { getAllCountry, useStoreStudentData } from "@/hooks/api/dashboardApi";
 import CustomSelect from "../shared/form/CustomSelect";
 import { Button } from "../ui/button";
+import { toast } from "sonner";
 
 const status = [
   {
-    id: 1,
+    id: "Pending",
     name: "Pending",
   },
   {
-    id: 2,
+    id: "Complete",
     name: "Completed",
   },
   {
-    id: 3,
+    id: "Incomplete",
     name: "Incomplete",
   },
   {
-    id: 4,
+    id: "Remediate",
     name: "Remediate",
   },
   {
-    id: 5,
+    id: "No Show",
     name: "No Show",
   },
   {
-    id: 6,
+    id: "Waitlisted",
     name: "Waitlisted",
   },
 ];
@@ -53,6 +54,7 @@ const AddStudentModal = ({ classId, open, onClose }) => {
       {
         onSuccess: (data) => {
           toast.success(data?.message || "Student added successfully");
+          onClose();
         },
       },
     );

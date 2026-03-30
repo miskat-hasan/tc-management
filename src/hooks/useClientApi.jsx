@@ -23,6 +23,7 @@ export default function useClientApi({
   if (method === "get") {
     return useQuery({
       queryKey: key,
+      retry: false,
       queryFn: async () => {
         const res = await axiosInstance.get(endpoint, {
           params,
