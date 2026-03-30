@@ -8,22 +8,20 @@ import FormTextarea from "@/components/shared/form/FormTextarea";
 import { Button } from "@/components/ui/button";
 import {
   getAllCardType,
-  getAllCourses,
   getAllDiscipline,
   getAllKeyCodeBank,
   getAllProductAddOns,
   getCourseImage,
   getCourseOptions,
   getSecondCardType,
-  getSingleCourse,
-  updateCourse,
+  storeCourse,
 } from "@/hooks/api/dashboardApi";
 import { LucideTrash2, X } from "lucide-react";
 
 import dynamic from "next/dynamic";
 import Image from "next/image";
 import Link from "next/link";
-import React, { useEffect, useRef } from "react";
+import React, { useRef } from "react";
 import { Controller, useFieldArray, useForm } from "react-hook-form";
 import { FaPlus } from "react-icons/fa";
 import Swal from "sweetalert2";
@@ -32,16 +30,14 @@ const RichTextEditor = dynamic(() => import("@/components/shared/RichEditor"), {
   ssr: false,
 });
 
-const Page = ({ params }) => {
-  const { id } = params;
-
+const AddNewCourse = () => {
   const descriptionRef = useRef(null);
   const emailBodyRef = useRef(null);
 
   const form = useForm({
     defaultValues: {
       course_name: "",
-      mode: "",
+      mode: "on-site",
       discipline: "",
       deposit_registration: false,
       multiple_pricing: false,
@@ -52,13 +48,13 @@ const Page = ({ params }) => {
       add_ons: [],
       shipping_price: "",
       keycode_bank: "",
-      course_certifying_body: "",
+      course_certifying_body: "none",
       courseSKUs: "",
       cardType: "",
       secondCardType: "",
       course_image: "",
       upload_image: null,
-      selected_options: [],
+      selected_option_ids: [],
       ceu_credits: "",
       courseConfirmationEmailCCS: "",
       courseConfirmationEmailSubject: "",
@@ -75,7 +71,6 @@ const Page = ({ params }) => {
 
   const {
     register,
-    reset,
     watch,
     control,
     setValue,
@@ -89,9 +84,8 @@ const Page = ({ params }) => {
     name: "priceLevel",
   });
 
-  const { data: courseData } = getSingleCourse(id);
-  const { mutate: updateCourseMutation, isPending: updateCoursePending } =
-    updateCourse();
+  const { mutate: storeCourseMutation, isPending: storeCoursePending } =
+    storeCourse();
 
   const { data: disciplineData, isLoading: disciplineLoading } =
     getAllDiscipline();
@@ -105,102 +99,12 @@ const Page = ({ params }) => {
     getSecondCardType();
   const { data: courseImageData, isLoading: courseImageDataLoading } =
     getCourseImage();
-  const { data: courseOptionData, isLoading: courseOptionDataLoading } =
+  const { data: courseOptionData, isLoading: courseOptionLoading } =
     getCourseOptions();
 
   const imagePreview = courseImageData?.data?.data?.find(
     (item) => Number(item?.id) === Number(watchFields?.course_image),
   );
-
-  useEffect(() => {
-    if (
-      courseData?.data ||
-      disciplineData?.data?.data ||
-      addOnsData?.data?.data ||
-      keyCodeBank?.data?.data ||
-      cardTypeData?.data?.data ||
-      secondCardTypeData?.data?.data ||
-      courseImageData?.data?.data ||
-      courseOptionData?.data?.data
-    ) {
-      const course = courseData?.data;
-
-      reset({
-        course_name: course?.course_name || "",
-        mode: course?.mode === "onsite" ? "on-site" : course?.mode || "on-site",
-        discipline: course?.discipline || "",
-
-        deposit_registration: !!course?.allow_deposit,
-        deposit_amounts: course?.deposit_amount || "",
-        multiple_pricing: !!course?.allow_multiple,
-
-        price: course?.price || "",
-        price_level_prompt: course?.deposits?.[0]?.price_level_prompt || "",
-        priceLevel:
-          course?.allow_multiple && course?.deposits?.length > 0
-            ? course?.deposits.map((dep) => ({
-                price: dep.price_levels?.price?.toString() || "",
-                code: dep.price_levels?.code || "",
-                description: dep.price_levels?.description || "",
-              }))
-            : [
-                { price: "", code: "", description: "" },
-                { price: "", code: "", description: "" },
-              ],
-
-        addonPrompt: course?.prompt || "",
-        add_ons: course?.addons?.map((addon) => Number(addon.id)) || [],
-
-        shipping_price: course?.shipping_price?.toString() || "",
-        keycode_bank: course?.keycode_bank_id || "",
-
-        course_certifying_body:
-          course?.course_certifying_body === "american_red_cross"
-            ? "American Red Cross"
-            : course?.course_certifying_body === "american_heart_association"
-              ? "American Heart Association"
-              : "none",
-
-        courseSKUs: course?.course_skus || "",
-        cardType: course?.card_type_id?.toString() || "",
-        secondCardType: course?.second_card_type_id?.toString() || "",
-
-        course_image: course?.course_image_id || "",
-        upload_image: null,
-
-        selected_options: course?.options?.map((opt) => Number(opt.id)) || [],
-
-        ceu_credits: course?.ecu_credits || "",
-
-        courseConfirmationEmailCCS: course?.confirmation_email || "",
-        courseConfirmationEmailSubject:
-          course?.course_confirmation_email_subject || "",
-        payloadConfirmationEmailSubject:
-          course?.payment_confirmation_email_subject || "",
-        use_email_for_payments: !!course?.use_general_email_body,
-
-        enable_seo: !!course?.seo_rich_results,
-        seoDescription: course?.seo_description || "",
-      });
-
-      if (descriptionRef.current) {
-        descriptionRef.current.setContents(course?.description || "");
-      }
-      if (emailBodyRef.current) {
-        emailBodyRef.current.setContents(course?.email_body || "");
-      }
-    }
-  }, [
-    courseData?.data,
-    reset,
-    disciplineData?.data?.data,
-    addOnsData?.data?.data,
-    keyCodeBank?.data?.data,
-    cardTypeData?.data?.data,
-    secondCardTypeData?.data?.data,
-    courseImageData?.data?.data,
-    courseOptionData?.data?.data,
-  ]);
 
   const handleAddPriceLevel = () => {
     append({ price: "", code: "", description: "" });
@@ -239,9 +143,8 @@ const Page = ({ params }) => {
 
     const formData = new FormData();
 
-    formData.append("id", id);
     formData.append("course_name", data.course_name || "");
-    formData.append("mode", data.mode || "");
+    formData.append("mode", data.mode || "on-site");
     formData.append("discipline", data.discipline || "");
 
     formData.append("allow_deposit", data.deposit_registration ? "1" : "0");
@@ -299,12 +202,11 @@ const Page = ({ params }) => {
       formData.append("course_image_id", data.course_image || "");
     }
 
-    (data.selected_options || []).forEach((optionId) => {
+    (data.selected_option_ids || []).forEach((optionId) => {
       formData.append("selected_options[]", optionId);
     });
 
     formData.append("ecu_credits", data.ceu_credits || "");
-
     formData.append("description", description || "");
     formData.append("email_body", emailBody || "");
 
@@ -330,16 +232,16 @@ const Page = ({ params }) => {
       formData.append("seo_description", data.seoDescription || "");
     }
 
-    updateCourseMutation(formData, {
+    storeCourseMutation(formData, {
       onSuccess: (res) => {
         Swal.fire({
-          text: res?.message || "Course updated successfully",
+          text: res?.message || "Course created successfully",
           icon: "success",
         });
       },
       onError: (err) => {
         Swal.fire({
-          text: err?.response?.data?.message || "Failed to update course",
+          text: err?.response?.data?.message || "Failed to create course",
           icon: "error",
         });
       },
@@ -348,9 +250,9 @@ const Page = ({ params }) => {
 
   return (
     <section className="flex flex-col gap-4">
-      <SectionTitle title="Add / Edit Course Type" />
+      <SectionTitle title="Add Course Type" />
 
-      <div className="p-[13px] lg:p-[26px] bg-white rounded-[14px] flex flex-col gap-[24px]">
+      <div className="px-1.5 py-3 min-[374px]:p-[13px] lg:p-[26px] bg-white rounded-[14px] flex flex-col gap-[24px]">
         <FormContainer form={form} onSubmit={onSubmit}>
           <div className="flex flex-col gap-3 lg:gap-6">
             <FormInput
@@ -362,23 +264,20 @@ const Page = ({ params }) => {
             <div className="flex flex-col gap-2">
               <p className="font-semibold text-[15px] text-gray-700">Mode</p>
               <div className="flex flex-col gap-2">
-                {["on-site", "blended", "online"].map((m) => (
-                  <label key={m} className="flex items-center gap-2 text-sm">
+                {["on-site", "blended", "online"].map((mode) => (
+                  <label key={mode} className="flex items-center gap-2 text-sm">
                     <input
                       type="radio"
-                      value={m}
+                      value={mode}
                       {...register("mode")}
                       className="accent-brown"
                     />
-                    {m === "on-site"
-                      ? "On-site"
-                      : m === "blended"
-                        ? "Blended"
-                        : "Online"}
+                    {mode.charAt(0).toUpperCase() +
+                      mode.slice(1).replace("-", " ")}
                     :{" "}
-                    {m === "on-site"
+                    {mode === "on-site"
                       ? "The course is taught in person at a physical location."
-                      : m === "blended"
+                      : mode === "blended"
                         ? "The course has both online and in-person components."
                         : "All class instruction, assignments, and tests are asynchronous and can be completed virtually."}
                   </label>
@@ -407,7 +306,7 @@ const Page = ({ params }) => {
               <p className="font-semibold text-[15px] text-gray-700">
                 Price Options
               </p>
-              <label className="flex items-center gap-2 text-[12px] sm:text-sm">
+              <label className="flex items-center gap-2 text-sm">
                 <input
                   {...register("deposit_registration")}
                   type="checkbox"
@@ -415,7 +314,7 @@ const Page = ({ params }) => {
                 />
                 Allow registrations with a deposit
               </label>
-              <label className="flex items-center gap-2 text-[12px] sm:text-sm">
+              <label className="flex items-center gap-2 text-sm">
                 <input
                   {...register("multiple_pricing")}
                   type="checkbox"
@@ -440,42 +339,45 @@ const Page = ({ params }) => {
                   label="Price Level Prompt"
                   rows={3}
                 />
-                <div className="bg-neutral-50 border px-2 pt-2 pb-4 rounded-md mt-3">
+                <div className="bg-neutral-50 border px-1 sm:px-2 pt-2 pb-4 rounded-md mt-3">
                   <h6 className="text-lg mb-1">Price Levels</h6>
                   {fields.map((field, index) => (
                     <div
                       key={field.id}
-                      className="flex items-center gap-4 mt-3"
+                      className="flex items-center gap-1 sm:gap-4 mt-3"
                     >
-                      <div className="grid grid-cols-2 gap-2 flex-1">
-                        <div className="flex items-center gap-2">
+                      <div className="grid grid-cols-2 gap-[2px] sm:gap-2 flex-1">
+                        <div className="flex gap-[2px] sm:gap-2">
                           <FormInput
                             name={`priceLevel.${index}.price`}
                             placeholder="Price"
+                            className={"text-[13px] rounded-sm px-1"}
                           />
                           <FormInput
                             name={`priceLevel.${index}.code`}
                             placeholder="Code"
+                            className={"text-[13px] rounded-sm px-1"}
                           />
                         </div>
                         <FormInput
                           name={`priceLevel.${index}.description`}
                           placeholder="Description"
+                          className={"text-[13px] rounded-sm px-1"}
                         />
                       </div>
                       {fields.length > 2 && (
                         <div
                           onClick={() => handleRemovePriceLevel(index)}
-                          className="bg-neutral-200 p-2 rounded-md cursor-pointer hover:bg-neutral-300"
+                          className="bg-neutral-200 p-1 sm:p-2 rounded sm:rounded-md cursor-pointer hover:bg-neutral-300"
                         >
-                          <LucideTrash2 className="size-4" />
+                          <LucideTrash2 className="size-[14px] sm:size-4" />
                         </div>
                       )}
                     </div>
                   ))}
                   <div
                     onClick={handleAddPriceLevel}
-                    className="mt-4 px-2 py-1.5 inline-flex items-center gap-1 border rounded-md text-sm bg-neutral-700 text-neutral-100 cursor-pointer hover:bg-neutral-600 shadow-sm"
+                    className="mt-4 px-2 py-1.5 inline-flex items-center gap-1 border rounded-md text-sm bg-neutral-700 text-neutral-100 cursor-pointer hover:bg-neutral-600"
                   >
                     <FaPlus className="size-3" /> Add more
                   </div>
@@ -485,11 +387,11 @@ const Page = ({ params }) => {
               <FormInput name="price" label="Price" placeholder="Price" />
             )}
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <FormTextarea
                 name="addonPrompt"
                 label="Add-on Prompt"
-                placeholder="Prompt"
+                placeholder="Prompt text for add-ons..."
               />
               <div className="flex flex-col gap-2">
                 <Controller
@@ -510,28 +412,28 @@ const Page = ({ params }) => {
                         }
                       }}
                       value=""
-                      className="flex-1"
                     />
                   )}
                 />
                 {watchFields.add_ons?.length > 0 && (
-                  <div className="flex flex-wrap gap-2 mb-2">
+                  <div className="flex flex-wrap gap-2">
                     {watchFields.add_ons.map((id) => {
                       const addon = addOnsData?.data?.data?.find(
-                        (item) => Number(item.id) === Number(id),
+                        (a) => Number(a.id) === id,
                       );
                       return (
                         <div
                           key={id}
                           className="inline-flex items-center gap-1 bg-neutral-200 text-neutral-800 px-3 py-1 rounded-full text-sm"
                         >
-                          <span>{addon?.name || `Add-on ${id}`}</span>
-                          <div
+                          {addon?.name || `Add-on #${id}`}
+                          <button
+                            type="button"
                             onClick={() => handleRemoveAddOns(id)}
-                            className="hover:bg-neutral-300 rounded-full p-0.5 cursor-pointer"
+                            className="hover:bg-neutral-300 rounded-full p-0.5"
                           >
-                            <X className="size-3" />
-                          </div>
+                            <X size={14} />
+                          </button>
                         </div>
                       );
                     })}
@@ -540,11 +442,11 @@ const Page = ({ params }) => {
               </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <FormInput
                 name="shipping_price"
                 label="Shipping Price"
-                placeholder="Shipping Price"
+                placeholder="0.00"
               />
               <Controller
                 name="keycode_bank"
@@ -552,19 +454,17 @@ const Page = ({ params }) => {
                 render={({ field }) => (
                   <CustomSelect
                     {...field}
-                    id="keycode_bank"
-                    label="Use Keycode Bank"
-                    placeholder="Click to select"
+                    label="Keycode Bank"
+                    placeholder="Select keycode bank"
                     isLoading={keyCodeBankLoading}
                     options={keyCodeBank?.data?.data}
                     error={errors.keycode_bank?.message}
-                    className="flex-1"
                   />
                 )}
               />
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <Controller
                 name="course_certifying_body"
                 control={control}
@@ -572,9 +472,8 @@ const Page = ({ params }) => {
                 render={({ field }) => (
                   <CustomSelect
                     {...field}
-                    id="courseCertifyingBody"
                     label="Course Certifying Body"
-                    placeholder="Choose body"
+                    placeholder="Select certifying body"
                     options={[
                       { id: "none", name: "None" },
                       { id: "American Red Cross", name: "American Red Cross" },
@@ -592,13 +491,12 @@ const Page = ({ params }) => {
                 <Controller
                   name="courseSKUs"
                   control={control}
-                  rules={{ required: "Course SKUs is required" }}
+                  rules={{ required: "Course SKUs is required for ARC" }}
                   render={({ field }) => (
                     <CustomSelect
                       {...field}
-                      id="courseSKUs"
                       label="Course SKUs"
-                      placeholder="Course SKUs"
+                      placeholder="Select SKU"
                       options={cardTypeData?.data?.data}
                       error={errors.courseSKUs?.message}
                     />
@@ -609,7 +507,7 @@ const Page = ({ params }) => {
 
             {watchFields.course_certifying_body ===
               "American Heart Association" && (
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <Controller
                   name="cardType"
                   control={control}
@@ -617,9 +515,8 @@ const Page = ({ params }) => {
                   render={({ field }) => (
                     <CustomSelect
                       {...field}
-                      id="cardType"
                       label="Card Type"
-                      placeholder="Choose type"
+                      placeholder="Select card type"
                       options={cardTypeData?.data?.data}
                       error={errors.cardType?.message}
                     />
@@ -628,13 +525,11 @@ const Page = ({ params }) => {
                 <Controller
                   name="secondCardType"
                   control={control}
-                  rules={{ required: "Second Card Type is required" }}
                   render={({ field }) => (
                     <CustomSelect
                       {...field}
-                      id="secondCardType"
                       label="Second Card Type"
-                      placeholder="Choose type"
+                      placeholder="Select second card type"
                       options={secondCardTypeData?.data?.data}
                       error={errors.secondCardType?.message}
                     />
@@ -651,9 +546,8 @@ const Page = ({ params }) => {
                   render={({ field }) => (
                     <CustomSelect
                       {...field}
-                      id="image"
-                      label="Image"
-                      placeholder="Image URL or upload"
+                      label="Course Image"
+                      placeholder="Select course image"
                       isLoading={courseImageDataLoading}
                       options={courseImageData?.data?.data}
                       onChange={(val) => {
@@ -681,34 +575,28 @@ const Page = ({ params }) => {
                 </div>
               </div>
               <div>
-                <label className="text-sm sm:text-base font-medium text-gray-700 block mb-2">
+                <label className="block text-sm font-medium text-gray-700 mb-2">
                   Preview
                 </label>
                 {watchFields.upload_image ? (
                   <Image
                     src={URL.createObjectURL(watchFields.upload_image)}
-                    width={100}
-                    height={100}
+                    width={120}
+                    height={120}
                     alt="Upload preview"
                     className="object-cover rounded border"
                   />
                 ) : watchFields.course_image && imagePreview?.image ? (
-                  <figure className="border rounded-md overflow-hidden w-fit">
-                    <Image
-                      src={
-                        process.env.NEXT_PUBLIC_SITE_URL +
-                        "/" +
-                        imagePreview?.image
-                      }
-                      width={100}
-                      height={100}
-                      alt="Course preview"
-                      className="object-cover"
-                    />
-                  </figure>
+                  <Image
+                    src={imagePreview.image}
+                    width={120}
+                    height={120}
+                    alt="Course preview"
+                    className="object-cover rounded border"
+                  />
                 ) : (
-                  <div className="w-[100px] h-[100px] border-2 border-dashed border-gray-300 rounded-md flex items-center justify-center text-gray-400 text-xs">
-                    No image
+                  <div className="w-26 h-26 border-2 border-dashed border-gray-300 rounded flex items-center text-center justify-center text-gray-400 text-sm">
+                    No image selected
                   </div>
                 )}
               </div>
@@ -716,84 +604,72 @@ const Page = ({ params }) => {
 
             <div className="flex flex-col gap-2">
               <p className="font-semibold text-[15px] text-gray-700">Options</p>
-              <div className="grid grid-cols-2 gap-2 text-gray-700 max-w-[1400px]">
-                {courseOptionData?.data?.data?.map((option) => (
-                  <label
-                    key={option.id}
-                    className="flex items-center gap-2 text-[12px] sm:text-sm"
-                  >
-                    <Controller
-                      name="selected_options"
-                      control={control}
-                      render={({ field }) => (
-                        <input
-                          type="checkbox"
-                          checked={field.value?.includes(option.id)}
-                          onChange={(e) => {
-                            const updatedOptions = e.target.checked
-                              ? [...(field.value || []), option.id]
-                              : (field.value || []).filter(
-                                  (id) => id !== option.id,
-                                );
-                            field.onChange(updatedOptions);
-                          }}
-                          className="accent-brown"
-                        />
-                      )}
-                    />
-                    {option.title}
-                  </label>
-                ))}
-              </div>
+              {courseOptionLoading ? (
+                <div className="text-gray-500">Loading options...</div>
+              ) : (
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
+                  {courseOptionData?.data?.data?.map((option) => (
+                    <label
+                      key={option.id}
+                      className="flex items-center gap-2 text-sm"
+                    >
+                      <input
+                        type="checkbox"
+                        value={option.id}
+                        className="accent-brown"
+                        {...register("selected_option_ids")}
+                      />
+                      {option.title}
+                    </label>
+                  ))}
+                </div>
+              )}
             </div>
 
             <FormInput
               name="ceu_credits"
               label="CEU Credits"
-              placeholder="Enter CEU credits"
+              placeholder="e.g. 8.0"
             />
 
             <div>
-              <h6 className="leading-[1.45] mb-2.5 font-medium text-base">
-                Description
-              </h6>
+              <h6 className="font-medium text-base mb-2">Description</h6>
               <RichTextEditor ref={descriptionRef} />
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <FormInput
                 name="courseConfirmationEmailCCS"
-                label="Course Confirmation Email CCS"
-                placeholder="Email addresses"
+                label="Confirmation Email CC"
+                placeholder="email1@example.com, email2@example.com"
               />
               <FormInput
                 name="courseConfirmationEmailSubject"
-                label="Course Confirmation Email Subject"
-                placeholder="Subject line"
+                label="Confirmation Email Subject"
+                placeholder="Your Course Registration Confirmation"
               />
             </div>
 
             <FormInput
               name="payloadConfirmationEmailSubject"
               label="Payment Confirmation Email Subject"
-              placeholder="Subject line"
+              placeholder="Payment Received - Course Enrollment"
             />
 
             <div>
-              <h6 className="leading-[1.45] mb-2.5 font-medium text-base">
+              <h6 className="font-medium text-base mb-2">
                 Course Confirmation Email Body
               </h6>
               <RichTextEditor ref={emailBodyRef} />
             </div>
 
-            <label className="flex items-center gap-2 text-sm text-gray-700">
+            <label className="flex items-center gap-2 text-sm">
               <input
                 {...register("use_email_for_payments")}
                 type="checkbox"
                 className="accent-brown"
               />
-              Use the above email body for class registrations and general
-              payments
+              Use the same email body for payments / general registrations
             </label>
 
             <div className="flex flex-col gap-2">
@@ -806,32 +682,30 @@ const Page = ({ params }) => {
                   type="checkbox"
                   className="accent-brown"
                 />
-                Enable
+                Enable SEO rich results
               </label>
             </div>
 
             {watchFields.enable_seo && (
               <FormTextarea
                 name="seoDescription"
-                label="SEO-friendly description (recommended: 240 chars, max: 500)"
-                placeholder="An SEO-friendly description..."
+                label="SEO Description"
+                placeholder="seo description"
                 rows={4}
               />
             )}
 
-            <div className="flex items-center justify-end">
-              <div className="flex justify-end gap-4 mt-4 lg:mt-8">
-                <Button asChild type="button" variant="outline">
-                  <Link href="../course_type">Back</Link>
-                </Button>
-                <Button
-                  type="submit"
-                  disabled={updateCoursePending}
-                  className="bg-brown hover:bg-brown-hover text-white"
-                >
-                  {updateCoursePending ? "Saving..." : "Save Course"}
-                </Button>
-              </div>
+            <div className="flex justify-end gap-4 mt-8">
+              <Button variant="outline" asChild>
+                <Link href="course_type">Cancel</Link>
+              </Button>
+              <Button
+                type="submit"
+                disabled={storeCoursePending}
+                className="bg-brown hover:bg-brown-hover text-white px-8"
+              >
+                {storeCoursePending ? "Creating..." : "Create Course"}
+              </Button>
             </div>
           </div>
         </FormContainer>
@@ -840,4 +714,4 @@ const Page = ({ params }) => {
   );
 };
 
-export default Page;
+export default AddNewCourse;

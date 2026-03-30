@@ -57,6 +57,7 @@ const Page = ({ params }) => {
       cardType: "",
       secondCardType: "",
       course_image: "",
+      upload_image: null,
       selected_options: [],
       ceu_credits: "",
       courseConfirmationEmailCCS: "",
@@ -110,7 +111,7 @@ const Page = ({ params }) => {
   const imagePreview = courseImageData?.data?.data?.find(
     (item) => Number(item?.id) === Number(watchFields?.course_image),
   );
-  
+
   useEffect(() => {
     if (
       courseData?.data ||
@@ -123,7 +124,7 @@ const Page = ({ params }) => {
       courseOptionData?.data?.data
     ) {
       const course = courseData?.data;
-      
+
       reset({
         course_name: course?.course_name || "",
         mode: course?.mode === "onsite" ? "on-site" : course?.mode || "on-site",
@@ -165,6 +166,7 @@ const Page = ({ params }) => {
         secondCardType: course?.second_card_type_id?.toString() || "",
 
         course_image: course?.course_image_id || "",
+        upload_image: null,
 
         selected_options: course?.options?.map((opt) => Number(opt.id)) || [],
 
@@ -181,7 +183,6 @@ const Page = ({ params }) => {
         seoDescription: course?.seo_description || "",
       });
 
-      // Set rich text content separately
       if (descriptionRef.current) {
         descriptionRef.current.setContents(course?.description || "");
       }
@@ -292,9 +293,12 @@ const Page = ({ params }) => {
       formData.append("second_card_type_id", data.secondCardType || "");
     }
 
-    formData.append("course_image_id", data.course_image || "");
+    if (data.upload_image) {
+      formData.append("image", data.upload_image);
+    } else {
+      formData.append("course_image_id", data.course_image || "");
+    }
 
-    // Dynamic options
     (data.selected_options || []).forEach((optionId) => {
       formData.append("selected_options[]", optionId);
     });
@@ -321,7 +325,6 @@ const Page = ({ params }) => {
       data.use_email_for_payments ? "1" : "0",
     );
 
-    // SEO
     formData.append("seo_rich_results", data.enable_seo ? "1" : "0");
     if (data.enable_seo) {
       formData.append("seo_description", data.seoDescription || "");
@@ -345,19 +348,17 @@ const Page = ({ params }) => {
 
   return (
     <section className="flex flex-col gap-4">
-      <SectionTitle title="Edit Course Type" />
+      <SectionTitle title="Add / Edit Course Type" />
 
       <div className="p-[13px] lg:p-[26px] bg-white rounded-[14px] flex flex-col gap-[24px]">
         <FormContainer form={form} onSubmit={onSubmit}>
           <div className="flex flex-col gap-3 lg:gap-6">
-            {/* Course Name */}
             <FormInput
               name="course_name"
               label="Course Name"
               placeholder="Course name here"
             />
 
-            {/* Mode */}
             <div className="flex flex-col gap-2">
               <p className="font-semibold text-[15px] text-gray-700">Mode</p>
               <div className="flex flex-col gap-2">
@@ -385,7 +386,6 @@ const Page = ({ params }) => {
               </div>
             </div>
 
-            {/* Discipline */}
             <Controller
               name="discipline"
               control={control}
@@ -403,7 +403,6 @@ const Page = ({ params }) => {
               )}
             />
 
-            {/* Price Options */}
             <div className="flex flex-col gap-2">
               <p className="font-semibold text-[15px] text-gray-700">
                 Price Options
@@ -486,7 +485,6 @@ const Page = ({ params }) => {
               <FormInput name="price" label="Price" placeholder="Price" />
             )}
 
-            {/* Add-ons */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-6">
               <FormTextarea
                 name="addonPrompt"
@@ -542,7 +540,6 @@ const Page = ({ params }) => {
               </div>
             </div>
 
-            {/* Shipping & Keycode */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-6">
               <FormInput
                 name="shipping_price"
@@ -552,7 +549,6 @@ const Page = ({ params }) => {
               <Controller
                 name="keycode_bank"
                 control={control}
-                rules={{ required: "Keycode Bank is required" }}
                 render={({ field }) => (
                   <CustomSelect
                     {...field}
@@ -568,7 +564,6 @@ const Page = ({ params }) => {
               />
             </div>
 
-            {/* Certifying Body */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-6">
               <Controller
                 name="course_certifying_body"
@@ -648,32 +643,63 @@ const Page = ({ params }) => {
               </div>
             )}
 
-            {/* Course Image */}
-            <div className="grid grid-cols-2 gap-4">
-              <Controller
-                name="course_image"
-                control={control}
-                rules={{ required: "Course image is required" }}
-                render={({ field }) => (
-                  <CustomSelect
-                    {...field}
-                    id="image"
-                    label="Image"
-                    placeholder="Image URL or upload"
-                    isLoading={courseImageDataLoading}
-                    options={courseImageData?.data?.data}
-                    error={errors.course_image?.message}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              <div className="flex flex-col gap-4">
+                <Controller
+                  name="course_image"
+                  control={control}
+                  render={({ field }) => (
+                    <CustomSelect
+                      {...field}
+                      id="image"
+                      label="Image"
+                      placeholder="Image URL or upload"
+                      isLoading={courseImageDataLoading}
+                      options={courseImageData?.data?.data}
+                      onChange={(val) => {
+                        field.onChange(val);
+                        setValue("upload_image", null);
+                      }}
+                      error={errors.course_image?.message}
+                    />
+                  )}
+                />
+                <div className="flex flex-col gap-2">
+                  <label className="text-sm font-medium text-gray-700">Or Upload Image</label>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    className="text-sm file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:bg-neutral-100 hover:file:bg-neutral-200 cursor-pointer"
+                    onChange={(e) => {
+                      const file = e.target.files?.[0];
+                      if (file) {
+                        setValue("upload_image", file);
+                        setValue("course_image", "");
+                      }
+                    }}
                   />
-                )}
-              />
+                </div>
+              </div>
               <div>
                 <label className="text-sm sm:text-base font-medium text-gray-700 block mb-2">
                   Preview
                 </label>
-                {watchFields.course_image && imagePreview?.image ? (
+                {watchFields.upload_image ? (
+                  <Image
+                    src={URL.createObjectURL(watchFields.upload_image)}
+                    width={100}
+                    height={100}
+                    alt="Upload preview"
+                    className="object-cover rounded border"
+                  />
+                ) : watchFields.course_image && imagePreview?.image ? (
                   <figure className="border rounded-md overflow-hidden w-fit">
                     <Image
-                      src={imagePreview.image}
+                      src={
+                        process.env.NEXT_PUBLIC_SITE_URL +
+                        "/" +
+                        imagePreview?.image
+                      }
                       width={100}
                       height={100}
                       alt="Course preview"
@@ -688,7 +714,6 @@ const Page = ({ params }) => {
               </div>
             </div>
 
-            {/* Dynamic Options */}
             <div className="flex flex-col gap-2">
               <p className="font-semibold text-[15px] text-gray-700">Options</p>
               <div className="grid grid-cols-2 gap-2 text-gray-700 max-w-[1400px]">
@@ -722,14 +747,12 @@ const Page = ({ params }) => {
               </div>
             </div>
 
-            {/* CEU Credits */}
             <FormInput
               name="ceu_credits"
               label="CEU Credits"
               placeholder="Enter CEU credits"
             />
 
-            {/* Description */}
             <div>
               <h6 className="leading-[1.45] mb-2.5 font-medium text-base">
                 Description
@@ -737,7 +760,6 @@ const Page = ({ params }) => {
               <RichTextEditor ref={descriptionRef} />
             </div>
 
-            {/* Email Settings */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-6">
               <FormInput
                 name="courseConfirmationEmailCCS"
@@ -774,7 +796,6 @@ const Page = ({ params }) => {
               payments
             </label>
 
-            {/* SEO */}
             <div className="flex flex-col gap-2">
               <p className="font-semibold text-[15px] text-gray-700">
                 SEO & Rich Results
@@ -798,7 +819,6 @@ const Page = ({ params }) => {
               />
             )}
 
-            {/* Actions */}
             <div className="flex items-center justify-end">
               <div className="flex justify-end gap-4 mt-4 lg:mt-8">
                 <Button asChild type="button" variant="outline">

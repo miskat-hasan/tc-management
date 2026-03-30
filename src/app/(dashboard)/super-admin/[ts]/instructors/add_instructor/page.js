@@ -93,7 +93,7 @@ const Page = () => {
       onSuccess: (data) => {
         reset();
         Swal.fire({
-          text: data?.message,
+          text: "User added successfully",
           icon: "success",
         });
       },
@@ -109,7 +109,7 @@ const Page = () => {
   return (
     <section className="flex flex-col gap-2 lg:gap-4">
       {/* Title */}
-      <SectionTitle title="Add Instructor" />
+      <SectionTitle title="Add New" />
 
       {/* White Form Card */}
       <div className="bg-white rounded-[14px] p-4 lg:p-8 shadow-sm">
