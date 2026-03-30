@@ -127,7 +127,14 @@ const Page = ({ params }) => {
         <div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-x-3 gap-y-2.5 md:gap-x-6 md:gap-y-5">
             <div className="space-y-3">
-              <div>Order Date:</div>
+                 <div>
+                <span className="leading-[1.45] font-medium text-base text-gray-700">
+                  Order Date:
+                </span>{" "}
+                <span className="text-sm">
+                  {new Date(orderDetails?.created_at).toLocaleDateString()}
+                </span>
+              </div>
               <div>
                 <span className="leading-[1.45] font-medium text-base text-gray-700">
                   Training Site:
@@ -149,7 +156,7 @@ const Page = ({ params }) => {
                   Last Update:
                 </span>{" "}
                 <span className="text-sm">
-                  {orderDetails?.associated_class}
+                  {new Date(orderDetails?.activity_logs?.at(-1)?.updated_at).toLocaleDateString()}
                 </span>
               </div>
               <div>

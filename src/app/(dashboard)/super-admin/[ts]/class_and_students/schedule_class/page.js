@@ -223,7 +223,6 @@ const Page = () => {
           <Controller
             name="client"
             control={control}
-            rules={{ required: "Client is required" }}
             render={({ field }) => (
               <CustomSelect
                 {...field}
@@ -315,7 +314,7 @@ const Page = () => {
                       className="inline-flex items-center gap-1 bg-neutral-200 text-neutral-800 px-3 py-1 rounded-full text-sm"
                     >
                       <span>
-                        {assistant?.first_name} {assistant?.middle_name}{" "}
+                        {assistant?.first_name} 
                         {assistant?.last_name}
                       </span>
                       <div

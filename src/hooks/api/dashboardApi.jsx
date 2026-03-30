@@ -174,12 +174,19 @@ export const updateInstructor = (id) => {
   });
 };
 
-export const getAllInstructor = (page = 1, perPage = 10) => {
+export const getAllInstructor = (
+  page = 1,
+  perPage = 10,
+  enableSearch,
+  searchValue,
+) => {
   return useClientApi({
     method: "get",
-    key: ["get-all-instructor", page, perPage],
+    key: ["get-all-instructor", page, perPage, enableSearch],
     isPrivate: true,
-    endpoint: `/api/instructors?page=${page}&per_page=${perPage}`,
+    endpoint: enableSearch
+      ? `/api/instructors?page=${page}&per_page=${perPage}&search=${searchValue}`
+      : `/api/instructors?page=${page}&per_page=${perPage}`,
   });
 };
 
@@ -712,14 +719,56 @@ export const downloadCertificationFile = () => {
   });
 };
 
-// help
-// what's new
+// help -> what's new
+
+// get all data
 export const getWhatsNew = () => {
   return useClientApi({
     method: "get",
     isPrivate: true,
     key: ["get-whats-new"],
     endpoint: "/api/whats_new/index",
+  });
+};
+
+// get single data
+export const getSingleWhatsNew = (id) => {
+  return useClientApi({
+    method: "get",
+    isPrivate: true,
+    key: ["get-single-whats-new", id],
+    endpoint: `/api/whats_new/show?id=${id}`,
+  });
+};
+
+// add new what's new
+
+export const addWhatsNew = () => {
+  return useClientApi({
+    method: "post",
+    isPrivate: true,
+    endpoint: "/api/whats_new/store",
+    onError: (error) => {
+      Swal.fire({
+        text: error?.response?.data?.message,
+        icon: "error",
+      });
+    },
+  });
+};
+
+// update what's new
+export const updateWhatsNew = () => {
+  return useClientApi({
+    method: "post",
+    isPrivate: true,
+    endpoint: "/api/whats_new/update",
+    onError: (error) => {
+      Swal.fire({
+        text: error?.response?.data?.message,
+        icon: "error",
+      });
+    },
   });
 };
 

@@ -67,7 +67,7 @@ const AdminPrivateLayout = ({ children }) => {
       return;
     }
 
-    // Logged in but NOT admin
+    // Logged in but NOT admin or instructor
     if (
       token &&
       user &&
@@ -87,7 +87,7 @@ const AdminPrivateLayout = ({ children }) => {
     );
   }
 
-  // Allow render only if admin
+  // Allow render only if admin or instructor
   const isAdmin = user?.roles?.some((role) => role.role_name === "Admin" || "Instructor");
 
   if (!isAdmin) return null;
