@@ -10,12 +10,10 @@ import CustomSelect from "@/components/shared/form/CustomSelect";
 import {
   getAllDiscipline,
   getSingleCertification,
-  storeCertification,
   updateCertification,
 } from "@/hooks/api/dashboardApi";
-import Link from "next/link";
 import Swal from "sweetalert2";
-import { redirect, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 const Page = ({ params }) => {
   const router = useRouter();
@@ -71,60 +69,88 @@ const Page = ({ params }) => {
     });
   };
 
-  if (loadingSingleCertification) {
-    return <div>loading..</div>;
-  }
-
   return (
     <section className="flex flex-col gap-2 lg:gap-4">
       {/* Title */}
       <SectionTitle title="Edit Certification" />
 
-      {/* White Form Card */}
-      <div className="bg-white rounded-[14px] p-4 lg:p-8 shadow-sm">
-        <FormContainer form={form} onSubmit={onSubmit}>
-          {/* Grid Layout */}
-          <div className="space-y-2.5 lg:space-y-5">
-            <Controller
-              name="discipline"
-              control={control}
-              rules={{ required: "Discipline is required" }}
-              render={({ field }) => (
-                <CustomSelect
-                  {...field}
-                  id="Discipline"
-                  label="Discipline"
-                  isLoading={loadingDiscipline}
-                  placeholder="Chose Discipline"
-                  options={allDiscipline?.data?.data}
-                  className="flex-1"
-                />
-              )}
-            />
+      {loadingSingleCertification ? (
+        <div className="bg-white rounded-[14px] p-4 lg:p-8 shadow-sm animate-pulse">
+          <div className="space-y-6">
+            {/* Discipline Select Skeleton */}
+            <div className="space-y-2">
+              <div className="h-4 w-24 bg-gray-200 rounded"></div>
+              <div className="h-10 w-full bg-gray-100 rounded-md"></div>
+            </div>
+
+            {/* Date Inputs Skeleton */}
             <div className="flex gap-6">
-              <FormInput name="initial" label="Initial Date" type="date" />
-              <FormInput name="expires" label="Expires Date" type="date" />
+              <div className="flex-1 space-y-2">
+                <div className="h-4 w-20 bg-gray-200 rounded"></div>
+                <div className="h-10 w-full bg-gray-100 rounded-md"></div>
+              </div>
+              <div className="flex-1 space-y-2">
+                <div className="h-4 w-20 bg-gray-200 rounded"></div>
+                <div className="h-10 w-full bg-gray-100 rounded-md"></div>
+              </div>
+            </div>
+
+            {/* Buttons Skeleton */}
+            <div className="flex justify-end gap-4 mt-10">
+              <div className="h-10 w-24 bg-gray-200 rounded-md"></div>
+              <div className="h-10 w-32 bg-gray-200 rounded-md"></div>
             </div>
           </div>
+        </div>
+      ) : (
+        <>
+          {/* White Form Card */}
+          <div className="bg-white rounded-[14px] p-4 lg:p-8 shadow-sm">
+            <FormContainer form={form} onSubmit={onSubmit}>
+              {/* Grid Layout */}
+              <div className="space-y-2.5 lg:space-y-5">
+                <Controller
+                  name="discipline"
+                  control={control}
+                  rules={{ required: "Discipline is required" }}
+                  render={({ field }) => (
+                    <CustomSelect
+                      {...field}
+                      id="Discipline"
+                      label="Discipline"
+                      isLoading={loadingDiscipline}
+                      placeholder="Chose Discipline"
+                      options={allDiscipline?.data?.data}
+                      className="flex-1"
+                    />
+                  )}
+                />
+                <div className="flex gap-6">
+                  <FormInput name="initial" label="Initial Date" type="date" />
+                  <FormInput name="expires" label="Expires Date" type="date" />
+                </div>
+              </div>
 
-          {/* Footer Buttons */}
-          <div className="flex justify-end gap-2 lg:gap-4 mt-5 lg:mt-10">
-            <Button
-              onClick={() => router.back()}
-              className="px-6 py-2 bg-transparent border border-gray-300 rounded-md text-sm font-medium text-black hover:bg-gray-50"
-            >
-              Back
-            </Button>
-            <Button
-              type="submit"
-              className="px-6 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium cursor-pointer text-white bg-brown hover:bg-brown-hover"
-              disabled={isPending}
-            >
-              {isPending ? "Saving ..." : "Save Changes"}
-            </Button>
+              {/* Footer Buttons */}
+              <div className="flex justify-end gap-2 lg:gap-4 mt-5 lg:mt-10">
+                <Button
+                  onClick={() => router.back()}
+                  className="px-6 py-2 bg-transparent border border-gray-300 rounded-md text-sm font-medium text-black hover:bg-gray-50"
+                >
+                  Back
+                </Button>
+                <Button
+                  type="submit"
+                  className="px-6 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium cursor-pointer text-white bg-brown hover:bg-brown-hover"
+                  disabled={isPending}
+                >
+                  {isPending ? "Saving ..." : "Save Changes"}
+                </Button>
+              </div>
+            </FormContainer>
           </div>
-        </FormContainer>
-      </div>
+        </>
+      )}
     </section>
   );
 };

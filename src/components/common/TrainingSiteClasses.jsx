@@ -13,7 +13,7 @@ const TrainingSiteClasses = () => {
   const { trainingSiteData, trainingSiteDataLoading, selectedTrainingSiteId } =
     useAuth();
 
-    const {data: classData, isLoading: classLoading} = getAllClasses()
+  const { data: classData, isLoading: classLoading } = getAllClasses();
 
   const [selectedTrainingSiteData, setSelectedTrainingSiteData] =
     useState(null);
@@ -43,7 +43,6 @@ const TrainingSiteClasses = () => {
     selectedTrainingSiteData,
   ]);
 
-
   return (
     <div className="flex flex-col gap-[12.5px] lg:gap-[25px]">
       {/* Header */}
@@ -53,7 +52,7 @@ const TrainingSiteClasses = () => {
       {/* Table */}
       <div className="p-[13px] lg:p-[26px] bg-white rounded-[14px] flex flex-col gap-[12px] lg:gap-[24px]">
         <SubSectionTitle subtitle="All Lists" />
-        {trainingSiteDataLoading ? (
+        {classLoading ? (
           <TableSkeleton />
         ) : (
           <div className="overflow-x-auto">
@@ -93,19 +92,18 @@ const TrainingSiteClasses = () => {
                         {item?.enrollments_count ?? "0"}/{item?.max_student}
                       </td>
                       <td className="px-3 sm:px-6 py-3 text-center space-x-2">
-                          <div className="flex items-center flex-nowrap gap-2 justify-center">
-
-                        <Link href={`classes/${item.id}`}>
-                          <button className="p-1.5 sm:p-2 bg-gray-100 rounded-lg hover:bg-gray-200 transition cursor-pointer">
-                            <CiEdit className="text-gray-600 text-[14px] sm:text-[16px]" />
-                          </button>
-                        </Link>
-                        <Link href={`classes/roster/${item.id}`}>
-                          <button className="p-1.5 sm:p-2 bg-gray-100 rounded-lg hover:bg-gray-200 transition cursor-pointer">
-                            <GoArrowUpRight className="text-gray-600 text-[14px] sm:text-[16px]" />
-                          </button>
-                        </Link>
-                          </div>
+                        <div className="flex items-center flex-nowrap gap-2 justify-center">
+                          <Link href={`classes/${item.id}`}>
+                            <button className="p-1.5 sm:p-2 bg-gray-100 rounded-lg hover:bg-gray-200 transition cursor-pointer">
+                              <CiEdit className="text-gray-600 text-[14px] sm:text-[16px]" />
+                            </button>
+                          </Link>
+                          <Link href={`classes/roster/${item.id}`}>
+                            <button className="p-1.5 sm:p-2 bg-gray-100 rounded-lg hover:bg-gray-200 transition cursor-pointer">
+                              <GoArrowUpRight className="text-gray-600 text-[14px] sm:text-[16px]" />
+                            </button>
+                          </Link>
+                        </div>
                       </td>
                     </tr>
                   ))
