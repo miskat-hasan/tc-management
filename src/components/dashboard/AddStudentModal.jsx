@@ -5,6 +5,7 @@ import { getAllCountry, useStoreStudentData } from "@/hooks/api/dashboardApi";
 import CustomSelect from "../shared/form/CustomSelect";
 import { Button } from "../ui/button";
 import { toast } from "sonner";
+import { useQueryClient } from "@tanstack/react-query";
 
 const status = [
   {
@@ -37,6 +38,8 @@ const AddStudentModal = ({ classId, open, onClose }) => {
     return null;
   }
 
+  const queryClient = useQueryClient();
+
   const form = useForm();
 
   const {
@@ -50,9 +53,10 @@ const AddStudentModal = ({ classId, open, onClose }) => {
 
   const onSubmit = (data) => {
     mutate(
-      { class_details_id: classId, ...data },
+      { class_details_id: classId, course_id: classId, ...data },
       {
         onSuccess: (data) => {
+          queryClient.invalidateQueries(["get-student-by-class", classId]);
           toast.success(data?.message || "Student added successfully");
           onClose();
         },
@@ -82,6 +86,7 @@ const AddStudentModal = ({ classId, open, onClose }) => {
             <FormInput name="address_1" placeholder="Address 1" />
             <FormInput name="address_2" placeholder="Address 2" />
             <FormInput name="city" placeholder="City" />
+            <FormInput name="state" placeholder="State" />
             <FormInput name="zip" placeholder="Zip" />
             <Controller
               name="country_id"

@@ -410,10 +410,7 @@ const Page = () => {
                         </td>
                         <td className="py-4 px-4 whitespace-nowrap">
                           <div className="text-sm text-gray-900">
-                            {user?.trainingSite?.name}
-                          </div>
-                          <div className="text-xs text-gray-500">
-                            {user?.trainingSite?.phone}
+                            {user?.training_site?.training_center_name}
                           </div>
                         </td>
                         <td className="py-4 px-4 text-sm text-gray-700">

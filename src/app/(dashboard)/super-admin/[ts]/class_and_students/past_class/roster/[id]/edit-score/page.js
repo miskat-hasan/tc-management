@@ -55,7 +55,7 @@ const Page = ({ params }) => {
   useEffect(() => {
     if (studentData) {
       reset({
-        students: studentData?.data?.students?.map((s) => ({
+        students: studentData.data.students.map((s) => ({
           id: s.id,
           status: s.status,
           score: s.score,
@@ -69,7 +69,7 @@ const Page = ({ params }) => {
   const onSubmit = (data) => {
     const payload = {
       course_id: Number(id),
-      students: data?.students?.map((s) => ({
+      students: data.students.map((s) => ({
         id: s.id,
         status: s.status,
         score: s.score,
@@ -122,7 +122,7 @@ const Page = ({ params }) => {
                             {...register(`students.${index}.status`)}
                             className="w-full rounded-xl sm:rounded-2xl px-3 py-2.5 text-sm sm:text-base font-normal leading-[1.45] placeholder:text-gray-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-gray-300 border border-border-secondary hover:border-gray-400 transition-all duration-150 cursor-pointer"
                           >
-                            {statusData?.map((item, index) => (
+                            {statusData.map((item, index) => (
                               <option key={index} value={item.id}>
                                 {item.name}
                               </option>
