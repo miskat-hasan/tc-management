@@ -6,15 +6,13 @@ import FormContainer from "@/components/shared/form/FormContainer";
 import FormInput from "@/components/shared/form/FormInput";
 import { Button } from "@/components/ui/button";
 import { IoClose } from "react-icons/io5";
-import {
-  getAllUpcomingClasses,
-  searchClasses,
-} from "@/hooks/api/dashboardApi";
+import { getAllUpcomingClasses, searchClasses } from "@/hooks/api/dashboardApi";
 import { SearchIcon } from "@/svg/SvgContainer";
 import Link from "next/link";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { CiEdit } from "react-icons/ci";
+import { GoArrowUpRight } from "react-icons/go";
 
 const Page = () => {
   const form = useForm({
@@ -42,7 +40,6 @@ const Page = () => {
       locationId,
       classId,
     );
-
 
   const onSubmit = (data) => {
     if (data?.class_id) {
@@ -156,11 +153,18 @@ const Page = () => {
                         {item?.enrollments_count ?? "0"}/{item.max_student}
                       </td>
                       <td className="px-3 sm:px-6 py-3 text-center">
-                        <Link href={`upcoming_classes/${item.id}`}>
-                          <button className="p-1.5 sm:p-2 bg-gray-100 rounded-lg hover:bg-gray-200 transition cursor-pointer">
-                            <CiEdit className="text-gray-600 text-[14px] sm:text-[16px]" />
-                          </button>
-                        </Link>
+                        <div className="flex items-center flex-nowrap gap-2 justify-center">
+                          <Link href={`upcoming_classes/${item.id}`}>
+                            <button className="p-1.5 sm:p-2 bg-gray-100 rounded-lg hover:bg-gray-200 transition cursor-pointer">
+                              <CiEdit className="text-gray-600 text-[14px] sm:text-[16px]" />
+                            </button>
+                          </Link>
+                          <Link href={`upcoming_classes/roster/${item.id}`}>
+                            <button className="p-1.5 sm:p-2 bg-gray-100 rounded-lg hover:bg-gray-200 transition cursor-pointer">
+                              <GoArrowUpRight className="text-gray-600 text-[14px] sm:text-[16px]" />
+                            </button>
+                          </Link>
+                        </div>
                       </td>
                     </tr>
                   ))
