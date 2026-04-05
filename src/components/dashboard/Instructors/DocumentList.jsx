@@ -9,13 +9,18 @@ import { Button } from "@nolesh/react-file-manager";
 import { useQueryClient } from "@tanstack/react-query";
 import { Download, Loader2, PlusIcon, Trash2 } from "lucide-react";
 import Link from "next/link";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 import Swal from "sweetalert2";
 
 const DocumentList = ({ instructorId, documentData }) => {
+  const [selectedItem, setSelectedItem] = useState(null);
+
   const form = useForm({
     defaultValues: {},
   });
+
   const { reset, watch, register } = form;
   // const { data: documentData, isLoading: documentLoading } = getAllDocuments();
 
@@ -37,10 +42,7 @@ const DocumentList = ({ instructorId, documentData }) => {
 
     storeDocumentMutation(formData, {
       onSuccess: (data) => {
-        Swal.fire({
-          text: data?.message,
-          icon: "success",
-        });
+        toast.success(data?.message);
         reset();
         queryClient.invalidateQueries("get-single-instructor");
       },
@@ -57,8 +59,11 @@ const DocumentList = ({ instructorId, documentData }) => {
     deleteDocument();
 
   const handleDelete = (id) => {
+    setSelectedItem(id);
+
     deleteDocumentMutation({ endpoint: `/api/documents/delete?id=${id}` });
   };
+
   return (
     <div>
       <div className="mt-8">
@@ -124,19 +129,20 @@ const DocumentList = ({ instructorId, documentData }) => {
                         </td>
                         <td className="px-3 sm:px-6 py-3 text-center">
                           <div className="flex items-center gap-1 justify-center">
-                            <Link
-                              href={``}
+                            <button
+                              type="button"
                               className="p-1.5 sm:p-2 bg-gray-100 rounded-lg inline-block hover:bg-gray-200 transition"
                             >
                               <Download size={16} />
-                            </Link>
+                            </button>
                             <button
                               type="button"
                               onClick={() => handleDelete(item?.id)}
                               className="p-1.5 sm:p-2 bg-gray-100 rounded-lg cursor-pointer inline-block hover:bg-gray-200 transition disabled:opacity-60 disabled:cursor-not-allowed"
                               disabled={deleteDocumentPending}
                             >
-                              {deleteDocumentPending ? (
+                              {deleteDocumentPending &&
+                              selectedItem === item?.id ? (
                                 <Loader2 size={16} className="animate-spin" />
                               ) : (
                                 <Trash2 size={16} />

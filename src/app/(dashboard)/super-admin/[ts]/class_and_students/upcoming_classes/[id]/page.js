@@ -1,6 +1,6 @@
 "use client";
+import BackButton from "@/components/common/BackButton";
 import SectionTitle from "@/components/common/SectionTitle";
-import AddStudentModal from "@/components/dashboard/AddStudentModal";
 import CustomSelect from "@/components/shared/form/CustomSelect";
 import FormContainer from "@/components/shared/form/FormContainer";
 import FormInput from "@/components/shared/form/FormInput";
@@ -17,15 +17,13 @@ import {
 import useAuth from "@/hooks/useAuth";
 import { LucideTrash2, X } from "lucide-react";
 import Link from "next/link";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { Controller, useForm, useFieldArray } from "react-hook-form";
 import { FaPlus } from "react-icons/fa";
 import Swal from "sweetalert2";
 
 const Page = ({ params }) => {
   const { id } = params;
-
-  const [openAddStudentModal, setOpenAddStudentModal] = useState(false);
 
   const form = useForm({
     defaultValues: {
@@ -56,7 +54,6 @@ const Page = ({ params }) => {
     formState: { errors },
   } = form;
 
-  const { selectedTrainingSiteId } = useAuth();
   const { fields, append, remove } = useFieldArray({
     control,
     name: "classTimes",
@@ -134,16 +131,6 @@ const Page = ({ params }) => {
     instructorData?.data?.data,
     locationData?.data?.data,
   ]);
-
-  // const dayOptions = [
-  //   { id: "monday", name: "Monday" },
-  //   { id: "tuesday", name: "Tuesday" },
-  //   { id: "wednesday", name: "Wednesday" },
-  //   { id: "thursday", name: "Thursday" },
-  //   { id: "friday", name: "Friday" },
-  //   { id: "saturday", name: "Saturday" },
-  //   { id: "sunday", name: "Sunday" },
-  // ];
 
   const { mutate, isPending } = updateClass();
 
@@ -239,16 +226,8 @@ const Page = ({ params }) => {
 
   return (
     <div className="flex flex-col gap-[10px] lg:gap-[20px]">
-      <div className="flex items-center gap-2 justify-between">
         <SectionTitle title={"Update Class"} />
-        <Button
-          type="button"
-          onClick={() => setOpenAddStudentModal(true)}
-          className="px-6 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium cursor-pointer text-white bg-brown cursor hover:bg-brown-hover focus:outline-none"
-        >
-          Add Student
-        </Button>
-      </div>
+        
       <FormContainer
         form={form}
         onSubmit={onSubmit}
@@ -394,7 +373,7 @@ const Page = ({ params }) => {
             </p>
           </div>
           {/* Class Times Section */}
-          <div className="overflow-x-auto">
+          <div className="overflow-x-auto col-span-2">
             <div className="col-span-2 min-w-[500px] bg-neutral-50 border px-2 pt-2 pb-4 rounded-md">
               <h6 className="text-xl mb-1">Set Class Times</h6>
               {fields.map((field, index) => (
@@ -540,6 +519,7 @@ const Page = ({ params }) => {
 
         {/* Action Buttons */}
         <div className="flex justify-end gap-4 mt-8">
+          <BackButton />
           <Button
             type="submit"
             className="px-6 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium cursor-pointer text-white bg-brown cursor hover:bg-brown-hover focus:outline-none"
@@ -548,15 +528,6 @@ const Page = ({ params }) => {
           </Button>
         </div>
       </FormContainer>
-
-      {/* add student modal */}
-      {openAddStudentModal && (
-        <AddStudentModal
-          classId={id}
-          open={openAddStudentModal}
-          onClose={() => setOpenAddStudentModal(false)}
-        />
-      )}
     </div>
   );
 };

@@ -11,19 +11,18 @@ import FormContainer from "@/components/shared/form/FormContainer";
 import FormInput from "@/components/shared/form/FormInput";
 import { Button } from "@/components/ui/button";
 import { Controller, useForm } from "react-hook-form";
-import React, { use } from "react";
+import React, { useEffect } from "react";
 import CustomSelect from "@/components/shared/form/CustomSelect";
 import { getAllCountry } from "@/hooks/api/dashboardApi";
-import Link from "next/link";
 import Certification from "../../certifications/page";
 import DocumentList from "@/components/dashboard/Instructors/DocumentList";
 import Swal from "sweetalert2";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 const Page = ({ params }) => {
-
   const router = useRouter();
-  
+
   const form = useForm({
     defaultValues: {},
   });
@@ -47,9 +46,7 @@ const Page = ({ params }) => {
   const { data: instructorData, isLoading: instructorLoading } =
     getSingleInstructor(id);
 
-  console.log("instructorData", instructorData);
-
-  React.useEffect(() => {
+  useEffect(() => {
     if (
       instructorData?.data &&
       countryData?.data &&
@@ -118,10 +115,7 @@ const Page = ({ params }) => {
 
     await instructorMutation(formData, {
       onSuccess: (data) => {
-        Swal.fire({
-          text: data?.message,
-          icon: "success",
-        });
+        toast.success(data?.message);
       },
       onError: (err) => {
         Swal.fire({
@@ -330,10 +324,10 @@ const Page = ({ params }) => {
               {/* Footer Buttons */}
               <div className="flex justify-end gap-2 lg:gap-4 mt-5 lg:mt-10">
                 <Button
-                onClick={() => router.back()}
+                  onClick={() => router.back()}
                   className="px-6 py-2 bg-transparent border border-gray-300 rounded-md text-sm font-medium text-black hover:bg-gray-50"
                 >
-                    Back
+                  Back
                 </Button>
                 <Button
                   type="submit"
