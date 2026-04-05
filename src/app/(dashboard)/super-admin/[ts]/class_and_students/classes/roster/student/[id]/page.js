@@ -88,8 +88,10 @@ const Page = ({ params }) => {
 
   const onSubmit = (data) => {
     const payload = {
-      student_id: Number(id), // required
-      course_id: studentData?.data?.course_id || 2, // keep existing or fallback
+      student_id: Number(id),
+      // course_id: studentData?.data?.course_id,
+
+      class_details_id: studentData?.data?.class_details_id || null,
 
       first_name: data.first_name,
       last_name: data.last_name,
@@ -272,7 +274,7 @@ const Page = ({ params }) => {
             >
               <option value="Pending">Pending</option>
               <option value="Complete">Complete</option>
-              <option value="Cancelled">Cancelled</option>
+              {/* <option value="Cancelled">Cancelled</option> */}
             </select>
           </div>
         </div>
