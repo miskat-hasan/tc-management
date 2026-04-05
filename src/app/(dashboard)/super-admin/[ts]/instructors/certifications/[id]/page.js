@@ -14,6 +14,7 @@ import {
 } from "@/hooks/api/dashboardApi";
 import Swal from "sweetalert2";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 const Page = ({ params }) => {
   const router = useRouter();
@@ -55,10 +56,7 @@ const Page = ({ params }) => {
 
     await mutateAsync(formData, {
       onSuccess: (data) => {
-        Swal.fire({
-          text: data?.message,
-          icon: "success",
-        });
+        toast.success(data?.message);
       },
       onError: (err) => {
         Swal.fire({
@@ -74,7 +72,7 @@ const Page = ({ params }) => {
       {/* Title */}
       <SectionTitle title="Edit Certification" />
 
-      {loadingSingleCertification ? (
+      {loadingSingleCertification && loadingDiscipline ? (
         <div className="bg-white rounded-[14px] p-4 lg:p-8 shadow-sm animate-pulse">
           <div className="space-y-6">
             {/* Discipline Select Skeleton */}

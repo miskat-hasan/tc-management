@@ -11,6 +11,7 @@ import { Download, Loader2, PlusIcon, Trash2 } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 import Swal from "sweetalert2";
 
 const DocumentList = ({ instructorId, documentData }) => {
@@ -41,10 +42,7 @@ const DocumentList = ({ instructorId, documentData }) => {
 
     storeDocumentMutation(formData, {
       onSuccess: (data) => {
-        Swal.fire({
-          text: data?.message,
-          icon: "success",
-        });
+        toast.success(data?.message);
         reset();
         queryClient.invalidateQueries("get-single-instructor");
       },
