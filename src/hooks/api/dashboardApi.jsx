@@ -860,7 +860,7 @@ export const useGetStudentByClassId = (id) => {
     method: "get",
     isPrivate: true,
     key: ["get-student-by-class", id],
-    endpoint: `/api/student/by_course?course_id=${id}`,
+    endpoint: `/api/student/by_class?class_details_id=${id}`,
   });
 };
 
@@ -909,7 +909,7 @@ export const useUpdateStudentData = () => {
   return useClientApi({
     method: "post",
     isPrivate: true,
-    endpoint: "/api/student/by_course",
+    endpoint: "/api/student/by_class",
     onError: (error) => {
       Swal.fire({
         text: error?.response?.data?.message,
