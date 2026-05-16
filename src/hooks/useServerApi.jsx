@@ -1,3 +1,4 @@
+// src/hooks/useServerApi.jsx
 export async function useServerApi({ endpoint, revalidate, ssr = false }) {
   const baseURL = `${process.env.NEXT_PUBLIC_SITE_URL}${endpoint}`;
 

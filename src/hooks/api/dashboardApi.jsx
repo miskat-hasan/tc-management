@@ -3,6 +3,16 @@ import useClientApi from "../useClientApi";
 import { toast } from "sonner";
 import { useQueryClient } from "@tanstack/react-query";
 
+// get user training site data
+export const useGetUserTrainingSiteData = ()=> {
+  return useClientApi({
+    method: "get",
+    key: ["user-training-site-data"],
+    isPrivate: true,
+    endpoint: "/api/training-site/my-training-site"
+  })
+}
+
 export const useChangePassword = () => {
   return useClientApi({
     method: "post",

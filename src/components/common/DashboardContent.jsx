@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import DashboardTopbar from "../dashboard/DashboardTopbar";
+import DashboardTopbar from "../dashboard/Topbar";
 import { usePathname } from "next/navigation";
 
 const DashboardContent = ({ content }) => {
