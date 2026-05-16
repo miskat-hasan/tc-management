@@ -1,11 +1,9 @@
-  import { useRouter } from "next/navigation";
 import useAuth from "../useAuth";
 import useClientApi from "../useClientApi";
 import Swal from "sweetalert2";
 import { toast } from "sonner";
 
 export const useLogin = () => {
-  const router = useRouter();
   const { setToken } = useAuth();
 
   return useClientApi({
@@ -14,9 +12,8 @@ export const useLogin = () => {
     endpoint: "/api/users/login",
     onSuccess: (data) => {
       if (data?.status) {
-        setToken(data?.data?.token);
+        setToken(data.data.token);
         toast.success(data?.message || "Login Successful");
-        return router.push("/");
       }
     },
     onError: (err) => {
@@ -42,7 +39,6 @@ export const useGetUserData = (token) => {
 };
 
 export const useLogout = () => {
-  const router = useRouter();
   const { clearToken } = useAuth();
 
   return useClientApi({
@@ -50,13 +46,9 @@ export const useLogout = () => {
     key: ["logout"],
     isPrivate: true,
     endpoint: "/api/users/logout",
-    onSuccess: (data) => {
+    onSuccess: () => {
       clearToken();
-      router.push("/login");
-    },
-    onError: () => {
-      clearToken();
-      router.push("/login");
+      window.location.href = "/login";
     },
   });
 };

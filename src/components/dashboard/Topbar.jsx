@@ -22,13 +22,13 @@ const DashboardTopbar = () => {
   };
 
   return (
-    <div className="relative flex justify-between xl:justify-end items-center">
+    <div className="relative flex justify-between xl:justify-end items-center px-3 md:px-7">
       <button onClick={handleSidebar} className="xl:hidden block z-50 relative">
         <CgMenuLeft className="text-3xl hover:text-brown cursor-pointer" />
       </button>
 
       {/* Right-side icons */}
-      <div className="flex items-center gap-2.5">
+      <div className="flex items-center gap-2.5 py-3">
         <Link
            href={
             user?.roles?.find((item) => item?.role_name === "Super Admin")

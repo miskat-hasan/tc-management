@@ -1,0 +1,156 @@
+"use client";
+
+import { useParams, usePathname, useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import Link from "next/link";
+import { FaChevronRight } from "react-icons/fa";
+import { getSidebarMenu } from "@/config/sidebarConfig";
+import { useLogout } from "@/hooks/api/authApi";
+import useAuth from "@/hooks/useAuth";
+import CustomSelect from "@/components/shared/form/CustomSelect";
+import { Logo, DashboardIcon } from "@/svg/SvgContainer";
+
+// Skeleton for loading state
+function SidebarSkeleton() {
+  return (
+    <div className="max-w-[250px] xl:max-w-[300px] 2xl:max-w-[345px] w-full px-[17px] pt-[22.5px] h-screen bg-white hidden xl:flex xl:flex-col gap-[31.5px]">
+      {/* Logo skeleton */}
+      <div className="flex items-center gap-1.5 justify-center">
+        <div className="h-8 w-8 rounded bg-gray-200 animate-pulse" />
+        <div className="h-4 w-32 rounded bg-gray-200 animate-pulse" />
+      </div>
+
+      <div className="flex flex-col gap-3">
+        {/* Select skeleton */}
+        <div className="h-10 w-full rounded-lg bg-gray-200 animate-pulse" />
+
+        {/* Dashboard label skeleton */}
+        <div className="h-10 w-full rounded bg-gray-100 animate-pulse" />
+
+        {/* Menu item skeletons */}
+        {Array.from({ length: 6 }).map((_, i) => (
+          <div key={i} className="h-11 w-full rounded-[10px] bg-gray-100 animate-pulse" />
+        ))}
+      </div>
+    </div>
+  );
+}
+
+export default function Sidebar() {
+  const pathname = usePathname();
+  const router   = useRouter();
+  const { ts }   = useParams();
+
+  const { user, loading, trainingSiteData, trainingSiteDataLoading } = useAuth();
+  const { mutateAsync: logout, isPending: logoutPending } = useLogout();
+
+  const role      = user?.roles?.[0]?.role_name;
+  const menuItems = getSidebarMenu({ role, ts });
+
+  const [openMenu, setOpenMenu] = useState(null);
+
+  // ✅ Also depend on menuItems.length so it re-runs when data loads after reload
+  useEffect(() => {
+    if (!menuItems.length) return;
+    for (const item of menuItems) {
+      if (item.submenu?.some((sub) => pathname.startsWith(sub.href))) {
+        setOpenMenu(item.label);
+        return;
+      }
+    }
+  }, [pathname, menuItems.length]);
+
+  const handleSiteChange = (val) => {
+    const isSuperAdminOnMaster = role === "Super Admin" && String(val) === "1";
+    const path = isSuperAdminOnMaster
+      ? `/dashboard/super-admin/${val}/class_and_students/upcoming_classes`
+      : `/dashboard/${role === "Super Admin" ? "super-admin" : "admin"}/${val}/class_and_students/classes`;
+    router.push(path);
+  };
+
+  // Show skeleton while user data is loading
+  if (loading || !user) return <SidebarSkeleton />;
+
+  return (
+    <div className="max-w-[250px] xl:max-w-[300px] 2xl:max-w-[345px] w-full px-[17px] pt-[22.5px] h-screen overflow-y-auto scroll-bar bg-white text-black hidden xl:flex xl:flex-col gap-[31.5px]">
+      {/* Logo */}
+      <div className="flex items-center gap-1.5 justify-center">
+        <Logo />
+        <h5 className="font-black text-[14px]">ENROLL NATIONWIDE</h5>
+      </div>
+
+      <div className="flex flex-col gap-2">
+        <CustomSelect
+          value={ts}
+          options={trainingSiteData?.data}
+          isLoading={trainingSiteDataLoading}
+          onChange={handleSiteChange}
+          placeholder="Select training site"
+        />
+
+        <div className="flex items-center gap-3 px-5 py-2.5">
+          <DashboardIcon />
+          <h6>Dashboard</h6>
+        </div>
+
+        <nav>
+          <ul className="flex flex-col">
+            {menuItems.map((item) => {
+              const isOpen = openMenu === item.label;
+              return (
+                <li key={item.label} className="text-sm font-semibold">
+                  <button
+                    onClick={() =>
+                      setOpenMenu((p) => (p === item.label ? null : item.label))
+                    }
+                    className={`w-full flex items-center justify-between cursor-pointer px-5 py-3 rounded-[10px] transition-colors ${
+                      isOpen ? "bg-brown text-white" : "hover:bg-gray-100"
+                    }`}
+                  >
+                    <span>{item.label}</span>
+                    <FaChevronRight
+                      className={`h-3 w-3 transition-transform ${isOpen ? "rotate-90" : ""}`}
+                    />
+                  </button>
+
+                  <div className={`overflow-hidden transition-all ${isOpen ? "max-h-screen" : "max-h-0"}`}>
+                    <ul className="bg-gray-50 rounded-[10px] pt-1">
+                      {item.submenu.map((sub) => {
+                        const active = pathname === sub.href;
+                        return (
+                          <li key={sub.label}>
+                            <Link
+                              href={sub.href}
+                              className={`flex items-center pl-16 pr-6 py-2.5 text-xs relative ${
+                                active ? "text-gray-900 font-semibold" : "text-gray-600 hover:text-brown"
+                              }`}
+                            >
+                              <span
+                                className={`absolute left-6 h-5 w-1 rounded-full ${
+                                  active ? "bg-brown" : "bg-gray-200"
+                                }`}
+                              />
+                              {sub.label}
+                            </Link>
+                          </li>
+                        );
+                      })}
+                    </ul>
+                  </div>
+                </li>
+              );
+            })}
+
+            <button
+              onClick={() => logout()}
+              disabled={logoutPending}
+              className="text-sm font-semibold mt-10 px-5 py-2.5 bg-brown rounded-[10px] text-white cursor-pointer mb-4 hover:bg-black transition duration-300 disabled:bg-gray-400 disabled:cursor-not-allowed"
+            >
+              {logoutPending ? "Logging out..." : "Log Out"}
+            </button>
+          </ul>
+        </nav>
+      </div>
+    </div>
+  );
+}

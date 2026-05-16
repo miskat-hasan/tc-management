@@ -1,3 +1,4 @@
+// src/app/dashboard/admin/layout.js
 import DashboardContent from "@/components/common/DashboardContent";
 import AdminDashboardSidebar from "@/components/dashboard/admin/AdminDashboardSidebar";
 import AdminPrivateLayout from "@/private/PrivateAdmin";

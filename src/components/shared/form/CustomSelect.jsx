@@ -36,16 +36,7 @@ const CustomSelect = ({
       >
         <SelectTrigger
           id={id}
-          className={`
-            w-full
-            border
-            ${error ? "border-red-500" : "border-gray-300"}
-            bg-light rounded-md
-            px-2 sm:px-3 py-2 sm:!py-6
-            text-sm sm:text-base text-gray-700
-            focus:outline-none focus:ring-2
-            ${error ? "focus:ring-red-400" : "focus:ring-gray-300"}
-            transition-all duration-150
+          className={` w-full border ${error ? "border-red-500" : "border-gray-300"} bg-light rounded-md px-2 sm:px-3 py-2 sm:!py-6 text-sm sm:text-base text-gray-700 focus:outline-none cursor-pointer focus:ring-2 ${error ? "focus:ring-red-400" : "focus:ring-gray-300"} transition-all duration-150
           `}
         >
           <SelectValue placeholder={placeholder} />
@@ -59,7 +50,7 @@ const CustomSelect = ({
               <SelectItem
                 key={opt.id}
                 value={String(opt.id)}
-                className="text-sm sm:text-base"
+                className="text-sm sm:text-base cursor-pointer"
               >
                 {opt.name ??
                   opt?.training_center_name ??
@@ -70,7 +61,7 @@ const CustomSelect = ({
               </SelectItem>
             ))
           ) : (
-            <p>No data found</p>
+            <p className="cursor-auto">No data found</p>
           )}
         </SelectContent>
       </Select>
