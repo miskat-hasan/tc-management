@@ -89,8 +89,6 @@ const Page = ({ params }) => {
   const onSubmit = (data) => {
     const payload = {
       student_id: Number(id),
-      // course_id: studentData?.data?.course_id,
-
       class_details_id: studentData?.data?.class_details_id || null,
 
       first_name: data.first_name,
