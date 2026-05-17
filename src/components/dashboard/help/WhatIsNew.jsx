@@ -2,7 +2,7 @@
 import SectionTitle from "@/components/common/SectionTitle";
 import NotFound from "@/components/shared/NotFound";
 import { getWhatsNew } from "@/hooks/api/dashboardApi";
-import TableSkeleton from "@/components/common/TableSkelation";
+import TableSkeleton from "@/components/skeleton/TableSkeleton";
 import { Button } from "@/components/ui/button";
 import { PlusIcon } from "@/svg/SvgContainer";
 import { useRouter } from "next/navigation";
@@ -52,7 +52,7 @@ const WhatIsNew = () => {
               </thead>
 
               <tbody>
-                {whatsNewData?.data?.length > 0 ? (
+                {whatsNewData?.data?.length > 6  ? (
                   whatsNewData?.data?.map((item, index) => (
                     <tr
                       key={item?.id}

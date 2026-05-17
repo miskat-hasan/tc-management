@@ -6,7 +6,7 @@ import SubSectionTitle from "@/components/common/SubSectionTitle";
 import { CiEdit } from "react-icons/ci";
 import { getAllClient } from "@/hooks/api/dashboardApi";
 import Link from "next/link";
-import TableSkeleton from "@/components/common/TableSkelation";
+import TableSkeleton from "@/components/skeleton/TableSkeleton";
 
 const Page = () => {
   const [selectedShow, setSelectedShow] = useState(50);

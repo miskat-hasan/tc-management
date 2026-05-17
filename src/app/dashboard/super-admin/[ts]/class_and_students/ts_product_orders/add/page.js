@@ -10,7 +10,7 @@ import {
 import FormContainer from "@/components/shared/form/FormContainer";
 import FormInput from "@/components/shared/form/FormInput";
 import SectionTitle from "@/components/common/SectionTitle";
-import TableSkeleton from "@/components/common/TableSkelation";
+import TableSkeleton from "@/components/skeleton/TableSkeleton";
 import { Button } from "@/components/ui/button";
 import Swal from "sweetalert2";
 import Link from "next/link";

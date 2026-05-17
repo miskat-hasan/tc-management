@@ -1,6 +1,6 @@
 "use client";
 
-import TableSkeleton from "@/components/common/TableSkelation";
+import TableSkeleton from "@/components/skeleton/TableSkeleton";
 import { Button } from "@/components/ui/button";
 import { getAllCourses } from "@/hooks/api/dashboardApi";
 import { PlusIcon } from "@/svg/SvgContainer";
