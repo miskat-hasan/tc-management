@@ -1,6 +1,6 @@
 "use client";
 
-import TableSkeleton from "@/components/common/TableSkelation";
+import TableSkeleton from "@/components/skeleton/TableSkeleton";
 import CustomSelect from "@/components/shared/form/CustomSelect";
 import { Button } from "@/components/ui/button";
 import {

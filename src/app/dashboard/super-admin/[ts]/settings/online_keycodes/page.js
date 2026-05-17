@@ -6,7 +6,7 @@ import React, { useState } from "react";
 import { CiEdit } from "react-icons/ci";
 import { useRouter } from "next/navigation";
 import { getAllKeyCodeBank } from "@/hooks/api/dashboardApi";
-import TableSkeleton from "@/components/common/TableSkelation";
+import TableSkeleton from "@/components/skeleton/TableSkeleton";
 import Link from "next/link";
 
 const Page = () => {

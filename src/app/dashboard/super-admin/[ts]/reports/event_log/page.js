@@ -3,7 +3,7 @@ import React from "react";
 import SectionTitle from "@/components/common/SectionTitle";
 import SubSectionTitle from "@/components/common/SubSectionTitle";
 import { getEventLog } from "@/hooks/api/dashboardApi";
-import TableSkeleton from "@/components/common/TableSkelation";
+import TableSkeleton from "@/components/skeleton/TableSkeleton";
 
 const Page = () => {
   

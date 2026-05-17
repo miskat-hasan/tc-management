@@ -1,7 +1,7 @@
 "use client";
 import SectionTitle from "@/components/common/SectionTitle";
 import SubSectionTitle from "@/components/common/SubSectionTitle";
-import TableSkeleton from "@/components/common/TableSkelation";
+import TableSkeleton from "@/components/skeleton/TableSkeleton";
 import { getAllClasses } from "@/hooks/api/dashboardApi";
 import useAuth from "@/hooks/useAuth";
 import Link from "next/link";

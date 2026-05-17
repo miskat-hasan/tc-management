@@ -1,7 +1,7 @@
 "use client";
 import SectionTitle from "@/components/common/SectionTitle";
 import SubSectionTitle from "@/components/common/SubSectionTitle";
-import TableSkeleton from "@/components/common/TableSkelation";
+import TableSkeleton from "@/components/skeleton/TableSkeleton";
 import CustomSelect from "@/components/shared/form/CustomSelect";
 import { Button } from "@/components/ui/button";
 import { getProductAddOnsReport } from "@/hooks/api/dashboardApi";

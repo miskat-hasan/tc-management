@@ -8,7 +8,7 @@ import CustomInput from "@/components/shared/form/CustomInput";
 import { Button } from "@/components/ui/button";
 import { SearchIcon } from "@/svg/SvgContainer";
 import { searchStudent } from "@/hooks/api/dashboardApi";
-import TableSkeleton from "@/components/common/TableSkelation";
+import TableSkeleton from "@/components/skeleton/TableSkeleton";
 
 const StudentSearch = () => {
   const [page, setPage] = useState(1);
