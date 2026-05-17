@@ -4,7 +4,7 @@ import SectionTitle from "@/components/common/SectionTitle";
 import { Button } from "@/components/ui/button";
 import React, { useState } from "react";
 import { useGetTCProduct } from "@/hooks/api/dashboardApi";
-import TableSkeleton from "@/components/common/TableSkelation";
+import TableSkeleton from "@/components/skeleton/TableSkeleton";
 import Link from "next/link";
 import FormInput from "@/components/shared/form/FormInput";
 import FormContainer from "@/components/shared/form/FormContainer";

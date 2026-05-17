@@ -8,7 +8,7 @@ import { CiEdit } from "react-icons/ci";
 import {
   useGetTSProductOrder,
 } from "@/hooks/api/dashboardApi";
-import TableSkeleton from "@/components/common/TableSkelation";
+import TableSkeleton from "@/components/skeleton/TableSkeleton";
 import Link from "next/link";
 
 const TsProductOrders = ({ts}) => {

@@ -1,7 +1,7 @@
 "use client";
 import SectionTitle from "@/components/common/SectionTitle";
 import SubSectionTitle from "@/components/common/SubSectionTitle";
-import TableSkeleton from "@/components/common/TableSkelation";
+import TableSkeleton from "@/components/skeleton/TableSkeleton";
 import { getRegistrationReport } from "@/hooks/api/dashboardApi";
 
 // ===== Page Component =====

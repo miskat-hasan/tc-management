@@ -5,24 +5,7 @@ import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import useAuth from "@/hooks/useAuth";
 import Loader from "@/components/common/Loader";
-
-const roleSegment = {
-  "Super Admin":           "super-admin",
-  "Training Center Admin": "admin",
-  "Training Site Admin":   "admin",
-  "Instructor":            "instructor",
-  "Student":               "student",
-  "Client":                "client",
-};
-
-const roleDefaultPage = {
-  "Super Admin":           "class_and_students/upcoming_classes",
-  "Training Center Admin": "class_and_students/classes",
-  "Training Site Admin":   "class_and_students/classes",
-  "Instructor":            "class_and_students/classes",
-  "Student":               "class_and_students/classes",
-  "Client":                "class_and_students/classes",
-};
+import { roleDefaultPage, roleSegment } from "@/config";
 
 export default function AuthLayout({ children }) {
   const router = useRouter();
@@ -32,15 +15,20 @@ export default function AuthLayout({ children }) {
     if (!token || !user || !selectedTrainingSiteId) return;
 
     const roleName = user?.roles?.[0]?.role_name;
-    const segment  = roleSegment[roleName];
-    const page     = roleDefaultPage[roleName];
+    const segment = roleSegment[roleName];
+    const page = roleDefaultPage[roleName];
 
     if (segment && page) {
-      router.replace(`/dashboard/${segment}/${selectedTrainingSiteId}/${page}`);
+      if (segment === "student" || segment === "client") {
+        router.replace(`/dashboard/${segment}/${page}`);
+      } else {
+        router.replace(
+          `/dashboard/${segment}/${selectedTrainingSiteId}/${page}`,
+        );
+      }
     }
   }, [token, user, selectedTrainingSiteId, router]);
 
-  // Token exists but user data still loading → show loader instead of login page
   if (token && (loading || !user || !selectedTrainingSiteId)) {
     return (
       <div className="h-screen w-full flex justify-center items-center">
@@ -49,6 +37,5 @@ export default function AuthLayout({ children }) {
     );
   }
 
-  // No token → show login page normally
   return <>{children}</>;
 }

@@ -9,47 +9,22 @@ import { useLogout } from "@/hooks/api/authApi";
 import useAuth from "@/hooks/useAuth";
 import CustomSelect from "@/components/shared/form/CustomSelect";
 import { Logo, DashboardIcon } from "@/svg/SvgContainer";
-
-// Skeleton for loading state
-function SidebarSkeleton() {
-  return (
-    <div className="max-w-[250px] xl:max-w-[300px] 2xl:max-w-[345px] w-full px-[17px] pt-[22.5px] h-screen bg-white hidden xl:flex xl:flex-col gap-[31.5px]">
-      {/* Logo skeleton */}
-      <div className="flex items-center gap-1.5 justify-center">
-        <div className="h-8 w-8 rounded bg-gray-200 animate-pulse" />
-        <div className="h-4 w-32 rounded bg-gray-200 animate-pulse" />
-      </div>
-
-      <div className="flex flex-col gap-3">
-        {/* Select skeleton */}
-        <div className="h-10 w-full rounded-lg bg-gray-200 animate-pulse" />
-
-        {/* Dashboard label skeleton */}
-        <div className="h-10 w-full rounded bg-gray-100 animate-pulse" />
-
-        {/* Menu item skeletons */}
-        {Array.from({ length: 6 }).map((_, i) => (
-          <div key={i} className="h-11 w-full rounded-[10px] bg-gray-100 animate-pulse" />
-        ))}
-      </div>
-    </div>
-  );
-}
+import SidebarSkeleton from "../skeleton/SidebarSkeleton";
 
 export default function Sidebar() {
   const pathname = usePathname();
-  const router   = useRouter();
-  const { ts }   = useParams();
+  const router = useRouter();
+  const { ts } = useParams();
 
-  const { user, loading, trainingSiteData, trainingSiteDataLoading } = useAuth();
+  const { user, loading, trainingSiteData, trainingSiteDataLoading } =
+    useAuth();
   const { mutateAsync: logout, isPending: logoutPending } = useLogout();
 
-  const role      = user?.roles?.[0]?.role_name;
+  const role = user?.roles?.[0]?.role_name;
   const menuItems = getSidebarMenu({ role, ts });
 
   const [openMenu, setOpenMenu] = useState(null);
 
-  // ✅ Also depend on menuItems.length so it re-runs when data loads after reload
   useEffect(() => {
     if (!menuItems.length) return;
     for (const item of menuItems) {
@@ -68,7 +43,6 @@ export default function Sidebar() {
     router.push(path);
   };
 
-  // Show skeleton while user data is loading
   if (loading || !user) return <SidebarSkeleton />;
 
   return (
@@ -80,14 +54,15 @@ export default function Sidebar() {
       </div>
 
       <div className="flex flex-col gap-2">
-        <CustomSelect
-          value={ts}
-          options={trainingSiteData?.data}
-          isLoading={trainingSiteDataLoading}
-          onChange={handleSiteChange}
-          placeholder="Select training site"
-        />
-
+        {!["Client", "Student"].includes(role) && (
+          <CustomSelect
+            value={ts}
+            options={trainingSiteData?.data}
+            isLoading={trainingSiteDataLoading}
+            onChange={handleSiteChange}
+            placeholder="Select training site"
+          />
+        )}
         <div className="flex items-center gap-3 px-5 py-2.5">
           <DashboardIcon />
           <h6>Dashboard</h6>
@@ -113,7 +88,9 @@ export default function Sidebar() {
                     />
                   </button>
 
-                  <div className={`overflow-hidden transition-all ${isOpen ? "max-h-screen" : "max-h-0"}`}>
+                  <div
+                    className={`overflow-hidden transition-all ${isOpen ? "max-h-screen" : "max-h-0"}`}
+                  >
                     <ul className="bg-gray-50 rounded-[10px] pt-1">
                       {item.submenu.map((sub) => {
                         const active = pathname === sub.href;
@@ -122,7 +99,9 @@ export default function Sidebar() {
                             <Link
                               href={sub.href}
                               className={`flex items-center pl-16 pr-6 py-2.5 text-xs relative ${
-                                active ? "text-gray-900 font-semibold" : "text-gray-600 hover:text-brown"
+                                active
+                                  ? "text-gray-900 font-semibold"
+                                  : "text-gray-600 hover:text-brown"
                               }`}
                             >
                               <span

@@ -1,6 +1,6 @@
 "use client";
 import SectionTitle from "@/components/common/SectionTitle";
-import TableSkeleton from "@/components/common/TableSkelation";
+import TableSkeleton from "@/components/skeleton/TableSkeleton";
 import { Button } from "@/components/ui/button";
 import { getallTrainingsite } from "@/hooks/api/dashboardApi";
 import { PlusIcon } from "@/svg/SvgContainer";
