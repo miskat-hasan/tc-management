@@ -11,6 +11,7 @@ import FormTextarea from "@/components/shared/form/FormTextarea";
 import { getAllCountry, storeLocation } from "@/hooks/api/dashboardApi";
 import Swal from "sweetalert2";
 import Link from "next/link";
+import { toast } from "sonner";
 
 const Page = () => {
   const form = useForm({
@@ -64,16 +65,10 @@ const Page = () => {
     await storeLocationMutation(formData, {
       onSuccess: (data) => {
         reset();
-        Swal.fire({
-          text: data?.message,
-          icon: "success",
-        });
+        toast.success(data?.message || "Location added successfully");
       },
       onError: (err) => {
-        Swal.fire({
-          text: err?.response?.data?.message,
-          icon: "error",
-        });
+        toast.error(err?.response?.data?.message || "Something went wrong!");
       },
     });
   };

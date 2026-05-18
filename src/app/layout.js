@@ -49,7 +49,7 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body className={`${poppins.variable} antialiased overflow-hidden`}>
         <ReactQueryProvider>
-          <Toaster position="top-center" theme="light" />
+          <Toaster position="top-right" theme="light" />
           <AuthProvider>{children}</AuthProvider>
         </ReactQueryProvider>
       </body>

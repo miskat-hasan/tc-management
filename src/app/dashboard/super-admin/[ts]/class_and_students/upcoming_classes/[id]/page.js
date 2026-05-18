@@ -20,6 +20,7 @@ import Link from "next/link";
 import React, { useEffect } from "react";
 import { Controller, useForm, useFieldArray } from "react-hook-form";
 import { FaPlus } from "react-icons/fa";
+import { toast } from "sonner";
 import Swal from "sweetalert2";
 
 const Page = ({ params }) => {
@@ -168,16 +169,10 @@ const Page = ({ params }) => {
     mutate(formData, {
       onSuccess: (data) => {
         reset();
-        Swal.fire({
-          text: data?.message,
-          icon: "success",
-        });
+        toast.success(data?.message || "Class Updated Successfully");
       },
       onError: (err) => {
-        Swal.fire({
-          text: err?.response?.data?.message,
-          icon: "error",
-        });
+        toast.error(err?.message || "Something went wrong");
       },
     });
   };

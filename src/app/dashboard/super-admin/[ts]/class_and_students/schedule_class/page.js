@@ -16,6 +16,7 @@ import { LucideTrash2, X } from "lucide-react";
 import React from "react";
 import { Controller, useForm, useFieldArray } from "react-hook-form";
 import { FaPlus } from "react-icons/fa";
+import { toast } from "sonner";
 import Swal from "sweetalert2";
 
 const Page = () => {
@@ -111,16 +112,10 @@ const Page = () => {
     mutate(formData, {
       onSuccess: (data) => {
         reset();
-        Swal.fire({
-          text: data?.message,
-          icon: "success",
-        });
+       toast.success(data?.message || "Class Scheduled Successfully");
       },
       onError: (err) => {
-        Swal.fire({
-          text: err?.response?.data?.message,
-          icon: "error",
-        });
+        toast.error(err?.response?.data?.message || "Something went wrong!");
       },
     });
   };

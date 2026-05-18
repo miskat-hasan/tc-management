@@ -10,17 +10,24 @@ import useAuth from "@/hooks/useAuth";
 import CustomSelect from "@/components/shared/form/CustomSelect";
 import { Logo, DashboardIcon } from "@/svg/SvgContainer";
 import SidebarSkeleton from "../skeleton/SidebarSkeleton";
+import { roleSegment } from "@/config";
 
 export default function Sidebar() {
   const pathname = usePathname();
   const router = useRouter();
   const { ts } = useParams();
 
-  const { user, loading, trainingSiteData, trainingSiteDataLoading } =
-    useAuth();
+  const {
+    user,
+    loading,
+    activeRole,
+    accessibleSites,
+  } = useAuth();
+
   const { mutateAsync: logout, isPending: logoutPending } = useLogout();
 
-  const role = user?.roles?.[0]?.role_name;
+  const role = activeRole?.role_name;
+
   const menuItems = getSidebarMenu({ role, ts });
 
   const [openMenu, setOpenMenu] = useState(null);
@@ -37,17 +44,24 @@ export default function Sidebar() {
 
   const handleSiteChange = (val) => {
     const isSuperAdminOnMaster = role === "Super Admin" && String(val) === "1";
-    const path = isSuperAdminOnMaster
-      ? `/dashboard/super-admin/${val}/class_and_students/upcoming_classes`
-      : `/dashboard/${role === "Super Admin" ? "super-admin" : "admin"}/${val}/class_and_students/classes`;
-    router.push(path);
+    const segment = roleSegment[role];
+    const page = isSuperAdminOnMaster
+      ? "class_and_students/upcoming_classes"
+      : "class_and_students/classes";
+
+    router.push(`/dashboard/${segment}/${val}/${page}`);
   };
 
   if (loading || !user) return <SidebarSkeleton />;
 
+  // Format accessibleSites for CustomSelect
+  const siteOptions = accessibleSites.map((sr) => ({
+    id: sr.training_site_id,
+    name: sr.training_site_name,
+  }));
+
   return (
     <div className="max-w-[250px] xl:max-w-[300px] 2xl:max-w-[345px] w-full px-[17px] pt-[22.5px] h-screen overflow-y-auto scroll-bar bg-white text-black hidden xl:flex xl:flex-col gap-[31.5px]">
-      {/* Logo */}
       <div className="flex items-center gap-1.5 justify-center">
         <Logo />
         <h5 className="font-black text-[14px]">ENROLL NATIONWIDE</h5>
@@ -57,12 +71,12 @@ export default function Sidebar() {
         {!["Client", "Student"].includes(role) && (
           <CustomSelect
             value={ts}
-            options={trainingSiteData?.data}
-            isLoading={trainingSiteDataLoading}
+            options={siteOptions} // ← only sites for this role
             onChange={handleSiteChange}
             placeholder="Select training site"
           />
         )}
+
         <div className="flex items-center gap-3 px-5 py-2.5">
           <DashboardIcon />
           <h6>Dashboard</h6>
@@ -105,9 +119,7 @@ export default function Sidebar() {
                               }`}
                             >
                               <span
-                                className={`absolute left-6 h-5 w-1 rounded-full ${
-                                  active ? "bg-brown" : "bg-gray-200"
-                                }`}
+                                className={`absolute left-6 h-5 w-1 rounded-full ${active ? "bg-brown" : "bg-gray-200"}`}
                               />
                               {sub.label}
                             </Link>
