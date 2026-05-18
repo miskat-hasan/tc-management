@@ -9,6 +9,7 @@ import React from "react";
 import FormTextarea from "@/components/shared/form/FormTextarea";
 import { storeSupportRequest } from "@/hooks/api/dashboardApi";
 import Swal from "sweetalert2";
+import { toast } from "sonner";
 
 const Page = () => {
   const form = useForm({
@@ -36,16 +37,10 @@ const Page = () => {
     storeSupportMutation(formData, {
       onSuccess: (data) => {
         reset();
-        Swal.fire({
-          text: data?.message,
-          icon: "success",
-        });
+        toast.success(data?.message || "Support Request Sent Successfully");
       },
       onError: (err) => {
-        Swal.fire({
-          text: err?.response?.data?.message,
-          icon: "error",
-        });
+        toast.error(err?.response?.data?.message || "Something went wrong!");
       },
     });
   };

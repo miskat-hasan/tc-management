@@ -11,7 +11,7 @@ import useAuth from "@/hooks/useAuth";
 import { useQueryClient } from "@tanstack/react-query";
 import React from "react";
 import { useForm } from "react-hook-form";
-import Swal from "sweetalert2";
+import { toast } from "sonner";
 
 const Page = () => {
   const { user } = useAuth();
@@ -41,10 +41,7 @@ const Page = () => {
           "get-single-instructor",
           // user?.instructor_id,
         ]);
-        Swal.fire({
-          text: data?.message,
-          icon: "success",
-        });
+        toast.success(data?.message || "Account connected successfully");
       },
     });
   };

@@ -14,6 +14,7 @@ import TableSkeleton from "@/components/skeleton/TableSkeleton";
 import { Button } from "@/components/ui/button";
 import Swal from "sweetalert2";
 import Link from "next/link";
+import { toast } from "sonner";
 
 const MultiStepOrderPage = ({ params }) => {
   const { ts } = params;
@@ -106,10 +107,7 @@ const MultiStepOrderPage = ({ params }) => {
 
     mutate(payload, {
       onSuccess: (res) => {
-        Swal.fire({
-          text: res?.message || "Order placed successfully",
-          icon: "success",
-        });
+        toast.success(res?.message || "Order placed successfully");
         router.back();
       },
     });

@@ -15,6 +15,7 @@ import {
 import React, { useEffect } from "react";
 
 import { Controller, useForm } from "react-hook-form";
+import { toast } from "sonner";
 import Swal from "sweetalert2";
 
 const Page = () => {
@@ -78,16 +79,10 @@ const Page = () => {
 
     mutate(formData, {
       onSuccess: (data) => {
-        Swal.fire({
-          text: data?.message,
-          icon: "success",
-        });
+        toast.success(data?.message || "Card Settings updated successfully");
       },
       onError: (error) => {
-        Swal.fire({
-          text: error?.response?.data?.message,
-          icon: "error",
-        });
+        toast.error(error?.response?.data?.message || "Something went wrong!");
       },
     });
   };

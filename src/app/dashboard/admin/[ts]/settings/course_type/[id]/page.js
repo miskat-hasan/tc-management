@@ -26,6 +26,7 @@ import Link from "next/link";
 import React, { useEffect, useRef } from "react";
 import { Controller, useFieldArray, useForm } from "react-hook-form";
 import { FaPlus } from "react-icons/fa";
+import { toast } from "sonner";
 import Swal from "sweetalert2";
 
 const RichTextEditor = dynamic(() => import("@/components/shared/RichEditor"), {
@@ -332,16 +333,10 @@ const Page = ({ params }) => {
 
     updateCourseMutation(formData, {
       onSuccess: (res) => {
-        Swal.fire({
-          text: res?.message || "Course updated successfully",
-          icon: "success",
-        });
+        toast.success(res?.message || "Course updated successfully");
       },
       onError: (err) => {
-        Swal.fire({
-          text: err?.response?.data?.message || "Failed to update course",
-          icon: "error",
-        });
+        toast.error(err?.response?.data?.message || "Something went wrong!");
       },
     });
   };

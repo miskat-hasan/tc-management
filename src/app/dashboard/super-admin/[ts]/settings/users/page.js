@@ -5,7 +5,7 @@ import TableSkeleton from "@/components/skeleton/TableSkeleton";
 import FormContainer from "@/components/shared/form/FormContainer";
 import FormInput from "@/components/shared/form/FormInput";
 import { Button } from "@/components/ui/button";
-import { getAllInstructor } from "@/hooks/api/dashboardApi";
+import { getAllInstructor, useGetAllUsers } from "@/hooks/api/dashboardApi";
 import { PlusIcon, SearchIcon } from "@/svg/SvgContainer";
 import { Check, FileText } from "lucide-react";
 import Link from "next/link";
@@ -26,7 +26,7 @@ const Page = () => {
   const [enableSearch, setEnableSearch] = useState(false);
   const [searchValue, setSearchValue] = useState("");
 
-  const { data: allInstructor, isLoading } = getAllInstructor(
+  const { data: allInstructor, isLoading } = useGetAllUsers(
     page,
     perPage,
     enableSearch,
@@ -134,7 +134,7 @@ const Page = () => {
                       <tr key={user?.id} className="hover:bg-gray-50">
                         <td className="py-4 px-4 whitespace-nowrap">
                           <div className="font-semibold text-sm text-gray-900">
-                            {user?.first_name} {user?.last_name}
+                            {user?.name}
                           </div>
                           <div className="text-xs text-gray-500">
                             {user?.email}

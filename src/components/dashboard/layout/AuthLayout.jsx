@@ -9,27 +9,24 @@ import { roleDefaultPage, roleSegment } from "@/config";
 
 export default function AuthLayout({ children }) {
   const router = useRouter();
-  const { token, user, loading, selectedTrainingSiteId } = useAuth();
+  const { token, user, loading, siteRoles, selectedTrainingSiteId } = useAuth();
 
   useEffect(() => {
-    if (!token || !user || !selectedTrainingSiteId) return;
-
-    const roleName = user?.roles?.[0]?.role_name;
-    const segment = roleSegment[roleName];
-    const page = roleDefaultPage[roleName];
-
-    if (segment && page) {
-      if (segment === "student" || segment === "client") {
-        router.replace(`/dashboard/${segment}/${page}`);
-      } else {
-        router.replace(
-          `/dashboard/${segment}/${selectedTrainingSiteId}/${page}`,
-        );
+    if (!token || !user) return;
+    
+    // Multiple roles → select-role page (useLogin handles this)
+    // Single role → go straight to dashboard
+    if (siteRoles.length === 1) {
+      const { role_name, training_site_id } = siteRoles[0];
+      const segment = roleSegment[role_name];
+      const page    = roleDefaultPage[role_name];
+      if (segment && page) {
+        router.replace(`/dashboard/${segment}/${training_site_id}/${page}`);
       }
     }
-  }, [token, user, selectedTrainingSiteId, router]);
+  }, [token, user, siteRoles, router]);
 
-  if (token && (loading || !user || !selectedTrainingSiteId)) {
+  if (token && (loading || !user)) {
     return (
       <div className="h-screen w-full flex justify-center items-center">
         <Loader />

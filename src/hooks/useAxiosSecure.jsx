@@ -1,10 +1,13 @@
 // src/hooks/useAxiosSecure.jsx
 import axios from "axios";
 import { getItem, removeItem } from "@/lib/localStorage";
+// import useAuth from "./useAuth";
 
 export const axiosSecure = axios.create({
   baseURL: process.env.NEXT_PUBLIC_SITE_URL,
 });
+
+// const { selectedTrainingSiteId } = useAuth();
 
 axiosSecure.interceptors.request.use(
   (config) => {
@@ -12,11 +15,14 @@ axiosSecure.interceptors.request.use(
     if (token) {
       config.headers["Authorization"] = `Bearer ${token}`;
     }
+    // if (selectedTrainingSiteId) {
+    //   config.headers["X-Site-Id"] = selectedTrainingSiteId;
+    // }
     return config;
   },
   (error) => {
     return Promise.reject(error);
-  }
+  },
 );
 
 axiosSecure.interceptors.response.use(
@@ -29,7 +35,7 @@ axiosSecure.interceptors.response.use(
       removeItem("token");
     }
     return Promise.reject(error);
-  }
+  },
 );
 
 const useAxiosSecure = () => {

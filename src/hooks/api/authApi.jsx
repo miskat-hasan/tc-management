@@ -1,10 +1,11 @@
+import { useRouter } from "next/navigation";
 import useAuth from "../useAuth";
 import useClientApi from "../useClientApi";
-import Swal from "sweetalert2";
 import { toast } from "sonner";
 
 export const useLogin = () => {
-  const { setToken } = useAuth();
+  const { setToken, setSiteRoles, setActiveRole } = useAuth();
+  const router = useRouter();
 
   return useClientApi({
     method: "post",
@@ -12,15 +13,25 @@ export const useLogin = () => {
     endpoint: "/api/users/login",
     onSuccess: (data) => {
       if (data?.status) {
-        setToken(data.data.token);
+        const { token, site_roles } = data.data;
+
+        setToken(token);
+        setSiteRoles(site_roles ?? []); // ← persisted to localStorage
+
         toast.success(data?.message || "Login Successful");
+
+        if (site_roles.length > 1) {
+          // Multiple roles → let user pick
+          router.push("/select-role");
+        } else {
+          // Single role → set it as active immediately
+          setActiveRole(site_roles[0]);
+          // AuthLayout handles the redirect once activeRole is set
+        }
       }
     },
     onError: (err) => {
-      Swal.fire({
-        title: err?.response?.data?.message || "Something went wrong",
-        icon: "error",
-      });
+      toast.error(err?.response?.data?.message || "Something went wrong!");
     },
   });
 };
@@ -59,10 +70,7 @@ export const useVerifyEmail = () => {
     isPrivate: false,
     endpoint: "/api/users/login/email-verify",
     onError: (error) => {
-      Swal.fire({
-        text: error?.response?.data?.message,
-        icon: "error",
-      });
+      toast.error(error?.response?.data?.message || "Something went wrong!");
     },
   });
 };
@@ -73,10 +81,7 @@ export const useVerifyOTP = () => {
     isPrivate: false,
     endpoint: "/api/users/login/otp-verify",
     onError: (error) => {
-      Swal.fire({
-        text: error?.response?.data?.message,
-        icon: "error",
-      });
+      toast.error(error?.response?.data?.message || "Something went wrong!");
     },
   });
 };
@@ -87,10 +92,7 @@ export const useResendOTP = () => {
     isPrivate: false,
     endpoint: "/api/users/login/otp-resend",
     onError: (error) => {
-      Swal.fire({
-        text: error?.response?.data?.message,
-        icon: "error",
-      });
+      toast.error(error?.response?.data?.message || "Something went wrong!");
     },
   });
 };
@@ -101,10 +103,7 @@ export const useResetPassword = () => {
     isPrivate: false,
     endpoint: "/api/users/login/reset-password",
     onError: (error) => {
-      Swal.fire({
-        text: error?.response?.data?.message,
-        icon: "error",
-      });
+      toast.error(error?.response?.data?.message || "Something went wrong!");
     },
   });
 };

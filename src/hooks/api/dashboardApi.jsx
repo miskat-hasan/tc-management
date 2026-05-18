@@ -4,14 +4,14 @@ import { toast } from "sonner";
 import { useQueryClient } from "@tanstack/react-query";
 
 // get user training site data
-export const useGetUserTrainingSiteData = ()=> {
+export const useGetUserTrainingSiteData = () => {
   return useClientApi({
     method: "get",
     key: ["user-training-site-data"],
     isPrivate: true,
-    endpoint: "/api/training-site/my-training-site"
-  })
-}
+    endpoint: "/api/training-site/my-training-site",
+  });
+};
 
 export const useChangePassword = () => {
   return useClientApi({
@@ -19,10 +19,7 @@ export const useChangePassword = () => {
     endpoint: "/api/users/login/setnew-password",
     isPrivate: true,
     onError: (error) => {
-      Swal.fire({
-        text: error?.response?.data?.message,
-        icon: "error",
-      });
+      toast.error(error?.response?.data?.message || "Something went wrong!");
     },
   });
 };
@@ -60,16 +57,10 @@ export const updateTrainingSite = (id) => {
     isPrivate: true,
     endpoint: `/api/training-site/update/${id}`,
     onSuccess: (data) => {
-      Swal.fire({
-        text: data?.message,
-        icon: "success",
-      });
+      toast.success(data?.message || "Training Site Updated Successfully");
     },
     onError: (error) => {
-      Swal.fire({
-        text: error?.response?.data?.message,
-        icon: "error",
-      });
+      toast.error(error?.response?.data?.message || "Something went wrong!");
     },
   });
 };
@@ -759,10 +750,7 @@ export const addWhatsNew = () => {
     isPrivate: true,
     endpoint: "/api/whats_new/store",
     onError: (error) => {
-      Swal.fire({
-        text: error?.response?.data?.message,
-        icon: "error",
-      });
+      toast.error(error?.response?.data?.message || "Something went wrong!");
     },
   });
 };
@@ -774,10 +762,7 @@ export const updateWhatsNew = () => {
     isPrivate: true,
     endpoint: "/api/whats_new/update",
     onError: (error) => {
-      Swal.fire({
-        text: error?.response?.data?.message,
-        icon: "error",
-      });
+      toast.error(error?.response?.data?.message || "Something went wrong!");
     },
   });
 };
@@ -817,10 +802,7 @@ export const storeExternalSKU = () => {
     isPrivate: true,
     endpoint: "/api/external_sku/store",
     onError: (error) => {
-      Swal.fire({
-        text: error?.response?.data?.message,
-        icon: "error",
-      });
+      toast.error(error?.response?.data?.message || "Something went wrong!");
     },
   });
 };
@@ -841,10 +823,7 @@ export const useStudentEnrollment = (id) => {
     isPrivate: true,
     endpoint: `/api/student/registration?id=${id}`,
     onError: (err) => {
-      Swal.fire({
-        text: err?.response?.data?.message || "Payment failed",
-        icon: "error",
-      });
+      toast.error(err?.response?.data?.message || "Something went wrong!");
     },
   });
 };
@@ -856,10 +835,7 @@ export const usePaymentProcess = () => {
     isPrivate: false,
     endpoint: `/api/student/payment/process`,
     onError: (err) => {
-      Swal.fire({
-        text: err?.response?.data?.message,
-        icon: "error",
-      });
+      toast.error(err?.response?.data?.message || "Something went wrong!");
     },
   });
 };
@@ -907,10 +883,7 @@ export const useStoreStudentData = () => {
     isPrivate: true,
     endpoint: "/api/student/store",
     onError: (error) => {
-      Swal.fire({
-        text: error?.response?.data?.message,
-        icon: "error",
-      });
+      toast.error(error?.response?.data?.message || "Something went wrong!");
     },
   });
 };
@@ -921,10 +894,7 @@ export const useUpdateStudentData = () => {
     isPrivate: true,
     endpoint: "/api/student/by_class",
     onError: (error) => {
-      Swal.fire({
-        text: error?.response?.data?.message,
-        icon: "error",
-      });
+      toast.error(error?.response?.data?.message || "Something went wrong!");
     },
   });
 };
@@ -946,10 +916,7 @@ export const useUpdateStudentScore = () => {
     isPrivate: true,
     endpoint: `/api/score/update`,
     onError: (error) => {
-      Swal.fire({
-        text: error?.response?.data?.message,
-        icon: "error",
-      });
+      toast.error(error?.response?.data?.message || "Something went wrong!");
     },
   });
 };
@@ -1017,10 +984,7 @@ export const useStoreTCProduct = () => {
     isPrivate: true,
     endpoint: `/api/tc-product`,
     onError: (err) => {
-      Swal.fire({
-        text: err?.response?.data?.message,
-        icon: "error",
-      });
+      toast.error(err?.response?.data?.message || "Something went wrong!");
     },
   });
 };
@@ -1042,16 +1006,10 @@ export const useUpdateTCProduct = (id) => {
     isPrivate: true,
     endpoint: `/api/tc-product/${id}`,
     onSuccess: (data) => {
-      Swal.fire({
-        text: data?.message,
-        icon: "success",
-      });
+      toast.success(data?.message || "TC Product updated successfully");
     },
     onError: (err) => {
-      Swal.fire({
-        text: err?.response?.data?.message,
-        icon: "error",
-      });
+      toast.error(err?.response?.data?.message || "Something went wrong!");
     },
   });
 };
@@ -1119,10 +1077,7 @@ export const useTSProductCheckout = () => {
       toast.success(data?.message);
     },
     onError: (err) => {
-      Swal.fire({
-        text: err?.response?.data?.message || "Something went wrong",
-        icon: "error",
-      });
+      toast.error(err?.response?.data?.message || "Something went wrong!");
     },
   });
 };
@@ -1134,10 +1089,7 @@ export const useConnectAccount = () => {
     isPrivate: true,
     endpoint: `/api/instructor-account-connect`,
     onError: (err) => {
-      Swal.fire({
-        text: err?.response?.data?.message,
-        icon: "error",
-      });
+      toast.error(err?.response?.data?.message || "Something went wrong!");
     },
   });
 };
@@ -1188,10 +1140,17 @@ export const useUpdateUserData = () => {
     isPrivate: true,
     endpoint: `/api/instructors/basic-info`,
     onError: (err) => {
-      Swal.fire({
-        text: err?.response?.data?.message,
-        icon: "error",
-      });
+      toast.error(err?.response?.data?.message || "Something went wrong!");
     },
+  });
+};
+
+// get all users
+export const useGetAllUsers = () => {
+  return useClientApi({
+    method: "get",
+    isPrivate: true,
+    key: ["get-all-users"],
+    endpoint: "/api/site-users",
   });
 };
