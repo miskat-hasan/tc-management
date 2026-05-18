@@ -14,6 +14,7 @@ import {
   getAllUserRole,
 } from "@/hooks/api/dashboardApi";
 import Swal from "sweetalert2";
+import { toast } from "sonner";
 
 const Page = () => {
   const form = useForm({
@@ -92,16 +93,10 @@ const Page = () => {
     await instructorMutation(formData, {
       onSuccess: (data) => {
         reset();
-        Swal.fire({
-          text: "User added successfully",
-          icon: "success",
-        });
+        toast.success(data?.message || "Instructor added successfully");
       },
       onError: (err) => {
-        Swal.fire({
-          text: err?.response?.data?.message,
-          icon: "error",
-        });
+        toast.error(err?.response?.data?.message || "Something went wrong!");
       },
     });
   };

@@ -15,6 +15,7 @@ import { Controller, useForm } from "react-hook-form";
 import dynamic from "next/dynamic";
 import React, { useEffect, useRef } from "react";
 import Swal from "sweetalert2";
+import { toast } from "sonner";
 
 const RichTextEditor = dynamic(() => import("@/components/shared/RichEditor"), {
   ssr: false,
@@ -118,16 +119,10 @@ const Page = ({ params }) => {
 
     await updateClientMutation(formData, {
       onSuccess: (data) => {
-        Swal.fire({
-          text: data?.message,
-          icon: "success",
-        });
+        toast.success(data?.message || "Client updated successfully");
       },
       onError: (err) => {
-        Swal.fire({
-          text: err?.response?.data?.message,
-          icon: "error",
-        });
+        toast.error(err?.response?.data?.message || "Something went wrong!");
       },
     });
   };

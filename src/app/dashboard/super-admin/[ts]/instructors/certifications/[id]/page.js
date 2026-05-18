@@ -56,13 +56,10 @@ const Page = ({ params }) => {
 
     await mutateAsync(formData, {
       onSuccess: (data) => {
-        toast.success(data?.message);
+        toast.success(data?.message || "Certification Updated Successfully");
       },
       onError: (err) => {
-        Swal.fire({
-          text: err?.response?.data?.message,
-          icon: "error",
-        });
+        toast.error(err?.response?.data?.message || "Something went wrong!");
       },
     });
   };
