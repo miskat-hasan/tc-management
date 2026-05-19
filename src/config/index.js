@@ -14,10 +14,14 @@ export const Roles = [
   },
   {
     id: 4,
-    name: "Student",
+    name: "Instructor Assistant",
   },
   {
     id: 5,
+    name: "Student",
+  },
+  {
+    id: 6,
     name: "Client",
   },
 ];

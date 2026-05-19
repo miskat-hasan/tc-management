@@ -1,3 +1,5 @@
+import Cookies from "js-cookie";
+import { roleSegment, roleDefaultPage } from "@/config";
 import { useRouter } from "next/navigation";
 import useAuth from "../useAuth";
 import useClientApi from "../useClientApi";
@@ -16,18 +18,36 @@ export const useLogin = () => {
         const { token, site_roles } = data.data;
 
         setToken(token);
-        setSiteRoles(site_roles ?? []); // ← persisted to localStorage
+        setSiteRoles(site_roles ?? []);
 
-        toast.success(data?.message || "Login Successful");
+        Cookies.set("token", token, { sameSite: "strict" });
 
-        if (site_roles.length > 1) {
-          // Multiple roles → let user pick
+        const uniqueRoleNames = [...new Set(site_roles.map((sr) => sr.role_name))];
+        const isMultiRole     = uniqueRoleNames.length > 1;
+
+        if (isMultiRole) {
           router.push("/select-role");
         } else {
-          // Single role → set it as active immediately
-          setActiveRole(site_roles[0]);
-          // AuthLayout handles the redirect once activeRole is set
+          const activeRole   = site_roles[0];
+          const allowedSites = site_roles.map((sr) => sr.training_site_id).join(",");
+          const segment      = roleSegment[activeRole.role_name];
+          const page         = roleDefaultPage[activeRole.role_name];
+          const isNoSite     = segment === "student" || segment === "client";
+          const firstTs      = activeRole.training_site_id;
+
+          Cookies.set("role",          activeRole.role_name, { sameSite: "strict" });
+          Cookies.set("allowed_sites", allowedSites,         { sameSite: "strict" });
+
+          setActiveRole(activeRole);
+
+          const path = isNoSite
+            ? `/dashboard/${segment}/${page}`
+            : `/dashboard/${segment}/${firstTs}/${page}`;
+
+          router.push(path);
         }
+
+        toast.success(data?.message || "Login Successful");
       }
     },
     onError: (err) => {
