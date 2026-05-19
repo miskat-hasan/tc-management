@@ -2,37 +2,39 @@
 "use client";
 
 import { useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import useAuth from "@/hooks/useAuth";
-import Loader from "@/components/common/Loader";
-import { roleDefaultPage, roleSegment } from "@/config";
+import { roleSegment, roleDefaultPage } from "@/config";
+import SelectRoleSkeleton from "@/components/skeleton/SelectRoleSkeleton";
 
 export default function AuthLayout({ children }) {
   const router = useRouter();
-  const { token, user, loading, siteRoles, selectedTrainingSiteId } = useAuth();
+  const pathname = usePathname();
+  const { hydrated, token, user, loading, activeRole, accessibleSites } =
+    useAuth();
 
   useEffect(() => {
-    if (!token || !user) return;
-    
-    // Multiple roles → select-role page (useLogin handles this)
-    // Single role → go straight to dashboard
-    if (siteRoles.length === 1) {
-      const { role_name, training_site_id } = siteRoles[0];
-      const segment = roleSegment[role_name];
-      const page    = roleDefaultPage[role_name];
-      if (segment && page) {
-        router.replace(`/dashboard/${segment}/${training_site_id}/${page}`);
-      }
-    }
-  }, [token, user, siteRoles, router]);
+    if (!hydrated || !token || !user || loading || !activeRole) return;
 
-  if (token && (loading || !user)) {
-    return (
-      <div className="h-screen w-full flex justify-center items-center">
-        <Loader />
-      </div>
-    );
-  }
+    const isAuthPage = !pathname.startsWith("/dashboard");
+    if (!isAuthPage) return;
+
+    const segment = roleSegment[activeRole?.role_name];
+    const page = roleDefaultPage[activeRole?.role_name];
+    const firstTs =
+      accessibleSites?.[0]?.training_site_id ?? activeRole?.training_site_id;
+
+    if (!segment || !page) return;
+
+    const path =
+      segment === "student" || segment === "client"
+        ? `/dashboard/${segment}/${page}`
+        : `/dashboard/${segment}/${firstTs}/${page}`;
+
+    router.replace(path);
+  }, [hydrated, token, user, loading, activeRole, pathname, router]);
+
+  if (!hydrated || (token && (loading || !user))) return <SelectRoleSkeleton />;
 
   return <>{children}</>;
 }

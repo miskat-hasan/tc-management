@@ -2,8 +2,9 @@ import Swal from "sweetalert2";
 import useClientApi from "../useClientApi";
 import { toast } from "sonner";
 import { useQueryClient } from "@tanstack/react-query";
+import useAuth from "../useAuth";
 
-// get user training site data
+// get user training site data version: 2
 export const useGetUserTrainingSiteData = () => {
   return useClientApi({
     method: "get",
@@ -37,7 +38,7 @@ export const getallTrainingsite = (token, page = 1, perPage = 10) => {
     method: "get",
     key: ["get-all-training-site", page, perPage],
     isPrivate: true,
-    enabled: !!token,
+    // enabled: !!token,
     endpoint: `/api/training-sites?page=${page}&per_page=${perPage}`,
   });
 };
@@ -1145,6 +1146,8 @@ export const useUpdateUserData = () => {
   });
 };
 
+// ============== version 2 ===============
+
 // get all users
 export const useGetAllUsers = () => {
   return useClientApi({
@@ -1152,5 +1155,22 @@ export const useGetAllUsers = () => {
     isPrivate: true,
     key: ["get-all-users"],
     endpoint: "/api/site-users",
+  });
+};
+
+// store user
+export const useStoreUser = () => {
+  const { selectedTrainingSiteId } = useAuth();
+
+  return useClientApi({
+    method: "post",
+    isPrivate: true,
+    endpoint: `/api/site-users/store`,
+    axiosOptions: {
+      headers: { "X-Site-Id": selectedTrainingSiteId },
+    },
+    onError: (err) => {
+      toast.error(err?.response?.data?.message || "Something went wrong!");
+    },
   });
 };
