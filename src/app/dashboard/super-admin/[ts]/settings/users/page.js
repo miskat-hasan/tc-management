@@ -54,7 +54,7 @@ const Page = () => {
       <div className="flex justify-between">
         <SectionTitle title={"Users"} />
         <Button
-          onClick={() => router.push("./users/add_user")}
+          onClick={() => router.push("./users/add-user")}
           className="py-[11px] text-[12px] lg:text-base lg:py-[22px] cursor-pointer bg-brown flex items-center gap-2"
         >
           Add User

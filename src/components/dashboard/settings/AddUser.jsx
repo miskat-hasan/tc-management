@@ -6,7 +6,7 @@ import CustomSelect from "@/components/shared/form/CustomSelect";
 import FormContainer from "@/components/shared/form/FormContainer";
 import FormInput from "@/components/shared/form/FormInput";
 import { Button } from "@/components/ui/button";
-import { Roles } from "@/config";
+// import { Roles } from "@/config";
 import {
   getAllCountry,
   getallTrainingsite,
@@ -18,6 +18,29 @@ import React from "react";
 import { Controller, useFieldArray, useForm } from "react-hook-form";
 import { FaPlus } from "react-icons/fa";
 import { toast } from "sonner";
+
+const Roles = [
+  {
+    id: 2,
+    name: "Admin",
+  },
+  {
+    id: 3,
+    name: "Instructor",
+  },
+  {
+    id: 4,
+    name: "Instructor Assistant",
+  },
+  {
+    id: 5,
+    name: "Student",
+  },
+  {
+    id: 6,
+    name: "Client",
+  },
+];
 
 const AddUser = () => {
   const router = useRouter();
