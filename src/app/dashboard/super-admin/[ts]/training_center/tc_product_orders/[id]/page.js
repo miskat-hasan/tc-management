@@ -11,6 +11,7 @@ import {
 import Link from "next/link";
 import React, { useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
+import { toast } from "sonner";
 import Swal from "sweetalert2";
 
 const Page = ({ params }) => {
@@ -51,10 +52,7 @@ const Page = ({ params }) => {
   const onSubmit = (data) => {
     mutate(data, {
       onSuccess: (data) => {
-        Swal.fire({
-          text: data?.message,
-          icon: "success",
-        });
+        toast.success(data?.message || "Order Status updated successfully");
       },
     });
   };

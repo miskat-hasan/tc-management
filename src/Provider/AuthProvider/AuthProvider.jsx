@@ -10,23 +10,28 @@ export const AuthContextProvider = createContext(null);
 const ensureArray = (val) => {
   if (Array.isArray(val)) return val;
   if (typeof val === "string") {
-    try { return JSON.parse(val); } catch { return []; }
+    try {
+      return JSON.parse(val);
+    } catch {
+      return [];
+    }
   }
   return [];
 };
 
 export default function AuthProvider({ children }) {
-  const [hydrated, setHydrated]                    = useState(false);
-  const [user, setUser]                            = useState(null);
-  const [token, setToken, clearToken]              = useLocalStorage("token", null);
-  const [_siteRoles, setSiteRoles]                 = useLocalStorage("site_roles", []);
-  const [activeRole, setActiveRole]                = useLocalStorage("active_role", null);
-  const [selectedTrainingSiteId, _setSelectedSite] = useLocalStorage("selected_site_id", null);
+  const [hydrated, setHydrated] = useState(false);
+  const [user, setUser] = useState(null);
+  const [token, setToken, clearToken] = useLocalStorage("token", null);
+  const [_siteRoles, setSiteRoles] = useLocalStorage("site_roles", []);
+  const [activeRole, setActiveRole] = useLocalStorage("active_role", null);
 
-  const siteRoles      = ensureArray(_siteRoles);
+  const siteRoles = ensureArray(_siteRoles);
   const accessibleSites = siteRoles.filter(
-    (sr) => sr.role_name === activeRole?.role_name
+    (sr) => sr.role_name === activeRole?.role_name,
   );
+
+  const selectedTrainingSiteId = activeRole?.training_site_id ?? null;
 
   const { data: userData, isLoading: loadingUserData } = useGetUserData(token);
 
@@ -55,12 +60,15 @@ export default function AuthProvider({ children }) {
     const allowedSites = accessibleSites
       .map((sr) => sr.training_site_id ?? sr.id)
       .join(",");
-    Cookies.set("role",          activeRole.role_name, { sameSite: "strict" });
-    Cookies.set("allowed_sites", allowedSites,         { sameSite: "strict" });
-  }, [activeRole?.role_name, accessibleSites.length]);
+    Cookies.set("role", activeRole.role_name, { sameSite: "strict" });
+    Cookies.set("allowed_sites", allowedSites, { sameSite: "strict" });
+
+    setItem("selected_site_id", activeRole.training_site_id);
+  }, [activeRole?.role_name, activeRole?.training_site_id]);
 
   const setSelectedTrainingSiteId = (id) => {
-    _setSelectedSite(id);
+    if (!activeRole) return;
+    setActiveRole({ ...activeRole, training_site_id: id });
     setItem("selected_site_id", id);
   };
 
@@ -68,28 +76,30 @@ export default function AuthProvider({ children }) {
     clearToken();
     setSiteRoles([]);
     setActiveRole(null);
-    setSelectedTrainingSiteId(null);
+    setItem("selected_site_id", null);
     Cookies.remove("token");
     Cookies.remove("role");
     Cookies.remove("allowed_sites");
   };
 
   return (
-    <AuthContextProvider.Provider value={{
-      hydrated,
-      loading: loadingUserData,
-      user,
-      token,
-      setToken,
-      clearToken: clearAll,
-      siteRoles,
-      setSiteRoles,
-      activeRole,
-      setActiveRole,
-      accessibleSites,
-      selectedTrainingSiteId,
-      setSelectedTrainingSiteId,
-    }}>
+    <AuthContextProvider.Provider
+      value={{
+        hydrated,
+        loading: loadingUserData,
+        user,
+        token,
+        setToken,
+        clearToken: clearAll,
+        siteRoles,
+        setSiteRoles,
+        activeRole,
+        setActiveRole,
+        accessibleSites,
+        selectedTrainingSiteId,
+        setSelectedTrainingSiteId,
+      }}
+    >
       {children}
     </AuthContextProvider.Provider>
   );

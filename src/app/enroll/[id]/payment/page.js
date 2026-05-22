@@ -4,11 +4,12 @@ import FormContainer from "@/components/shared/form/FormContainer";
 import FormInput from "@/components/shared/form/FormInput";
 import { Button } from "@/components/ui/button";
 import { usePaymentProcess } from "@/hooks/api/dashboardApi";
-import { Logo } from "@/svg/SvgContainer";
+import { Logo } from "@/components/svg/SvgContainer";
 import { useParams, useRouter } from "next/navigation";
 import React from "react";
 import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
+import { toast } from "sonner";
 
 const PaymentPage = () => {
   const router = useRouter();
@@ -32,10 +33,7 @@ const PaymentPage = () => {
     mutate(payload, {
       onSuccess: (res) => {
         reset();
-        Swal.fire({
-          text: res?.message || "Enrollment Successful",
-          icon: "success",
-        });
+        toast.success(res?.message || "Payment successful");
       },
     });
   };

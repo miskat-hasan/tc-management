@@ -24,6 +24,7 @@ import Link from "next/link";
 import React, { useRef } from "react";
 import { Controller, useFieldArray, useForm } from "react-hook-form";
 import { FaPlus } from "react-icons/fa";
+import { toast } from "sonner";
 import Swal from "sweetalert2";
 
 const RichTextEditor = dynamic(() => import("@/components/shared/RichEditor"), {
@@ -234,16 +235,10 @@ const AddNewCourse = () => {
 
     storeCourseMutation(formData, {
       onSuccess: (res) => {
-        Swal.fire({
-          text: res?.message || "Course created successfully",
-          icon: "success",
-        });
+        toast.success(res?.message || "Course created successfully");
       },
       onError: (err) => {
-        Swal.fire({
-          text: err?.response?.data?.message || "Failed to create course",
-          icon: "error",
-        });
+        toast.error(err?.response?.data?.message || "Something went wrong!");
       },
     });
   };

@@ -11,6 +11,7 @@ import FormTextarea from "@/components/shared/form/FormTextarea";
 import Link from "next/link";
 import { getAllClient, storePromoCode } from "@/hooks/api/dashboardApi";
 import Swal from "sweetalert2";
+import { toast } from "sonner";
 
 const Page = () => {
   const form = useForm({
@@ -72,16 +73,10 @@ const Page = () => {
     mutate(formData, {
       onSuccess: (data) => {
         reset();
-        Swal.fire({
-          text: data?.message,
-          icon: "success",
-        });
+        toast.success(data?.message || "Promo Code added successfully");
       },
       onError: (error) => {
-        Swal.fire({
-          text: error?.response?.data?.message,
-          icon: "error",
-        });
+        toast.error(error?.response?.data?.message || "Something went wrong!");
       },
     });
   };

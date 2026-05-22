@@ -129,11 +129,11 @@ const superAdminFullMenu = (ts) => [
     submenu: [
       {
         label: "Instructor Records",
-        href: `/dashboard/super-admin/${ts}/instructors/instructor_records`,
+        href: `/dashboard/super-admin/${ts}/instructors/instructor-records`,
       },
       {
         label: "Add Instructor",
-        href: `/dashboard/super-admin/${ts}/instructors/add_instructor`,
+        href: `/dashboard/super-admin/${ts}/instructors/add-instructor`,
       },
     ],
   },
@@ -285,11 +285,11 @@ const superAdminSiteMenu = (ts) => [
     submenu: [
       {
         label: "Instructor Records",
-        href: `/dashboard/super-admin/${ts}/instructors/instructor_records`,
+        href: `/dashboard/super-admin/${ts}/instructors/instructor-records`,
       },
       {
         label: "Add Instructor",
-        href: `/dashboard/super-admin/${ts}/instructors/add_instructor`,
+        href: `/dashboard/super-admin/${ts}/instructors/add-instructor`,
       },
     ],
   },

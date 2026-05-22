@@ -5,6 +5,7 @@ import { Upload } from "lucide-react";
 import SectionTitle from "@/components/common/SectionTitle";
 import { uploadCertification } from "@/hooks/api/dashboardApi";
 import Swal from "sweetalert2";
+import { toast } from "sonner";
 
 const Page = () => {
   const [file, setFile] = useState(null);
@@ -36,16 +37,10 @@ const Page = () => {
     uploadCertificateMutation(formData, {
       onSuccess: (data) => {
         setFile(null);
-        Swal.fire({
-          text: data?.message,
-          icon: "success",
-        });
+        toast.success(data?.message || "Certificate uploaded successfully");
       },
       onError: (err) => {
-        Swal.fire({
-          text: err?.response?.data?.message,
-          icon: "error",
-        });
+        toast.error(err?.response?.data?.message || "Something went wrong!");
       },
     });
   };

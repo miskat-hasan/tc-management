@@ -3,7 +3,7 @@
 import FormContainer from "@/components/shared/form/FormContainer";
 import { Button } from "@/components/ui/button";
 import { useResendOTP, useVerifyOTP } from "@/hooks/api/authApi";
-import { Logo } from "@/svg/SvgContainer";
+import { Logo } from "@/components/svg/SvgContainer";
 import { useRouter } from "next/navigation";
 import React, { use, useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";

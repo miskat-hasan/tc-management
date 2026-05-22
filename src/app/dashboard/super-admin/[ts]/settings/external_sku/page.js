@@ -8,13 +8,14 @@ import {
   getAllExternalSKU,
   storeExternalSKU,
 } from "@/hooks/api/dashboardApi";
-import { PlusIcon } from "@/svg/SvgContainer";
+import { PlusIcon } from "@/components/svg/SvgContainer";
 import { useQueryClient } from "@tanstack/react-query";
 import { Loader2 } from "lucide-react";
 import Link from "next/link";
 import React, { useState, useEffect } from "react";
 import { HiOutlineTrash } from "react-icons/hi";
 import Swal from "sweetalert2";
+import { toast } from "sonner";
 
 const allData = {
   "American Red Cross": [
@@ -80,16 +81,10 @@ const ExternalSkillsPage = () => {
       {
         onSuccess: (data) => {
           queryClient.invalidateQueries("get-all-external-sku");
-          Swal.fire({
-            text: data?.message,
-            icon: "success",
-          });
+          toast.success(data?.message || "External SKU deleted successfully");
         },
         onError: (err) => {
-          Swal.fire({
-            text: err?.response?.data?.message,
-            icon: "error",
-          });
+          toast.error(err?.response?.data?.message || "Something went wrong!");
         },
       },
     );

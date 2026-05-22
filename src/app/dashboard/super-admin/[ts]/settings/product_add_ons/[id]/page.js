@@ -11,6 +11,7 @@ import {
 import Link from "next/link";
 import React, { useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
+import { toast } from "sonner";
 import Swal from "sweetalert2";
 
 const Page = ({ params }) => {
@@ -59,16 +60,10 @@ const Page = ({ params }) => {
 
     updateProductAddOnsMutation(formData, {
       onSuccess: (data) => {
-        Swal.fire({
-          text: data?.message,
-          icon: "success",
-        });
+       toast.success(data?.message || "Product Add-on updated successfully");
       },
       onError: (err) => {
-        Swal.fire({
-          text: err?.response?.data?.message,
-          icon: "error",
-        });
+        toast.error(err?.response?.data?.message || "Something went wrong!");
       },
     });
   };

@@ -10,6 +10,7 @@ import CustomSelect from "@/components/shared/form/CustomSelect";
 import { getAllDiscipline, storeCertification } from "@/hooks/api/dashboardApi";
 import Swal from "sweetalert2";
 import { useQueryClient } from "@tanstack/react-query";
+import { toast } from "sonner";
 
 const NewCertification = ({ instructorId }) => {
   const form = useForm({
@@ -37,10 +38,7 @@ const NewCertification = ({ instructorId }) => {
 
     await mutateAsync(formData, {
       onSuccess: (data) => {
-        Swal.fire({
-          text: data?.message,
-          icon: "success",
-        });
+        toast.success(data?.message || "Certification added successfully");
         reset();
         queryClient.invalidateQueries({
           queryKey: ["get-single-instructor"],
@@ -48,10 +46,7 @@ const NewCertification = ({ instructorId }) => {
         });
       },
       onError: (err) => {
-        Swal.fire({
-          text: err?.response?.data?.message,
-          icon: "error",
-        });
+        toast.error(err?.response?.data?.message || "Something went wrong!");
       },
     });
   };
