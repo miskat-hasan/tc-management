@@ -13,6 +13,7 @@ import {
 } from "@/hooks/api/dashboardApi";
 import Link from "next/link";
 import Swal from "sweetalert2";
+import { toast } from "sonner";
 
 const Page = ({ params }) => {
   const { id } = params;
@@ -52,16 +53,10 @@ const Page = ({ params }) => {
 
     mutate(formData, {
       onSuccess: (data) => {
-        Swal.fire({
-          text: data?.message,
-          icon: "success",
-        });
+        toast.success(data?.message || "Keycode Bank updated successfully");
       },
       onError: (err) => {
-        Swal.fire({
-          text: err?.response?.data?.message,
-          icon: "error",
-        });
+        toast.error(err?.response?.data?.message || "Something went wrong!");
       },
     });
   };

@@ -1,5 +1,5 @@
 "use client";
-import { DashboardIcon, Logo } from "@/svg/SvgContainer";
+import { DashboardIcon, Logo } from "@/components/svg/SvgContainer";
 import { FaChevronRight } from "react-icons/fa";
 import React, { useEffect, useState } from "react";
 import Link from "next/link";

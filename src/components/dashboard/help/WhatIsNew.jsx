@@ -4,7 +4,7 @@ import NotFound from "@/components/shared/NotFound";
 import { getWhatsNew } from "@/hooks/api/dashboardApi";
 import TableSkeleton from "@/components/skeleton/TableSkeleton";
 import { Button } from "@/components/ui/button";
-import { PlusIcon } from "@/svg/SvgContainer";
+import { PlusIcon } from "@/components/svg/SvgContainer";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { CiEdit } from "react-icons/ci";

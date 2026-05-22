@@ -8,6 +8,7 @@ import { storeProductAddOns } from "@/hooks/api/dashboardApi";
 import Link from "next/link";
 import React from "react";
 import { Controller, useForm } from "react-hook-form";
+import { toast } from "sonner";
 import Swal from "sweetalert2";
 
 const Page = () => {
@@ -39,16 +40,10 @@ const Page = () => {
     mutate(formData, {
       onSuccess: (data) => {
         reset();
-        Swal.fire({
-          text: data?.message,
-          icon: "success",
-        });
+        toast.success(data?.message || "Product Add-on added successfully");
       },
       onError: (err) => {
-        Swal.fire({
-          text: err?.response?.data?.message,
-          icon: "error",
-        });
+        toast.error(err?.response?.data?.message || "Something went wrong!");
       },
     });
   };
@@ -158,7 +153,7 @@ const Page = () => {
               type="submit"
               className="px-6 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium cursor-pointer text-white bg-brown hover:bg-brown-hover"
             >
-              {isPending ? "Saving...": "Save Changes"}
+              {isPending ? "Saving..." : "Save Changes"}
             </Button>
           </div>
         </FormContainer>

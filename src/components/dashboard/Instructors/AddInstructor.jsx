@@ -8,6 +8,7 @@ import FormInput from "@/components/shared/form/FormInput";
 import { Button } from "@/components/ui/button";
 // import { Roles } from "@/config";
 import {
+  createInstructor,
   getAllCountry,
   getallTrainingsite,
   useStoreUser,
@@ -42,7 +43,7 @@ const Roles = [
   },
 ];
 
-const AddUser = () => {
+const AddInstructor = () => {
   const router = useRouter();
 
   const form = useForm({
@@ -81,8 +82,8 @@ const AddUser = () => {
     name: "trainingSites",
   });
 
-  const { mutate: storeUserMutation, isPending: storeUserPending } =
-    useStoreUser();
+  const { mutate: storeInstructorMutation, isPending: storeInstructorPending } =
+    createInstructor();
 
   const onSubmit = (values) => {
     const payload = {
@@ -104,18 +105,16 @@ const AddUser = () => {
       password: values.password,
       site_roles: values.trainingSites.map((ts) => ({
         training_site_id: ts.tsite_id,
-        role_id: ts.role,
       })),
     };
 
-    storeUserMutation(
+    storeInstructorMutation(
       {
         data: payload,
       },
       {
         onSuccess: (data) => {
           if (data?.status) {
-            toast.success(data?.message || "User added successfully!");
             router.back();
           }
         },
@@ -125,7 +124,7 @@ const AddUser = () => {
 
   return (
     <section className="flex flex-col gap-4">
-      <SectionTitle title={"Add User"} />
+      <SectionTitle title={"Add New Instructor"} />
       <div className="p-[26px] bg-white rounded-[14px] flex flex-col gap-[24px]">
         <FormContainer form={form} onSubmit={onSubmit}>
           <div className="grid grid-cols-2 gap-6">
@@ -195,22 +194,22 @@ const AddUser = () => {
 
             <FormInput
               name="printName"
-              label="Name To Print On Card (Optional)"
+              label="Name To Print On Card"
               placeholder="Name on card"
             />
             <FormInput
               name="ahaInstructorId"
-              label="AHA Instructor ID (Optional)"
+              label="AHA Instructor ID"
               placeholder="AHA ID"
             />
             <FormInput
               name="hsiInstructorId"
-              label="HSI (ASHI) Instructor ID (Optional)"
+              label="HSI (ASHI) Instructor ID"
               placeholder="HSI ID"
             />
             <FormInput
               name="rclcUsername"
-              label="RCLC Username (Optional)"
+              label="RCLC Username"
               placeholder="RCLC username"
             />
             <FormInput
@@ -236,53 +235,36 @@ const AddUser = () => {
               }}
             />
 
-            {/* Training Site and Roles */}
-            <div className="col-span-2 bg-neutral-50 border px-1 sm:px-2 pt-2 pb-4 rounded-md">
-              <h6 className="text-lg mb-1">Training Site and Roles</h6>
+            {/* multiple Training Site */}
+            <div className="col-span-1 bg-neutral-50 border px-1 sm:px-2 pt-2 pb-4 rounded-md">
+              <h6 className="text-lg mb-1">Training Site</h6>
               {fields.map((field, index) => (
                 <div
                   key={field.id}
                   className="flex items-center gap-1 sm:gap-4 mt-3 border-b pb-3"
                 >
-                  <div className="grid sm:grid-cols-2 gap-2 sm:gap-4 flex-1">
-                    <Controller
-                      name={`trainingSites.${index}.tsite_id`}
-                      control={control}
-                      rules={{ required: "Training site is required" }}
-                      render={({ field }) => (
-                        <CustomSelect
-                          {...field}
-                          label="Training Site"
-                          placeholder="Select site"
-                          isLoading={trainingSiteLoading}
-                          options={trainingSiteData?.data}
-                          error={
-                            errors?.trainingSites?.[index]?.tsite_id?.message
-                          }
-                        />
-                      )}
-                    />
-                    <Controller
-                      name={`trainingSites.${index}.role`}
-                      control={control}
-                      rules={{ required: "Role is required" }}
-                      render={({ field }) => (
-                        <CustomSelect
-                          {...field}
-                          id="role"
-                          label="Roles"
-                          placeholder="Select role"
-                          options={Roles}
-                          error={errors?.trainingSites?.[index]?.role?.message}
-                        />
-                      )}
-                    />
-                  </div>
+                  <Controller
+                    name={`trainingSites.${index}.tsite_id`}
+                    control={control}
+                    rules={{ required: "Training site is required" }}
+                    render={({ field }) => (
+                      <CustomSelect
+                        {...field}
+                        // label="Training Site"
+                        placeholder="Select site"
+                        isLoading={trainingSiteLoading}
+                        options={trainingSiteData?.data}
+                        error={
+                          errors?.trainingSites?.[index]?.tsite_id?.message
+                        }
+                      />
+                    )}
+                  />
 
                   {fields.length > 1 && (
                     <div
                       onClick={() => remove(index)}
-                      className="bg-neutral-200 p-2 -mb-6 rounded-md cursor-pointer hover:bg-neutral-300"
+                      className="bg-neutral-200 p-2 rounded-md cursor-pointer hover:bg-neutral-300"
                     >
                       <LucideTrash2 className="size-4" />
                     </div>
@@ -298,16 +280,29 @@ const AddUser = () => {
                 Add more
               </div>
             </div>
+
+            {/* Options */}
+            <div className="flex flex-col gap-1 md:gap-2">
+              <p className="font-semibold text-[15px] text-gray-700">Options</p>
+              <label className="flex items-center gap-1 md:gap-2 text-[10px] md:text-sm cursor-pointer">
+                <input
+                  // {...register("active_user")}
+                  type="checkbox"
+                  className="accent-brown"
+                />
+                Active User
+              </label>
+            </div>
           </div>
 
           <div className="flex items-center justify-end mt-8 gap-4">
             <BackButton />
             <Button
               type="submit"
-              disabled={storeUserPending}
+              disabled={storeInstructorPending}
               className="px-6 py-2 bg-[#C1121F] text-white rounded-md text-sm font-medium hover:bg-[#a00e1a] disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {storeUserPending ? "Saving..." : "Add User"}
+              {storeInstructorPending ? "Saving..." : "Add Instructor"}
             </Button>
           </div>
         </FormContainer>
@@ -316,4 +311,4 @@ const AddUser = () => {
   );
 };
 
-export default AddUser;
+export default AddInstructor;

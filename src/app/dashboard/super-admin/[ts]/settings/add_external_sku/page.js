@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { storeExternalSKU } from "@/hooks/api/dashboardApi";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 import Swal from "sweetalert2";
 
 const Page = () => {
@@ -22,10 +23,7 @@ const Page = () => {
     storeExternalSkuMutation(data, {
       onSuccess: (data) => {
         reset();
-        Swal.fire({
-          text: data?.message,
-          icon: "success",
-        });
+        toast.success(data?.message || "External SKU added successfully");
       },
     });
   };

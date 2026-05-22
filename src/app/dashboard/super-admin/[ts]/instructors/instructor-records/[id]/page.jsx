@@ -115,13 +115,10 @@ const Page = ({ params }) => {
 
     await instructorMutation(formData, {
       onSuccess: (data) => {
-        toast.success(data?.message);
+        toast.success(data?.message || "Instructor Updated Successfully");
       },
       onError: (err) => {
-        Swal.fire({
-          text: err?.response?.data?.message,
-          icon: "error",
-        });
+       toast.error(err?.response?.data?.message || "Something went wrong!");
       },
     });
   };

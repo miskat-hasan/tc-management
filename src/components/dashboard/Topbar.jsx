@@ -1,5 +1,5 @@
 "use client";
-import { NotificationIcon } from "@/svg/SvgContainer";
+import { NotificationIcon } from "@/components/svg/SvgContainer";
 import Image from "next/image";
 import Link from "next/link";
 import React, { useState } from "react";

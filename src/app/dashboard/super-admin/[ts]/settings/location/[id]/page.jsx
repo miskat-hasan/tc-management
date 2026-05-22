@@ -15,6 +15,7 @@ import {
 } from "@/hooks/api/dashboardApi";
 import Swal from "sweetalert2";
 import Link from "next/link";
+import { toast } from "sonner";
 
 const Page = ({ params }) => {
   const { id } = params;
@@ -93,16 +94,10 @@ const Page = ({ params }) => {
 
     await updateLocationMutation(formData, {
       onSuccess: (data) => {
-        Swal.fire({
-          text: data?.message,
-          icon: "success",
-        });
+        toast.success(data?.message || "Location updated successfully");
       },
       onError: (err) => {
-        Swal.fire({
-          text: err?.response?.data?.message,
-          icon: "error",
-        });
+        toast.error(err?.response?.data?.message || "Something went wrong!");
       },
     });
   };

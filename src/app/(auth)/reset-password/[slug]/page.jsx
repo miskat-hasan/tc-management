@@ -4,7 +4,7 @@ import FormContainer from "@/components/shared/form/FormContainer";
 import FormInput from "@/components/shared/form/FormInput";
 import { Button } from "@/components/ui/button";
 import { useResetPassword } from "@/hooks/api/authApi";
-import { Logo } from "@/svg/SvgContainer";
+import { Logo } from "@/components/svg/SvgContainer";
 import { useRouter } from "next/navigation";
 import React, { use } from "react";
 import { useForm } from "react-hook-form";

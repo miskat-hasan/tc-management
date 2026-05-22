@@ -42,14 +42,12 @@ const DocumentList = ({ instructorId, documentData }) => {
 
     storeDocumentMutation(formData, {
       onSuccess: (data) => {
-        toast.success(data?.message);
+        toast.success(data?.message || "Document added successfully");
         reset();
         queryClient.invalidateQueries("get-single-instructor");
       },
       onError: (err) => {
-        Swal.fire({
-          text: err?.response?.data?.message,
-        });
+       toast.error(err?.response?.data?.message || "Something went wrong!");
       },
     });
   };

@@ -5,7 +5,7 @@ import TableSkeleton from "@/components/skeleton/TableSkeleton";
 import CustomSelect from "@/components/shared/form/CustomSelect";
 import { Button } from "@/components/ui/button";
 import { getProductAddOnsReport } from "@/hooks/api/dashboardApi";
-import { SearchIcon } from "@/svg/SvgContainer";
+import { SearchIcon } from "@/components/svg/SvgContainer";
 import React, { useState } from "react";
 
 const Page = () => {

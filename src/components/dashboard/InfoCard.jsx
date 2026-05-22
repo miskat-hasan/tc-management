@@ -1,6 +1,6 @@
 import Link from "next/link";
 import React from "react";
-import { ArrowIcon } from "@/svg/SvgContainer";
+import { ArrowIcon } from "@/components/svg/SvgContainer";
 import SubSectionTitle from "../common/SubSectionTitle";
 
 const InfoCard = ({ icon, title, linkText, linkHref, className = "" }) => {

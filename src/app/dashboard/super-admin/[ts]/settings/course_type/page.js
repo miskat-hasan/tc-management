@@ -3,7 +3,7 @@
 import TableSkeleton from "@/components/skeleton/TableSkeleton";
 import { Button } from "@/components/ui/button";
 import { getAllCourses } from "@/hooks/api/dashboardApi";
-import { PlusIcon } from "@/svg/SvgContainer";
+import { PlusIcon } from "@/components/svg/SvgContainer";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
