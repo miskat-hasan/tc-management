@@ -15,6 +15,7 @@ import React, { useState } from "react";
 
 import { HiOutlineDownload } from "react-icons/hi";
 import { HiOutlineTrash } from "react-icons/hi";
+import { toast } from "sonner";
 import Swal from "sweetalert2";
 
 const Page = () => {
@@ -45,16 +46,10 @@ const Page = () => {
       onSuccess: (data) => {
         setSelectedFileId(null);
         queryClient.invalidateQueries("get-all-certification-file");
-        Swal.fire({
-          text: data?.message,
-          icon: "success",
-        });
+        toast.success(data?.message || "Certification deleted successfully");
       },
       onError: (err) => {
-        Swal.fire({
-          text: err?.response?.data?.message,
-          icon: "error",
-        });
+        toast.error(err?.response?.data?.message || "Something went wrong!");
       },
     });
   };
@@ -93,7 +88,7 @@ const Page = () => {
       <div className="flex justify-between">
         <SectionTitle title={"Certificates"} />
         <Button
-          onClick={()=> router.push("upload_certificate")}
+          onClick={() => router.push("upload_certificate")}
           className="py-[11px] lg:py-[22px] cursor-pointer bg-brown flex items-center gap-2"
         >
           Upload Certificate

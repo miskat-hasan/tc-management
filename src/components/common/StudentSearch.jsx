@@ -6,7 +6,7 @@ import SubSectionTitle from "@/components/common/SubSectionTitle";
 import CustomSelect from "@/components/shared/form/CustomSelect";
 import CustomInput from "@/components/shared/form/CustomInput";
 import { Button } from "@/components/ui/button";
-import { SearchIcon } from "@/svg/SvgContainer";
+import { SearchIcon } from "@/components/svg/SvgContainer";
 import { searchStudent } from "@/hooks/api/dashboardApi";
 import TableSkeleton from "@/components/skeleton/TableSkeleton";
 

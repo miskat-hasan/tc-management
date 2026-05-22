@@ -16,6 +16,7 @@ import {
 } from "@/hooks/api/dashboardApi";
 import Swal from "sweetalert2";
 import useAuth from "@/hooks/useAuth";
+import { toast } from "sonner";
 
 const Page = () => {
   const { user } = useAuth();
@@ -64,16 +65,10 @@ const Page = () => {
       { user_id: user?.id, ...formData },
       {
         onSuccess: (res) => {
-          Swal.fire({
-            text: res?.message,
-            icon: "success",
-          });
+         toast.success(res?.message || "Profile updated successfully");
         },
         onError: (err) => {
-          Swal.fire({
-            text: err?.response?.data?.message || "Failed to update profile",
-            icon: "error",
-          });
+        toast.error(err?.response?.data?.message || "Something went wrong!");
         },
       },
     );
@@ -100,16 +95,10 @@ const Page = () => {
       {
         onSuccess: (data) => {
           reset();
-          Swal.fire({
-            text: data?.message,
-            icon: "success",
-          });
+          toast.success(data?.message || "Password updated successfully");
         },
         onError: (err) => {
-          Swal.fire({
-            text: err?.response?.data?.message || "Password change failed",
-            icon: "error",
-          });
+          toast.error(err?.response?.data?.message || "Something went wrong!");
         },
       },
     );

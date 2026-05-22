@@ -5,7 +5,7 @@ import TableSkeleton from "@/components/skeleton/TableSkeleton";
 import CustomSelect from "@/components/shared/form/CustomSelect";
 import { Button } from "@/components/ui/button";
 import { getAllInstructor } from "@/hooks/api/dashboardApi";
-import { SearchIcon } from "@/svg/SvgContainer";
+import { SearchIcon } from "@/components/svg/SvgContainer";
 import Link from "next/link";
 import React, { useState } from "react";
 import { CiEdit } from "react-icons/ci";

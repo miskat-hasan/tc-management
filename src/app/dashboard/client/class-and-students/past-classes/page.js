@@ -6,7 +6,7 @@ import FormContainer from "@/components/shared/form/FormContainer";
 import FormInput from "@/components/shared/form/FormInput";
 import { Button } from "@/components/ui/button";
 import { getAllPastClasses, searchClasses } from "@/hooks/api/dashboardApi";
-import { SearchIcon } from "@/svg/SvgContainer";
+import { SearchIcon } from "@/components/svg/SvgContainer";
 import Link from "next/link";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";

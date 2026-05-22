@@ -4,24 +4,40 @@ import FormContainer from "@/components/shared/form/FormContainer";
 import FormInput from "@/components/shared/form/FormInput";
 import { Button } from "@/components/ui/button";
 import { useLogin } from "@/hooks/api/authApi";
-import { Logo } from "@/svg/SvgContainer";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
+import { useState } from "react";
+import { Logo } from "../svg/SvgContainer";
+
+function NavigatingOverlay() {
+  return (
+    <div className="fixed inset-0 z-50 bg-white flex flex-col items-center justify-center gap-4">
+      <div className="flex items-center gap-1.5">
+        <Logo />
+        <h5 className="font-black text-[14px]">ENROLL NATIONWIDE</h5>
+      </div>
+      <div className="flex items-center gap-2 text-gray-500 text-sm">
+        <div className="h-4 w-4 rounded-full border-2 border-brown border-t-transparent animate-spin" />
+        <span>Signing you in...</span>
+      </div>
+    </div>
+  );
+}
 
 export default function LoginForm() {
-  const { mutateAsync: loginMutation, isPending } = useLogin();
+  const [navigating, setNavigating] = useState(false);
+  const { mutateAsync: loginMutation, isPending } = useLogin({ setNavigating });
 
   const form = useForm({
-    defaultValues: {
-      email: "",
-      password: "",
-    },
+    defaultValues: { email: "", password: "" },
     mode: "onSubmit",
   });
 
   const onSubmit = async (values) => {
     await loginMutation(values);
   };
+
+  if (navigating) return <NavigatingOverlay />;
 
   return (
     <div className="min-h-screen flex items-center justify-center">
@@ -52,7 +68,6 @@ export default function LoginForm() {
               },
             }}
           />
-
           <FormInput
             name="password"
             label="Password"
@@ -79,7 +94,7 @@ export default function LoginForm() {
             disabled={isPending}
             className="px-6 h-[40px] border border-brown rounded-md shadow-sm text-sm font-medium cursor-pointer text-white hover:text-brown bg-brown hover:bg-transparent w-full duration-300 disabled:cursor-not-allowed"
           >
-            {isPending ? "Signing in...." : "Sign In"}
+            {isPending ? "Signing in..." : "Sign In"}
           </Button>
         </FormContainer>
       </div>

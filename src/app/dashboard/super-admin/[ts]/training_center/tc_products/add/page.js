@@ -8,6 +8,7 @@ import { useStoreTCProduct } from "@/hooks/api/dashboardApi";
 import Link from "next/link";
 import React from "react";
 import { Controller, useForm } from "react-hook-form";
+import { toast } from "sonner";
 import Swal from "sweetalert2";
 
 const Page = () => {
@@ -36,10 +37,7 @@ const Page = () => {
     mutate(formData, {
       onSuccess: (data) => {
         reset();
-        Swal.fire({
-          text: data?.message,
-          icon: "success",
-        });
+        toast.success(data?.message || "TC Product added successfully");
       },
     });
   };

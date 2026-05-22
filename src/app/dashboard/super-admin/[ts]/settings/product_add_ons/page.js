@@ -2,7 +2,7 @@
 import SectionTitle from "@/components/common/SectionTitle";
 
 import { Button } from "@/components/ui/button";
-import { PlusIcon } from "@/svg/SvgContainer";
+import { PlusIcon } from "@/components/svg/SvgContainer";
 import React, { useState } from "react";
 import { CiEdit } from "react-icons/ci";
 

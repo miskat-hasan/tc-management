@@ -1,6 +1,6 @@
 "use client";
 
-import { Logo } from "@/svg/SvgContainer";
+import { Logo } from "@/components/svg/SvgContainer";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";

@@ -8,7 +8,7 @@ import { getSidebarMenu } from "@/config/sidebarConfig";
 import { useLogout } from "@/hooks/api/authApi";
 import useAuth from "@/hooks/useAuth";
 import CustomSelect from "@/components/shared/form/CustomSelect";
-import { Logo, DashboardIcon } from "@/svg/SvgContainer";
+import { Logo, DashboardIcon } from "@/components/svg/SvgContainer";
 import SidebarSkeleton from "../skeleton/SidebarSkeleton";
 import { roleSegment } from "@/config";
 

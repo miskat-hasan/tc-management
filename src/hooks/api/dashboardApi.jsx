@@ -165,6 +165,12 @@ export const createInstructor = () => {
     method: "post",
     isPrivate: true,
     endpoint: "/api/instructors/store",
+    onSuccess: (data) => {
+      toast.success(data?.message || "Instructor Created Successfully");
+    },
+    onError: (error) => {
+      toast.error(error?.response?.data?.message || "Something went wrong!");
+    },
   });
 };
 
@@ -1150,11 +1156,15 @@ export const useUpdateUserData = () => {
 
 // get all users
 export const useGetAllUsers = () => {
+  const { selectedTrainingSiteId } = useAuth();
   return useClientApi({
     method: "get",
     isPrivate: true,
     key: ["get-all-users"],
     endpoint: "/api/site-users",
+    axiosOptions: {
+      headers: { "X-Site-Id": selectedTrainingSiteId },
+    },
   });
 };
 
@@ -1168,6 +1178,35 @@ export const useStoreUser = () => {
     endpoint: `/api/site-users/store`,
     axiosOptions: {
       headers: { "X-Site-Id": selectedTrainingSiteId },
+    },
+    onError: (err) => {
+      toast.error(err?.response?.data?.message || "Something went wrong!");
+    },
+  });
+};
+
+// update user
+// export const useUpdateUser = () => {
+//   return useClientApi({
+//     method: "post",
+//     isPrivate: true,
+//     endpoint: `/api/site-users/update`,
+//     onError: (err) => {
+//       toast.error(err?.response?.data?.message || "Something went wrong!");
+//     },
+//   });
+// };
+
+// delete user
+export const useDeleteUser = () => {
+  const queryClient = useQueryClient();
+
+  return useClientApi({
+    method: "delete",
+    isPrivate: true,
+    onSuccess: (data) => {
+      toast.success(data?.message || "User deleted successfully");
+      queryClient.invalidateQueries(["get-all-users"]);
     },
     onError: (err) => {
       toast.error(err?.response?.data?.message || "Something went wrong!");
