@@ -5,12 +5,13 @@ import { useQueryClient } from "@tanstack/react-query";
 import useAuth from "../useAuth";
 
 // get user training site data version: 2
-export const useGetUserTrainingSiteData = () => {
+export const useGetUserTrainingSiteData = (token) => {
   return useClientApi({
     method: "get",
     key: ["user-training-site-data"],
     isPrivate: true,
     endpoint: "/api/training-site/my-training-site",
+    enabled: !!token,
   });
 };
 
@@ -282,6 +283,7 @@ export const deleteDocument = () => {
   });
 };
 
+// have to check
 export const getAllUserRole = (page = 1, perPage = 10) => {
   return useClientApi({
     method: "get",
@@ -1211,5 +1213,15 @@ export const useDeleteUser = () => {
     onError: (err) => {
       toast.error(err?.response?.data?.message || "Something went wrong!");
     },
+  });
+};
+
+// all user role
+export const getAllRole = () => {
+  return useClientApi({
+    method: "get",
+    isPrivate: true,
+    key: ["get-all-role"],
+    endpoint: "/api/all-role",
   });
 };

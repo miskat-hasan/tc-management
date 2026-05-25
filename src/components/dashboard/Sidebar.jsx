@@ -17,12 +17,8 @@ export default function Sidebar() {
   const router = useRouter();
   const { ts } = useParams();
 
-  const {
-    user,
-    loading,
-    activeRole,
-    accessibleSites,
-  } = useAuth();
+  const { user, loading, activeRole, accessibleSites, allSitesLoading } =
+    useAuth();
 
   const { mutateAsync: logout, isPending: logoutPending } = useLogout();
 
@@ -54,10 +50,9 @@ export default function Sidebar() {
 
   if (loading || !user) return <SidebarSkeleton />;
 
-  // Format accessibleSites for CustomSelect
   const siteOptions = accessibleSites.map((sr) => ({
-    id: sr.training_site_id,
-    name: sr.training_site_name,
+    id: sr.id,
+    name: sr.training_center_name,
   }));
 
   return (
@@ -71,7 +66,8 @@ export default function Sidebar() {
         {!["Client", "Student"].includes(role) && (
           <CustomSelect
             value={ts}
-            options={siteOptions} // ← only sites for this role
+            options={siteOptions}
+            isLoading={allSitesLoading}
             onChange={handleSiteChange}
             placeholder="Select training site"
           />

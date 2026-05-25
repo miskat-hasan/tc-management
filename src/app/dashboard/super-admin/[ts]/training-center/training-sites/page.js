@@ -30,7 +30,7 @@ const Page = () => {
         <SectionTitle title={"Training Sites"} />
 
         <Button
-          onClick={()=> router.push("add_new_trainingsite")}
+          onClick={()=> router.push("add-new-training-site")}
           className="py-[11px] lg:py-[22px] cursor-pointer bg-brown flex items-center gap-2"
         >
           Add Training Site <PlusIcon />
