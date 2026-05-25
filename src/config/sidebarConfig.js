@@ -142,19 +142,19 @@ const superAdminFullMenu = (ts) => [
     submenu: [
       {
         label: "Training Sites",
-        href: `/dashboard/super-admin/${ts}/training_center/training_sites`,
+        href: `/dashboard/super-admin/${ts}/training-center/training-sites`,
       },
       {
         label: "Training Site Rosters",
-        href: `/dashboard/super-admin/${ts}/training_center/training_site_rosters`,
+        href: `/dashboard/super-admin/${ts}/training-center/training-site-rosters`,
       },
       {
         label: "TC Products",
-        href: `/dashboard/super-admin/${ts}/training_center/tc_products`,
+        href: `/dashboard/super-admin/${ts}/training-center/tc-products`,
       },
       {
         label: "TC Product Orders",
-        href: `/dashboard/super-admin/${ts}/training_center/tc_product_orders`,
+        href: `/dashboard/super-admin/${ts}/training-center/tc-product-orders`,
       },
     ],
   },

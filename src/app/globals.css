@@ -229,3 +229,11 @@ body {
 .files {
   height: auto;
 }
+
+body {
+  background: var(--primary-background);
+}
+
+.dark body {
+  background: #0f0f0f;
+}
