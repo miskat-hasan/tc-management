@@ -1,5 +1,6 @@
 "use client";
 import { useGetUserData } from "@/hooks/api/authApi";
+import { useGetUserTrainingSiteData } from "@/hooks/api/dashboardApi";
 import useLocalStorage from "@/hooks/useLocalStorage";
 import { setItem } from "@/lib/localStorage";
 import { createContext, useEffect, useState } from "react";
@@ -27,13 +28,16 @@ export default function AuthProvider({ children }) {
   const [activeRole, setActiveRole] = useLocalStorage("active_role", null);
 
   const siteRoles = ensureArray(_siteRoles);
-  const accessibleSites = siteRoles.filter(
-    (sr) => sr.role_name === activeRole?.role_name,
-  );
-
-  const selectedTrainingSiteId = activeRole?.training_site_id ?? null;
 
   const { data: userData, isLoading: loadingUserData } = useGetUserData(token);
+  const { data: allSitesData, isLoading: allSitesLoading } =
+    useGetUserTrainingSiteData(token);
+
+  const accessibleSites = allSitesData?.data
+    ? allSitesData.data.filter((sr) => sr.role_name === activeRole?.role_name)
+    : siteRoles.filter((sr) => sr.role_name === activeRole?.role_name);
+
+  const selectedTrainingSiteId = activeRole?.training_site_id ?? null;
 
   useEffect(() => {
     setHydrated(true);
@@ -57,14 +61,27 @@ export default function AuthProvider({ children }) {
 
   useEffect(() => {
     if (!activeRole) return;
-    const allowedSites = accessibleSites
-      .map((sr) => sr.training_site_id ?? sr.id)
-      .join(",");
+
+    const loginSites = siteRoles.filter(
+      (sr) => sr.role_name === activeRole.role_name,
+    );
+    const allowedSites = loginSites.map((sr) => sr.training_site_id).join(",");
+
     Cookies.set("role", activeRole.role_name, { sameSite: "strict" });
     Cookies.set("allowed_sites", allowedSites, { sameSite: "strict" });
-
     setItem("selected_site_id", activeRole.training_site_id);
   }, [activeRole?.role_name, activeRole?.training_site_id]);
+
+  useEffect(() => {
+    if (!allSitesData?.data || !activeRole) return;
+
+    const fullSites = allSitesData.data.filter(
+      (sr) => sr.role_name === activeRole.role_name,
+    );
+    const allowedSites = fullSites.map((sr) => sr.id).join(",");
+
+    Cookies.set("allowed_sites", allowedSites, { sameSite: "strict" });
+  }, [allSitesData, activeRole?.role_name]);
 
   const setSelectedTrainingSiteId = (id) => {
     if (!activeRole) return;
@@ -96,6 +113,7 @@ export default function AuthProvider({ children }) {
         activeRole,
         setActiveRole,
         accessibleSites,
+        allSitesLoading,
         selectedTrainingSiteId,
         setSelectedTrainingSiteId,
       }}
