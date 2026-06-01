@@ -31,7 +31,7 @@ const Page = () => {
 
         <Button
           onClick={()=> router.push("add-new-training-site")}
-          className="py-[11px] lg:py-[22px] cursor-pointer bg-brown flex items-center gap-2"
+          className="py-[11px] lg:py-[22px] cursor-pointer bg-brown dark:bg-dark-brown flex items-center gap-2"
         >
           Add Training Site <PlusIcon />
         </Button>
@@ -48,7 +48,7 @@ const Page = () => {
       {isLoading ? (
         <TableSkeleton rows={6} columns={5} />
       ) : (
-        <div className="p-[13px] lg:p-[26px] bg-white rounded-[14px] flex flex-col gap-[12px] lg:gap-[24px]">
+        <div className="p-[13px] lg:p-[26px] bg-white dark:bg-black rounded-[14px] flex flex-col gap-[12px] lg:gap-[24px]">
           <div className="overflow-x-auto">
             <table className="min-w-[600px] w-full text-sm sm:text-base text-left text-gray-700">
               <thead className="bg-gray-50 text-black capitalize text-[14px] sm:text-[20px] font-semibold">
@@ -147,7 +147,7 @@ const Page = () => {
         </div>
       )}
 
-      {/* <div className="p-[13px] lg:p-[26px] bg-white rounded-[14px] flex flex-col gap-[12px] lg:gap-[24px]">
+      {/* <div className="p-[13px] lg:p-[26px] bg-white dark:bg-black rounded-[14px] flex flex-col gap-[12px] lg:gap-[24px]">
         <SubSectionTitle subtitle={"External Training Sites"} />
         <div className="overflow-x-auto">
           <table className="min-w-[700px] w-full text-sm sm:text-base text-left text-gray-700">

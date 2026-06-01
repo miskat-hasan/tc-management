@@ -124,7 +124,7 @@ export default function ActivityReportPage() {
       <div className="space-y-3 lg:space-y-6">
 
         {/* ================= Instructor by Discipline ================= */}
-        <div className="bg-white rounded-lg overflow-hidden">
+        <div className="bg-white dark:bg-black rounded-lg overflow-hidden">
           <div className="flex justify-between items-center p-4 border-b">
             <h2 className="text-lg font-semibold">
               Instructor by Discipline
@@ -177,7 +177,7 @@ export default function ActivityReportPage() {
         </div>
 
         {/* ================= Classes & Students ================= */}
-        <div className="bg-white rounded-lg overflow-hidden">
+        <div className="bg-white dark:bg-black rounded-lg overflow-hidden">
           <div className="flex justify-between items-center p-4 border-b">
             <h2 className="text-lg font-semibold">
               Classes and Students
@@ -231,7 +231,7 @@ export default function ActivityReportPage() {
         </div>
 
         {/* ================= Discipline Report ================= */}
-        <div className="bg-white rounded-lg overflow-hidden">
+        <div className="bg-white dark:bg-black rounded-lg overflow-hidden">
           <div className="flex justify-between items-center p-4 border-b">
             <h2 className="text-lg font-semibold">
               Classes and Students by Discipline

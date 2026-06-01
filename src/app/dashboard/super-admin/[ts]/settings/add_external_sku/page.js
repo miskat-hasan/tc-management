@@ -31,7 +31,7 @@ const Page = () => {
     <section className="flex flex-col gap-4">
       <SectionTitle title="Add External SKU" />
 
-      <div className="px-1.5 py-3 min-[374px]:p-[13px] lg:p-[26px] bg-white rounded-[14px] flex flex-col gap-[24px]">
+      <div className="px-1.5 py-3 min-[374px]:p-[13px] lg:p-[26px] bg-white dark:bg-black rounded-[14px] flex flex-col gap-[24px]">
         <FormContainer form={form} onSubmit={onSubmit}>
           <div className="flex flex-col gap-3 lg:gap-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -45,7 +45,7 @@ const Page = () => {
               <Button
                 type="submit"
                 disabled={storeExternalSkuPending}
-                className="bg-brown hover:bg-brown-hover text-white px-8"
+                className="bg-brown dark:bg-dark-brown hover:bg-brown  text-white px-8"
               >
                 {storeExternalSkuPending ? "Adding ..." : "Add External SKU"}
               </Button>

@@ -176,7 +176,7 @@ const MultiStepOrderPage = ({ params }) => {
             </Button>
             <Button
               type="submit"
-              className="px-6 py-2 bg-brown text-white rounded-md"
+              className="px-6 py-2 bg-brown dark:bg-dark-brown text-white rounded-md"
             >
               Proceed
             </Button>

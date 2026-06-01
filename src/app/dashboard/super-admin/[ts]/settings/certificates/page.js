@@ -89,14 +89,14 @@ const Page = () => {
         <SectionTitle title={"Certificates"} />
         <Button
           onClick={() => router.push("upload_certificate")}
-          className="py-[11px] lg:py-[22px] cursor-pointer bg-brown flex items-center gap-2"
+          className="py-[11px] lg:py-[22px] cursor-pointer bg-brown dark:bg-dark-brown flex items-center gap-2"
         >
           Upload Certificate
         </Button>
       </div>
 
       {/* Table */}
-      <div className="p-[11px] lg:p-[26px] bg-white rounded-[14px] flex flex-col gap-[12px] lg:gap-[24px]">
+      <div className="p-[11px] lg:p-[26px] bg-white dark:bg-black rounded-[14px] flex flex-col gap-[12px] lg:gap-[24px]">
         {certificationFileDataLoading ? (
           <TableSkeleton />
         ) : (

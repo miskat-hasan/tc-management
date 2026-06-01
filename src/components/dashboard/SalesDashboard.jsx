@@ -106,7 +106,7 @@
 //   );
 
 //   return (
-//     <div className="bg-white rounded-2xl shadow-md p-4 sm:p-6 w-full max-w-6xl mx-auto">
+//     <div className="bg-white dark:bg-black rounded-2xl shadow-md p-4 sm:p-6 w-full max-w-6xl mx-auto">
 //       {/* Header */}
 //       <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-6 gap-4">
 //         <h2 className="text-lg sm:text-xl font-semibold text-red-800">
@@ -260,7 +260,7 @@ export const SalesDashboard = ({ data }) => {
   }, [data]);
 
   return (
-    <div className="bg-white rounded-2xl shadow-md p-4 sm:p-6 w-full max-w-6xl mx-auto">
+    <div className="bg-white dark:bg-black rounded-2xl shadow-md p-4 sm:p-6 w-full max-w-6xl mx-auto">
       <div className="mb-6">
         <h2 className="text-lg sm:text-xl font-semibold text-red-800">
           Sales Overview

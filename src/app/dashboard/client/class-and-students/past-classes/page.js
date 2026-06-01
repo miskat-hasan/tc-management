@@ -80,7 +80,7 @@ const Page = () => {
       </div>
       <FormContainer form={form} onSubmit={onSubmit}>
         {/* Search filters */}
-        <div className="px-[16px] py-[16px] lg:px-[32px] lg:py-[32px] bg-white rounded-[16px]">
+        <div className="px-[16px] py-[16px] lg:px-[32px] lg:py-[32px] bg-white dark:bg-black rounded-[16px]">
           <div className="flex flex-wrap lg:flex-nowrap gap-[10px] xl:gap-[24px]">
             {/* <div className="flex-1">
               <FormInput name="dateTime" label="Date/Time" type="date" />
@@ -136,7 +136,7 @@ const Page = () => {
             <div className="flex items-end gap-3 mt-4">
               <Button
                 type="submit"
-                className="py-[12px] lg:py-[24px] text-[13px] lg:text-base cursor-pointer bg-brown flex items-center gap-2"
+                className="py-[12px] lg:py-[24px] text-[13px] lg:text-base cursor-pointer bg-brown dark:bg-dark-brown flex items-center gap-2"
               >
                 <SearchIcon />
                 Search
@@ -157,7 +157,7 @@ const Page = () => {
       </FormContainer>
 
       {/* Table */}
-      <div className="p-[13px] lg:p-[26px]  bg-white rounded-[14px] flex flex-col gap-[12px] lg:gap-[24px]">
+      <div className="p-[13px] lg:p-[26px]  bg-white dark:bg-black rounded-[14px] flex flex-col gap-[12px] lg:gap-[24px]">
         <div className="flex justify-between items-center">
           <SubSectionTitle subtitle="All Lists" />
           {/* {hasActiveFilters && (

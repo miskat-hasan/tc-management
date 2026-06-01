@@ -56,7 +56,7 @@ export default function Sidebar() {
   }));
 
   return (
-    <div className="max-w-[250px] xl:max-w-[300px] 2xl:max-w-[345px] w-full px-[17px] pt-[22.5px] h-screen overflow-y-auto scroll-bar bg-white text-black hidden xl:flex xl:flex-col gap-[31.5px]">
+    <div className="max-w-[250px] xl:max-w-[300px] 2xl:max-w-[345px] w-full px-[17px] pt-[22.5px] h-screen overflow-y-auto scroll-bar bg-white dark:bg-black text-black hidden xl:flex xl:flex-col gap-[31.5px]">
       <div className="flex items-center gap-1.5 justify-center">
         <Logo />
         <h5 className="font-black text-[14px]">ENROLL NATIONWIDE</h5>
@@ -89,7 +89,7 @@ export default function Sidebar() {
                       setOpenMenu((p) => (p === item.label ? null : item.label))
                     }
                     className={`w-full flex items-center justify-between cursor-pointer px-5 py-3 rounded-[10px] transition-colors ${
-                      isOpen ? "bg-brown text-white" : "hover:bg-gray-100"
+                      isOpen ? "bg-brown dark:bg-dark-brown text-white" : "text-dark dark:text-gray hover:bg-gray-100 dark:hover:bg-dark"
                     }`}
                   >
                     <span>{item.label}</span>
@@ -101,7 +101,7 @@ export default function Sidebar() {
                   <div
                     className={`overflow-hidden transition-all ${isOpen ? "max-h-screen" : "max-h-0"}`}
                   >
-                    <ul className="bg-gray-50 rounded-[10px] pt-1">
+                    <ul className="bg-gray-50 dark:bg-[#1B1D1E] rounded-[10px] pt-1">
                       {item.submenu.map((sub) => {
                         const active = pathname === sub.href;
                         return (
@@ -110,12 +110,12 @@ export default function Sidebar() {
                               href={sub.href}
                               className={`flex items-center pl-16 pr-6 py-2.5 text-xs relative ${
                                 active
-                                  ? "text-gray-900 font-semibold"
-                                  : "text-gray-600 hover:text-brown"
+                                  ? "text-gray-900 dark:text-gray font-semibold"
+                                  : "text-gray-600 dark:text-neutral-400 hover:text-brown dark:hover:text-red-400"
                               }`}
                             >
                               <span
-                                className={`absolute left-6 h-5 w-1 rounded-full ${active ? "bg-brown" : "bg-gray-200"}`}
+                                className={`absolute left-6 h-5 w-1 rounded-full ${active ? "bg-brown dark:bg-dark-brown" : "bg-gray-200 dark:bg-[#25282A]"}`}
                               />
                               {sub.label}
                             </Link>
@@ -131,7 +131,7 @@ export default function Sidebar() {
             <button
               onClick={() => logout()}
               disabled={logoutPending}
-              className="text-sm font-semibold mt-10 px-5 py-2.5 bg-brown rounded-[10px] text-white cursor-pointer mb-4 hover:bg-black transition duration-300 disabled:bg-gray-400 disabled:cursor-not-allowed"
+              className="text-sm font-semibold mt-10 px-5 py-2.5 bg-brown dark:bg-dark-brown rounded-[10px] text-white cursor-pointer mb-4 hover:bg-black dark:hover:bg-brown transition duration-300 disabled:bg-gray-400 disabled:cursor-not-allowed"
             >
               {logoutPending ? "Logging out..." : "Log Out"}
             </button>

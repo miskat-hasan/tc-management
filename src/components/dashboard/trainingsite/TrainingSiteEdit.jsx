@@ -107,7 +107,7 @@ const TrainingSiteEdit = ({ slug }) => {
     <section className="flex flex-col gap-4">
       <SectionTitle title="Update Training Site" />
 
-      <div className="bg-white rounded-[14px] p-4 lg:p-8 shadow-sm">
+      <div className="bg-white dark:bg-black rounded-[14px] p-4 lg:p-8 shadow-sm">
         <FormContainer form={form} onSubmit={handleSubmit(onSubmit)}>
           {/* FORM GRID */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4">
@@ -304,7 +304,7 @@ const TrainingSiteEdit = ({ slug }) => {
 
             <Button
               type="submit"
-              className="bg-brown hover:bg-brown-hover text-white cursor-pointer"
+              className="bg-brown dark:bg-dark-brown hover:bg-brown  text-white cursor-pointer"
               disabled={isPending}
             >
               {isPending ? "Saving ..." : "Save Changes"}

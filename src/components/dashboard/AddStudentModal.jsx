@@ -67,11 +67,11 @@ const AddStudentModal = ({ classId, open, onClose }) => {
   return (
     <div
       onClick={onClose}
-      className="w-full h-screen bg-black/40 absolute top-0 left-0 flex items-center justify-center px-2"
+      className="w-full h-screen bg-gray/40 absolute top-0 left-0 flex items-center justify-center px-2"
     >
       <div
         onClick={(e) => e.stopPropagation()}
-        className="bg-white p-4 lg:p-6 rounded-lg shadow max-w-[600px] w-full"
+        className="bg-white dark:bg-black p-4 lg:p-6 rounded-lg shadow max-w-[600px] w-full"
       >
         <h5 className="text-black text-[20px] font-medium leading-[32.5px] mb-2">
           Add Student
@@ -133,7 +133,7 @@ const AddStudentModal = ({ classId, open, onClose }) => {
             </Button>
             <Button
               type="submit"
-              className="px-6 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium cursor-pointer text-white bg-brown cursor hover:bg-brown-hover focus:outline-none disabled:opacity-60"
+              className="px-6 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium cursor-pointer text-white bg-brown dark:bg-dark-brown cursor hover:bg-brown  focus:outline-none disabled:opacity-60"
               disabled={isPending}
             >
               {isPending ? "Processing ..." : "Add Student"}

@@ -11,7 +11,7 @@ import { Logo } from "../svg/SvgContainer";
 
 function NavigatingOverlay() {
   return (
-    <div className="fixed inset-0 z-50 bg-white flex flex-col items-center justify-center gap-4">
+    <div className="fixed inset-0 z-50 bg-white dark:bg-black flex flex-col items-center justify-center gap-4">
       <div className="flex items-center gap-1.5">
         <Logo />
         <h5 className="font-black text-[14px]">ENROLL NATIONWIDE</h5>
@@ -41,7 +41,7 @@ export default function LoginForm() {
 
   return (
     <div className="min-h-screen flex items-center justify-center">
-      <div className="bg-white max-w-[600px] w-full p-5 rounded-2xl border border-gray-100">
+      <div className="bg-white dark:bg-black max-w-[600px] w-full p-5 rounded-2xl border border-gray-100">
         <div className="flex items-center gap-1.5 justify-center">
           <Logo />
           <h5 className="font-black text-[14px]">ENROLL NATIONWIDE</h5>
@@ -92,7 +92,7 @@ export default function LoginForm() {
           <Button
             type="submit"
             disabled={isPending}
-            className="px-6 h-[40px] border border-brown rounded-md shadow-sm text-sm font-medium cursor-pointer text-white hover:text-brown bg-brown hover:bg-transparent w-full duration-300 disabled:cursor-not-allowed"
+            className="px-6 h-[40px] border border-brown rounded-md shadow-sm text-sm font-medium cursor-pointer text-white hover:text-brown bg-brown dark:bg-dark-brown hover:bg-transparent w-full duration-300 disabled:cursor-not-allowed"
           >
             {isPending ? "Signing in..." : "Sign In"}
           </Button>

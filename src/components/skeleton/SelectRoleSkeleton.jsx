@@ -15,7 +15,7 @@ export default function SelectRoleSkeleton() {
           {[1, 2].map((index) => (
             <div
               key={index}
-              className="w-full px-6 py-4 bg-white border border-gray-200 rounded-xl shadow-sm space-y-2"
+              className="w-full px-6 py-4 bg-white dark:bg-black border border-gray-200 rounded-xl shadow-sm space-y-2"
             >
               {/* Role Name Line */}
               <div className="h-5 w-1/3 bg-gray-200 rounded"></div>

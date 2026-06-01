@@ -6,7 +6,7 @@ import SubSectionTitle from "../common/SubSectionTitle";
 const InfoCard = ({ icon, title, linkText, linkHref, className = "" }) => {
   return (
     <div
-      className={`w-full md:w-[384px] h-[136px] p-4 sm:p-5 bg-white rounded-[20px] flex flex-col justify-between shadow-sm hover:shadow-md transition-all duration-300 ${className}`}
+      className={`w-full md:w-[384px] h-[136px] p-4 sm:p-5 bg-white dark:bg-black rounded-[20px] flex flex-col justify-between shadow-sm hover:shadow-md transition-all duration-300 ${className}`}
     >
       <div className="flex items-center gap-4 sm:gap-5">
         <div

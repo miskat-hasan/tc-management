@@ -24,7 +24,7 @@ const Page = () => {
         <SectionTitle title={"Training Center Products"} />
         <Button
           asChild
-          className="py-[11px] lg:py-[22px] cursor-pointer bg-brown flex items-center gap-2"
+          className="py-[11px] lg:py-[22px] cursor-pointer bg-brown dark:bg-dark-brown flex items-center gap-2"
         >
           <Link href={"tc_products/add"}>
             Add New Product
@@ -36,7 +36,7 @@ const Page = () => {
       {tsProductLoading ? (
         <TableSkeleton />
       ) : (
-        <div className="p-[13px] lg:p-[26px] bg-white rounded-[14px] flex flex-col gap-[12px] lg:gap-[24px]">
+        <div className="p-[13px] lg:p-[26px] bg-white dark:bg-black rounded-[14px] flex flex-col gap-[12px] lg:gap-[24px]">
           <div className="overflow-x-auto">
             <table className="min-w-full text-sm text-left text-gray-700">
               <thead className="bg-gray-50 text-black text-[14px] md:text-[16px] font-semibold">

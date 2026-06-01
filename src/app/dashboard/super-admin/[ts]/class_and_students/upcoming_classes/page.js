@@ -76,7 +76,7 @@ const Page = () => {
       </div>
       <FormContainer form={form} onSubmit={onSubmit}>
         {/* Search filters */}
-        <div className="px-[16px] py-[16px] lg:px-[32px] lg:py-[32px] bg-white rounded-[16px]">
+        <div className="px-[16px] py-[16px] lg:px-[32px] lg:py-[32px] bg-white dark:bg-black rounded-[16px]">
           <div className="flex flex-wrap lg:flex-nowrap gap-[10px] xl:gap-[24px]">
             <div>
               <FormInput name="class_id" label="Class Id" />
@@ -84,7 +84,7 @@ const Page = () => {
             <div className="flex items-end gap-3 mt-4">
               <Button
                 type="submit"
-                className="py-[12px] lg:py-[24px] text-[13px] lg:text-base cursor-pointer bg-brown flex items-center gap-2"
+                className="py-[12px] lg:py-[24px] text-[13px] lg:text-base cursor-pointer bg-brown dark:bg-dark-brown dark:hover:bg-dark-brown/80 flex items-center gap-2"
               >
                 <SearchIcon />
                 Search
@@ -105,14 +105,14 @@ const Page = () => {
       </FormContainer>
 
       {/* Table */}
-      <div className="p-[13px] lg:p-[26px]  bg-white rounded-[14px] flex flex-col gap-[12px] lg:gap-[24px]">
+      <div className="p-[13px] lg:p-[26px]  bg-white dark:bg-black rounded-[14px] flex flex-col gap-[12px] lg:gap-[24px]">
         <SubSectionTitle subtitle="All Lists" />
         {tableLoading ? (
           <TableSkeleton />
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full min-w-[800px] text-sm sm:text-base text-left text-gray-700">
-              <thead className="bg-gray-50 text-black capitalize text-[16px] sm:text-[18px] font-semibold">
+              <thead className="bg-gray-50 dark:bg-[#1B1D1E] text-black dark:text-gray capitalize text-[16px] sm:text-[18px] font-semibold">
                 <tr>
                   <th className="px-3 sm:px-6 py-3 w-[40px] text-nowrap">
                     Class ID
@@ -211,8 +211,8 @@ const Page = () => {
                 onClick={() => link.page && setPage(link.page)}
                 className={`px-3 py-1 text-sm border rounded-md ${
                   link.active
-                    ? "border-blue-500 text-blue-600 bg-blue-50"
-                    : "hover:bg-gray-100"
+                    ? "border-blue-500 dark:border-dark-brown text-blue-600 dark:text-brown bg-blue-50 dark:bg-transparent"
+                    : "hover:bg-gray-100 dark:hover:bg-[#292b2c] dark:border-[#343536]"
                 } ${
                   link.url === null || link.page === null
                     ? "text-gray-400 cursor-not-allowed"

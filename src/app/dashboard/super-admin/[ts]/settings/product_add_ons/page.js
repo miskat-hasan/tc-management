@@ -27,7 +27,7 @@ const Page = () => {
         <SectionTitle title={"Product Add-ons"} />
         <Button
           onClick={() => router.push("add_product_ons")}
-          className="py-[11px] lg:py-[22px] cursor-pointer bg-brown flex items-center gap-2"
+          className="py-[11px] lg:py-[22px] cursor-pointer bg-brown dark:bg-dark-brown flex items-center gap-2"
         >
           New Add on
           <PlusIcon />
@@ -37,7 +37,7 @@ const Page = () => {
       {productAddOnsLoading ? (
         <TableSkeleton />
       ) : (
-        <div className="p-[13px] lg:p-[26px] bg-white rounded-[14px] flex flex-col gap-[12px] lg:gap-[24px]">
+        <div className="p-[13px] lg:p-[26px] bg-white dark:bg-black rounded-[14px] flex flex-col gap-[12px] lg:gap-[24px]">
           <div className="overflow-x-auto">
             <table className="min-w-full text-sm text-left text-gray-700">
               <thead className="bg-gray-50 text-black text-[14px] md:text-[16px] font-semibold">

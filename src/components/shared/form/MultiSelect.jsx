@@ -78,7 +78,7 @@ const MultiSelect = ({
           selectedOptions.map((opt) => (
             <span
               key={opt.id}
-              className="inline-flex items-center gap-1 bg-brown/10 text-brown text-xs font-medium px-2 py-1 rounded-md"
+              className="inline-flex items-center gap-1 bg-brown dark:bg-dark-brown/10 text-brown text-xs font-medium px-2 py-1 rounded-md"
             >
               {getLabel(opt)}
               <FaTimes
@@ -97,7 +97,7 @@ const MultiSelect = ({
       {/* Dropdown */}
       {open && (
         <div className="relative z-50">
-          <div className="absolute top-0 left-0 w-full bg-white border border-gray-200 rounded-md shadow-lg max-h-60 overflow-y-auto">
+          <div className="absolute top-0 left-0 w-full bg-white dark:bg-black border border-gray-200 rounded-md shadow-lg max-h-60 overflow-y-auto">
             {isLoading ? (
               <div className="px-3 py-2 text-sm text-gray-500">Loading...</div>
             ) : options.length === 0 ? (
@@ -110,13 +110,13 @@ const MultiSelect = ({
                     key={opt.id}
                     onClick={() => toggle(opt.id)}
                     className={`flex items-center gap-2 px-3 py-2.5 text-sm cursor-pointer hover:bg-gray-50 transition-colors ${
-                      isSelected ? "bg-brown/5 text-brown font-medium" : "text-gray-700"
+                      isSelected ? "bg-brown dark:bg-dark-brown/5 text-brown font-medium" : "text-gray-700"
                     }`}
                   >
                     {/* Checkbox */}
                     <div
                       className={`size-4 rounded border flex items-center justify-center shrink-0 ${
-                        isSelected ? "bg-brown border-brown" : "border-gray-300"
+                        isSelected ? "bg-brown dark:bg-dark-brown border-brown" : "border-gray-300"
                       }`}
                     >
                       {isSelected && (

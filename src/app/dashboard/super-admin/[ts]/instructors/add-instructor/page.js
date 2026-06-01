@@ -109,7 +109,7 @@ import AddInstructor from "@/components/dashboard/Instructors/AddInstructor";
 //       <SectionTitle title="Add New Instructor" />
 
 //       {/* White Form Card */}
-//       <div className="bg-white rounded-[14px] p-4 lg:p-8 shadow-sm">
+//       <div className="bg-white dark:bg-black rounded-[14px] p-4 lg:p-8 shadow-sm">
 //         <FormContainer form={form} onSubmit={onSubmit}>
 //           {/* Grid Layout */}
 //           <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-2.5 lg:gap-y-5">
@@ -286,7 +286,7 @@ import AddInstructor from "@/components/dashboard/Instructors/AddInstructor";
 //           <div className="flex justify-end gap-2 lg:gap-4 mt-5 lg:mt-10">
 //             <Button
 //               type="submit"
-//               className="px-6 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium cursor-pointer text-white bg-brown hover:bg-brown-hover"
+//               className="px-6 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium cursor-pointer text-white bg-brown dark:bg-dark-brown hover:bg-brown "
 //               disabled={instructorPending}
 //             >
 //               {instructorPending ? "Saving ..." : "Save Changes"}

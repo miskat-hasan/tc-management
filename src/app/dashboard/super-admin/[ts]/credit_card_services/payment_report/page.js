@@ -15,13 +15,13 @@ const Page = () => {
       </div>
 
       {/* Table */}
-      <div className="p-[13px] lg:p-[26px] bg-white rounded-[14px] flex flex-col gap-[12px] lg:gap-[24px]">
+      <div className="p-[13px] lg:p-[26px] bg-white dark:bg-black rounded-[14px] flex flex-col gap-[12px] lg:gap-[24px]">
         {/* <div className="flex items-center justify-between">
           {" "}
           <SubSectionTitle subtitle="All List" />
           <Button
             asChild
-            className="py-[11px] lg:py-[22px] text-[12px] lg:text-base cursor-pointer bg-brown flex items-center gap-2"
+            className="py-[11px] lg:py-[22px] text-[12px] lg:text-base cursor-pointer bg-brown dark:bg-dark-brown flex items-center gap-2"
           >
             <Link href={`funding_reports`}>
             Funding Report $

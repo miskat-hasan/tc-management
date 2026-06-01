@@ -9,6 +9,7 @@ import useAuth from "@/hooks/useAuth";
 import AdminMobileSidebar from "../common/AdminMobileSidebar";
 import { FaRegUser } from "react-icons/fa";
 import { useParams } from "next/navigation";
+import ThemeToggle from "../common/ThemeToggle";
 
 const DashboardTopbar = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -29,13 +30,14 @@ const DashboardTopbar = () => {
 
       {/* Right-side icons */}
       <div className="flex items-center gap-2.5 py-3">
+        <ThemeToggle />
         <Link
            href={
             user?.roles?.find((item) => item?.role_name === "Super Admin")
               ? `/super-admin/${trainingSiteId}/notifications`
               : `/admin/${trainingSiteId}/notifications`
           }
-          className="w-[40px] h-[40px] lg:w-[60px] lg:h-[60px] bg-white rounded-[14px] flex items-center justify-center"
+          className="w-[40px] h-[40px] lg:w-[60px] lg:h-[60px] bg-white dark:bg-black rounded-[14px] flex items-center justify-center dark:text-gray"
         >
           <NotificationIcon />
         </Link>
@@ -47,7 +49,7 @@ const DashboardTopbar = () => {
               ? `/super-admin/${trainingSiteId}/manage_profile`
               : `/admin/${trainingSiteId}/manage_profile`
           }
-          className="h-auto lg:h-[60px] bg-white rounded-[14px] flex items-center p-1 w-auto gap-[11px]"
+          className="h-auto lg:h-[60px] bg-white dark:bg-black rounded-[14px] flex items-center p-1 w-auto gap-[11px]"
         >
           {/* Avatar */}
           <div className="w-[30px] h-[30px] lg:w-[50px] lg:h-[50px] overflow-hidden rounded-[11px]">
@@ -62,8 +64,8 @@ const DashboardTopbar = () => {
                 className="object-cover w-full h-full"
               />
             ) : (
-              <div className="border size-full rounded-2xl flex items-center justify-center">
-                <FaRegUser className="size-6" />
+              <div className="border dark:border-[#282B2D] size-full rounded-2xl flex items-center justify-center">
+                <FaRegUser className="size-6 text-black dark:text-gray" />
               </div>
             )}
           </div>
@@ -108,7 +110,7 @@ const DashboardTopbar = () => {
       {isSidebarOpen && (
         <div
           onClick={handleSidebar}
-          className="fixed inset-0 bg-black/20 z-40 xl:hidden"
+          className="fixed inset-0 bg-gray/20 z-40 xl:hidden"
         />
       )}
     </div>

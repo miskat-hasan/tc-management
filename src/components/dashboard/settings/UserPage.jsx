@@ -82,7 +82,7 @@ const UserPage = () => {
           <SectionTitle title={"Users"} />
           <Button
             onClick={() => router.push("./users/add-user")}
-            className="py-[11px] text-[12px] lg:text-base lg:py-[22px] cursor-pointer bg-brown flex items-center gap-2"
+            className="py-[11px] text-[12px] lg:text-base lg:py-[22px] cursor-pointer bg-brown dark:bg-dark-brown flex items-center gap-2"
           >
             Add User
             <PlusIcon />
@@ -90,7 +90,7 @@ const UserPage = () => {
         </div>
 
         <FormContainer form={form} onSubmit={onSubmit}>
-          <div className="px-[16px] py-[16px] lg:px-[32px] lg:py-[32px] bg-white rounded-[16px]">
+          <div className="px-[16px] py-[16px] lg:px-[32px] lg:py-[32px] bg-white dark:bg-black rounded-[16px]">
             <div className="flex flex-wrap lg:flex-nowrap gap-[10px] xl:gap-[24px]">
               <div className="flex-1 max-w-[400px]">
                 <FormInput name="search" className={"w-full"} />
@@ -98,7 +98,7 @@ const UserPage = () => {
               <div className="flex items-end gap-3">
                 <Button
                   type="submit"
-                  className="py-[12px] lg:py-[24px] text-[13px] lg:text-base cursor-pointer bg-brown flex items-center gap-2"
+                  className="py-[12px] lg:py-[24px] text-[13px] lg:text-base cursor-pointer bg-brown dark:bg-dark-brown flex items-center gap-2"
                   disabled={enableSearch && isLoading}
                 >
                   <SearchIcon />
@@ -118,7 +118,7 @@ const UserPage = () => {
           </div>
         </FormContainer>
 
-        <div className="p-[13px] lg:p-[26px] bg-white rounded-[14px] flex flex-col gap-[24px]">
+        <div className="p-[13px] lg:p-[26px] bg-white dark:bg-black rounded-[14px] flex flex-col gap-[24px]">
           <div className="flex items-center justify-between">
             <SubSectionTitle subtitle="All list" />
           </div>
@@ -153,7 +153,7 @@ const UserPage = () => {
                     </th>
                   </tr>
                 </thead>
-                <tbody className="bg-white divide-y divide-gray-200">
+                <tbody className="bg-white dark:bg-black divide-y divide-gray-200">
                   {allInstructor?.data?.data?.length > 0 ? (
                     allInstructor?.data?.data?.map((user) => (
                       <tr key={user?.id} className="hover:bg-gray-50">
