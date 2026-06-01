@@ -1,6 +1,6 @@
 function SidebarSkeleton() {
   return (
-    <div className="max-w-[250px] xl:max-w-[300px] 2xl:max-w-[345px] w-full px-[17px] pt-[22.5px] h-screen bg-white hidden xl:flex xl:flex-col gap-[31.5px]">
+    <div className="max-w-[250px] xl:max-w-[300px] 2xl:max-w-[345px] w-full px-[17px] pt-[22.5px] h-screen bg-white dark:bg-black hidden xl:flex xl:flex-col gap-[31.5px]">
       {/* Logo skeleton */}
       <div className="flex items-center gap-1.5 justify-center">
         <div className="h-8 w-8 rounded bg-gray-200 animate-pulse" />

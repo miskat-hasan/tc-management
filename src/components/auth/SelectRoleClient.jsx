@@ -62,7 +62,7 @@ export default function SelectRoleClient() {
             <button
               key={siteRole.role_id}
               onClick={() => handleRoleSelect(siteRole)}
-              className="w-full px-6 cursor-pointer py-4 bg-white border border-gray-200 rounded-xl shadow-sm hover:border-brown hover:shadow-md transition-all text-left"
+              className="w-full px-6 cursor-pointer py-4 bg-white dark:bg-black border border-gray-200 rounded-xl shadow-sm hover:border-brown hover:shadow-md transition-all text-left"
             >
               <p className="font-semibold text-gray-800">
                 {siteRole.role_name}

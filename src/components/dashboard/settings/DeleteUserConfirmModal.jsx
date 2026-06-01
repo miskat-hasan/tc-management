@@ -8,12 +8,12 @@ const DeleteUserConfirmModal = ({ user, onConfirm, onCancel, isPending }) => {
     <div className="fixed inset-0 z-50 flex items-center justify-center">
       {/* Backdrop */}
       <div
-        className="absolute inset-0 bg-black/40 backdrop-blur-sm"
+        className="absolute inset-0 bg-gray/40 backdrop-blur-sm"
         onClick={onCancel}
       />
 
       {/* Modal */}
-      <div className="relative z-10 bg-white rounded-2xl shadow-2xl w-full max-w-md mx-4 p-6 animate-in fade-in zoom-in-95 duration-200">
+      <div className="relative z-10 bg-white dark:bg-black rounded-2xl shadow-2xl w-full max-w-md mx-4 p-6 animate-in fade-in zoom-in-95 duration-200">
         {/* Header */}
         <div className="flex items-start justify-between mb-4">
           <div className="flex items-center gap-3">
@@ -44,7 +44,7 @@ const DeleteUserConfirmModal = ({ user, onConfirm, onCancel, isPending }) => {
 
           {/* User summary card */}
           <div className="mt-4 p-3 rounded-xl bg-gray-50 border border-gray-200 flex items-center gap-3">
-            <div className="w-9 h-9 rounded-full bg-brown/10 flex items-center justify-center shrink-0">
+            <div className="w-9 h-9 rounded-full bg-brown dark:bg-dark-brown/10 flex items-center justify-center shrink-0">
               <span className="text-sm font-semibold text-brown uppercase">
                 {user.name?.charAt(0) ?? "U"}
               </span>

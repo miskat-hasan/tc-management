@@ -116,11 +116,11 @@ const ExternalSkillsPage = () => {
         onChange={handleSelectChange}
       /> */}
       {/* Table */}
-      <div className="p-[13px] lg:p-[26px]  bg-white rounded-[14px] flex flex-col gap-[12px] lg:gap-[24px]">
+      <div className="p-[13px] lg:p-[26px]  bg-white dark:bg-black rounded-[14px] flex flex-col gap-[12px] lg:gap-[24px]">
         {externalSkuDataLoading ? (
           <TableSkeleton />
         ) : (
-          <div className="overflow-x-auto bg-white border rounded-lg">
+          <div className="overflow-x-auto bg-white dark:bg-black border rounded-lg">
             <table className="min-w-full text-left text-gray-700">
               <thead className="bg-gray-50 text-sm font-semibold text-gray-900">
                 <tr>

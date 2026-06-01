@@ -13,6 +13,12 @@ import { useForm } from "react-hook-form";
 import { CiEdit } from "react-icons/ci";
 import { GoArrowUpRight } from "react-icons/go";
 import { IoClose } from "react-icons/io5";
+import {
+  Table,
+  TableBodyRow,
+  TableButton,
+  TableHead,
+} from "@/components/common/TableElement";
 
 const Page = () => {
   const form = useForm();
@@ -80,7 +86,7 @@ const Page = () => {
       </div>
       <FormContainer form={form} onSubmit={onSubmit}>
         {/* Search filters */}
-        <div className="px-[16px] py-[16px] lg:px-[32px] lg:py-[32px] bg-white rounded-[16px]">
+        <div className="px-[16px] py-[16px] lg:px-[32px] lg:py-[32px] bg-white dark:bg-black rounded-[16px]">
           <div className="flex flex-wrap lg:flex-nowrap gap-[10px] xl:gap-[24px]">
             {/* <div className="flex-1">
               <FormInput name="dateTime" label="Date/Time" type="date" />
@@ -136,7 +142,7 @@ const Page = () => {
             <div className="flex items-end gap-3 mt-4">
               <Button
                 type="submit"
-                className="py-[12px] lg:py-[24px] text-[13px] lg:text-base cursor-pointer bg-brown flex items-center gap-2"
+                className="py-[12px] lg:py-[24px] text-[13px] lg:text-base cursor-pointer bg-brown dark:bg-dark-brown flex items-center gap-2"
               >
                 <SearchIcon />
                 Search
@@ -146,9 +152,9 @@ const Page = () => {
                 <button
                   type="button"
                   onClick={handleClearSearch}
-                  className="p-2 rounded-md bg-gray-100 hover:bg-gray-200 transition cursor-pointer"
+                  className="p-1.5 sm:p-2 bg-gray-100 dark:bg-transparent dark:border dark:border-[#343536] dark:hover:bg-[#292b2c] rounded-lg hover:bg-gray-200 transition cursor-pointer"
                 >
-                  <IoClose size={18} />
+                  <IoClose size={18} className="text-gray-600 dark:text-gray" />
                 </button>
               )}
             </div>
@@ -157,7 +163,7 @@ const Page = () => {
       </FormContainer>
 
       {/* Table */}
-      <div className="p-[13px] lg:p-[26px]  bg-white rounded-[14px] flex flex-col gap-[12px] lg:gap-[24px]">
+      <div className="p-[13px] lg:p-[26px]  bg-white dark:bg-black rounded-[14px] flex flex-col gap-[12px] lg:gap-[24px]">
         <div className="flex justify-between items-center">
           <SubSectionTitle subtitle="All Lists" />
           {/* {hasActiveFilters && (
@@ -171,8 +177,8 @@ const Page = () => {
           <TableSkeleton />
         ) : (
           <div className="overflow-x-auto">
-            <table className="w-full min-w-[800px] text-sm sm:text-base text-left text-gray-700">
-              <thead className="bg-gray-50 text-black capitalize text-[16px] sm:text-[18px] font-semibold">
+            <Table>
+              <TableHead>
                 <tr>
                   <th className="px-3 sm:px-6 py-3 w-[40px] text-nowrap">
                     Class ID
@@ -184,19 +190,13 @@ const Page = () => {
                   <th className="px-3 sm:px-6 py-3">Enrolled</th>
                   <th className="px-3 sm:px-6 py-3 text-center">Action</th>
                 </tr>
-              </thead>
-
+              </TableHead>
               <tbody>
                 {tableData?.length > 0 ? (
                   tableData?.map((item, index) => (
-                    <tr
-                      key={item.id}
-                      className="border-b hover:bg-gray-50 transition-all"
-                    >
-                      <td className="px-3 sm:px-6 py-3 text-gray-800">
-                        {item.class_id}
-                      </td>
-                      <td className="px-3 sm:px-6 py-3 text-gray-800 whitespace-nowrap">
+                    <TableBodyRow key={item.id}>
+                      <td className="px-3 sm:px-6 py-3">{item.class_id}</td>
+                      <td className="px-3 sm:px-6 py-3 whitespace-nowrap">
                         {item.instructor?.first_name}{" "}
                         {item.instructor?.last_name}
                       </td>
@@ -209,24 +209,25 @@ const Page = () => {
                       <td className="px-3 sm:px-6 py-3 truncate max-w-[140px] sm:max-w-[220px]">
                         {item.location?.name}
                       </td>
-                      <td className="px-3 sm:px-6 py-3 text-gray-600">
-                        {item.max_student}
-                      </td>
+                      <td className="px-3 sm:px-6 py-3">{item.max_student}</td>
                       <td className="px-3 sm:px-6 py-3 text-center">
                         <div className="flex items-center flex-nowrap gap-2 justify-center">
-                          <Link href={`past_class/${item.id}`}>
-                            <button className="p-1.5 sm:p-2 bg-gray-100 rounded-lg hover:bg-gray-200 transition cursor-pointer">
-                              <CiEdit className="text-gray-600 text-[14px] sm:text-[16px]" />
-                            </button>
-                          </Link>
+                          <TableButton href={`past_class/${item.id}`}>
+                            <CiEdit className="text-gray-600 dark:text-gray text-[14px] sm:text-[16px]" />
+                          </TableButton>
+                          
+                          {/* <TableButton isLink={false} onClick={() => alert("View Roster")}>
+                            <CiEdit className="text-gray-600 dark:text-gray text-[14px] sm:text-[16px]" />
+                          </TableButton> */}
+                          
                           <Link href={`past_class/roster/${item.id}`}>
-                            <button className="p-1.5 sm:p-2 bg-gray-100 rounded-lg hover:bg-gray-200 transition cursor-pointer">
-                              <GoArrowUpRight className="text-gray-600 text-[14px] sm:text-[16px]" />
+                            <button className="p-1.5 sm:p-2 bg-gray-100 dark:bg-transparent dark:border dark:border-[#343536] dark:hover:bg-[#292b2c] rounded-lg hover:bg-gray-200 transition cursor-pointer">
+                              <GoArrowUpRight className="text-gray-600 dark:text-gray text-[14px] sm:text-[16px]" />
                             </button>
                           </Link>
                         </div>
                       </td>
-                    </tr>
+                    </TableBodyRow>
                   ))
                 ) : (
                   <tr>
@@ -239,7 +240,7 @@ const Page = () => {
                   </tr>
                 )}
               </tbody>
-            </table>
+            </Table>
           </div>
         )}
 
@@ -254,8 +255,8 @@ const Page = () => {
                 onClick={() => link.page && setPage(link.page)}
                 className={`px-3 py-1 text-sm border rounded-md ${
                   link.active
-                    ? "border-blue-500 text-blue-600 bg-blue-50"
-                    : "hover:bg-gray-100"
+                    ? "border-blue-500 dark:border-gray text-blue-600 dark:text-gray bg-blue-50 dark:bg-transparent"
+                    : "hover:bg-gray-100 dark:hover:bg-[#292b2c] dark:border-[#343536]"
                 } ${
                   link.url === null || link.page === null
                     ? "text-gray-400 cursor-not-allowed"

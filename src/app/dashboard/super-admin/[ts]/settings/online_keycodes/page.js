@@ -23,13 +23,13 @@ const Page = () => {
         <SectionTitle title={"Keycode Banks"} />
         <Button
           onClick={()=> router.push("add_keycodes_bank")}
-          className="py-[11px] lg:py-[22px] text-[12px] lg:text-base cursor-pointer bg-brown flex items-center gap-2"
+          className="py-[11px] lg:py-[22px] text-[12px] lg:text-base cursor-pointer bg-brown dark:bg-dark-brown flex items-center gap-2"
         >
           Add keycode bank <PlusIcon />
         </Button>
       </div>
 
-      <div className="p-[26px] bg-white rounded-[14px] flex flex-col gap-[24px]">
+      <div className="p-[26px] bg-white dark:bg-black rounded-[14px] flex flex-col gap-[24px]">
         {keycodeDataLoading ? (
           <TableSkeleton />
         ) : (

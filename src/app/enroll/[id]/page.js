@@ -75,7 +75,7 @@ const Page = () => {
     });
   };
   return (
-    <div className="flex gap-5 bg-white p-4 rounded-2xl border">
+    <div className="flex gap-5 bg-white dark:bg-black p-4 rounded-2xl border">
       <div className="basis-2/3">
         <h2 className="border-b text-xl font-medium mb-1">Class Enrollment</h2>
         {!isEnrollmentFormOpen ? (

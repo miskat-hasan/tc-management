@@ -177,7 +177,7 @@ const AddUser = () => {
   return (
     <section className="flex flex-col gap-4">
       <SectionTitle title={"Add User"} />
-      <div className="p-[26px] bg-white rounded-[14px] flex flex-col gap-[24px]">
+      <div className="p-[26px] bg-white dark:bg-black rounded-[14px] flex flex-col gap-[24px]">
         <FormContainer form={form} onSubmit={onSubmit}>
           <div className="grid grid-cols-2 gap-6">
             <FormInput

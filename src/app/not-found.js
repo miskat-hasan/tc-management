@@ -18,7 +18,7 @@ export default function NotFound() {
 
       <Button
         onClick={() => router.back()}
-        className="mt-6 rounded-lg bg-black px-6 py-3 text-white hover:bg-gray-800 transition cursor-pointer flex items-center gap-2"
+        className="mt-6 rounded-lg bg-gray px-6 py-3 text-white hover:bg-gray-800 transition cursor-pointer flex items-center gap-2"
       >
         <ArrowLeftIcon size={20}/> Go Back
       </Button>

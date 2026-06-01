@@ -23,7 +23,7 @@ const Page = () => {
       </div>
 
       {/* Table */}
-      <div className="p-[13px] lg:p-[26px]  bg-white rounded-[14px] flex flex-col gap-[12px] lg:gap-[24px]">
+      <div className="p-[13px] lg:p-[26px]  bg-white dark:bg-black rounded-[14px] flex flex-col gap-[12px] lg:gap-[24px]">
         <div>
           <SubSectionTitle subtitle="All List" />
         </div>

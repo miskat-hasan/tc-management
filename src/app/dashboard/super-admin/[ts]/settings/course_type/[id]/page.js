@@ -345,7 +345,7 @@ const Page = ({ params }) => {
     <section className="flex flex-col gap-4">
       <SectionTitle title="Add / Edit Course Type" />
 
-      <div className="p-[13px] lg:p-[26px] bg-white rounded-[14px] flex flex-col gap-[24px]">
+      <div className="p-[13px] lg:p-[26px] bg-white dark:bg-black rounded-[14px] flex flex-col gap-[24px]">
         <FormContainer form={form} onSubmit={onSubmit}>
           <div className="flex flex-col gap-3 lg:gap-6">
             <FormInput
@@ -822,7 +822,7 @@ const Page = ({ params }) => {
                 <Button
                   type="submit"
                   disabled={updateCoursePending}
-                  className="bg-brown hover:bg-brown-hover text-white"
+                  className="bg-brown dark:bg-dark-brown hover:bg-brown  text-white"
                 >
                   {updateCoursePending ? "Saving..." : "Save Course"}
                 </Button>

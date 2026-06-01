@@ -16,7 +16,7 @@ const Page = () => {
     <section className="flex flex-col gap-2.5 lg:gap-5">
       {/* <div className="flex flex-col gap-2.5 lg:gap-5">
         <SectionTitle title={"Shortcuts"} />
-        <div className="w-[384px] h-[136px] p-[20px] bg-white rounded-[20px] flex flex-col justify-between">
+        <div className="w-[384px] h-[136px] p-[20px] bg-white dark:bg-black rounded-[20px] flex flex-col justify-between">
           <div className="flex gap-[20px] items-center">
             <div className="w-[45px] h-[45px] bg-[linear-gradient(180deg,_#FF9A9A_0%,_#B70000_100%)] rounded-full flex items-center justify-center">
               <DollarIcon />
@@ -57,7 +57,7 @@ const Page = () => {
             <Skeleton className="h-6 w-40" />
 
             {/* Chart Card */}
-            <div className="w-full h-[350px] lg:h-[450px] bg-white rounded-[20px] p-[20px]">
+            <div className="w-full h-[350px] lg:h-[450px] bg-white dark:bg-black rounded-[20px] p-[20px]">
               <Skeleton className="w-full h-full rounded-[12px]" />
             </div>
           </div>
@@ -68,7 +68,7 @@ const Page = () => {
             <Skeleton className="h-6 w-32" />
 
             {/* Overview Card */}
-            <div className="w-full h-auto lg:h-[450px] bg-white rounded-[20px] p-[15px] lg:p-[20px] flex flex-col gap-[18px]">
+            <div className="w-full h-auto lg:h-[450px] bg-white dark:bg-black rounded-[20px] p-[15px] lg:p-[20px] flex flex-col gap-[18px]">
               {Array.from({ length: 5 }).map((_, i) => (
                 <div
                   key={i}
@@ -89,7 +89,7 @@ const Page = () => {
           </div>
           <div className="flex w-full lg:w-[500px] flex-col gap-2.5 lg:gap-5">
             <SectionTitle title={"Overview"} />
-            <div className="w-full h-auto lg:h-[450px] bg-white rounded-[20px] p-[15px] lg:p-[20px] flex flex-col gap-[10px] lg:gap-[20px]">
+            <div className="w-full h-auto lg:h-[450px] bg-white dark:bg-black rounded-[20px] p-[15px] lg:p-[20px] flex flex-col gap-[10px] lg:gap-[20px]">
               <div className="flex items-center justify-between">
                 <p className="text-[12px] font-bold">Total Transaction Count</p>
                 <span className="text-[#969688] text-[12px]">

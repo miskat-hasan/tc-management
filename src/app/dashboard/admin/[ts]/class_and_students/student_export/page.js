@@ -98,7 +98,7 @@ export default function StudentExport() {
 
   return (
     <div className=" max-w-full  ">
-      <div className="rounded-xl border border-gray-200 bg-white p-3 lg:p-6 shadow-sm">
+      <div className="rounded-xl border border-gray-200 bg-white dark:bg-black p-3 lg:p-6 shadow-sm">
         <SectionTitle title={"Student Export"} />
 
         <div className="mt-2 flex items-center gap-2.5 ">
@@ -129,7 +129,7 @@ export default function StudentExport() {
               onClick={handleExport}
               disabled={isDownloading}
               title="Export"
-              className="flex h-[40px] lg:h-[48px] w-12 items-center justify-center rounded-md border border-brown bg-brown text-white hover:text-brown cursor-pointer transition-colors hover:bg-red-50 disabled:cursor-not-allowed disabled:opacity-50"
+              className="flex h-[40px] lg:h-[48px] w-12 items-center justify-center rounded-md border border-brown bg-brown dark:bg-dark-brown text-white hover:text-brown cursor-pointer transition-colors hover:bg-red-50 disabled:cursor-not-allowed disabled:opacity-50"
             >
               {isDownloading ? (
                 <svg
@@ -173,7 +173,7 @@ export default function StudentExport() {
         </div>
       </div>
 
-      <div className="mt-2.5 lg:mt-5 rounded-xl border border-gray-200 bg-white p-2.5 lg:p-5 text-[12px] md:text-sm leading-relaxed text-gray-600">
+      <div className="mt-2.5 lg:mt-5 rounded-xl border border-gray-200 bg-white dark:bg-black p-2.5 lg:p-5 text-[12px] md:text-sm leading-relaxed text-gray-600">
         This page will produce an Excel Export of your students including all
         pertinent class and registration information. Select your desired date
         range below and click Go to generate the report. If you are using Office

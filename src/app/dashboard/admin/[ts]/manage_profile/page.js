@@ -114,7 +114,7 @@ const Page = () => {
       {countryDataLoading ? (
         <section className="flex flex-col gap-4 p-4 lg:p-8">
 
-          <div className="bg-white rounded-[14px] p-4 lg:p-8 space-y-4">
+          <div className="bg-white dark:bg-black rounded-[14px] p-4 lg:p-8 space-y-4">
             <SectionTitle title="1. General Information" className="mb-3" />
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-5">
@@ -137,7 +137,7 @@ const Page = () => {
             </div>
           </div>
 
-          <div className="bg-white rounded-[14px] p-4 lg:p-8 space-y-4">
+          <div className="bg-white dark:bg-black rounded-[14px] p-4 lg:p-8 space-y-4">
             <SectionTitle title="2. Password Change" className="mb-3" />
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-5">
@@ -152,7 +152,7 @@ const Page = () => {
         </section>
       ) : (
         <>
-          <div className="bg-white rounded-[14px] p-4 lg:p-8">
+          <div className="bg-white dark:bg-black rounded-[14px] p-4 lg:p-8">
             <SectionTitle title="1. General Information" className="mb-3" />
 
             <FormContainer form={profileForm} onSubmit={onProfileSubmit}>
@@ -262,14 +262,14 @@ const Page = () => {
                 <Button
                   type="submit"
                   disabled={updatePending}
-                  className="bg-brown hover:bg-brown-hover disabled:opacity-50"
+                  className="bg-brown dark:bg-dark-brown hover:bg-brown  disabled:opacity-50"
                 >
                   {updatePending ? "Saving..." : "Save Changes"}
                 </Button>
               </div>
             </FormContainer>
           </div>
-          <div className="bg-white rounded-[14px] p-4 lg:p-8">
+          <div className="bg-white dark:bg-black rounded-[14px] p-4 lg:p-8">
             <SectionTitle title="2. Password Change" className="mb-3" />
 
             <FormContainer form={passwordForm} onSubmit={onPasswordSubmit}>
@@ -301,7 +301,7 @@ const Page = () => {
                   <Button
                     disabled={changePasswordPending}
                     type="submit"
-                    className="bg-brown hover:bg-brown-hover disabled:opacity-50"
+                    className="bg-brown dark:bg-dark-brown hover:bg-brown  disabled:opacity-50"
                   >
                     {changePasswordPending ? "Processing..." : "Save Changes"}
                   </Button>

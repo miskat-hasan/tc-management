@@ -86,7 +86,7 @@ const Page = () => {
       {/* Title */}
       <SectionTitle title="Add Promo Code" />
       {/* White Form Card */}
-      <div className="bg-white rounded-[14px] p-4 lg:p-8 shadow-sm">
+      <div className="bg-white dark:bg-black rounded-[14px] p-4 lg:p-8 shadow-sm">
         <FormContainer form={form} onSubmit={onSubmit}>
           {/* Grid Layout */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-x-3 gap-y-2.5 md:gap-x-6 md:gap-y-5">
@@ -196,7 +196,7 @@ const Page = () => {
             </Button>
             <Button
               type="submit"
-              className="px-6 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium cursor-pointer text-white bg-brown hover:bg-brown-hover"
+              className="px-6 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium cursor-pointer text-white bg-brown dark:bg-dark-brown hover:bg-brown "
               disabled={isPending}
             >
               {isPending ? "Saving..." : "Save Changes"}

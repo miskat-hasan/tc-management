@@ -70,7 +70,7 @@ const Page = ({ params }) => {
       <SectionTitle title="Edit Certification" />
 
       {loadingSingleCertification && loadingDiscipline ? (
-        <div className="bg-white rounded-[14px] p-4 lg:p-8 shadow-sm animate-pulse">
+        <div className="bg-white dark:bg-black rounded-[14px] p-4 lg:p-8 shadow-sm animate-pulse">
           <div className="space-y-6">
             {/* Discipline Select Skeleton */}
             <div className="space-y-2">
@@ -100,7 +100,7 @@ const Page = ({ params }) => {
       ) : (
         <>
           {/* White Form Card */}
-          <div className="bg-white rounded-[14px] p-4 lg:p-8 shadow-sm">
+          <div className="bg-white dark:bg-black rounded-[14px] p-4 lg:p-8 shadow-sm">
             <FormContainer form={form} onSubmit={onSubmit}>
               {/* Grid Layout */}
               <div className="space-y-2.5 lg:space-y-5">
@@ -136,7 +136,7 @@ const Page = ({ params }) => {
                 </Button>
                 <Button
                   type="submit"
-                  className="px-6 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium cursor-pointer text-white bg-brown hover:bg-brown-hover"
+                  className="px-6 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium cursor-pointer text-white bg-brown dark:bg-dark-brown hover:bg-brown "
                   disabled={isPending}
                 >
                   {isPending ? "Saving ..." : "Save Changes"}

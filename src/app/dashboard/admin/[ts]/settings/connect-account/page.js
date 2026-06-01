@@ -53,7 +53,7 @@ const Page = () => {
       ) : instructorData?.data?.account_connected ? (
         <div>You have already Connected you Account</div>
       ) : (
-        <div className="p-[13px] lg:p-[26px] bg-white rounded-[14px] flex flex-col gap-[12px] lg:gap-[24px]">
+        <div className="p-[13px] lg:p-[26px] bg-white dark:bg-black rounded-[14px] flex flex-col gap-[12px] lg:gap-[24px]">
           <SectionTitle title={"Connect Your Bank Account"} />
           <FormContainer
             className={"flex flex-col  lg:gap-4"}
@@ -77,7 +77,7 @@ const Page = () => {
               <Button
                 type="submit"
                 disabled={isPending}
-                className="px-6 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium cursor-pointer text-white bg-brown hover:bg-brown-hover disabled:opacity-60 disabled:cursor-not-allowed"
+                className="px-6 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium cursor-pointer text-white bg-brown dark:bg-dark-brown hover:bg-brown  disabled:opacity-60 disabled:cursor-not-allowed"
               >
                 {isPending ? "Connecting..." : "Connect Account"}
               </Button>

@@ -247,7 +247,7 @@ const AddNewCourse = () => {
     <section className="flex flex-col gap-4">
       <SectionTitle title="Add Course Type" />
 
-      <div className="px-1.5 py-3 min-[374px]:p-[13px] lg:p-[26px] bg-white rounded-[14px] flex flex-col gap-[24px]">
+      <div className="px-1.5 py-3 min-[374px]:p-[13px] lg:p-[26px] bg-white dark:bg-black rounded-[14px] flex flex-col gap-[24px]">
         <FormContainer form={form} onSubmit={onSubmit}>
           <div className="flex flex-col gap-3 lg:gap-6">
             <FormInput
@@ -697,7 +697,7 @@ const AddNewCourse = () => {
               <Button
                 type="submit"
                 disabled={storeCoursePending}
-                className="bg-brown hover:bg-brown-hover text-white px-8"
+                className="bg-brown dark:bg-dark-brown hover:bg-brown  text-white px-8"
               >
                 {storeCoursePending ? "Creating..." : "Create Course"}
               </Button>

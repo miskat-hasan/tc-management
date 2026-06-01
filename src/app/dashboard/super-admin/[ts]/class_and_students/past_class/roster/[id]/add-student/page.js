@@ -244,7 +244,7 @@ const AddStudentPage = ({ params }) => {
           <Button
             type="submit"
             disabled={isPending}
-            className="px-6 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium cursor-pointer text-white bg-brown hover:bg-brown-hover focus:outline-none"
+            className="px-6 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium cursor-pointer text-white bg-brown dark:bg-dark-brown hover:bg-brown  focus:outline-none"
           >
             {isPending ? "Processing..." : "Add Student"}
           </Button>

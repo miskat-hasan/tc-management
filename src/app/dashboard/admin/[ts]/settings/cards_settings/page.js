@@ -89,7 +89,7 @@ const Page = () => {
   return (
     <section className="flex flex-col gap-2 lg:gap-4">
       <SectionTitle title={"Certification Card Settings"} />
-      <div className="p-[13px] lg:p-[26px] bg-white rounded-[14px] flex flex-col gap-[12px] lg:gap-[24px]">
+      <div className="p-[13px] lg:p-[26px] bg-white dark:bg-black rounded-[14px] flex flex-col gap-[12px] lg:gap-[24px]">
         <SubSectionTitle
           className={"!text-[18px] lg:!text-2xl"}
           subtitle={"Setting Profile"}
@@ -294,7 +294,7 @@ const Page = () => {
             <div className="flex justify-end gap-4 mt-4 lg:mt-8">
               <Button
                 type="submit"
-                className="px-6 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium cursor-pointer text-white bg-brown cursor hover:bg-brown-hover focus:outline-none"
+                className="px-6 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium cursor-pointer text-white bg-brown dark:bg-dark-brown cursor hover:bg-brown  focus:outline-none"
                 disabled={isPending}
               >
                 {isPending ? "Updating..." : "Update Settings"}
