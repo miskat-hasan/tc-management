@@ -49,7 +49,7 @@ const StudentSearch = () => {
       </div>
 
       {/* Search Filters */}
-      <div className="px-[16px] py-[16px] lg:px-[32px] lg:py-[32px] bg-white rounded-[16px] flex flex-wrap lg:flex-nowrap gap-[10px] xl:gap-[24px]">
+      <div className="px-[16px] py-[16px] lg:px-[32px] lg:py-[32px] bg-white dark:bg-black rounded-[16px] flex flex-wrap lg:flex-nowrap gap-[10px] xl:gap-[24px]">
         {/* Search By Dropdown */}
         <CustomSelect
           id="searchBy"
@@ -126,7 +126,7 @@ const StudentSearch = () => {
         <div className="flex justify-end items-end">
           <Button
             onClick={handleSearch}
-            className="py-[11px] lg:py-[22px] cursor-pointer bg-brown flex items-center gap-2"
+            className="py-[11px] lg:py-[22px] cursor-pointer bg-brown dark:bg-dark-brown flex items-center gap-2"
             disabled={isLoading}
           >
             <SearchIcon />
@@ -136,7 +136,7 @@ const StudentSearch = () => {
       </div>
 
       {/* Table */}
-      <div className="p-[13px] lg:p-[26px] bg-white rounded-[14px] flex flex-col gap-[12px] lg:gap-[24px]">
+      <div className="p-[13px] lg:p-[26px] bg-white dark:bg-black rounded-[14px] flex flex-col gap-[12px] lg:gap-[24px]">
         <SubSectionTitle subtitle="All List" />
         {isLoading ? (
           <TableSkeleton />

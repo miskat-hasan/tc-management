@@ -22,13 +22,13 @@ const Page = () => {
         <SectionTitle title={"Locations"} />
         <Button
           onClick={()=> router.push("add_location_settings")}
-          className="py-[11px] lg:py-[22px] cursor-pointer bg-brown flex items-center gap-2"
+          className="py-[11px] lg:py-[22px] cursor-pointer bg-brown dark:bg-dark-brown flex items-center gap-2"
         >
           Add Locations <PlusIcon />
         </Button>
       </div>
 
-      <div className="p-[13px] lg:p-[26px] bg-white rounded-[14px] flex flex-col gap-[24px]">
+      <div className="p-[13px] lg:p-[26px] bg-white dark:bg-black rounded-[14px] flex flex-col gap-[24px]">
         {isLoading ? (
           <TableSkeleton />
         ) : (

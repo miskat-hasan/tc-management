@@ -90,7 +90,7 @@ const ClassDetails = ({ id }) => {
       </div>
 
       {/* Table */}
-      <div className="p-[13px] lg:p-[26px] bg-white rounded-[14px] flex flex-col gap-[12px] lg:gap-[24px]">
+      <div className="p-[13px] lg:p-[26px] bg-white dark:bg-black rounded-[14px] flex flex-col gap-[12px] lg:gap-[24px]">
         <div className="flex sm:justify-between flex-wrap gap-2">
           <SubSectionTitle subtitle="Student Lists" />
           <div className="flex sm:justify-end flex-wrap gap-2">
@@ -100,7 +100,7 @@ const ClassDetails = ({ id }) => {
               <Button
                 onClick={() => handleDownloadRoster()}
                 disabled={downloadRosterPending}
-                className="h-8 border border-transparent rounded-md shadow-sm text-sm font-medium cursor-pointer text-white bg-brown cursor hover:bg-brown-hover focus:outline-none disabled:opacity-60"
+                className="h-8 border border-transparent rounded-md shadow-sm text-sm font-medium cursor-pointer text-white bg-brown dark:bg-dark-brown cursor hover:bg-brown  focus:outline-none disabled:opacity-60"
               >
                 {downloadRosterPending ? (
                   <div>
@@ -119,7 +119,7 @@ const ClassDetails = ({ id }) => {
               onClick={() => handleDownloadStudentList()}
               disabled={downloadStudentListPending}
               asChild
-              className="h-8 border border-transparent rounded-md shadow-sm text-sm font-medium cursor-pointer text-white bg-brown cursor hover:bg-brown-hover focus:outline-none disabled:opacity-60"
+              className="h-8 border border-transparent rounded-md shadow-sm text-sm font-medium cursor-pointer text-white bg-brown dark:bg-dark-brown cursor hover:bg-brown  focus:outline-none disabled:opacity-60"
             >
               {downloadStudentListPending ? (
                 <div>

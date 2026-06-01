@@ -1,6 +1,6 @@
 const TableSkeleton = ({ rows = 5, columns = 5, showFooter = true }) => {
   return (
-    <div className="p-[13px] lg:p-[26px] bg-white rounded-[14px] flex flex-col gap-[12px] lg:gap-[24px] animate-pulse">
+    <div className="p-[13px] lg:p-[26px] bg-white dark:bg-black rounded-[14px] flex flex-col gap-[12px] lg:gap-[24px] animate-pulse">
       {/* Table */}
       <div className="overflow-x-auto">
         <table className="min-w-[600px] w-full">

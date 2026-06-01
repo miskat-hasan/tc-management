@@ -48,7 +48,7 @@ const FormInput = ({
       render={({ field }) => (
         <FormItem className="w-full flex flex-col gap-1.5 sm:gap-2">
           {label && (
-            <FormLabel className="leading-[1.45] font-medium text-sm sm:text-base text-gray-700">
+            <FormLabel className="leading-[1.45] font-medium text-sm sm:text-base text-gray-700 dark:text-gray">
               {label}
             </FormLabel>
           )}

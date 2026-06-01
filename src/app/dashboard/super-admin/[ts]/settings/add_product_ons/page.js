@@ -50,7 +50,7 @@ const Page = () => {
 
   return (
     <div>
-      <div className="p-[13px] lg:p-[26px] bg-white rounded-[14px] flex flex-col gap-[12px] lg:gap-[24px]">
+      <div className="p-[13px] lg:p-[26px] bg-white dark:bg-black rounded-[14px] flex flex-col gap-[12px] lg:gap-[24px]">
         <FormContainer
           className={"flex flex-col  lg:gap-4"}
           form={form}
@@ -151,7 +151,7 @@ const Page = () => {
             </Button>
             <Button
               type="submit"
-              className="px-6 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium cursor-pointer text-white bg-brown hover:bg-brown-hover"
+              className="px-6 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium cursor-pointer text-white bg-brown dark:bg-dark-brown hover:bg-brown "
             >
               {isPending ? "Saving..." : "Save Changes"}
             </Button>

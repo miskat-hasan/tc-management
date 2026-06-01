@@ -168,7 +168,7 @@ const Page = () => {
       <FormContainer
         form={form}
         onSubmit={onSubmit}
-        className="bg-white p-4 lg:p-6 rounded-lg shadow"
+        className="bg-white dark:bg-black p-4 lg:p-6 rounded-lg shadow"
       >
         {/* Main form layout grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4">
@@ -481,7 +481,7 @@ const Page = () => {
         <div className="flex justify-end gap-4 mt-8">
           <Button
             type="submit"
-            className="px-6 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium cursor-pointer text-white bg-brown cursor hover:bg-brown-hover focus:outline-none"
+            className="px-6 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium cursor-pointer text-white bg-brown dark:bg-dark-brown cursor hover:bg-brown  focus:outline-none"
           >
             {isPending ? "Adding..." : "Add Class"}
           </Button>

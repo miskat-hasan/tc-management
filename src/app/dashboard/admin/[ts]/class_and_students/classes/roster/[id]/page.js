@@ -87,17 +87,17 @@ const Page = ({ params }) => {
       </div>
 
       {/* Table */}
-      <div className="p-[13px] lg:p-[26px] bg-white rounded-[14px] flex flex-col gap-[12px] lg:gap-[24px]">
+      <div className="p-[13px] lg:p-[26px] bg-white dark:bg-black rounded-[14px] flex flex-col gap-[12px] lg:gap-[24px]">
         <div className="flex sm:justify-end flex-wrap gap-2">
           <Button
             asChild
-            className="h-8 border border-transparent rounded-md shadow-sm text-sm font-medium cursor-pointer text-white bg-brown cursor hover:bg-brown-hover focus:outline-none"
+            className="h-8 border border-transparent rounded-md shadow-sm text-sm font-medium cursor-pointer text-white bg-brown dark:bg-dark-brown cursor hover:bg-brown  focus:outline-none"
           >
             <Link href={`${id}/add-student`}>Add Student</Link>
           </Button>
           <Button
             asChild
-            className="h-8 border border-transparent rounded-md shadow-sm text-sm font-medium cursor-pointer text-white bg-brown cursor hover:bg-brown-hover focus:outline-none"
+            className="h-8 border border-transparent rounded-md shadow-sm text-sm font-medium cursor-pointer text-white bg-brown dark:bg-dark-brown cursor hover:bg-brown  focus:outline-none"
           >
             <Link href={`${id}/edit-score`}>Edit Scores</Link>
           </Button>
@@ -107,7 +107,7 @@ const Page = ({ params }) => {
             <Button
               onClick={() => handleDownloadRoster()}
               disabled={downloadRosterPending}
-              className="h-8 border border-transparent rounded-md shadow-sm text-sm font-medium cursor-pointer text-white bg-brown cursor hover:bg-brown-hover focus:outline-none disabled:opacity-60"
+              className="h-8 border border-transparent rounded-md shadow-sm text-sm font-medium cursor-pointer text-white bg-brown dark:bg-dark-brown cursor hover:bg-brown  focus:outline-none disabled:opacity-60"
             >
               {downloadRosterPending ? "Downloading..." : "View Roster"}
             </Button>
@@ -115,7 +115,7 @@ const Page = ({ params }) => {
             <Button
               onClick={() => finalizeRosterMutation({ course_id: id })}
               disabled={finalizeRosterPending}
-              className="h-8 border border-transparent rounded-md shadow-sm text-sm font-medium cursor-pointer text-white bg-brown cursor hover:bg-brown-hover focus:outline-none disabled:opacity-60"
+              className="h-8 border border-transparent rounded-md shadow-sm text-sm font-medium cursor-pointer text-white bg-brown dark:bg-dark-brown cursor hover:bg-brown  focus:outline-none disabled:opacity-60"
             >
               {finalizeRosterPending ? "Processing..." : "Finalized Roster"}
             </Button>
@@ -123,7 +123,7 @@ const Page = ({ params }) => {
           <Button
             onClick={() => handleDownloadStudentList()}
             disabled={downloadStudentListPending}
-            className="h-8 border border-transparent rounded-md shadow-sm text-sm font-medium cursor-pointer text-white bg-brown cursor hover:bg-brown-hover focus:outline-none disabled:opacity-60"
+            className="h-8 border border-transparent rounded-md shadow-sm text-sm font-medium cursor-pointer text-white bg-brown dark:bg-dark-brown cursor hover:bg-brown  focus:outline-none disabled:opacity-60"
           >
             {downloadStudentListPending ? "Downloading..." : "Student List"}
           </Button>

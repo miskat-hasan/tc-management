@@ -58,7 +58,7 @@ const Page = ({ params }) => {
   };
 
   const Skeleton = (
-    <div className="p-[13px] lg:p-[26px] bg-white rounded-[14px] flex flex-col gap-[12px] lg:gap-[24px] animate-pulse">
+    <div className="p-[13px] lg:p-[26px] bg-white dark:bg-black rounded-[14px] flex flex-col gap-[12px] lg:gap-[24px] animate-pulse">
       {/* Title Skeleton */}
       <div className="h-8 w-48 bg-gray-200 rounded mb-4"></div>
 
@@ -118,7 +118,7 @@ const Page = ({ params }) => {
       {/* {isLoading ? (
         Skeleton
       ) : ( */}
-      <div className="p-[13px] lg:p-[26px] bg-white rounded-[14px] flex flex-col gap-[12px] lg:gap-[24px]">
+      <div className="p-[13px] lg:p-[26px] bg-white dark:bg-black rounded-[14px] flex flex-col gap-[12px] lg:gap-[24px]">
         <SectionTitle title={"Order Details"} />
 
         {/* Grid Layout */}
@@ -297,7 +297,7 @@ const Page = ({ params }) => {
             <Button
               type="submit"
               disabled={isPending}
-              className="px-6 py-2 h-[45px] md:-mb-8 border border-transparent rounded-md shadow-sm text-sm font-medium cursor-pointer text-white bg-brown hover:bg-brown-hover disabled:opacity-60 disabled:cursor-not-allowed"
+              className="px-6 py-2 h-[45px] md:-mb-8 border border-transparent rounded-md shadow-sm text-sm font-medium cursor-pointer text-white bg-brown dark:bg-dark-brown hover:bg-brown  disabled:opacity-60 disabled:cursor-not-allowed"
             >
               {isPending ? "Updating..." : "Update Status"}
             </Button>
@@ -315,7 +315,7 @@ const Page = ({ params }) => {
               type="submit"
               disabled={markAsPaidPending}
               onClick={() => markAsPaidMutation(id)}
-              className="px-6 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium cursor-pointer text-white bg-brown hover:bg-brown-hover disabled:opacity-60 disabled:cursor-not-allowed"
+              className="px-6 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium cursor-pointer text-white bg-brown dark:bg-dark-brown hover:bg-brown  disabled:opacity-60 disabled:cursor-not-allowed"
             >
               {markAsPaidPending ? "Processing..." : "Mark As Paid"}
             </Button>

@@ -144,7 +144,7 @@ export default function EmailCampaignsPage() {
         <SectionTitle title={"Email Campaigns"} />
         <Link
           href={`/admin/settings/emails_campaigns/add_new_campaign`}
-          className="rounded-md bg-brown px-4 py-2 text-[10px] lg:text-sm font-medium text-white shadow-sm hover:bg-brown focus:outline-none focus:ring-2 focus:ring-brown focus:ring-offset-2"
+          className="rounded-md bg-brown dark:bg-dark-brown px-4 py-2 text-[10px] lg:text-sm font-medium text-white shadow-sm hover:bg-brown dark:bg-dark-brown focus:outline-none focus:ring-2 focus:ring-brown focus:ring-offset-2"
         >
           New Campaign
         </Link>
@@ -153,7 +153,7 @@ export default function EmailCampaignsPage() {
       {/* Campaign List */}
       <div className="space-y-3 lg:space-y-6">
         {campaigns.map((campaign, i) => (
-          <div key={i} className="overflow-hidden rounded-lg bg-white ">
+          <div key={i} className="overflow-hidden rounded-lg bg-white dark:bg-black ">
             {/* Card Header */}
             <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-2 bg-gray-50 px-4 md:px-6 py-4 border-b border-gray-200">
               <h2 className="text-lg font-semibold text-gray-800">
@@ -167,13 +167,13 @@ export default function EmailCampaignsPage() {
               <div className="flex flex-wrap gap-2">
                 <Link
                   href={`/admin/settings/emails_campaigns/${campaign.type}/edit_email_campaign`}
-                  className="rounded-md bg-brown px-4 py-2 text-[10px] lg:text-sm font-medium text-white shadow-sm hover:bg-brown focus:outline-none focus:ring-2 focus:ring-brown focus:ring-offset-2"
+                  className="rounded-md bg-brown dark:bg-dark-brown px-4 py-2 text-[10px] lg:text-sm font-medium text-white shadow-sm hover:bg-brown dark:bg-dark-brown focus:outline-none focus:ring-2 focus:ring-brown focus:ring-offset-2"
                 >
                   Edit Campaign
                 </Link>
                 <Link
                   href={`/admin/settings/emails_campaigns/${campaign.type}/add_new_email`}
-                  className="rounded-md bg-brown px-4 py-2 text-[10px] lg:text-sm font-medium text-white shadow-sm hover:bg-brown focus:outline-none focus:ring-2 focus:ring-brown focus:ring-offset-2"
+                  className="rounded-md bg-brown dark:bg-dark-brown px-4 py-2 text-[10px] lg:text-sm font-medium text-white shadow-sm hover:bg-brown dark:bg-dark-brown focus:outline-none focus:ring-2 focus:ring-brown focus:ring-offset-2"
                 >
                   Add New Email
                 </Link>

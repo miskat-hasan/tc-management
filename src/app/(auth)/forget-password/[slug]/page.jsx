@@ -67,7 +67,7 @@ const ForgetPassword = ({ params }) => {
 
   return (
     <div className="flex items-center justify-center min-h-screen">
-      <div className="flex flex-col bg-white w-full max-w-[600px] p-5 rounded-2xl border border-gray-100">
+      <div className="flex flex-col bg-white dark:bg-black w-full max-w-[600px] p-5 rounded-2xl border border-gray-100">
         <div className="flex flex-col justify-center items-center   ">
           <div className="flex items-center gap-1.5 justify-center">
             <Logo />
@@ -112,7 +112,7 @@ const ForgetPassword = ({ params }) => {
           <Button
             type="submit"
             disabled={isPending}
-            className="px-6 h-[40px] border border-brown rounded-md shadow-sm text-sm font-medium cursor-pointer text-white hover:text-brown bg-brown hover:bg-transparent w-full duration-300 disabled:opacity-70"
+            className="px-6 h-[40px] border border-brown rounded-md shadow-sm text-sm font-medium cursor-pointer text-white hover:text-brown bg-brown dark:bg-dark-brown hover:bg-transparent w-full duration-300 disabled:opacity-70"
           >
             {isPending ? "Submitting..." : "Submit"}
           </Button>

@@ -40,7 +40,7 @@ const PaymentPage = () => {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50">
-      <div className="bg-white max-w-[500px] w-full p-8 rounded-2xl border border-gray-100 shadow-sm">
+      <div className="bg-white dark:bg-black max-w-[500px] w-full p-8 rounded-2xl border border-gray-100 shadow-sm">
         <div className="flex items-center gap-1.5 justify-center mb-6">
           <Logo />
           <h5 className="font-black text-[14px]">ENROLL NATIONWIDE</h5>
@@ -98,7 +98,7 @@ const PaymentPage = () => {
             <Button
               type="submit"
               disabled={isPending}
-              className="mt-4 px-6 h-[45px] border border-brown rounded-md shadow-sm text-sm font-medium cursor-pointer text-white hover:text-brown bg-brown hover:bg-transparent w-full duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="mt-4 px-6 h-[45px] border border-brown rounded-md shadow-sm text-sm font-medium cursor-pointer text-white hover:text-brown bg-brown dark:bg-dark-brown hover:bg-transparent w-full duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {isPending ? "Processing..." : "Pay Now"}
             </Button>

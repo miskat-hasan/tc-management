@@ -44,7 +44,7 @@ const UpdateWhatIsNew = ({ id }) => {
     <section className="flex flex-col gap-4">
       <SectionTitle title="Update What's New" />
       {isLoading ? (
-        <div className="px-1.5 py-3 min-[374px]:p-[13px] lg:p-[26px] bg-white rounded-[14px] flex flex-col gap-[24px] animate-pulse">
+        <div className="px-1.5 py-3 min-[374px]:p-[13px] lg:p-[26px] bg-white dark:bg-black rounded-[14px] flex flex-col gap-[24px] animate-pulse">
           <div className="flex flex-col gap-3 lg:gap-6">
             {/* Label Skeleton */}
             <div className="h-4 w-24 bg-gray-200 rounded mb-2"></div>
@@ -59,7 +59,7 @@ const UpdateWhatIsNew = ({ id }) => {
           </div>
         </div>
       ) : (
-        <div className="px-1.5 py-3 min-[374px]:p-[13px] lg:p-[26px] bg-white rounded-[14px] flex flex-col gap-[24px]">
+        <div className="px-1.5 py-3 min-[374px]:p-[13px] lg:p-[26px] bg-white dark:bg-black rounded-[14px] flex flex-col gap-[24px]">
           <FormContainer form={form} onSubmit={onSubmit}>
             <div className="flex flex-col gap-3 lg:gap-6">
               <FormInput name="title" />
@@ -70,7 +70,7 @@ const UpdateWhatIsNew = ({ id }) => {
                 <Button
                   type="submit"
                   disabled={isPending}
-                  className="bg-brown hover:bg-brown-hover text-white px-8"
+                  className="bg-brown dark:bg-dark-brown hover:bg-brown  text-white px-8"
                 >
                   {isPending ? "Updating ..." : "Update What's New"}
                 </Button>

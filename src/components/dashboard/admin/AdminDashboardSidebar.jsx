@@ -128,7 +128,7 @@ const AdminDashboardSidebar = () => {
   };
 
   return (
-    <div className="max-w-[250px] xl:max-w-[300px] 2xl:max-w-[345px] w-full px-[17px] pt-[22.5px] h-screen overflow-y-auto scroll-bar bg-white text-black hidden xl:flex xl:flex-col gap-[31.5px]">
+    <div className="max-w-[250px] xl:max-w-[300px] 2xl:max-w-[345px] w-full px-[17px] pt-[22.5px] h-screen overflow-y-auto scroll-bar bg-white dark:bg-black text-black hidden xl:flex xl:flex-col gap-[31.5px]">
       <div className="flex items-center gap-1.5 justify-center">
         <Logo />
         <h5 className="font-black text-[14px]">ENROLL NATIONWIDE</h5>
@@ -169,7 +169,7 @@ const AdminDashboardSidebar = () => {
                     <button
                       onClick={() => toggleMenu(item.label)}
                       className={`w-full flex items-center justify-between px-5 py-3 rounded-[10px] transition-colors ${
-                        isOpen ? "bg-brown text-white" : "hover:bg-gray-100"
+                        isOpen ? "bg-brown dark:bg-dark-brown text-white" : "hover:bg-gray-100"
                       }`}
                     >
                       <span>{item.label}</span>
@@ -182,7 +182,7 @@ const AdminDashboardSidebar = () => {
                       href={item.href}
                       className={`w-full block px-5 py-3 rounded-[10px] ${
                         pathname === item.href
-                          ? "bg-brown text-white"
+                          ? "bg-brown dark:bg-dark-brown text-white"
                           : "hover:bg-gray-100"
                       }`}
                     >
@@ -211,7 +211,7 @@ const AdminDashboardSidebar = () => {
                               >
                                 <span
                                   className={`absolute left-6 h-5 w-1 rounded-full ${
-                                    active ? "bg-brown" : "bg-gray-200"
+                                    active ? "bg-brown dark:bg-dark-brown" : "bg-gray-200"
                                   }`}
                                 ></span>
                                 {sub.label}
@@ -228,7 +228,7 @@ const AdminDashboardSidebar = () => {
 
             <button
               onClick={handleLogout}
-              className="text-sm font-semibold mt-10 cursor-pointer px-[20px] py-[10px] bg-brown rounded-[10px] text-white text-center"
+              className="text-sm font-semibold mt-10 cursor-pointer px-[20px] py-[10px] bg-brown dark:bg-dark-brown rounded-[10px] text-white text-center"
               disabled={logoutPending}
             >
               {logoutPending ? "logging out ..." : "Log Out"}

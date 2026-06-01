@@ -21,7 +21,7 @@ const Page = () => {
       <div className="flex justify-between">
         <SectionTitle title={"Instructors"} />
       </div>
-      {/* <div className="px-[13px] py-[13px] lg:px-[26px] lg:py-[32px] bg-white rounded-[16px] flex flex-col gap-2.5 ">
+      {/* <div className="px-[13px] py-[13px] lg:px-[26px] lg:py-[32px] bg-white dark:bg-black rounded-[16px] flex flex-col gap-2.5 ">
         <div className="flex w-full justify-between">
           <SectionTitle
             className={"!text-base lg:!text-[20px]"}
@@ -57,14 +57,14 @@ const Page = () => {
             // onChange={(val) => handleSelectChange("course", val)}
             className="flex-1"
           />
-          <Button className="py-[12px] lg:py-[22px] cursor-pointer bg-brown flex items-center gap-2">
+          <Button className="py-[12px] lg:py-[22px] cursor-pointer bg-brown dark:bg-dark-brown flex items-center gap-2">
             <SearchIcon />
             Search
           </Button>
         </div> */}
       {/* </div> */}
 
-      <div className="p-[13px] lg:p-[26px] bg-white rounded-[14px] flex flex-col gap-[24px]">
+      <div className="p-[13px] lg:p-[26px] bg-white dark:bg-black rounded-[14px] flex flex-col gap-[24px]">
         <div className="flex items-center justify-between">
           <SubSectionTitle subtitle="All list" />
         </div>

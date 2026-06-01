@@ -15,7 +15,7 @@ const Page = () => {
       </div>
 
       {/* Filters */}
-      {/* <div className="lg:px-[32px] px-[16px] py-[16px] lg:py-[32px] bg-white rounded-[16px] flex gap-[12px] flex-wrap lg:gap-[24px]">
+      {/* <div className="lg:px-[32px] px-[16px] py-[16px] lg:py-[32px] bg-white dark:bg-black rounded-[16px] flex gap-[12px] flex-wrap lg:gap-[24px]">
         <CustomSelect
           id="registration"
           label="Registration Date"
@@ -67,7 +67,7 @@ const Page = () => {
         <div className="flex justify-end items-end">
           <Button
             onClick={handleSearch}
-            className="py-[12px] lg:py-[24px] cursor-pointer bg-brown flex items-center gap-2"
+            className="py-[12px] lg:py-[24px] cursor-pointer bg-brown dark:bg-dark-brown flex items-center gap-2"
           >
             <SearchIcon />
             Search
@@ -76,7 +76,7 @@ const Page = () => {
       </div> */}
 
       {/* Table */}
-      <div className="p-[13px] lg:p-[26px] bg-white rounded-[14px] flex flex-col gap-[24px]">
+      <div className="p-[13px] lg:p-[26px] bg-white dark:bg-black rounded-[14px] flex flex-col gap-[24px]">
         {/* <SubSectionTitle subtitle="All Lists" /> */}
         {isLoading ? (
           <TableSkeleton />

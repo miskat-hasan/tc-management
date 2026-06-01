@@ -23,13 +23,13 @@ const Page = () => {
         <SectionTitle title={"Promo Codes"} />
         <Button
           onClick={() => router.push("add_promo_code")}
-          className="py-[11px] lg:py-[22px] cursor-pointer bg-brown flex items-center gap-2"
+          className="py-[11px] lg:py-[22px] cursor-pointer bg-brown dark:bg-dark-brown flex items-center gap-2"
         >
           Add Promo Codes <PlusIcon />
         </Button>
       </div>
 
-      <div className="p-[26px] bg-white rounded-[14px] flex flex-col gap-[12px] lg:gap-[24px]">
+      <div className="p-[26px] bg-white dark:bg-black rounded-[14px] flex flex-col gap-[12px] lg:gap-[24px]">
         {isLoading ? (
           <TableSkeleton />
         ) : (

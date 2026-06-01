@@ -6,7 +6,7 @@ const ProfileSkeleton = () => {
   );
   return (
     <section className="flex flex-col gap-4">
-      <div className="bg-white rounded-[14px] p-4 lg:p-8 space-y-4">
+      <div className="bg-white dark:bg-black rounded-[14px] p-4 lg:p-8 space-y-4">
         <SectionTitle title="General Information" className="mb-3" />
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-5">
@@ -29,7 +29,7 @@ const ProfileSkeleton = () => {
         </div>
       </div>
 
-      <div className="bg-white rounded-[14px] p-4 lg:p-8 space-y-4">
+      <div className="bg-white dark:bg-black rounded-[14px] p-4 lg:p-8 space-y-4">
         <SectionTitle title="Password Change" className="mb-3" />
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-5">

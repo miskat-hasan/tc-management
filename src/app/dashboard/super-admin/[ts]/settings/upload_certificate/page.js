@@ -80,7 +80,7 @@ const Page = () => {
 
           <button
             onClick={handleUpload}
-            className={`mt-4 bg-brown text-white text-sm lg:text-base px-3 lg:px-6 py-2 rounded-lg hover:bg-brown-hover transition disabled:opacity-50 ${file || uploadCertificatePending ? "cursor-pointer" : "cursor-not-allowed"}`}
+            className={`mt-4 bg-brown dark:bg-dark-brown text-white text-sm lg:text-base px-3 lg:px-6 py-2 rounded-lg hover:bg-brown  transition disabled:opacity-50 ${file || uploadCertificatePending ? "cursor-pointer" : "cursor-not-allowed"}`}
             disabled={!file || uploadCertificatePending}
           >
             {uploadCertificatePending ? "Uploading..." : "Upload"}
