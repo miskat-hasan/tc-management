@@ -17,6 +17,7 @@ import {
   Table,
   TableBodyRow,
   TableButton,
+  TableFooter,
   TableHead,
 } from "@/components/common/TableElement";
 
@@ -215,11 +216,11 @@ const Page = () => {
                           <TableButton href={`past_class/${item.id}`}>
                             <CiEdit className="text-gray-600 dark:text-gray text-[14px] sm:text-[16px]" />
                           </TableButton>
-                          
+
                           {/* <TableButton isLink={false} onClick={() => alert("View Roster")}>
                             <CiEdit className="text-gray-600 dark:text-gray text-[14px] sm:text-[16px]" />
                           </TableButton> */}
-                          
+
                           <Link href={`past_class/roster/${item.id}`}>
                             <button className="p-1.5 sm:p-2 bg-gray-100 dark:bg-transparent dark:border dark:border-[#343536] dark:hover:bg-[#292b2c] rounded-lg hover:bg-gray-200 transition cursor-pointer">
                               <GoArrowUpRight className="text-gray-600 dark:text-gray text-[14px] sm:text-[16px]" />
@@ -244,29 +245,7 @@ const Page = () => {
           </div>
         )}
 
-        {/* Footer controls */}
-        <div className="flex flex-col md:flex-row items-center justify-end mt-3 lg:mt-6 gap-3">
-          {/* Pagination */}
-          <div className="flex items-center gap-2">
-            {pastClassData?.data?.links?.map((link, index) => (
-              <button
-                key={index}
-                disabled={link.url === null || link.page === null}
-                onClick={() => link.page && setPage(link.page)}
-                className={`px-3 py-1 text-sm border rounded-md ${
-                  link.active
-                    ? "border-blue-500 dark:border-gray text-blue-600 dark:text-gray bg-blue-50 dark:bg-transparent"
-                    : "hover:bg-gray-100 dark:hover:bg-[#292b2c] dark:border-[#343536]"
-                } ${
-                  link.url === null || link.page === null
-                    ? "text-gray-400 cursor-not-allowed"
-                    : "cursor-pointer"
-                }`}
-                dangerouslySetInnerHTML={{ __html: link.label }}
-              />
-            ))}
-          </div>
-        </div>
+        <TableFooter Links={pastClassData?.data?.links} setPage={setPage} />
       </div>
     </div>
   );
