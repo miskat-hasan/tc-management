@@ -205,15 +205,15 @@ const superAdminFullMenu = (ts) => [
     submenu: [
       {
         label: "Course Type",
-        href: `/dashboard/super-admin/${ts}/settings/course_type`,
+        href: `/dashboard/super-admin/${ts}/settings/course-type`,
       },
       {
         label: "Product Add-ons",
-        href: `/dashboard/super-admin/${ts}/settings/product_add_ons`,
+        href: `/dashboard/super-admin/${ts}/settings/product-add-ons`,
       },
       {
         label: "Online Keycodes",
-        href: `/dashboard/super-admin/${ts}/settings/online_keycodes`,
+        href: `/dashboard/super-admin/${ts}/settings/online-keycodes`,
       },
       {
         label: "Promo Codes",
@@ -319,15 +319,15 @@ const superAdminSiteMenu = (ts) => [
     submenu: [
       {
         label: "Course Type",
-        href: `/dashboard/super-admin/${ts}/settings/course_type`,
+        href: `/dashboard/super-admin/${ts}/settings/course-type`,
       },
       {
         label: "Product Add-ons",
-        href: `/dashboard/super-admin/${ts}/settings/product_add_ons`,
+        href: `/dashboard/super-admin/${ts}/settings/product-add-ons`,
       },
       {
         label: "Online Keycodes",
-        href: `/dashboard/super-admin/${ts}/settings/online_keycodes`,
+        href: `/dashboard/super-admin/${ts}/settings/online-keycodes`,
       },
       {
         label: "Promo Codes",
@@ -466,15 +466,15 @@ const adminMenu = (ts) => [
     submenu: [
       {
         label: "Course Type",
-        href: `/dashboard/admin/${ts}/settings/course_type`,
+        href: `/dashboard/admin/${ts}/settings/course-type`,
       },
       {
         label: "Product Add-ons",
-        href: `/dashboard/admin/${ts}/settings/product_add_ons`,
+        href: `/dashboard/admin/${ts}/settings/product-add-ons`,
       },
       {
         label: "Online Keycodes",
-        href: `/dashboard/admin/${ts}/settings/online_keycodes`,
+        href: `/dashboard/admin/${ts}/settings/online-keycodes`,
       },
       {
         label: "Promo Codes",
@@ -613,15 +613,15 @@ const instructorMenu = (ts) => [
     submenu: [
       {
         label: "Course Type",
-        href: `/dashboard/instructor/${ts}/settings/course_type`,
+        href: `/dashboard/instructor/${ts}/settings/course-type`,
       },
       {
         label: "Product Add-ons",
-        href: `/dashboard/instructor/${ts}/settings/product_add_ons`,
+        href: `/dashboard/instructor/${ts}/settings/product-add-ons`,
       },
       {
         label: "Online Keycodes",
-        href: `/dashboard/instructor/${ts}/settings/online_keycodes`,
+        href: `/dashboard/instructor/${ts}/settings/online-keycodes`,
       },
       {
         label: "Promo Codes",
@@ -759,15 +759,15 @@ const assistantMenu = (ts) => [
     submenu: [
       {
         label: "Course Type",
-        href: `/dashboard/instructor-assistant/${ts}/settings/course_type`,
+        href: `/dashboard/instructor-assistant/${ts}/settings/course-type`,
       },
       {
         label: "Product Add-ons",
-        href: `/dashboard/instructor-assistant/${ts}/settings/product_add_ons`,
+        href: `/dashboard/instructor-assistant/${ts}/settings/product-add-ons`,
       },
       {
         label: "Online Keycodes",
-        href: `/dashboard/instructor-assistant/${ts}/settings/online_keycodes`,
+        href: `/dashboard/instructor-assistant/${ts}/settings/online-keycodes`,
       },
       {
         label: "Promo Codes",

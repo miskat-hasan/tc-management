@@ -18,7 +18,7 @@ export const TableHead = ({ children, className }) => {
   return (
     <thead
       className={cn(
-        "bg-gray-50 dark:bg-[#1B1D1E] text-black dark:text-gray capitalize text-[16px] sm:text-[18px] font-semibold",
+        "bg-gray-50 dark:bg-[#1B1D1E] text-black dark:text-gray dark:font-medium capitalize text-[16px] sm:text-[18px] font-semibold",
         className,
       )}
     >
@@ -52,7 +52,7 @@ export const TableButton = ({
     <Comp {...props}>
       <button
         className={cn(
-          "p-1.5 sm:p-2 bg-gray-100 dark:bg-transparent dark:border dark:border-[#343536] dark:hover:bg-[#292b2c] rounded-lg hover:bg-gray-200 transition cursor-pointer",
+          "p-1.5 sm:p-2 bg-gray-100 dark:bg-transparent dark:border dark:border-[#6b6c6d] dark:hover:bg-[#292b2c] rounded-lg hover:bg-gray-200 transition cursor-pointer",
           className,
         )}
       >

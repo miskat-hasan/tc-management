@@ -8,6 +8,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { CiEdit } from "react-icons/ci";
+import { Table, TableHead } from "@/components/common/TableElement";
 
 const Page = () => {
   const router = useRouter();
@@ -44,8 +45,8 @@ const Page = () => {
           <TableSkeleton />
         ) : (
           <div className="overflow-x-auto">
-            <table className="min-w-full text-sm text-left text-gray-700">
-              <thead className="bg-gray-50 text-black text-[14px] md:text-[16px] font-semibold">
+            <Table>
+              <TableHead>
                 <tr>
                   <th className="px-3 py-3 md:px-6 whitespace-nowrap">Name</th>
                   <th className="px-3 py-3 md:px-6 whitespace-nowrap">
@@ -60,7 +61,7 @@ const Page = () => {
                     Action
                   </th>
                 </tr>
-              </thead>
+              </TableHead>
 
               <tbody>
                 {coursesTypeData?.data?.data?.length > 0 ? (
@@ -108,7 +109,7 @@ const Page = () => {
                   </tr>
                 )}
               </tbody>
-            </table>
+            </Table>
           </div>
         )}
 
