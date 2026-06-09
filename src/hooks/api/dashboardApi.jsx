@@ -354,32 +354,6 @@ export const getAllPromoCode = (page = 1, perPage = 10) => {
   });
 };
 
-// key code
-export const addKeyCodeBank = () => {
-  return useClientApi({
-    method: "post",
-    isPrivate: true,
-    endpoint: "/api/keycode/store",
-  });
-};
-
-export const getSingleKeyCodeBank = id => {
-  return useClientApi({
-    method: "get",
-    isPrivate: true,
-    key: ["get-single-keycode-bank"],
-    endpoint: `/api/keycode/show?id=${id}`,
-  });
-};
-
-export const updateKeyCodeBank = () => {
-  return useClientApi({
-    method: "post",
-    isPrivate: true,
-    endpoint: `/api/keycode/update`,
-  });
-};
-
 export const getAllKeyCodeBank = (page = 1, perPage = 10) => {
   return useClientApi({
     method: "get",
@@ -1235,5 +1209,56 @@ export const storeLocation = () => {
     onError: err => {
       toast.error(err?.response?.data?.message || "Something went wrong!");
     },
+  });
+};
+
+// store key code
+export const addKeyCodeBank = () => {
+  const { selectedTrainingSiteId } = useAuth();
+  
+  return useClientApi({
+    method: "post",
+    isPrivate: true,
+    endpoint: "/api/keycode/store",
+    axiosOptions: {
+      headers: { "X-Site-Id": selectedTrainingSiteId },
+    },
+  });
+};
+
+// get single key code
+export const getSingleKeyCodeBank = id => {
+  return useClientApi({
+    method: "get",
+    isPrivate: true,
+    key: ["get-single-keycode-bank"],
+    endpoint: `/api/keycode/show?id=${id}`,
+  });
+};
+
+// update key code
+export const updateKeyCodeBank = () => {
+  return useClientApi({
+    method: "post",
+    isPrivate: true,
+    endpoint: `/api/keycode/update`,
+  });
+};
+
+// delete key code bank
+export const deleteKeyCodeBank = id => {
+  return useClientApi({
+    method: "delete",
+    isPrivate: true,
+    endpoint: `/api/keycode/delete?id=${id}`,
+  });
+};
+
+// delete single key code
+export const deleteSingleKeyCode = id => {
+  return useClientApi({
+    method: "delete",
+    isPrivate: true,
+    endpoint: `/api/keycode-bank/link/${id}`,
   });
 };
