@@ -1152,18 +1152,6 @@ export const useStoreUser = () => {
   });
 };
 
-// update user
-// export const useUpdateUser = () => {
-//   return useClientApi({
-//     method: "post",
-//     isPrivate: true,
-//     endpoint: `/api/site-users/update`,
-//     onError: (err) => {
-//       toast.error(err?.response?.data?.message || "Something went wrong!");
-//     },
-//   });
-// };
-
 // delete user
 export const useDeleteUser = () => {
   const queryClient = useQueryClient();
