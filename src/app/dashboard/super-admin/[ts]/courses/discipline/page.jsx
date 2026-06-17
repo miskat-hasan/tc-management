@@ -5,7 +5,7 @@ import { toast } from "sonner";
 import SectionTitle from "@/components/common/SectionTitle";
 import TableSkeleton from "@/components/skeleton/TableSkeleton";
 import ConfirmModal from "@/components/common/ConfirmModal";
-import AddCertifyingBodyModal from "@/components/dashboard/settings/certifying-body/AddCertifyingBodyModal";
+import DisciplineModal from "@/components/dashboard/courses/discipline/DisciplineModal";
 import {
   Table,
   TableHead,
@@ -15,28 +15,41 @@ import {
 } from "@/components/common/TableElement";
 import { Button } from "@/components/ui/button";
 import { PlusIcon } from "@/components/svg/SvgContainer";
-import {
-  getAllCertifyingBody,
-  deleteCertifyingBody,
-} from "@/hooks/api/dashboardApi";
+import { getAllDiscipline, deleteDiscipline } from "@/hooks/api/dashboardApi";
 import { HiOutlineTrash } from "react-icons/hi";
+import { CiEdit } from "react-icons/ci";
 
-export default function CertifyingBodyPage() {
+export default function DisciplinePage() {
   const [page, setPage] = useState(1);
   const [perPage, setPerPage] = useState(10);
-  const [showAddModal, setShowAddModal] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const [editItem, setEditItem] = useState(null);
   const [deleteTarget, setDeleteTarget] = useState(null);
 
-  const { data, isLoading, refetch } = getAllCertifyingBody(page, perPage);
-  const { mutate: deleteMutate, isPending: isDeleting } =
-    deleteCertifyingBody();
+  const { data, isLoading, refetch } = getAllDiscipline(page, perPage);
+  const { mutate: deleteMutate, isPending: isDeleting } = deleteDiscipline();
+
+  const handleOpenAdd = () => {
+    setEditItem(null);
+    setShowModal(true);
+  };
+
+  const handleOpenEdit = item => {
+    setEditItem(item);
+    setShowModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+    setEditItem(null);
+  };
 
   const handleConfirmDelete = () => {
     deleteMutate(
-      { endpoint: `/api/course_cb/delete?id=${deleteTarget.id}` },
+      { endpoint: `/api/discipline/delete?id=${deleteTarget.id}` },
       {
         onSuccess: res => {
-          toast.success(res?.message || "Certifying body deleted successfully");
+          toast.success(res?.message || "Discipline deleted successfully");
           setDeleteTarget(null);
           refetch();
         },
@@ -52,12 +65,12 @@ export default function CertifyingBodyPage() {
     <>
       <section className="flex flex-col gap-[12.5px] lg:gap-[25px]">
         <div className="flex justify-between">
-          <SectionTitle title="Certifying Bodies" />
+          <SectionTitle title="Disciplines" />
           <Button
-            onClick={() => setShowAddModal(true)}
+            onClick={handleOpenAdd}
             className="py-[11px] lg:py-[22px] cursor-pointer bg-brown dark:bg-dark-brown flex items-center gap-2 dark:hover:bg-brown"
           >
-            Add Certifying Body
+            Add Discipline
             <PlusIcon />
           </Button>
         </div>
@@ -90,13 +103,22 @@ export default function CertifyingBodyPage() {
                           {item.name}
                         </td>
                         <td className="px-3 md:px-6 py-4 text-center">
-                          <TableButton
-                            isLink={false}
-                            type="button"
-                            onClick={() => setDeleteTarget(item)}
-                          >
-                            <HiOutlineTrash className="text-gray-600 dark:text-gray text-[16px]" />
-                          </TableButton>
+                          <div className="flex items-center justify-center gap-2">
+                            <TableButton
+                              isLink={false}
+                              type="button"
+                              onClick={() => handleOpenEdit(item)}
+                            >
+                              <CiEdit className="text-gray-600 dark:text-gray text-[16px]" />
+                            </TableButton>
+                            <TableButton
+                              isLink={false}
+                              type="button"
+                              onClick={() => setDeleteTarget(item)}
+                            >
+                              <HiOutlineTrash className="text-gray-600 dark:text-gray text-[16px]" />
+                            </TableButton>
+                          </div>
                         </td>
                       </TableBodyRow>
                     ))
@@ -124,15 +146,16 @@ export default function CertifyingBodyPage() {
         )}
       </section>
 
-      <AddCertifyingBodyModal
-        open={showAddModal}
-        onClose={() => setShowAddModal(false)}
+      <DisciplineModal
+        open={showModal}
+        onClose={handleCloseModal}
         onSuccess={refetch}
+        editItem={editItem}
       />
 
       <ConfirmModal
         open={!!deleteTarget}
-        title="Delete this certifying body?"
+        title="Delete this discipline?"
         description={`"${deleteTarget?.name}" will be permanently deleted.`}
         confirmLabel="Delete"
         onConfirm={handleConfirmDelete}
