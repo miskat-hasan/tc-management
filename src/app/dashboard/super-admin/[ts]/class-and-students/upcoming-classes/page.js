@@ -20,14 +20,16 @@ export default function UpcomingClassesPage() {
 
   const { data: searchData, isLoading: searchLoading } = searchClasses(
     !!filters,
-    filters?.course_id,
     "upcoming",
+    filters?.course_id,
     filters?.instructor_id,
     filters?.location_id,
     filters?.class_id,
   );
 
-  const isSearchActive = !!filters;
+  const isSearchActive =
+    filters && Object.values(filters).some(value => value !== null);
+
   const tableData = isSearchActive
     ? searchData?.data?.data
     : upcomingData?.data?.data;
@@ -35,6 +37,8 @@ export default function UpcomingClassesPage() {
   const tableLinks = isSearchActive
     ? searchData?.data?.links
     : upcomingData?.data?.links;
+  
+  console.log(filters)
 
   return (
     <div className="flex flex-col gap-[12.5px] lg:gap-[25px]">
