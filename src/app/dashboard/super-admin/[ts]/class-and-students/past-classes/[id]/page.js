@@ -6,6 +6,8 @@ import SectionTitle from "@/components/common/SectionTitle";
 import ClassForm from "@/components/dashboard/class/ClassForm";
 import { getSingleClass, updateClass } from "@/hooks/api/dashboardApi";
 import useAuth from "@/hooks/useAuth";
+import StudentRoster from "@/components/dashboard/student_roster/StudentRoster";
+import SubSectionTitle from "@/components/common/SubSectionTitle";
 
 export default function EditPastClassPage() {
   const { id, ts } = useParams();
@@ -68,7 +70,9 @@ export default function EditPastClassPage() {
 
   return (
     <div className="flex flex-col gap-[10px] lg:gap-[20px]">
-      <SectionTitle title="Edit Past Class" />
+      <SectionTitle title={classData?.course_name} />
+      <StudentRoster id={id} />
+        <SubSectionTitle subtitle="Edit Course" />
       <div className="bg-white dark:bg-black p-4 lg:p-6 rounded-[14px] shadow">
         <ClassForm
           defaultValues={defaultValues}

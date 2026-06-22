@@ -170,14 +170,9 @@ export default function ClassTable({
                     <td className="px-3 sm:px-6 py-3 text-center">
                       <div className="flex items-center gap-2 justify-center">
                         <TableButton
-                          href={`/dashboard/super-admin/${ts}/class-and-students/${basePath}/${item.id}/edit`}
+                          href={`/dashboard/super-admin/${ts}/class-and-students/${basePath}/${item.id}`}
                         >
                           <CiEdit className="text-gray-600 dark:text-gray text-[16px]" />
-                        </TableButton>
-                        <TableButton
-                          href={`/dashboard/super-admin/${ts}/class-and-students/${basePath}/${item.id}/roster`}
-                        >
-                          <GoArrowUpRight className="text-gray-600 dark:text-gray text-[16px]" />
                         </TableButton>
                         <TableButton
                           isLink={false}

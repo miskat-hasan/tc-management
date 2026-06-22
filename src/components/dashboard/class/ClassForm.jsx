@@ -217,7 +217,6 @@ export default function ClassForm({
       <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-5">
         {/* Close registration status */}
         {isEdit &&
-          classData &&
           (() => {
             const days = Number(defaultValues?.closeRegistrationDays ?? 0);
             const hours = Number(defaultValues?.closeRegistrationHours ?? 0);

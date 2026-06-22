@@ -18,17 +18,21 @@ export default function UpcomingClassesPage() {
     refetch,
   } = getAllUpcomingClasses(page, perPage);
 
-  const { data: searchData, isLoading: searchLoading } = searchClasses(
-    !!filters,
-    "upcoming",
-    filters?.course_id,
-    filters?.instructor_id,
-    filters?.location_id,
-    filters?.class_id,
-  );
-
   const isSearchActive =
     filters && Object.values(filters).some(value => value !== null);
+  
+  const { data: searchData, isLoading: searchLoading } = searchClasses({
+    enabled: isSearchActive,
+    type: "upcoming",
+    courseId: filters?.course_id,
+    instructorId: filters?.instructor_id,
+    locationId: filters?.location_id,
+    classId: filters?.class_id,
+    search: filters?.search,
+    startDate: filters?.start_date,
+    endDate: filters?.end_date,
+  });
+
 
   const tableData = isSearchActive
     ? searchData?.data?.data
@@ -37,8 +41,6 @@ export default function UpcomingClassesPage() {
   const tableLinks = isSearchActive
     ? searchData?.data?.links
     : upcomingData?.data?.links;
-  
-  console.log(filters)
 
   return (
     <div className="flex flex-col gap-[12.5px] lg:gap-[25px]">

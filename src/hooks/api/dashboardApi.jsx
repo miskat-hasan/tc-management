@@ -116,7 +116,7 @@ export const getAllLocation = ({ type, page = 1, perPage = 10 } = {}) => {
     type === "all"
       ? "/api/locations?type=all"
       : `/api/locations?page=${page}&per_page=${perPage}`;
-  
+
   return useClientApi({
     method: "get",
     key: ["get-all-location", type ?? page, perPage],
@@ -1407,5 +1407,34 @@ export const storeSupportRequest = () => {
     method: "post",
     isPrivate: true,
     endpoint: "/api/support_request/request",
+  });
+};
+
+// ===================  SEND COMMUNICATION ====================
+
+export const useResendConfirmationEmail = () => {
+  return useClientApi({
+    method: "post",
+    isPrivate: true,
+    endpoint: "/api/class/resend-confirmation-email",
+    axiosOptions: {
+      headers: { "Content-Type": "multipart/form-data" },
+    },
+  });
+};
+
+export const useSendCustomEmail = () => {
+  return useClientApi({
+    method: "post",
+    isPrivate: true,
+    endpoint: "/api/class/send-custom-email",
+  });
+};
+
+export const useSendTextMessage = () => {
+  return useClientApi({
+    method: "post",
+    isPrivate: true,
+    endpoint: "/api/class/send-text-message",
   });
 };

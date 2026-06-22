@@ -81,14 +81,14 @@ export default function ClassFilters({ onSearch, onClear, isSearching }) {
 
   const courseOptions = [
     ...ALL_OPTION,
-    ...(coursesData?.data?.data ?? []).map(c => ({
+    ...(coursesData?.data ?? []).map(c => ({
       id: String(c.id),
       name: c.course_name,
     })),
   ];
   const instructorOptions = [
     ...ALL_OPTION,
-    ...(instructorData?.data?.data ?? []).map(u => ({
+    ...(instructorData?.data ?? []).map(u => ({
       id: String(u.id),
       name: `${u.first_name ?? ""} ${u.last_name ?? ""}`.trim() || u.name,
     })),
