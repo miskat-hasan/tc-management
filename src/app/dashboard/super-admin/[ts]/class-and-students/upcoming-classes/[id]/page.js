@@ -6,6 +6,8 @@ import SectionTitle from "@/components/common/SectionTitle";
 import ClassForm from "@/components/dashboard/class/ClassForm";
 import { getSingleClass, updateClass } from "@/hooks/api/dashboardApi";
 import useAuth from "@/hooks/useAuth";
+import SubSectionTitle from "@/components/common/SubSectionTitle";
+import StudentRoster from "@/components/dashboard/student_roster/StudentRoster";
 
 export default function EditUpcomingClassPage() {
   const { id, ts } = useParams();
@@ -19,7 +21,9 @@ export default function EditUpcomingClassPage() {
 
   const defaultValues = classData
     ? {
-        certifyingBodyId: String(classData.course?.course_certifying_body_id ?? ""),
+        certifyingBodyId: String(
+          classData.course?.course_certifying_body_id ?? "",
+        ),
         certifyingBody: classData.course?.course_certifying_body ?? "",
         course: String(classData.course_id ?? ""),
         client: String(classData.client_id ?? ""),
@@ -68,7 +72,9 @@ export default function EditUpcomingClassPage() {
 
   return (
     <div className="flex flex-col gap-[10px] lg:gap-[20px]">
-      <SectionTitle title="Edit Class" />
+      <SectionTitle title={classData?.course_name} />
+      <StudentRoster id={id} />
+      <SubSectionTitle subtitle="Course Details" />
       <div className="bg-white dark:bg-black p-4 lg:p-6 rounded-[14px] shadow">
         <ClassForm
           defaultValues={defaultValues}

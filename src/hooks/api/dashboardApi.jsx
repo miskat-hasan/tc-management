@@ -1314,7 +1314,7 @@ export const useUpdateUserData = () => {
 export const getEnrollmentDetails = id => {
   return useClientApi({
     method: "get",
-    isPrivate: true,
+    isPrivate: false,
     endpoint: `/api/show/course/info?id=${id}`,
   });
 };

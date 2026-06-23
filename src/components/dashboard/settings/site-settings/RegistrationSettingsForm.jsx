@@ -140,18 +140,27 @@ const RegistrationSettingsForm = () => {
           ...d.registration_toggles,
         },
       });
+      if (customSidebarRef.current) {
+        customSidebarRef.current?.setContents(d?.custom_sidebar_html ?? "");
+      }
 
-      // Set rich-text editors after a tick
-      setTimeout(() => {
-        schedulePageTextRef.current?.setContents?.(
-          d.schedule_page_text_html ?? "",
+      // Set rich-text editors data
+      
+      if (schedulePageTextRef.current) {
+        schedulePageTextRef.current?.setContents(
+          d?.schedule_page_text_html ?? "",
         );
-        termsRef.current?.setContents?.(d.terms_and_conditions_html ?? "");
-        textingPrivacyRef.current?.setContents?.(
-          d.texting_privacy_policy ?? "",
-        );
-        customSidebarRef.current?.setContents?.(d.custom_sidebar_html ?? "");
-      }, 150);
+      }
+      if (termsRef.current) {
+        termsRef.current?.setContents(d?.terms_and_conditions_html ?? "");
+      }
+      if (textingPrivacyRef.current) {
+        textingPrivacyRef.current?.setContents(d?.texting_privacy_policy ?? "");
+      }
+
+      if (customSidebarRef.current) {
+        customSidebarRef.current?.setContents(d?.custom_sidebar_html ?? "");
+      }
     }
   }, [settingsData, reset]);
 
@@ -218,29 +227,28 @@ const RegistrationSettingsForm = () => {
               ))}
             </select>
           </div> */}
-        {/* Registration Links — read-only display */}
-        {settingsData?.data?.registration_links?.length > 0 && (
-          <div className="flex flex-col gap-1.5">
-            <label className="text-sm font-semibold text-gray-700 dark:text-gray">
-              Registration Links
-            </label>
-            <div className="flex flex-col gap-1 text-sm text-blue-600">
-              {settingsData.data.registration_links.map(link => (
-                <a
-                  key={link}
-                  href={link}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="hover:underline"
-                >
-                  {link}
-                </a>
-              ))}
+          {/* Registration Links — read-only display */}
+          {settingsData?.data?.registration_links?.length > 0 && (
+            <div className="flex flex-col gap-1.5">
+              <label className="text-sm font-semibold text-gray-700 dark:text-gray">
+                Registration Links
+              </label>
+              <div className="flex flex-col gap-1 text-sm text-blue-600">
+                {settingsData.data.registration_links.map(link => (
+                  <a
+                    key={link}
+                    href={link}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="hover:underline"
+                  >
+                    {link}
+                  </a>
+                ))}
+              </div>
             </div>
-          </div>
-        )}
+          )}
         </div>
-
 
         {/* iCal Feed URL — read-only */}
         {settingsData?.data?.ical_feed_url && (
