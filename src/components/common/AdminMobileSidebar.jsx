@@ -1,5 +1,5 @@
 "use client";
-import { DashboardIcon, Logo } from "@/svg/SvgContainer";
+import { DashboardIcon, Logo } from "@/components/svg/SvgContainer";
 import { FaChevronRight } from "react-icons/fa";
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
@@ -128,7 +128,7 @@ const AdminMobileSidebar = ({ onClose, isSidebarOpen }) => {
     <div
       className={`fixed top-0 ${
         isSidebarOpen ? "left-0" : "-left-full"
-      } w-[280px] h-screen bg-white text-black duration-300 z-50 shadow-lg overflow-y-auto scroll-bar`}
+      } w-[280px] h-screen bg-white dark:bg-black text-black duration-300 z-50 shadow-lg overflow-y-auto scroll-bar`}
     >
       {/* Header */}
       <div className="flex items-center justify-between px-4 py-3 border-b border-gray-200">
@@ -180,7 +180,7 @@ const AdminMobileSidebar = ({ onClose, isSidebarOpen }) => {
                     <button
                       onClick={() => toggleMenu(item.label)}
                       className={`flex justify-between items-center w-full px-2 py-2 rounded-lg text-left ${
-                        isMenuOpen ? "bg-brown text-white" : "hover:bg-gray-100"
+                        isMenuOpen ? "bg-brown dark:bg-dark-brown text-white" : "hover:bg-gray-100"
                       }`}
                     >
                       <span>{item.label}</span>
@@ -221,7 +221,7 @@ const AdminMobileSidebar = ({ onClose, isSidebarOpen }) => {
                     onClick={onClose}
                     className={`block px-4 py-2 rounded-lg ${
                       pathname === item.href
-                        ? "bg-brown text-white"
+                        ? "bg-brown dark:bg-dark-brown text-white"
                         : "hover:bg-gray-100 text-gray-700"
                     }`}
                   >
@@ -233,7 +233,7 @@ const AdminMobileSidebar = ({ onClose, isSidebarOpen }) => {
           })}
           <button
             onClick={handleLogout}
-            className="text-sm font-semibold mt-10 cursor-pointer px-[20px] py-[10px] bg-brown rounded-[10px] text-white text-center"
+            className="text-sm font-semibold mt-10 cursor-pointer px-[20px] py-[10px] bg-brown dark:bg-dark-brown rounded-[10px] text-white text-center"
             disabled={logoutPending}
           >
             {logoutPending ? "logging out ..." : "Log Out"}

@@ -1,4 +1,4 @@
-import { InfoIcon } from "@/svg/SvgContainer";
+import { InfoIcon } from "@/components/svg/SvgContainer";
 import React from "react";
 
 const NotFound = ({ title }) => {

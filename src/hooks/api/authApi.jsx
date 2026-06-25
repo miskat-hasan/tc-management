@@ -1,12 +1,65 @@
-  import { useRouter } from "next/navigation";
+import Cookies from "js-cookie";
+import { roleSegment, roleDefaultPage } from "@/config";
+import { useRouter } from "next/navigation";
 import useAuth from "../useAuth";
 import useClientApi from "../useClientApi";
-import Swal from "sweetalert2";
 import { toast } from "sonner";
 
-export const useLogin = () => {
+// export const useLogin = () => {
+//   const { setToken, setSiteRoles, setActiveRole } = useAuth();
+//   const router = useRouter();
+
+//   return useClientApi({
+//     method: "post",
+//     key: ["login"],
+//     endpoint: "/api/users/login",
+//     onSuccess: (data) => {
+//       if (data?.status) {
+//         const { token, site_roles } = data.data;
+
+//         setToken(token);
+//         setSiteRoles(site_roles ?? []);
+
+//         Cookies.set("token", token, { sameSite: "strict" });
+
+//         const uniqueRoleNames = [...new Set(site_roles.map((sr) => sr.role_name))];
+//         const isMultiRole     = uniqueRoleNames.length > 1;
+
+//         if (isMultiRole) {
+//           router.push("/select-role");
+//         } else {
+//           const activeRole   = site_roles[0];
+//           const allowedSites = site_roles.map((sr) => sr.training_site_id).join(",");
+//           const segment      = roleSegment[activeRole.role_name];
+//           const page         = roleDefaultPage[activeRole.role_name];
+//           const isNoSite     = segment === "student" || segment === "client";
+//           const firstTs      = activeRole.training_site_id;
+
+//           Cookies.set("role",          activeRole.role_name, { sameSite: "strict" });
+//           Cookies.set("allowed_sites", allowedSites,         { sameSite: "strict" });
+
+//           setActiveRole(activeRole);
+
+//           const path = isNoSite
+//             ? `/dashboard/${segment}/${page}`
+//             : `/dashboard/${segment}/${firstTs}/${page}`;
+
+//           router.push(path);
+//         }
+
+//         toast.success(data?.message || "Login Successful");
+//       }
+//     },
+//     onError: (err) => {
+//       toast.error(err?.response?.data?.message || "Something went wrong!");
+//     },
+//   });
+// };
+
+// src/hooks/api/authApi.js
+export const useLogin = ({ setNavigating } = {}) => {
+  const { setToken, setSiteRoles, setActiveRole } = useAuth();
   const router = useRouter();
-  const { setToken } = useAuth();
 
   return useClientApi({
     method: "post",
@@ -14,20 +67,52 @@ export const useLogin = () => {
     endpoint: "/api/users/login",
     onSuccess: (data) => {
       if (data?.status) {
-        setToken(data?.data?.token);
+        const { token, site_roles } = data.data;
+
+        setToken(token);
+        setSiteRoles(site_roles ?? []);
+        Cookies.set("token", token, { sameSite: "strict" });
+
+        const uniqueRoleNames = [
+          ...new Set(site_roles.map((sr) => sr.role_name)),
+        ];
+        const isMultiRole = uniqueRoleNames.length > 1;
+
+        setNavigating?.(true);
+
+        if (isMultiRole) {
+          router.push("/select-role");
+        } else {
+          const activeRole = site_roles[0];
+          const allowedSites = site_roles
+            .map((sr) => sr.training_site_id)
+            .join(",");
+          const segment = roleSegment[activeRole.role_name];
+          const page = roleDefaultPage[activeRole.role_name];
+          const isNoSite = segment === "student" || segment === "client";
+          const firstTs = activeRole.training_site_id;
+
+          Cookies.set("role", activeRole.role_name, { sameSite: "strict" });
+          Cookies.set("allowed_sites", allowedSites, { sameSite: "strict" });
+
+          setActiveRole(activeRole);
+
+          const path = isNoSite
+            ? `/dashboard/${segment}/${page}`
+            : `/dashboard/${segment}/${firstTs}/${page}`;
+
+          router.push(path);
+        }
+
         toast.success(data?.message || "Login Successful");
-        return router.push("/");
       }
     },
     onError: (err) => {
-      Swal.fire({
-        title: err?.response?.data?.message || "Something went wrong",
-        icon: "error",
-      });
+      setNavigating?.(false);
+      toast.error(err?.response?.data?.message || "Something went wrong!");
     },
   });
 };
-
 export const useGetUserData = (token) => {
   return useClientApi({
     method: "get",
@@ -42,7 +127,6 @@ export const useGetUserData = (token) => {
 };
 
 export const useLogout = () => {
-  const router = useRouter();
   const { clearToken } = useAuth();
 
   return useClientApi({
@@ -50,13 +134,9 @@ export const useLogout = () => {
     key: ["logout"],
     isPrivate: true,
     endpoint: "/api/users/logout",
-    onSuccess: (data) => {
+    onSuccess: () => {
       clearToken();
-      router.push("/login");
-    },
-    onError: () => {
-      clearToken();
-      router.push("/login");
+      window.location.href = "/login";
     },
   });
 };
@@ -67,10 +147,7 @@ export const useVerifyEmail = () => {
     isPrivate: false,
     endpoint: "/api/users/login/email-verify",
     onError: (error) => {
-      Swal.fire({
-        text: error?.response?.data?.message,
-        icon: "error",
-      });
+      toast.error(error?.response?.data?.message || "Something went wrong!");
     },
   });
 };
@@ -81,10 +158,7 @@ export const useVerifyOTP = () => {
     isPrivate: false,
     endpoint: "/api/users/login/otp-verify",
     onError: (error) => {
-      Swal.fire({
-        text: error?.response?.data?.message,
-        icon: "error",
-      });
+      toast.error(error?.response?.data?.message || "Something went wrong!");
     },
   });
 };
@@ -95,10 +169,7 @@ export const useResendOTP = () => {
     isPrivate: false,
     endpoint: "/api/users/login/otp-resend",
     onError: (error) => {
-      Swal.fire({
-        text: error?.response?.data?.message,
-        icon: "error",
-      });
+      toast.error(error?.response?.data?.message || "Something went wrong!");
     },
   });
 };
@@ -109,10 +180,7 @@ export const useResetPassword = () => {
     isPrivate: false,
     endpoint: "/api/users/login/reset-password",
     onError: (error) => {
-      Swal.fire({
-        text: error?.response?.data?.message,
-        icon: "error",
-      });
+      toast.error(error?.response?.data?.message || "Something went wrong!");
     },
   });
 };

@@ -32,7 +32,7 @@ const RegistrationSettings = () => {
   };
   return (
     <section className="flex flex-col gap-2 lg:gap-4">
-      <div className="p-[13px] lg:p-[26px] bg-white rounded-[14px] flex flex-col gap-[12px] lg:gap-[24px]">
+      <div className="p-[13px] lg:p-[26px] bg-white dark:bg-black rounded-[14px] flex flex-col gap-[12px] lg:gap-[24px]">
         <SectionTitle title={"Basic Site Settings"} />
         <FormContainer form={form} onSubmit={onSubmit}>
           <FormInput
@@ -40,11 +40,11 @@ const RegistrationSettings = () => {
             label="Site Name"
             placeholder="Site Name Here"
           />
-          <FormInput
+          {/* <FormInput
             name="Schedule Page Format"
             label="Schedule Page Format"
             placeholder="Schedule Page Format Here"
-          />
+          /> */}
 
           <div className="flex flex-col gap-2 my-2 lg:my-4">
             <p className="font-semibold text-[15px] text-gray-700">Options</p>
@@ -96,7 +96,7 @@ const RegistrationSettings = () => {
               </Button>
               <Button
                 type="submit"
-                className="px-6 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium cursor-pointer text-white bg-brown cursor hover:bg-brown-hover focus:outline-none"
+                className="px-6 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium cursor-pointer text-white bg-brown dark:bg-dark-brown cursor hover:bg-brown  focus:outline-none"
               >
                 Update Settings
               </Button>

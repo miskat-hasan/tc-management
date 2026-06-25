@@ -2,9 +2,9 @@
 import SectionTitle from "@/components/common/SectionTitle";
 import NotFound from "@/components/shared/NotFound";
 import { getWhatsNew } from "@/hooks/api/dashboardApi";
-import TableSkeleton from "@/components/common/TableSkelation";
+import TableSkeleton from "@/components/skeleton/TableSkeleton";
 import { Button } from "@/components/ui/button";
-import { PlusIcon } from "@/svg/SvgContainer";
+import { PlusIcon } from "@/components/svg/SvgContainer";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { CiEdit } from "react-icons/ci";
@@ -21,7 +21,7 @@ const WhatIsNew = () => {
         <SectionTitle title={"What’s New"} />
         <Button
           onClick={() => router.push("whats_new/add")}
-          className="py-[11px] text-[12px] lg:text-base lg:py-[22px] cursor-pointer bg-brown flex items-center gap-2"
+          className="py-[11px] text-[12px] lg:text-base lg:py-[22px] cursor-pointer bg-brown dark:bg-dark-brown flex items-center gap-2"
         >
           Add New
           <PlusIcon />
@@ -29,7 +29,7 @@ const WhatIsNew = () => {
       </div>
 
       {/* Table */}
-      <div className="p-[13px] lg:p-[26px] bg-white rounded-[14px] flex flex-col gap-[12px] lg:gap-[24px]">
+      <div className="p-[13px] lg:p-[26px] bg-white dark:bg-black rounded-[14px] flex flex-col gap-[12px] lg:gap-[24px]">
         <div className="flex items-center justify-between"></div>
 
         {whatsNewDataLoading ? (
@@ -52,7 +52,7 @@ const WhatIsNew = () => {
               </thead>
 
               <tbody>
-                {whatsNewData?.data?.length > 0 ? (
+                {whatsNewData?.data?.length > 6  ? (
                   whatsNewData?.data?.map((item, index) => (
                     <tr
                       key={item?.id}

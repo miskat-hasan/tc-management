@@ -23,7 +23,7 @@ export default function AddEditEmailCampaignPage({ id }) {
       <div className="mb-6  ">
         <SectionTitle title={"Add Email Campaign"} />
       </div>
-      <div className="p-[13px] lg:p-[26px] bg-white rounded-[14px] flex flex-col gap-[12px] lg:gap-[24px]">
+      <div className="p-[13px] lg:p-[26px] bg-white dark:bg-black rounded-[14px] flex flex-col gap-[12px] lg:gap-[24px]">
         <FormContainer form={form} onSubmit={onSubmit}>
           <div className="flex flex-col md:flex-row md:items-center gap-2.5">
             <div className="flex justify-center items-center mt-2 space-x-2  ">
@@ -66,7 +66,7 @@ export default function AddEditEmailCampaignPage({ id }) {
             <RichTextEditor ref={emailBodyRef} />
           </div>
           {/* Supported Tokens */}
-          <div className="bg-white p-4 rounded-md shadow-sm border border-gray-200">
+          <div className="bg-white dark:bg-black p-4 rounded-md shadow-sm border border-gray-200">
             <h3 className="text-lg font-semibold text-gray-800 mb-2">
               Supported Tokens
             </h3>
@@ -118,7 +118,7 @@ export default function AddEditEmailCampaignPage({ id }) {
               label={"Test"}
               placeholder="Test Mail Here "
             />
-            <Button type="button" className={"bg-brown "}>
+            <Button type="button" className={"bg-brown dark:bg-dark-brown "}>
               Go
             </Button>
           </div>
@@ -132,7 +132,7 @@ export default function AddEditEmailCampaignPage({ id }) {
               </Button>
               <Button
                 type="submit"
-                className="px-6 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium cursor-pointer text-white bg-brown cursor hover:bg-brown-hover focus:outline-none"
+                className="px-6 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium cursor-pointer text-white bg-brown dark:bg-dark-brown cursor hover:bg-brown  focus:outline-none"
               >
                 Add Email
               </Button>

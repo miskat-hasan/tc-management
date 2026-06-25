@@ -42,14 +42,12 @@ const DocumentList = ({ instructorId, documentData }) => {
 
     storeDocumentMutation(formData, {
       onSuccess: (data) => {
-        toast.success(data?.message);
+        toast.success(data?.message || "Document added successfully");
         reset();
         queryClient.invalidateQueries("get-single-instructor");
       },
       onError: (err) => {
-        Swal.fire({
-          text: err?.response?.data?.message,
-        });
+       toast.error(err?.response?.data?.message || "Something went wrong!");
       },
     });
   };
@@ -70,7 +68,7 @@ const DocumentList = ({ instructorId, documentData }) => {
         <FormContainer form={form} onSubmit={documentOnSubmit}>
           <div className="flex items-center justify-between mb-3">
             <SectionTitle title={"Documents"} />
-            <label className="py-[7px] cursor-pointer rounded-sm text-white px-3 text-sm bg-brown flex items-center gap-2">
+            <label className="py-[7px] cursor-pointer rounded-sm text-white px-3 text-sm bg-brown dark:bg-dark-brown flex items-center gap-2">
               <input
                 {...register("documentFile")}
                 type="file"
@@ -80,7 +78,7 @@ const DocumentList = ({ instructorId, documentData }) => {
               <PlusIcon size={16} />
             </label>
           </div>
-          <div className="bg-white rounded-[14px] p-4 border border-gray-200 shadow-sm">
+          <div className="bg-white dark:bg-black rounded-[14px] p-4 border border-gray-200 shadow-sm">
             <div className="overflow-x-auto">
               <table className="min-w-[700px] w-full text-sm sm:text-base text-left text-gray-700">
                 <thead className="bg-gray-50 text-black text-[14px] sm:text-[16px] font-semibold">
@@ -109,7 +107,7 @@ const DocumentList = ({ instructorId, documentData }) => {
                           </Button>
                           <Button
                             type="submit"
-                            className="px-6 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium cursor-pointer text-white bg-brown hover:bg-brown-hover"
+                            className="px-6 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium cursor-pointer text-white bg-brown dark:bg-dark-brown hover:bg-brown "
                             disabled={storeDocumentLoading}
                           >
                             {storeDocumentLoading ? "Saving ..." : "Save"}

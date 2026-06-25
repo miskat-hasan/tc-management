@@ -1,3 +1,4 @@
+// src/hooks/useAxiosPublic.jsx
 import axios from "axios";
 
 export const axiosPublic = axios.create({
